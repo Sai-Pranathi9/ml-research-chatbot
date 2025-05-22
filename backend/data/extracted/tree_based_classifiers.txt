@@ -1,0 +1,2314 @@
+arXiv:1904.00663v1  [astro-ph.IM]  1 Apr 2019
+MNRAS 000, 1–20 (2019)
+Preprint April 2, 2019
+Compiled using MNRAS LATEX style ﬁle v3.0
+Polca SARA - Full polarization, direction-dependent calibration and
+sparse imaging for radio interferometry
+Jasleen Birdi,1⋆Audrey Repetti,1,2 and Yves Wiaux1
+1 Institute of Sensors, Signals and Systems, Heriot-Watt University, Edinburgh EH14 4AS, UK
+2 Department of Actuarial Mathematics and Statistics, Heriot-Watt University, Edinburgh EH14 4AS, UK
+Accepted XXX. Received YYY; in original form ZZZ
+ABSTRACT
+New generation of radio interferometers are envisaged to produce high quality, high dynamic
+range Stokes images of the observed sky from the corresponding under-sampled Fourier do-
+main measurements. In practice, these measurements are contaminated by the instrumental
+and atmospheric effects that are well represented by Jones matrices, and are most often vary-
+ing with observation direction and time. These effects, usually unknown, act as a limiting
+factor in achieving the required imaging performance and thus, their calibration is crucial. To
+address this issue, we develop a global algorithm, named Polca SARA, aiming to perform full
+polarization, direction-dependent calibration and sparse imaging by employing a non-convex
+optimization technique. In contrast with the existing approaches, the proposed method offers
+global convergence guarantees and ﬂexibility to incorporate sophisticated priors to regularize
+the imaging as well as the calibration problem. Thus, we adapt a polarimetric imaging spe-
+ciﬁc method, enforcing the physical polarization constraint along with a sparsity prior for the
+sought images. We perform extensive simulation studies of the proposed algorithm. While
+indicating the superior performance of polarization constraint based imaging, the obtained re-
+sults also highlight the importance of calibrating for direction-dependent effects as well as for
+off-diagonal terms (denoting polarization leakage) in the associated Jones matrices, without
+inclusion of which the imaging quality deteriorates.
+Key words: techniques: interferometric – techniques: polarimetric – techniques: image pro-
+cessing – techniques: calibration
+1
+INTRODUCTION
+In radio interferometry (RI), the acquired measurements are re-
+lated to the Fourier coefﬁcients of the sky brightness distribu-
+tion under observation (Thompson et al. 2001). These sampled fre-
+quency points in the Fourier domain are dictated by the separa-
+tions between the antenna pairs constituting the interferometer. A
+ﬁnite number of antennas within an interferometer leads to under-
+sampling of the Fourier domain associated with the sought images.
+Given such measurements, the task to recover the images of inter-
+est can be performed by using a suitable imaging technique in RI.
+In fact, very often, the target radio sources generate polarized ra-
+diations (Ginzburg & Syrovatskii 1965). Study of these polarized
+emissions is crucial for various scientiﬁc goals (e.g. to determine
+the magnetic ﬁeld distributions around the source and along the
+signal’s propagation path (Pacholczyk 1970)), offering a way to
+probe the details in addition to those provided by the total intensity
+alone. For this purpose, Stokes parameters- I, Q, U and V provide a
+representation of the sky intensity distribution, where the ﬁrst pa-
+rameter denotes the total intensity whereas the others characterize
+⋆E-mail: jb36@hw.ac.uk
+the polarization state of the radio emissions. In particular, while
+the linear polarization is described by the Stokes parameters Q and
+U, the circular polarization is denoted by Stokes V. Conventionally
+speaking, although the main focus has been to develop algorithms
+for total intensity imaging, for the purpose of imaging these pa-
+rameters, referred to as polarimetric imaging, the same techniques
+as developed for Stokes I imaging have been applied for imaging
+each of the Stokes parameters.
+In practice, rather than providing an accurate representation
+of the true sky distribution, the RI measurements are often cor-
+rupted both by the atmospheric effects encountered by the radio
+emissions en route to the receiving antennas and by the antenna-
+based errors. These measurement-contaminating effects are repre-
+sented in the form of Jones matrices (Smirnov 2011). Only in the
+cases when these effects are absent or known accurately, image
+recovery amounts to use of any RI imaging algorithm. In practi-
+cal cases, where these effects are unknown, these need to be es-
+timated along with imaging to achieve good quality reconstruc-
+tion. Calibration is this process of estimation of the Jones matrices.
+Moreover, these time-variable calibration terms in general also ex-
+hibit direction dependency, thereby encompassing both direction-
+independent and -dependent effects (DIEs and DDEs, respectively).
+© 2019 The Authors
+2
+J. Birdi et al.
+For instance, while the antenna-based gains denote the DIEs, the
+antenna primary beam pattern, atmospheric phase delays etc. ex-
+hibit spatial variation within the ﬁeld of view and thus consti-
+tute DDEs. Historically, only the DIE calibration has been per-
+formed (Thompson et al. 2001). However, the calibration of DDEs
+has become a crucial issue especially for the new generation ra-
+dio telescopes including the LOw Frequency ARray (LOFAR)
+(http://www.lofar.org) and the upcoming Square Kilometre Array
+(SKA) (https://www.skatelescope.org), aiming to produce sky im-
+ages at unprecedented resolution with high sensitivity. Without efﬁ-
+cient DDE calibration, these telescopes cannot be exploited to their
+fullest potential. The incorporation of the DDEs in the calibration
+process is also essential to produce high quality images without
+limiting their dynamic ranges (Bhatnagar et al. 2013). Thus, the re-
+sultant problem of image recovery from the acquired corrupted data
+consists in estimating both the sought images and the DDE calibra-
+tion terms. We now review the imaging and calibration techniques
+in RI, which can then be combined to solve the overall problem.
+In the context of RI imaging techniques, the standard CLEAN
+algorithm implements a non-linear, greedy approach to perform de-
+convolution in an iterative manner (Högbom 1974). Working pix-
+elwise, CLEAN implicitly assumes sparsity of the sought image,
+removing at each iteration, a fraction of the maximum intensity
+pixel convolved with the dirty beam from the computed residual
+image. Over the past years, many variants of this celebrated al-
+gorithm have been developed, for instance, its multi-scale version
+(Cornwell 2008). In addition to these CLEAN based approaches,
+recent developments in the ﬁeld of compressive sensing (CS) ap-
+plied for astronomical imaging have given birth to many imag-
+ing algorithms, particularly for radio interferometry (Wiaux et al.
+2009; Carrillo et al. 2012; Garsden et al. 2015; Onose et al. 2016).
+Leveraging optimization framework, these methods aim to solve
+the underlying image recovery problem by enforcing sparsity of
+the image of interest in some suitable domain. As a matter of
+fact, these techniques have shown the potential to surpass the im-
+age reconstruction quality obtained by CLEAN based approaches
+(Carrillo et al. 2014; Onose et al. 2016; Pratley & Johnston-Hollitt
+2016; Onose et al. 2017; Dabbech et al. 2018). While the afore-
+mentioned methods have been developed mainly for Stokes I imag-
+ing, as previously mentioned these can be extended to polarimetric
+imaging by following the same imaging approach for all the Stokes
+parameters. In the context of sparsity regularized approaches, one
+such extension for polarimetric imaging has been presented in
+Akiyama et al. (2017), promoting sparsity of each of the Stokes
+parameters using ℓ1 norm combined with total variation (TV) reg-
+ularization (Rudin et al. 1992). A point worth noting here is that
+the above mentioned approaches, whether CLEAN and its variants
+or the sparsity regularized method, solve for the Stokes parame-
+ters totally independently. However, these images are physically
+linked via polarization constraint, that is the polarized intensity
+cannot be greater than the total intensity. Within the CS frame-
+work, this constraint has been exploited by a recently proposed
+approach, namely Polarized SARA, estimating jointly the Stokes
+parameters (Birdi et al. 2018a,b). This approach has been shown to
+provide better reconstruction quality in comparison with the case
+when the constraint is not accounted for.
+Concerning the calibration problem, it can be formulated as a
+non-linear least squares problem and to solve it, most of the exist-
+ing solvers employ gradient-based techniques like the Levenberg-
+Marquardt (LM) algorithm (Moré 1978). But it suffers from its high
+computational cost. To overcome this issue, an efﬁcient and fast
+solver named StEFCal has been proposed in Salvini & Wijnholds
+(2014), which relies on an alternating direction implicit method.
+However, it solves only for the DIEs. In the context of DDE cal-
+ibration, several methods have been proposed in the last years. In
+particular, the Source Peeling and Atmospheric Modeling (SPAM)
+method proposed in Intema et al. (2009) models the ionosphere
+as a phase screen, whose parameters are estimated by ﬁtting the
+calibrated phases obtained from peeling (Noordam 2004) with
+the modelled phases, using the LM algorithm. Subsequently, this
+model can be used for the prediction of correction phases in any ar-
+bitrary desired direction within the ﬁeld of view. To apply these cor-
+rections, SPAM relies on a facet-based approach, applying the DDE
+calibration solution for the facet centre, deﬁned by a bright source
+or approximate centre of a cluster of closely located bright sources,
+to the whole facet. This scheme works under the assumption that
+the DDEs show smooth variation over the ﬁeld of view, thereby
+having (approximately) constant value across a given facet. This
+approach has analogies with the facet calibration which consists
+in partitioning the sky into a number of facets and solving for the
+DDE solution of the facet centre using a self-calibration (SelfCal)
+loop, which in turn is applied to the whole facet (Van Weeren et al.
+2016). Despite some similarities, these two approaches are dif-
+ferent in the way they obtain the calibration solutions, i.e. unlike
+SPAM, facet calibration does not make use of global phase screen
+model. In contrast to these approaches solving for the calibration
+solutions source by source (or in terms of facets), SAGE calibra-
+tion algorithm solves for the calibration solutions for all sources
+at once, employing an extension of the Expectation Maximization
+algorithm (Yatawatta et al. 2009; Kazemi et al. 2011). It therefore
+provides increased convergence speed in comparison with the tra-
+ditional LM solvers. It is to be noted that within a given iteration,
+SAGE algorithm requires to deﬁne partitioning over the unknown
+Jones parameter space depending on the source characteristics. An-
+other approach for DDE calibration arises from the convolutional
+nature of the DDEs. More precisely, the multiplication of the DDEs
+in the image domain can be equivalently seen as their convolution
+in the Fourier domain. The A-Projection algorithm makes use of
+the latter characteristic and offers a way to correct for those known
+DDEs whose associated Jones matrix are (approximately) unitary,
+by embedding them into the forward (degridding) and backward
+(gridding) operators (Bhatnagar et al. 2013). While this approach
+was only developed for the correction of known DDEs, it has been
+incorporated in the Pointing SelfCal algorithm to solve for antenna
+pointing errors (Bhatnagar & Cornwell 2017).
+In order to estimate the sky model while having imperfect
+knowledge of calibration terms, any of the above mentioned cal-
+ibration algorithms is generally combined with CLEAN (or its vari-
+ants) for image recovery step. As such, the global algorithm fails
+to have any convergence guarantees. The ﬁrst step in the direction
+of addressing this issue has been made by the joint calibration and
+imaging algorithm proposed in Repetti et al. (2017). This algorithm
+leverages non-convex optimization techniques to present a global
+algorithm which alternates between the estimation of the image
+of interest and the DDEs, while beneﬁtting from the convergence
+guarantees. In addition to this, unlike the approaches requiring sky
+partitioning, which may not always be best achieved in an auto-
+matic manner, this technique works on the whole image all at once
+with minimal user intervention. However, this approach has been
+developed only for Stokes I imaging and calibration, without deal-
+ing with the full polarization model. As a matter of fact, in the case
+of full Stokes imaging and calibration, even the global algorithm
+consisting of combination of CLEAN based imaging and any of the
+previously mentioned calibration techniques, do not adopt any po-
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+3
+larimetric imaging speciﬁc approach. These factors raise the scope
+for the development of a globally convergent algorithm which not
+only incorporates full polarization model, but also uses advanced
+approaches speciﬁc for full Stokes imaging to produce good qual-
+ity images.
+The work presented here lies within this scope and we pro-
+pose Polca SARA - a full polarization, calibration and sparse imag-
+ing algorithm with proven convergence guarantees. In particular,
+we build our method on the approach developed in Repetti et al.
+(2017), and later on extended in Repetti & Wiaux (2017) and
+Thouvenin et al. (2018), assuming spatial and temporal smooth-
+ness of the DDEs. On the one hand, we generalize this approach
+to the full polarization model, developing an algorithm alternat-
+ing between the estimation of the DDEs and the Stokes images.
+On the other hand, thanks to the underlying non-convex opti-
+mization technique, the proposed approach can deal with sophis-
+ticated priors suited to the images under consideration as well as
+to the DDEs. Leveraging this ﬂexibility, we adapt Polarized SARA
+method, speciﬁcally designed for Stokes imaging, to be used for
+imaging step in the considered case.
+The remainder of the article is organised as follows. Section 2
+describes the full polarization model encountered in RI. The pro-
+posed approach to solve the underlying joint calibration and imag-
+ing problem is presented brieﬂy in Section 3. A more formal and
+mathematical presentation of the proposed approach is provided
+in later sections. Particularly, the imaging problem to be solved is
+posed in Section 4, followed by the introduction of the calibration
+problem in Section 5. A blend of these problems to give the resul-
+tant joint calibration and imaging problem and the proposed algo-
+rithm to solve it are detailed in Section 6. To assess the performance
+of the proposed algorithm, we perform various tests which are pre-
+sented in Section 7. We give the concluding remarks and discuss
+about possible directions of future work in Section 8.
+2
+FULL POLARIZATION OBSERVATION MODEL
+The radio interferometric measurements, termed as visibilities,
+are acquired by antenna pairs. Within na number of total anten-
+nas, consider an antenna pair (α, β) ∈{1, . . ., na}2, at time in-
+stant t ∈{1, . . .,T}, associated with the baseline components
+(ut,α,β, vt,α,β, wt,α,β) expressed in observation wavelength units.
+Here, ut,α,β = (ut,α,β, vt,α,β) represents the components in the
+plane normal to the target source direction, while wt,α,β is the com-
+ponent in the source direction. Furthermore, let S =
+ I Q
+U V
+
+en-
+compasses the Stokes parameters of the target sky area, described
+in terms of the direction cosines (l, m, n) with l = (l, m) lying in
+the tangential plane to the celestial sphere and n(l) =
+√
+1 −l2 −m2
+lying in the line of sight. Then, the measurements Yt,α,β,ν ∈C2×2
+made by the antenna pair (α, β) at time instant t and observation fre-
+quency ν is given by the radio interferometric measurement equa-
+tion (RIME) (Hamaker et al. 1996; Smirnov 2011) as follows
+Yt,α,β,ν =
+∫
+Dt,α,ν(l) L St,ν(l) D†
+t,β,ν(l)e−2iπut,α,β ·ld2l,
+(1)
+where (·)† denotes the Hermitian conjugate of its argument and
+L St,ν(l) = Bt,ν(l) is the brightness matrix formed by the ap-
+plication of the linear operator L on the components of the Stokes
+matrix S. For instance, considering linear feeds, the brightness ma-
+trix is given by Bt,ν(l) =
+
+I+Q U+iV
+U−iV I−Q
+
+t,ν
+(l), whereas for circu-
+(Dt,α)11
+(Dt,α)12
+(Dt,α)21
+(Dt,α)22
+Dt,α
+N
+FT
+−→
+(bDt,α)11
+(bDt,α)12
+(bDt,α)21
+(bDt,α)22
+bDt,α
+Figure 1. Schematic representation of a 2 × 2N matrix, Dt,α (left) that can
+be seen as a 2 × 2 block matrix, with each block (Dt,α)ii′, {i, i′} ∈{1, 2}2
+containing a vectorized image of dimension N. The Fourier transformation
+(FT) of this matrix computes 2D Fourier transform of each of the block im-
+ages. For each block in matrix Dt,α on left, its corresponding FT is shown
+by same colored vectors in bDt,α on right.
+lar feeds, it reads as Bt,ν(l) =
+
+I+V U+iQ
+U−iQ I−V
+
+t,ν
+(l). Furthermore,
+in equation (1), for every antenna α ∈{1, . . ., na}, the direction-
+independent and -dependent effects (DIEs and DDEs, respectively)
+at time t and frequency ν are encoded in the Jones matrix Dt,α,ν. It
+is worth mentioning that equation (1) presents a general case where
+the Stokes images and the DIEs/DDEs can vary with respect to the
+observation frequency and time. However, in the current work, we
+consider the Stokes images without having any time or frequency
+dependence. In addition, for the DIEs/DDEs, we deal with their
+temporal dependency considered at a single observation frequency.
+Hence, hereafter, we take St,ν(l) = S(l) and drop the frequency
+index from the other variables.
+To recover the Stokes parameters from the given measure-
+ments, we formulate the inverse problem (1) in the discrete do-
+main. It amounts to sampling the continuous variables such that the
+ﬁeld of view is discretized into a grid, with the vectorized form of
+this grid being represented by the index n ∈{−N/2, . . ., N/2 −1}.
+Within this representation, we thus have the Stokes matrix S ∈
+R2×2N, and for each antenna α and time instant t, the DDEs
+Dt,α ∈C2×2N. As illustrated in Fig. 1, these matrices can also
+be seen as 2 × 2 block matrices1, whose each block is a row vector
+of dimension N. In particular, for the Stokes matrix S =
+ s1 s2
+s3 s4
+
+,
+the elements s1, s2, s3 and s4, each of size N, are respectively
+the discretizations of the Stokes parameters I, Q,U and V. On
+the other hand, for the DDEs, for each index n, we have the so
+called 2 × 2 Jones matrix Dt,α(n) ∈C2×2. The diagonal elements
+of this matrix correspond to the antenna’s complex voltage pat-
+tern, whereas the off-diagonal elements account for the polariza-
+tion leakage terms arising from instrumental leakage, transmis-
+sion effects, etc (Bhatnagar et al. 2013). Moreover, if for every
+(i,i′) ∈{1, 2}2, [Dt,α]ii′ = δt,α1N with δt,α ∈C and 1N being
+N dimensional unitary row vector, then Dt,α reduces to a DIE.
+Following the introduced notations, each component of the
+visibility matrix Yt,α,β, indexed by [·]ii′ with (i, i′) ∈{1, 2}2, at
+discrete spatial frequency kt,α,β can be represented as
+[Yt,α,β]ii′ =
+2
+Õ
+j,j′=1
+N/2−1
+Õ
+n=−N/2
+
+Dt,α(n)
+
+ij
+
+L S(n)
+j j′
+
+D∗
+t,β(n)
+
+j′i′
+e−2iπ(kt,α,β ) n
+N + [Ωt,α,β]ii′,
+(2)
+where (·)∗stands for complex conjugation of its argument and the
+1 For any such matrix S, S(n) denotes the 2×2 matrix consisting of the nth
+elements of each of the blocks in the parent block matrix S. Furthermore, for
+(i, i′) ∈{1, 2}2, [S(n)]ii′ refers to the nth element of the row vector block
+contained in the ith row and i′th column of the argument block matrix.
+MNRAS 000, 1–20 (2019)
+4
+J. Birdi et al.
+visibilities are corrupted by an additive Gaussian noise Ωt,α,β ∈
+C2×2. For n ∈{−N/2, . . ., N/2 −1}, as for the continuous ver-
+sion (1), L S(n) = B(n) ∈C2×2 is the brightness matrix.
+3
+A BRIEF OVERVIEW OF THE PROPOSED METHOD
+While a more formal description of the proposed approach is pre-
+sented in the later sections, this section is designed to give an in-
+tuitive explanation of the approach. Particularly, the description in
+this section is targeted to facilitate readers to understand the results
+and conclusion sections without delving into the mathematical de-
+tails provided in Sections 4- 6.
+Given the measurements of the form (2), the aim is to recover
+the images of interest. The problem of image recovery becomes
+more challenging when the DDEs D are unknown and need to be es-
+timated along with the images. The current work is devoted to this
+more challenging yet practical case, for which we propose a joint
+calibration and imaging algorithm to solve the underlying problem.
+The resultant approach is dubbed as Polca SARA.
+In order to calibrate for the DDEs, we consider their smooth
+variation both across the ﬁeld of view and in time, implying that
+they are spatially and temporally band-limited (Repetti et al. 2017;
+Thouvenin et al. 2018). Exploiting this characteristic, we instead
+represent the DDEs D by their compact-support kernels U in the
+spatial and temporal Fourier domain. Then, only these non-zero
+Fourier coefﬁcients need to be estimated. It reduces signiﬁcantly
+the dimension of the underlying problem. Furthermore, we note
+that while equation (2) is linear with respect to S (when the DDEs
+are kept ﬁxed), it is non-linear with respect to the DDEs. To coun-
+teract this issue, we draw on the notion of bi-linearity proposed in
+Salvini & Wijnholds (2014) and Repetti et al. (2017) in the context
+of RI calibration. It consists in introducing U1 = U2 = U such
+that problem (2) becomes bi-linear with respect to the DDEs. The
+resultant problem can then be written as
+Y = Φ(S, U1, U2) + Ω,
+(3)
+where Φ is the tri-linear measurement operator, mapping the images
+of interest coupled with the DDE Fourier kernels U1 and U2 to the
+acquired visibilities Y. On the imaging front, we further consider
+that calibration transfer has been performed and thus, the Jones
+matrices in equation (2) can be taken as identity as a ﬁrst instance,
+without any directional dependency. Doing so, we ﬁrst solve the
+problem to obtain an estimation S′ of the unknown images. Nev-
+ertheless, the used measurement model being devoid of DDEs, the
+estimated images are likely to contain artefacts. We thus instead
+keep a thresholded version S0 of S′, considering that S = S0 + E,
+where E is unknown and needs to be estimated.
+In view of the discussion above, we propose to estimate the
+variables of interest by solving the following problem:
+minimize
+E,U1,U2
+h(E, U1, U2) + r(E) + p(U1, U2),
+(4)
+where the data-ﬁdelity term h is given by a least-squares crite-
+rion (equations (22)-(24)) and the regularization terms are deﬁned
+both for the images (r in equation (25)) and the DDEs (p in equa-
+tion (20)).
+For the images of interest, we exploit the compressive sensing
+framework (Candès et al. 2006) and consider ℓ1 regularization term
+to promote sparsity of the sought images in a suitable dictionary.
+More precisely, inspired by the good performance of the sparsity
+averaging reweighted analysis (SARA) prior for Stokes I imag-
+ing in Carrillo et al. (2013, 2014) and for full Stokes imaging in
+DDE/DIE update
+Figure 2. Block diagram illustrating the proposed Polca SARA method that
+alternates between the DDEs/DIEs update and the Stokes images update
+until convergence. For DDEs/DIEs update, L ∈N forward-backward iter-
+ations are performed for the estimation of each of the matrices U1 and U2.
+Similarly, for the image update, J ∈N forward-backward steps are exe-
+cuted, wherein depending on the chosen regularization, the proximity step
+is either evaluated using Algorithm 2 or Algorithm 3.
+Birdi et al. (2018b), we employ this prior consisting in promoting
+average sparsity over a concatenation of Dirac basis and ﬁrst eight
+Daubechies wavelet bases. It is coupled with a reweighting scheme,
+solving sequentially the ℓ1 regularized problems (Candès et al.
+2008). Although the current work does not deal with the reweight-
+ing procedure, it can be easily incorporated. In practice, other so-
+phisticated priors injecting additional information about the images
+of interest can also be taken into account in the regularization term,
+eg. polarization constraint in Birdi et al. (2018b). In the current
+work, we consider both the cases without and with the enforcement
+of the polarization constraint. For the DDEs, the regularization term
+p is deﬁned to impose values of the Jones matrices’ elements to lie
+within speciﬁed bounds as well as to control the distance between
+U1 and U2 which ideally should be equal. Additional details for
+the image (resp. DDEs) estimation are provided in Section 4 (resp.
+Section 5).
+The resultant problem (4) is solved using a block-coordinate
+forward-backward approach (Chouzenoux et al. 2016). As the
+name suggests, this iterative procedure relies on a forward-
+backward (FB) scheme to update each of the blocks/variables of
+interest (U1, U2, E). The FB scheme consists in treating the smooth
+term with a gradient step and the non-smooth term via a proximity
+step. The global method is detailed in Section 6. For a better un-
+derstanding, the overall algorithmic structure is depicted in Fig. 2.
+It has similarities with the traditional self-calibration method in the
+sense that it alternates between the imaging and calibration steps.
+Yet the two approaches are different in terms of their underlying
+principle and implementation. First, the imaging and calibration
+steps in our approach use the same optimization toolbox and hence,
+the global algorithm beneﬁts from convergence guarantees. Sec-
+ond, to ensure this global convergence, each of these updates is ob-
+tained by performing only a ﬁnite number of iterations and not un-
+til convergence. Moreover, these updates must follow a cyclic rule,
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+5
+that is each variable must be updated at least once every given num-
+ber of iterations. To this end, Lcyc global iterations are performed
+to update the DDEs (U1, U2), alternating between L FB iterations
+on U1 and L FB iterations on U2. After Lcyc global iterations, the
+Stokes images E are updated by executing J FB iterations.
+The results obtained by implementing Polca SARA are pre-
+sented in Section 7. Particularly, we compare between the follow-
+ing cases: on the calibration front- considering normalized DIEs
+(i.e. identity Jones matrices), DIE calibration, Jones matrices DDE
+calibration without considering off-diagonal terms, and full Jones
+matrices DDE calibration; and on the imaging front- in the absence
+and presence of the polarization constraint. While the calibration
+cases are chosen to judge the importance of calibrating for the off-
+diagonal terms as well as for the DDEs, the two imaging cases are
+to test the efﬁciency of the polarization constraint in the context
+of joint calibration and imaging. Furthermore, concerning these
+imaging cases, when the polarization constraint is not imposed, the
+proximity step for the update of E is evaluated using Algorithm 2,
+whereas in the case of enforcing this constraint, Algorithm 3 is em-
+ployed to compute the corresponding proximity step.
+A detailed mathematical formulation of the proposed ap-
+proach is presented in the next sections, starting with the descrip-
+tion of the imaging problem followed by the calibration problem
+and ﬁnally combining the two. On the other hand, with the intuitive
+description provided in this section at disposal, the reader might
+jump directly to the simulations and results section (Section 7)
+averting the mathematical details.
+4
+IMAGING PROBLEM
+The case of having either pre-calibrated data or knowledge of
+DIEs/DDEs beforehand amounts to solving the problem only for
+image recovery. The RI literature is brimming with such methods
+aiming to estimate the images of interest from the underlying imag-
+ing problem. Nevertheless, most of these methods were initially
+proposed mainly for Stokes I imaging, including CLEAN based
+methods (Högbom 1974; Bhatnagar & Cornwell 2004; Cornwell
+2008) and CS techniques (Wiaux et al. 2009; Carrillo et al. 2014;
+Garsden et al. 2015; Onose et al. 2016, 2017). In order to apply
+these methods for full polarization imaging, these can be extended
+to the estimation of each of the Stokes parameters totally indepen-
+dently using the same techniques as developed for Stokes I imag-
+ing. Such an extension of CS based Stokes I imaging to full polar-
+ization imaging has been presented in Akiyama et al. (2017), solv-
+ing independently for the sought images. A more evolved approach
+aiming to jointly estimate the Stokes parameters has been very re-
+cently proposed in Birdi et al. (2018a,b). In this section, we aim to
+summarize this work which was proposed in the context of DIEs,
+and generalize it to the DDEs case, which will be useful for the un-
+derstanding of the joint imaging and calibration method developed
+in Section 6.
+In this context, a reformulation of equation (2) is more com-
+monly used where the measurements made by an antenna pair
+(α, β) at time instant t are represented by a vector yt,α,β ∈C4,
+whose each element q ∈{1, . . ., 4} is given by
+[yt,α,β]q =
+4
+Õ
+z=1
+N/2−1
+Õ
+n=−N/2
+[Mt,α,β(n)]qz
+ e
+L S(n)
+z
+e−2iπ(kt,α,β ) n
+N + [ωt,α,β]q.
+(5)
+with ωt,α,β ∈C4 being a realization of additive Gaussian noise,
+and e
+L S(n) operates on the Stokes matrix to produce the bright-
+ness matrix B(n), followed by its vectorization. Furthermore,
+Mt,α,β = (Dt,α ⊗D†
+t,β) ∈C4×4N is the Mueller matrix formed
+by the outer product of the Jones matrices for antennas α and β
+at time instant t, and in turn, this matrix can be seen as a 4 × 4
+block matrix with each block given by N dimensional row vec-
+tor. Let us note that, for the Fourier transformed Mueller matrix,
+denoted by bMt,α,β, each block is obtained by the complex convolu-
+tion of the Fourier transforms of the corresponding Jones matrices
+(Bhatnagar et al. 2013).
+Using equation (5), the overall measurement model can be
+written as
+y = Φ(S) + ω,
+(6)
+where y ∈C4M is the resultant measurement vector corrupted by
+the noise vector ω ∈C4M. The measurement operator Φ mapping
+the images of interest to the acquired visibilities is modelled as
+Φ(S) = GFeZ e
+L(S),
+(7)
+that can be explained as follows. The operation e
+L S generates
+the brightness vector b ∈C4N that needs to be Fourier trans-
+formed at the sampled spatial frequencies. To evaluate these Fourier
+transforms in a computationally efﬁcient manner, we make use
+of the non-uniform fast Fourier Transform that relies on interpo-
+lation of the Fourier coefﬁcients from discrete to continuous do-
+main (Fessler & Sutton 2003). In this context, the zero-padding
+matrix eZ ∈Cγ4N×4N oversamples the images in b, by factor
+γ in each dimension and also accounts for the scale factors to
+pre-compensate for the interpolation convolution kernels. A fast
+Fourier transform operator F ∈Cγ4N×γ4N is then applied to com-
+pute the 2D Fourier transform of each of these oversampled im-
+ages. To interpolate these discrete Fourier coefﬁcients to the con-
+tinuous frequency points, the compact support convolution ker-
+nels (the so called degridding kernels) are embedded in the matrix
+G ∈C4M×γ4N. More precisely, the matrix G is modelled to take
+into account the degridding kernels as well as the components of
+the Fourier transformed Mueller matrix. In particular, each of the
+four rows of G associated with a frequency kt,α,β contains the con-
+volution of the corresponding elements of bMt,α,β centred on kt,α,β
+with the degridding kernel. Then, the application of this matrix on
+the Fourier transformed over-sampled images produce the measure-
+ments. When working in the absence of the DDEs, a direct cor-
+respondence of the measurement operator in equation (7) can be
+noticed with the measurement operator used for Stokes I imaging
+(Onose et al. 2017; Pratley et al. 2017) and more recently, for full
+Stokes imaging (Birdi et al. 2018b).
+It is to be mentioned here that most of the imaging techniques
+in RI literature rely on taking the Jones matrices and hence Mueller
+matrix as identity in equation (5). In other words, they work under
+the assumption of absence of any calibration errors or availability
+of pre-calibrated data. However, in presence of calibration errors,
+the imaging techniques should account for these terms within their
+models. Working in this direction, we can generalize the model pro-
+posed in Birdi et al. (2018b) and employ it to solve inverse prob-
+lem (6). The corresponding imaging strategy leverages the CS the-
+ory. In particular, CS based methods offer a way from optimization
+point of view to solve the underlying inverse problem. The main
+idea is to obtain the estimation of the sought images by solving a
+minimization problem of the form (Birdi et al. 2018a,b)
+minimize
+S
+r(S) subject to ∥Φ(S) −y∥2 ⩽ǫ,
+(8)
+MNRAS 000, 1–20 (2019)
+6
+J. Birdi et al.
+where ǫ is related to the norm of the additive noise, ∥· ∥2 de-
+notes the ℓ2 norm of its argument vector. The term r(S) is the
+regularization term, injecting prior information in the reconstruc-
+tion process, whereas the data ﬁdelity is ensured by the constraint
+∥Φ(S) −y∥2 ⩽ǫ, implying that the residual is situated within
+an ℓ2 ball whose radius is determined by ǫ. In the current work,
+due to technical assumptions related to the proposed joint imaging
+and calibration algorithm (Chouzenoux et al. 2016), we propose to
+solve an unconstrained version of problem (8), given by
+minimize
+S
+¯h S + r(S),
+(9)
+where ¯h(S) is the data ﬁdelity term. Using this formulation and
+assuming that the additive noise is i.i.d. Gaussian, ¯h(S) is given by
+a least squares criterion
+(∀S ∈R2×2N) ¯h(S) = 1
+2 ∥Φ(S) −y∥2
+2.
+(10)
+This formulation has been introduced in Repetti et al. (2017) in the
+particular case of joint Stokes I imaging and calibration. In order
+to incorporate various polarimetric imaging speciﬁc prior informa-
+tions in the regularization function, Birdi et al. (2018b) proposed to
+use a hybrid regularization term of the form
+r(S) = g(S) + r′(S),
+(11)
+where the function g: R2×2N →]−∞, +∞] imposes sparsity of the
+underlying Stokes images and the function r′: R2×2N →]−∞, +∞]
+constrains the domains of the argument images as per some phys-
+ical constraints. In particular, the ﬁrst term is inspired by the CS
+framework which proposes to exploit the sparsity of the target im-
+ages in some dictionary Ψ ∈CN×J (Candès et al. 2006; Donoho
+2006). The choice of this dictionary is dependent on the images un-
+der scrutiny. To give an intuitive idea, images which are already
+sparse, for instance point sources images, are well represented
+by dirac basis taking Ψ to be identity. Otherwise, sparsity can
+be imposed in some other domain, such as TV regularization for
+piece-wise constant images (Rudin et al. 1992; Wiaux et al. 2010;
+Akiyama et al. 2017), wavelet basis for smooth images (Mallat
+2009), etc. In particular for astronomical images, a collection of
+wavelet bases is shown to be a good candidate for sparsifying dic-
+tionary Ψ (Carrillo et al. 2012, 2014), both for Stokes I imaging
+(Onose et al. 2016, 2017) and speciﬁcally for polarization imaging
+in Birdi et al. (2018a,b). Formally, for any matrix eS ∈RN×4, the
+sparse representation of the sought images in a chosen dictionary
+Ψ is given by Ψ†eS. The regularization function is then deﬁned to
+impose sparsity of this term. This can be achieved by using the
+ℓ0 pseudo-norm, counting the number of non-zero components of
+its argument (Donoho et al. 1995). A more common approach is to
+use ℓ1 norm which overcomes the problem of non-convexity of the
+ℓ0 norm (Chen et al. 2001). An even better approximation of the
+ℓ0 norm is provided by the (re)weighted ℓ1 norm, which tends to
+diminish the magnitude dependency of the ℓ1 norm (Candès et al.
+2008; Carrillo et al. 2012). The (re)weighted ℓ1 norm is given by
+g(S) = ∥Ψ†R S∥W,1 =
+4
+Õ
+i=1
+J
+Õ
+j=1
+Wj,i
+[Ψ†R S]j,i
+,
+(12)
+where the subscripts j and i in the notation [·]j,i stand respec-
+tively for the row and column indices of the argument matrix, and
+R : R2×2N →RN×4 is the operator consisting in placing the four
+Stokes images contained in the matrix S in four columns, whereas
+its adjoint R† : RN×4 →R2×2N do the contrary, i.e. storing the
+four images in the rows of a 2 × 2 block matrix. In equation (12),
+W ∈RJ×4
++
+is the weighting matrix. In the case when this matrix
+is chosen to be identity, the ℓ1 regularization term is obtained. An-
+other useful piece of information which can be used to regularize
+the problem is the polarization constraint to be satisﬁed by the re-
+covered Stokes images (Birdi et al. 2018b). This constraint comes
+from a physical point of view, that the polarized intensity should be
+smaller or at most equal to the total intensity and mathematically,
+can be described by the following set:
+P =
+eS = R S ∈RN×4  (∀n ∈{1, . . ., N})
+−eSn,1 + ∥eSn,2:4∥2 ⩽0
+	
+.
+(13)
+As can be noticed, this constraint also imposes implicitly the pos-
+itivity of the total intensity image (Stokes I). The enforcement of
+this constraint amounts to incorporation of the indicator function of
+the set P in the regularization function, i.e.
+r′(S) = ιP(S).
+(14)
+The indicator function of any such set P is deﬁned as
+ιP(S) =
+(
+0,
+if S ∈P,
++∞,
+otherwise.
+(15)
+5
+CALIBRATION PROBLEM
+In practice, the DDEs are often unknown and need to be esti-
+mated. In this section, we formulate the calibration problem to
+be solved. We assume that the DDEs exhibit a smooth variation
+both across the ﬁeld of view and in time. It implies that DDEs are
+band-limited spatially as well as temporally. This is enforced by
+considering compact-support kernels of the DDEs in both spatial
+(Repetti & Wiaux 2017; Repetti et al. 2017) and temporal Fourier
+domains (Thouvenin et al. 2018). More speciﬁcally, for each an-
+tenna α ∈{1, . . ., na}, the DDEs (Dt,α)1⩽t⩽T are represented by
+the Fourier kernels Uα ∈C2×2K×P, where K and P are the sup-
+port sizes in spatial and temporal Fourier domain, respectively, with
+K ≪N, P ≪T. Then, the task is to estimate only non-zero Fourier
+coefﬁcients of the DDEs, thereby reducing the dimension of the un-
+derlying problem signiﬁcantly. Analogous to the calibration inverse
+problem in Repetti et al. (2017), problem (2) can be reformulated
+as
+Yt,α,β = Dt(Uα) Xt,α,β
+ FeZ e
+L(S) D′
+t (Uβ) + Ωt,α,β,
+(16)
+where Dt : C2×2K×P →C2×2N is the operator acting on Uα to
+give a sparse matrix Dt(Uα) containing the compact support ker-
+nels in bDt,α, ﬂipped and centred in zero spatial frequency. Sim-
+ilarly, the operator D′
+t : C2×2K×P
+→C2N×2 is deﬁned such
+that D′
+t (Uβ) is a sparse matrix consisting of the compact sup-
+port kernels in bD
+†
+t,β centred in zero spatial frequency. Finally,
+Xt,α,β
+ FeZ e
+L(S) ∈C2N×2N is a 2 × 2 block matrix, with each
+block of size N × N. Each row/ column of such a block consists
+of a shifted version of the Fourier transform of the corresponding
+image in reshaped brightness vector e
+L(S), mimicking the convo-
+lution operation. Moreover, to account for the continuous sampled
+frequencies, these Fourier transforms are convolved with the de-
+gridding kernels centred at the associated frequency kt,α,β.
+It can be observed that problem (16) is non-linear with respect
+to the compact-support kernels (Uα)1⩽α⩽na . Following the ap-
+proach proposed in Salvini & Wijnholds (2014) and Repetti et al.
+(2017), we linearize it by introducing the matrices Uα,1 and Uα,2
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+7
+such that Uα,1 = Uα,2 = Uα for every α ∈{1, . . ., na}. Using this
+strategy, the problem becomes bi-linear and then the objective is to
+estimate both the matrices U1 = (Uα,1)1⩽α⩽na ∈C2×2K×P×na
+and U2 = (Uα,2)1⩽α⩽na ∈C2×2K×P×na, where U1 (resp. U2)
+concatenates the non-zero Fourier coefﬁcients Uα,1 (resp. Uα,2) for
+all antennas. The estimation of these matrices is achieved by solv-
+ing the following minimization problem for the DDE calibration:
+minimize
+U1,U2
+eh U1, U2
+ + p(U1, U2),
+(17)
+where eh is the least-squares data ﬁdelity term and p is the regu-
+larization function for U1 and U2. The data ﬁdelity term for DDE
+calibration reads as
+eh U1, U2
+ =
+Õ
+1⩽α⩽na
+1
+2 ∥Gα,1(Uα,1) −Yα∥2
+F,
+(18)
+=
+Õ
+1⩽α⩽na
+1
+2 ∥Gα,2(Uα,2) −Yα∥2
+F,
+(19)
+where ∥· ∥F
+stands for the Frobenious norm of the ma-
+trix argument, and considering t and β taking all the val-
+ues
+respectively in the
+ranges
+{1, . . .,T}
+and
+{1, . . ., na},
+the following hold: Yα
+=
+(Yt,α,β)t,β,α and the operator
+Gα,1(Uα,1) in equation (18) generates a concatenation of the
+terms of the form Dt(Uα,1) Xt,α,β
+ FeZ e
+L(S) D′
+t (Uβ,2). Simi-
+larly, Gα,2(Uα,2) in equation (19) consists in the operation
+Dt(Uβ,1) Xt,β,α
+ FeZ e
+L(S) D′
+t (Uα,2) to produce the corresponding
+measurements.
+On the other hand, the regularization term p in problem (17)
+is given by
+p U1, U2
+ = γ∥U1 −U2∥2
+F + ιD
+ U1
+ + ιD
+ U2
+,
+(20)
+where γ > 0 is the regularization parameter and the ﬁrst term in
+equation (20) controls the distance between the matrices U1 and
+U2, thereby imposing the constraint that these two matrices should
+be equal. The set D is deﬁned to constrain the values of the Fourier
+coefﬁcients of the DDEs to lie within the speciﬁed bounds. In par-
+ticular, D is deﬁned such that for each t ∈{1, . . .,T}, the Fourier
+kernels stored in diagonal terms of bDt,α have the central coefﬁ-
+cients  [bDt,α(0)]11 and [bDt,α(0)]22
+ belonging to an ℓ∞complex
+ball centred in 1 with radius θ1 > 0, whereas the rest of the co-
+efﬁcients belong to an ℓ∞complex ball centred in 0 with radius
+θ1. On the other hand, for the Fourier kernels in the off-diagonal
+terms, the central and the other coefﬁcients are assumed to be con-
+tained in ℓ∞balls centred in 0 with radius θ2 and θ3, respectively.
+Intuitively, this can be understood as follows. Since we work in the
+scenario after the calibration transfer is performed, the zero spa-
+tial frequency coefﬁcient of the DDEs (i.e. the DIEs) encoded in
+the diagonal terms of the Jones matrices are normalized to 1, thus
+lying in a complex neighbourhood of 1 + i0. Moreover, while the
+central coefﬁcient in the spatial Fourier domain represents the mean
+gain, the higher order spatial frequencies characterize the gain vari-
+ations across the ﬁeld of view with respect to this mean gain. There-
+fore, these coefﬁcients have smaller values in comparison with the
+central coefﬁcient. Lastly, concerning the off-diagonal terms which
+encompass the polarization leakage, their values are usually much
+smaller than the diagonal terms.
+6
+PROPOSED CALIBRATION & IMAGING APPROACH
+The current work deals with a practical case when neither the
+Stokes images nor the DDEs associated with the antennas are
+known. In the particular case when the sky is considered to be unpo-
+larized, only Stokes I imaging needs to be performed and the 2 × 2
+Jones matrices are often replaced by a scalar value. In this scenario,
+Repetti et al. (2017) recently proposed a method to perform joint
+calibration and imaging. Motivated by the good performance ob-
+tained by this ﬂexible method with proven convergence guarantees,
+we extend this approach for full polarization model and propose a
+joint calibration and imaging algorithm to solve the problem under
+scrutiny. This leads to considering a global minimization problem
+aiming to solve for the Stokes parameters S and the calibration ma-
+trices U1 and U2. This non-convex problem can be cast by combin-
+ing the minimization problems (9) and calibration (17) which were
+proposed in the earlier sections solely for Stokes imaging and DDE
+calibration, respectively.
+Given the non-convexity of the underlying minimization prob-
+lem, choice of initialization is crucial. In this context, we ex-
+ploit the fact that the calibration transfer has been performed,
+to obtain an initial estimate of the Stokes images, as suggested
+in Repetti & Wiaux (2017) (although for Stokes I imaging only).
+Such ﬁrst imaging step consists in considering the Jones matrices
+as identity and solving the associated minimization problem (9).
+Let S′ be the Stokes parameters estimated by solving prob-
+lem (9). Since these are obtained ignoring the DDEs, in general,
+these may contain artefacts. Therefore, we instead use a thresh-
+olded version of S′, denoted by S0, which contains only the high
+amplitude coefﬁcients of S′. With this ﬁrst approximation of the
+images at hand, the original unknown image can be seen as a sum
+of S0 and E ∈R2×2N, where the latter is unknown and need to be
+estimated.
+Finally, we propose to deﬁne the estimates (E, U1, U2) as so-
+lutions to the following global, non-convex minimization problem:
+minimize
+E, U1,U2
+h E, U1, U2
+ + r(E) + p U1, U2
+,
+(21)
+where h is the least squares data ﬁdelity term associated with the
+data model, r and p are the regularization terms for the image and
+the DDEs, respectively. In particular, with S = S0 + E, the data
+ﬁdelity term is given by the least squares criterion as proposed in
+equations (10), (18) and (19), i.e.
+h E, U1, U2
+ = ∥Φ(S0 + E) −y∥2
+2
+(22)
+=
+Õ
+1⩽α⩽na
+1
+2 ∥Gα,1(Uα,1) −Yα∥2
+F,
+(23)
+=
+Õ
+1⩽α⩽na
+1
+2 ∥Gα,2(Uα,2) −Yα∥2
+F,
+(24)
+where operator Φ in equation (22) is formed using ﬁxed values of
+(U1, U2). Similarly, Gα,1(Uα,1) in equation (23) (and Gα,2(Uα,2)
+in equation (24), resp.) is determined by ﬁxed (Uβ,2, E) ((Uβ,1, E),
+resp.) with β ∈{1, . . ., na} and β , α. While estimating the Stokes
+parameters, equation (22) is employed as the data ﬁdelity term. In
+particular, keeping (U1, U2) ﬁxed, the convexity of this term with
+respect to E can be noticed. In the same manner, equation (23)
+((24), resp.) is chosen while updating U1 (U2, resp.) which is con-
+vex with respect to U1 (U2, resp.) keeping the other two variables
+ﬁxed. It is then straightforward to see that the non-convex function
+h is in fact convex for each of the variables while ﬁxing the others.
+Concerning the regularization terms, the function p U1, U2
+
+MNRAS 000, 1–20 (2019)
+8
+J. Birdi et al.
+is given from equation (20), whereas the function r(E) for the im-
+ages is associated with the priors introduced in equations (11), (12)
+and (14). In particular, one can choose whether to take the polar-
+ization constraint into account or not. In the former case, the regu-
+larization term boils down to
+r(E) = g(E) + ιP(S0 + E) + ιK(E),
+(25)
+where g(E) = Í4
+i=1 ηi∥ Ψ†R(S0 + E)
+: ,i∥1 denotes the SARA
+prior considering Ψ to be a concatenation of Dirac basis and ﬁrst
+eight Daubechies wavelets (Carrillo et al. 2014; Birdi et al. 2018b).
+Here, we have taken the weighting matrix to be equal to iden-
+tity, i.e. without adapting the reweighting scheme and, for every
+i ∈{1, 2, 3, 4}, ηi > 0 is the regularization parameter. The set K
+is chosen to take into account the errors that might appear on the
+estimated non-zero coefﬁcients of S0. Formally, it is deﬁned as
+K =
+
+E ∈R2×2N |(∀n ∈S0) E(n) ∈[−ϑ S0(n), ϑ S0(n)]
+	
+,
+(26)
+where S0 is the support of S0. The parameter ϑ ∈[0, 1] is chosen
+according to the error percentage considered on S0.
+On the other hand, in the absence of the polarization con-
+straint, the positivity of Stokes I image needs to be imposed ex-
+plicitly, that can be accounted for by replacing the set K in equa-
+tion (25) by the set K′, deﬁned as
+K′ =
+
+E ∈R2×2N |(∀n ∈S0) E(n) ∈[−ϑ S0(n), ϑ S0(n)],
+(∀n < S0) [E(n)]1,1 ⩾0
+	
+.
+(27)
+In such a case, the function r reads as
+r(E) = g(E) + ιK′(E).
+(28)
+6.1
+Proposed algorithm
+In order to solve problem (21), we observe that it has a block-
+variable structure with U1, U2 and E being the three blocks con-
+stituting the problem. On top of it, although the global problem
+is non-convex, it is convex with respect to each of these blocks.
+Leveraging this block-variable structure, we propose to use an it-
+erative algorithm based on a block-coordinate forward-backward
+approach (Chouzenoux et al. 2016) to solve problem (21). It con-
+sists in alternating between the estimation of the DDEs and the
+Stokes images. In turn, for each of these estimations, FB itera-
+tions are employed, i.e. the smooth terms are dealt by their gradient,
+whereas the non-smooth terms are managed by their proximity op-
+erators. Formally, given a proper, lower-semicontinuous function
+f : R2×2N →] −∞, +∞], its proximity operator (Moreau 1965) at
+S ∈R2×2N is deﬁned as
+proxf (S) = argmin
+V∈R2×2N
+f (V) + 1
+2 ∥V −S∥2
+F.
+(29)
+In the particular case of f being an indicator function of a set E, the
+proximity operator reduces to commonly known projection opera-
+tor PE, deﬁned as
+PE(S) = argmin
+V∈E
+∥V −S∥2
+F.
+(30)
+In light of the discussion above, we present the proposed algorithm
+as Algorithm 1. It consists of a global loop and inner iteration loops.
+At each iteration of the global loop, indexed by i ∈N (step 2),
+we choose either to update the DDEs or the image following an
+essentially cyclic rule, that is each of the variables must be updated
+at least once within a given ﬁnite number of iterations. For every ith
+iteration, this is taken care by the choice of number of inner loop
+iterations L(i) ∈N and J(i) ∈N to update the DDEs and the image,
+respectively. To be more precise, in the former case, each of the
+calibration matrices U(i)
+1 (step 5) and U(i)
+2 (step 9) are updated by
+performing L(i) number of FB iterations in the inner loop, using
+the images estimated at the previous iterate. When the images are
+chosen to be updated in the global loop, the updated DDEs from the
+previous iterate are used to estimate the image in step 15, executing
+J(i) FB iterations. The overall algorithm can then be understood by
+splitting it into two parts: Calibration and Imaging. These two parts
+are explained in what follows.
+Algorithm 1 Joint calibration and imaging algorithm
+1: Initialization: E(0) ∈R2×2N, (U(0)
+1 , U(0)
+2 ) ∈ C2×2K×P×na 2.
+Let, for every i ∈N, (L(i), J(i)) ∈N2
+2: for i = 0, 1, . . . do
+Choose to update either the DDEs or the images.
+If the DDEs are updated:
+3:
+ U(i,0)
+1
+, U(i,0)
+2
+ =  U(i)
+1 , U(i)
+2
+
+4:
+for ℓ= 0, . . ., L(i) −1 do
+5:
+U(i,ℓ+1)
+1
+= PD
+
+U(i,ℓ)
+1
+−Γ(i)
+1 · ∇U1h E(i), U(i,ℓ)
+1
+, U(i)
+2
+
+−Γ(i)
+1 · γ U(i,ℓ)
+1
+−U(i)
+2
+
+6:
+end for
+7:
+U(i+1)
+1
+= U(i,L(i))
+1
+8:
+for ℓ= 0, . . ., L(i) −1 do
+9:
+U(i,ℓ+1)
+2
+= PD
+
+U(i,ℓ)
+2
+−Γ(i)
+2 · ∇U2h E(i), U(i+1)
+1
+, U(i,ℓ)
+2
+
+−Γ(i)
+2 · γ U(i,ℓ)
+2
+−U(i+1)
+1
+
+10:
+end for
+11:
+U(i+1)
+2
+= U(i,L(i))
+2
+12:
+E(i+1) = E(i)
+If the Stokes images are updated:
+13:
+E(i,0) = E(i)
+14:
+for j = 0, . . ., J(i) −1 do
+15:
+E(i,j+1)= proxσ(i)r
+
+E(i,j)−σ(i)∇Eh E(i,j), U(i+1)
+1
+, U(i+1)
+2
+
+16:
+end for
+17:
+E(i+1) = E(i,J(i))
+18:
+ U(i+1)
+1
+, U(i+1)
+2
+ =  U(i)
+1 , U(i)
+2
+.
+19: end for
+Calibration: It comprises of the estimation of the matrices U1 and
+U2. In this case, while the data ﬁdelity term h is differentiable, the
+regularization term p consist of both smooth and non-smooth terms.
+Thus, in each ℓth FB iteration to estimate either of these matrices,
+the gradient step for the differentiable terms is coupled with the
+proximity operator of the non-smooth term, as shown in steps 5
+and 9. In particular, for the gradient step, for every q ∈{1, 2}, the
+step size Γ(i)
+q ∈R2×2K×P×na is chosen as
+Γ(i)
+q =  ζ(i)
+q,α 12×2K×P
+
+1⩽α⩽na,
+(31)
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+9
+where 1R is a matrix of ones of dimension R, and ζ(i)
+q,α is given by
+0 < ζ(i)
+q,α < 1/(γ +υ(i)
+q,α), with υ(i)
+q,α denoting the Lipschitz constant
+of the partial derivative of h with respect to U(i)
+q,α.
+Furthermore, since in this case the non-smooth term is the in-
+dicator function of the set D, as explained previously, this reduces
+to performing projection on this set, PD which basically ensures
+that the values of the estimated DDEs Fourier coefﬁcients lie within
+the bounds speciﬁed earlier.
+Imaging: This step updates the Stokes images while using the
+DDEs estimates from the previous iterate. As shown in step 15, it
+involves computing the gradient of the data ﬁdelity term, followed
+by the proximity operator of the regularization function r. In this
+case, the step size σ(i) for the gradient step is chosen such that it
+satisﬁes
+0 < σ(i) < 1/∥Φ∥2,
+(32)
+where ∥Φ∥2 computes the spectral norm of Φ, and Φ is generated
+using the updated values (U(i+1)
+1
+, U(i+1)
+2
+).
+Regarding the proximity step, the regularization term r(E) is a
+hybrid term incorporating a mixture of prior information. Particu-
+larly, based on the choice of inclusion or exclusion of the polariza-
+tion constraint, the computation of the proximity operator differs.
+For comparison purposes, here we consider both the cases.
+Regularization without polarization constraint: When we work
+in the absence of the polarization constraint, the regularization term
+r(E) is given by equation (28). Then, the proximity operator of r
+evaluated at any point R ∈R2×2N amounts to
+proxσ(i)r(R) = argmin
+eE
+σ(i)g(eE) + ιK′(eE) + 1
+2 ∥eE −R∥2
+F,
+(33)
+which does not have an explicit formulation and thus requires
+sub-iterations for its computation. One such possibility is to
+employ dual forward-backward algorithm (Combettes & Pesquet
+2011; Combettes et al. 2011), as presented in Algorithm 2.
+In particular, step 3 of Algorithm 2 performs the projection
+onto the set K′. It is followed by the computation of the proximity
+operator of function g in step 5, which in the current case of g
+being the ℓ1 norm, corresponds to the soft-thresholding operator
+(Chaux et al. 2007). This is evaluated as
+proxε(i)g
+ µ−1H(k) = eR,
+(34)
+where ε(i) = µ−1σ(i) and the soft-thresholding operation is a
+component-wise operation such that eR ∈RJ×4 is deﬁned for ev-
+ery q ∈{1, 2, 3, 4} and j ∈{1, . . ., J} as
+eRj,q =
+
+
+−µ−1H(k)
+j,q + ε(i)ηq ,
+if µ−1H(k)
+j,q < −ε(i)ηq ,
+0,
+if −ε(i)ηq ⩽µ−1H(k)
+j,q ⩽ε(i)ηq ,
+µ−1H(k)
+j,q −ε(i)ηq ,
+otherwise.
+(35)
+In essence, this operation sets the elements smaller than a thresh-
+old to zero, whereas shrinks all the other elements by this value.
+Therefore, it promotes sparsity of its argument variable.
+Regularization with polarization constraint: In the case when
+the polarization constraint is to be enforced, the regularization term
+is given from equation (25) and the associated proximity operator
+Algorithm 2 Dual Forward-Backward algorithm to compute (33)
+1: Initialization: Let eP(0) ∈RJ×4, ¯ǫ ∈]0, min{1, 1/∥Ψ†∥2}[, and
+µ ∈[ ¯ǫ, 2/∥Ψ†∥2 −¯ǫ]
+2: for k = 0, 1, . . .
+3:
+V(k) = PK′
+
+R −R† ΨeP(k)
+4:
+H(k) = eP(k) + µΨ†R V(k)
+5:
+eP(k+1) = H(k) −µ proxµ−1σ(i)g
+ µ−1H(k)
+6: end for
+7: Return: eE = limk V(k)
+at a point R is given by
+proxσ(i)r(R) = argmin
+eE
+σ(i)g(eE)+ ιK(eE)+ ιP(eE+ S0)+ 1
+2 ∥eE−R∥2
+F.
+(36)
+The evaluation of this operator requires projection onto the set P,
+that does not have a closed form solution. To circumvent this difﬁ-
+culty, we have recently proposed a method, named Polarized SARA
+(Birdi et al. 2018a,b), that enforces this constraint leveraging the
+epigraphical projection techniques (Chierchia et al. 2015). In this
+context, with the introduction of an auxiliary variable Z ∈RN×2,
+the polarization constraint set is splitted into simpler, easily man-
+ageable constraint sets, thereby performing the projection onto
+these sets. Formally, it corresponds to the following reformulation
+of problem (36):
+proxσ(i)r(R) = argmin
+eE,Z
+σ(i)g(eE) + ιK(eE) + 1
+2 ∥eE −R∥2
+F
+(37a)
+subject to (∀n ∈{1, . . ., N})
+
+
+h1(R(eE + S0)n,1) = −(eE + S0)n,1 ⩽Zn,1,
+(37b)
+h2(R(eE + S0)n,2:4) = ∥R(eE + S0)n,2:4∥2 ⩽Zn,2,
+(37c)
+Zn,1 + Zn,2 ⩽0.
+(37d)
+In order to impose the constraints (37b)- (37d), we make
+use of the indicator functions of the corresponding sets. In
+particular, the constraints (37b) and (37c) are enforced us-
+ing indicator functions of the epigraphs2 E1, E2 respectively of
+the functions h1 and h2. On the other hand, the set V
+=
+
+Z ∈RN×2  ∀n ∈{1, . . ., N}
+Zn,1 + Zn,2 ⩽0
+	
+is used to impose
+the constraint (37d). For further details, we refer the reader to
+Birdi et al. (2018b).
+Doing so, the proximity operator (37a) results into
+proxσ(i)r(R) = argmin
+eE,Z
+σ(i)g(eE) + ιK(eE) + 1
+2 ∥eE −R∥2
+F + ιV(Z)
++ ιE1
+
+R(eE + S0): ,1, Z:,1
+
++ ιE2
+
+R(eE + S0): ,2:4, Z:,2
+
+.
+(38)
+For the computation of this proximity operator, we employ Po-
+larized SARA method which is based on primal-dual forward-
+backward algorithm (Condat 2013; V˜u 2013; Pesquet & Repetti
+2015). Particularly, leveraging the ﬂexibility and parallelizability
+2 The epigraph of a proper, lower semi-continuous function ψ: RN →
+] −∞, +∞] corresponds to epi ψ =
+
+(z, κ) ∈RN × R
+ψ(z) ⩽κ
+	
+.
+MNRAS 000, 1–20 (2019)
+10
+J. Birdi et al.
+Algorithm 3 Primal-dual algorithm to solve problem (38)
+1: Initialization: eE(0) ∈R2×2N, Z(0) ∈RN×2, A(0) ∈RJ×4,
+C(0)
+∈
+RN×4, B(0)
+∈
+RN×2, (ρ1, ρ2, τ) ∈
+R3
++ such that
+ρ1∥Ψ†∥2
+2 + ρ2 < τ−1
+2: repeat for k = 0, 1, . . .
+Primal updates
+3:
+eE(k+1) = PK
+
+eE(k) −τ  eE(k) −R −τR† ΨA(k) + C(k)
+4:
+Z(k+1) = PV
+
+Z(k) −τB(k)
+
+Dual updates
+Promoting sparsity:
+5:
+eA(k) = A(k) + ρ1Ψ†R
+
+2eE(k+1) + S0 −eE(k)
+6:
+A(k+1) = eA(k) −ρ1 proxρ−1
+1 σ(i)g
+
+ρ−1
+1 eA(k)
+Performing epigraphical projection:
+7:
+eC(k) = C(k) + ρ2 R
+
+2eE(k+1) + S0 −eE(k)
+8:
+eB(k) = B(k) + ρ2
+
+2 Z(k+1) −Z(k)
+
+9:
+
+C(k+1)
+:,1
+B(k+1)
+:,1
+
+=
+
+eC(k)
+:,1
+eB(k)
+:,1
+
+−ρ2 PE1
+©­
+«
+1
+ρ2
+
+eC(k)
+:,1
+eB(k)
+:,1
+
+ª®
+¬
+10:
+
+C(k+1)
+:,2:4
+B(k+1)
+:,2
+
+=
+
+eC(k)
+:,2:4
+eB(k)
+:,2
+
+−ρ2 PE2
+©­
+«
+1
+ρ2
+
+eC(k)
+:,2:4
+eB(k)
+:,2
+
+ª®
+¬
+11: until convergence
+offered by the primal-dual algorithms, we can easily adapt Polar-
+ized SARA method to solve our underlying problem (38). For the
+sake of completeness, we also present this adapted version in Al-
+gorithm 3. It comprises of solving for the variables of interest, the
+primal variables, along with the associated auxiliary variables, the
+dual variables. In this context, the update of the primal variables
+is similar to the forward-backward strategy, wherein the gradient
+of the differentiable terms is followed by their proximity step. For
+the current case, it implies projection onto the set K (step 3) and
+V (step 4) for the update of variables eE and Z, respectively. It is to
+be noted that these updates incorporate an additive term based on
+the corresponding dual variables. More precisely, the update of eE
+involves the variables A ∈RJ×4 and C ∈RN×4 related to the spar-
+sity prior and the epigraphical constraints, respectively. Similarly,
+step 4 comprises of the variable B ∈RN×2 associated with the
+epigraphical constraints. These dual variables are in turn updated
+by the computation of their associated proximity operators, that is
+the soft-thresholding operator for A (step 6) using the deﬁnition in
+equations (34) and (35), and the projections onto the sets E1 and E2
+for the variables C and B. A detailed description of these updates is
+provided in Birdi et al. (2018b).
+6.2
+Convergence properties
+The convergence properties of the proposed joint calibration and
+imaging algorithm for full polarization model (Algorithm 1) can
+be deduced from Chouzenoux et al. (2016). Particularly, if a ﬁnite
+number of iterations are performed to update each of the variables,
+that is for every ith iteration, choosing L(i) and J(i) to be ﬁnite in
+Algorithm 1, and if the
+• blocks (E(i), U(i)
+1 , U(i)
+2 ) in Algorithm 1 are estimated at least
+once in every ﬁnite number of given iterations,
+• step sizes Γ(i)
+1
+and Γ(i)
+2
+for the gradient steps while updating
+U1 and U2, respectively are chosen as per equation (31), and
+• step size σ(i) for the update of E is chosen as per equa-
+tion (32),
+then Algorithm 1 is guaranteed to converge to a critical point
+(E′, U′
+1, U′
+2) of the underlying objective function given in equa-
+tion (21). Additionally, iteration-by-iteration, the value of this ob-
+jective function decreases.
+6.3
+Computational complexity
+The computational complexity of Algorithm 1 can be analyzed
+from its two sub-parts: Calibration and Imaging. In the former case,
+the update of matrix U1 in steps 4 - 6 (and U2 in steps 8 - 10) is per-
+formed in parallel for na antennas, using forward-backward (FB)
+iterations. In this case, the gradient evaluation of the data ﬁdelity
+term in equation (23) (and in (24)) is required. It involves the de-
+gridding operation while generating the matrix Xt,β,α
+ FeZ e
+L(S0 +
+E) for all t ∈{1, . . .,T} and β ∈{1, . . ., na}, with β , α, that
+turns out to be the most expensive step. However, it is to be noted
+that for each global calibration iteration, this matrix needs to be
+computed only once before the inner FB iterations (both for U1 and
+U2 updates).
+Regarding the imaging step, the FB strategy presents the com-
+putationally most demanding part of the algorithm. In particular,
+in step 15, the gradient computation (forward step) of the data ﬁ-
+delity term (equation (22)) consists in performing the application
+of the operator Φ, followed by its adjoint operator. Furthermore,
+the evaluation of the proximity operator (backward step) involves
+sub-iterations, performed either by Algorithm 2 or Algorithm 3.
+While this iterative process adds to the computational cost, the
+heaviest steps within either of the algorithms is the application of
+the wavelet transform operator Ψ consisting of 8 wavelet bases and
+Dirac basis to impose sparsity. This can in turn be implemented in
+a parallel fashion, for each sparsity basis as well as for each of the
+underlying images.
+7
+SIMULATIONS AND RESULTS
+In this section, we describe the various simulations conducted using
+a MATLAB implementation of the proposed algorithm to assess its
+performance.
+To simulate the data sets, we consider VLA antenna’s A con-
+ﬁguration. It consists of na = 27 antennas with each antenna pair
+acquiring measurements at T = 200 snapshots, considering lin-
+ear feeds. While performing the non-uniform Fourier transform at
+these sampled frequencies, we make use of the Kaiser-Bessel ker-
+nels of size 5 × 5 for interpolation (Fessler & Sutton 2003). Fur-
+thermore, we perform tests on two sets of model images of size
+N = 256 × 256. The two sets correspond to the images of the radio
+galaxies Cygnus A and Hydra A, shown respectively in ﬁrst and
+second columns of Fig. 3. For each set, Stokes I, Q and U images
+(V = 0 due to negligible circular polarization) are displayed from
+top to bottom.
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+11
+-3
+-2.5
+-2
+-1.5
+-1
+-0.5
+0
+-3
+-2.5
+-2
+-1.5
+-1
+-3.5
+-3
+-2.5
+-2
+-1.5
+-1
+-0.5
+-4
+-3.5
+-3
+-2.5
+-2
+-3.5
+-3
+-2.5
+-2
+-1.5
+-1
+-0.5
+-4
+-3.5
+-3
+-2.5
+-2
+Figure 3. Cygnus A (ﬁrst column) and Hydra A (second column) ground
+truth images used for performing simulations. In both the columns, row-
+wise from top to bottom the following images are shown (all in log scale):
+Stokes I, Stokes Q and Stokes U.
+Regarding the DDE Fourier kernels, for every antenna α ∈
+{1, . . ., na} and at each time instant t ∈{1, . . .,T}, these ker-
+nels are generated randomly in the Fourier domain, with a spatial
+Fourier support of K = 5×5 and a temporal Fourier support of size
+P = 3 × 3. Furthermore, the values of the Fourier coefﬁcients are
+chosen as per the discussion in Section 5. More precisely, for the
+diagonal terms in the Jones matrix, the central coefﬁcients that cor-
+respond to the Fourier coefﬁcients of the DIEs have their real and
+imaginary parts lying in the interval [1−θ1, 1+θ1] and [−θ1, θ1], re-
+spectively, whereas the other frequency coefﬁcients (related to the
+DDEs Fourier coefﬁcients) belong to [−θ1, θ1] with θ1 = 5 × 10−2.
+On the other hand, the central and all the rest coefﬁcients in the off-
+diagonal terms are considered belonging to [−θ2, θ2] and [−θ3, θ3],
+respectively. Here we choose (θ2, θ3) = (5 × 10−2, 5 × 10−4). The
+chosen values are in line with the VLA characteristics, wherein the
+leakage terms (i.e. the off-diagonal terms) are ∼10−2 lower in peak
+amplitude compared to the diagonal terms, representing a leakage
+of around 5% of the diagonal terms (Bhatnagar et al. 2013).
+7.1
+Comparisons performed
+For an assessment of the proposed algorithm, we perform an exten-
+sive study on a varied number of cases based on choices made both
+on calibration and imaging fronts. From the calibration viewpoint,
+we compare between different generations of calibration schemes,
+i.e. 1GC, 2GC and 3GC. Particularly, we compare the results ob-
+tained by DDE calibration with those of considering only DIEs.
+Furthermore, to determine the importance of off-diagonal terms in
+the Jones matrices, we run tests with and without calibrating for
+these terms. On the other hand, from the imaging perspective, it
+is interesting to analyze the performance of different regulariza-
+tions for the Stokes parameters. Thus, we consider the cases with
+and without enforcement of the polarization constraint. A blend of
+these approaches leads to the following list of tests:
+(1) Imaging with normalized DIEs (1GC): Working under the as-
+sumption of calibration transfer, the ﬁrst step is to consider the
+Jones matrices as identity, without any directional dependency.
+It is important to mention here that this is the usual case consid-
+ered by imaging algorithms in RI, either ignoring the calibration
+effects or relying on the data provided after the calibration trans-
+fer. In such a scenario, only imaging step is performed to obtain
+an estimation of the Stokes images S. Furthermore, in this imag-
+ing problem, we can consider two different regularizations and
+hence two sub-cases: Imaging with normalized DIEs (1.a) with-
+out and (1.b) with the enforcement of the polarization constraint.
+(2) Joint DIE calibration and imaging (2GC): It involves using
+the proposed algorithm for calibration and imaging. While cal-
+ibrating, only the DIEs, i.e. considering support size K = 1
+for Fourier kernels, are solved for. A thresholded version of the
+images estimated from (1.a) and (1.b) are used respectively to
+initialize the problems while working in the absence and pres-
+ence of the polarization constraint. This corresponds to two sub-
+cases: DIE calibration and imaging (2.a) without and (2.b) with
+the polarization constraint.
+(3) Joint DDE calibration and imaging (3GC-polarized): This ap-
+proach follows the proposed algorithm for calibrating the DDEs
+in conjunction with the imaging step. Similar to (2), the images
+are initialized from thresholded versions of (1.a) and (1.b), re-
+sulting into four cases:
+(3.a) DDE calibration for the Jones matrices, excluding the
+off-diagonal terms & imaging without the polarization con-
+straint: It corresponds to the case when the calibration steps
+are applied only to update the diagonal terms of the Jones
+matrices, without accounting for the polarization constraint
+in the imaging step.
+(3.b) DDE calibration for the Jones matrices, excluding the off-
+diagonal terms & imaging with the polarization constraint:
+Here, the calibration strategy is the same as (3.a), whereas
+the polarization constraint is considered in the imaging step.
+(3.c) DDE calibration for the whole Jones matrix, including the
+off-diagonal terms & imaging without the polarization con-
+straint: It consists in calibrating for the full Jones matrix, but
+without enforcing the polarization constraint in the imaging
+step.
+(3.d) DDE calibration for the whole Jones matrix, including
+the off-diagonal terms & imaging with the polarization con-
+straint: This approach comprises of full Jones matrix calibra-
+tion and imposing the polarization constraint in the imaging
+step.
+7.2
+Simulation settings
+As previously mentioned, one of the key points for convergence of
+the proposed algorithm is to update the variables at least once in
+every ﬁnite number of given iterations. To ensure this, within the
+global loop in Algorithm 1, we perform Lcyc = 2 global iterations
+for the DDEs (i.e. steps 3 to 12 are iterated twice) followed by an
+update of the Stokes images (steps 13 to 18). Nevertheless, after a
+certain number of global loops, it may happen that the DDE updates
+MNRAS 000, 1–20 (2019)
+12
+J. Birdi et al.
+without polarization constraint
+with polarization constraint
+Normalized
+DIE
+DDE calibration
+DDE calibration
+Normalized
+DIE
+DDE calibration
+DDE calibration
+DIEs
+calibration
+w/o off-
+of full Jones
+DIEs
+calibration
+w/o off-
+of full Jones
+diagonal terms
+matrix
+diagonal terms
+matrix
+Stokes I
+19.4
+21.4
+34
+34.7
+18.4
+20.2
+33.6
+37.4
+Stokes Q
+18.6
+16.9
+20.8
+21.2
+16.3
+15.2
+23.4
+24.9
+Stokes U
+16.9
+18
+19.9
+22.5
+15.6
+16.7
+21.3
+25.2
+(a) SNR (in dB) values for Cygnus A
+without polarization constraint
+with polarization constraint
+Normalized
+DIE
+DDE calibration
+DDE calibration
+Normalized
+DIE
+DDE calibration
+DDE calibration
+DIEs
+calibration
+w/o off-
+of full Jones
+DIEs
+calibration
+w/o off-
+of full Jones
+diagonal terms
+matrix
+diagonal terms
+matrix
+Stokes I
+1.04
+1.73
+10.8
+12.8
+1.07
+1.82
+9.64
+41.4
+Stokes Q
+3.31
+3.43
+4.79
+4.94
+2.59
+2.16
+6.79
+9.61
+Stokes U
+2
+2.14
+2.62
+3.38
+0.55
+0.87
+1.39
+19.8
+(b) Dynamic range (DR) values for Cygnus A in units of 104
+without polarization constraint
+with polarization constraint
+Normalized
+DIE
+DDE calibration
+DDE calibration
+Normalized
+DIE
+DDE calibration
+DDE calibration
+DIEs
+calibration
+w/o off-
+of full Jones
+DIEs
+calibration
+w/o off-
+of full Jones
+diagonal terms
+matrix
+diagonal terms
+matrix
+Stokes I
+18.3
+20.6
+24.9
+25
+18.3
+20.7
+31.2
+33.2
+Stokes Q
+17.8
+18.6
+11.3
+11.4
+17.9
+18.8
+19.7
+20.7
+Stokes U
+10.3
+11.5
+8.09
+9.07
+10.9
+12.2
+12.6
+19.8
+(c) SNR (in dB) values for Hydra A
+without polarization constraint
+with polarization constraint
+Normalized
+DIE
+DDE calibration
+DDE calibration
+Normalized
+DIE
+DDE calibration
+DDE calibration
+DIEs
+calibration
+w/o off-
+of full Jones
+DIEs
+calibration
+w/o off-
+of full Jones
+diagonal terms
+matrix
+diagonal terms
+matrix
+Stokes I
+0.82
+1.54
+2.35
+2.45
+0.82
+1.49
+6.43
+15.9
+Stokes Q
+2.01
+2.21
+0.23
+0.23
+0.68
+0.93
+1.01
+1.19
+Stokes U
+2.44
+2.53
+0.21
+0.28
+0.31
+0.5
+0.48
+2.7
+(d) Dynamic range (DR) values for Hydra A in units of 104
+Table 1. Cygnus A (top two tables) and Hydra A (bottom two tables) results: SNR and Dynamic range values for different considered cases. For each of the
+reconstructed Stokes image, the shown values are the mean computed over 5 performed simulations for the cases with following considerations- for calibration
+step: known normalized DIEs, DIE calibration, no off-diagonal Jones terms calibration, and full Jones matrix DDE calibration; and for imaging step: without
+and with the enforcement of the polarization constraint.
+stabilize in fewer than Lcyc iterations. Thus, to avoid unnecessary
+computation, we deﬁne a stopping criterion for the DDE updates as
+the relative variation between the consecutive estimates of DDEs to
+be less than a threshold εU, that is
+max
+q∈{1,2}
+
+∥U(i+1)
+q
+−U(i)
+q ∥F/∥U(i)
+q ∥F
+
+⩽εU.
+(39)
+where we set εU = 10−5. In other words, if this criterion is met, then
+no more DDE iterations are performed, and the algorithm leaps to
+the imaging step using the estimated DDEs. The estimation of the
+Stokes images adopts a similar strategy wherein iterations in the
+inner imaging loop are stopped and the algorithm resorts to the
+calibration step once the following stopping criterion is satisﬁed:
+max
+q∈{1,2,3}
+
+∥E(i+1)
+: ,q −E(i)
+: ,q∥2/∥E(i)
+: ,q∥2
+
+⩽εE.
+(40)
+with εE = 10−5. Furthermore, in order to ensure stopping of the
+global algorithm at convergence, we deﬁne a stopping criterion as
+the relative variation between the values of the objective function
+at consecutive iterates to be less than a threshold ε0, that is
+∥ϕ(i+1) −ϕ(i)∥2/∥ϕ(i)∥2 ⩽ε0,
+(41)
+where ϕ(i) denotes the objective function value for the ith iteration
+computed using the updated values (E(i+1), U(i+1)
+1
+, U(i+1)
+2
+) and ε0
+is ﬁxed to 2 × 10−2. Regarding the choice of number of iterations
+L(i) and J(i) for calibration and imaging inner loops, respectively,
+we choose L(i) = 5 when DDE updates need to be performed and
+J(i) = 100 when imaging step is carried out. Furthermore, for each
+of the above mentioned cases, we run 5 simulations varying the
+DIEs/DDEs and noise realizations.
+For quantitative comparison of the results obtained by differ-
+ent tests, we use signal-to-noise ratio (SNR) as a metric. Given an
+original image s ∈RN, the SNR of the reconstructed image s′ with
+respect to s is deﬁned as
+SNR = 20 log10
+
+∥s∥2
+∥υ′s′ −s∥2
+
+,
+(42)
+where υ′ = argmin
+υ>0
+∥υs′ −s∥2
+2 accounts for the ambiguity problem
+in the underlying blind deconvolution problem. Furthermore, the
+values of the regularization parameters η = [η1, η2, η3] and γ are
+chosen to maximize the SNR.
+We also report the dynamic range (DR) obtained for the recon-
+structed images. For every image contained in the estimated Stokes
+matrix S′ = S0 + E′, with (i, j) ∈{1, 2}2 it is deﬁned as follows:
+DRij =
+√
+N ∥Φ∥2
+2
+
+Φ† y −Φ(S′)
+ij
+2
+max
+n [S′(n)]ij.
+(43)
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+13
+-3
+-2.5
+-2
+-1.5
+-1
+-0.5
+0
+Recovered images w/o
+Absolute error images
+Recovered images with
+Absolute error images
+polarization constraint
+polarization constraint
+Figure 4. Cygnus A Stokes I true image in ﬁrst row and reconstructed images (best ones over 5 performed simulations for each case) in other rows for
+the cases: Imaging with normalized DIEs (second row), Joint DIE calibration and imaging (third row), Joint DDE calibration and imaging excluding the
+off-diagonal terms (fourth row), and considering full Jones matrix (ﬁfth row). In each case, column-wise recovered images followed by their corresponding
+error images are displayed when imaging is performed without polarization constraint (ﬁrst two columns) and with polarization constraint (last two columns).
+All the images are shown in log scale, with the same color range corresponding to the colorbar given in ﬁrst row.
+MNRAS 000, 1–20 (2019)
+14
+J. Birdi et al.
+-3.5
+-3
+-2.5
+-2
+-1.5
+-1
+-0.5
+Recovered images w/o
+Absolute error images
+Recovered images with
+Absolute error images
+polarization constraint
+polarization constraint
+Figure 5. Cygnus A Stokes Q true image in ﬁrst row and reconstructed images (best ones over 5 performed simulations for each case) in other rows for
+the cases: Imaging with normalized DIEs (second row), Joint DIE calibration and imaging (third row), Joint DDE calibration and imaging excluding the
+off-diagonal terms (fourth row), and considering full Jones matrix (ﬁfth row). In each case, column-wise recovered images followed by their corresponding
+error images are displayed when imaging is performed without polarization constraint (ﬁrst two columns) and with polarization constraint (last two columns).
+All the images are shown in log scale, with the same color range corresponding to the colorbar given in ﬁrst row.
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+15
+-3.5
+-3
+-2.5
+-2
+-1.5
+-1
+-0.5
+Recovered images w/o
+Absolute error images
+Recovered images with
+Absolute error images
+polarization constraint
+polarization constraint
+Figure 6. Cygnus A Stokes U true image in ﬁrst row and reconstructed images (best ones over 5 performed simulations for each case) in other rows for
+the cases: Imaging with normalized DIEs (second row), Joint DIE calibration and imaging (third row), Joint DDE calibration and imaging excluding the
+off-diagonal terms (fourth row), and considering full Jones matrix (ﬁfth row). In each case, column-wise recovered images followed by their corresponding
+error images are displayed when imaging is performed without polarization constraint (ﬁrst two columns) and with polarization constraint (last two columns).
+All the images are shown in log scale, with the same color range corresponding to the colorbar given in ﬁrst row.
+MNRAS 000, 1–20 (2019)
+16
+J. Birdi et al.
+7.3
+Results and analysis
+We now present the results obtained by conducting tests for the var-
+ious cases mentioned before. In terms of quantitative comparison
+between the different cases performed, Table 1 provides the ob-
+tained SNR and dynamic range values for both the sets of images.
+In each case, the mean values evaluated over the 5 performed simu-
+lations are shown. From the calibration front, it can be noticed that
+joint DDE calibration and imaging leads to a signiﬁcant improve-
+ment in the reconstruction quality, both in terms of SNR and DR, in
+comparison with either of the cases when only imaging step is per-
+formed considering normalized DIEs or jointly calibrating for DIEs
+and imaging. In particular, the case of normalized DIEs considers
+Jones matrices to be identity, whereas the DIE calibration scheme
+also accounts for the DIEs in the off-diagonal Jones terms and is
+thus further affected by the estimation of these terms. In fact, these
+terms lead to ﬂux leakage from one Stokes parameter to others and
+if not perfectly calibrated, can lead to error propagation. It particu-
+larly affects the low amplitude Stokes Q and U images. This can be
+seen from the smaller SNR values of Stokes Q image than that ob-
+tained by the case of normalized DIEs (Table 1(a)). Another obser-
+vation that can be made for these two cases is regarding the higher
+DR values obtained for Stokes Q and U images than that of Stokes
+I image. This non-physical feature can be attributed to the usage
+of incomplete measurement model (i.e. without the incorporation
+of the DDEs), severely affecting the underlying non-convex mini-
+mization problem giving inaccurate solutions. The aforementioned
+observations for these cases further indicate the necessity of taking
+direction-dependent terms into account and performing their cali-
+bration along with imaging for a better reconstruction quality. Sec-
+ond, comparing the results obtained with and without calibrating
+for the off-diagonal terms in the Jones matrices shows better SNR
+and DR values are achieved in the former case, thereby demonstrat-
+ing the signiﬁcance of calibrating for the off-diagonal Jones terms
+to recover high quality, high dynamic range images.
+On the other hand, on the imaging front, it is interesting to
+note that when the image recovery is performed either using only
+normalized DIEs or calibrating for DIEs, i.e. having inexact knowl-
+edge of the Jones matrices and neglecting the DDEs, regularizing
+the underlying problem with the polarization constraint may not
+be very effective. Indeed, in such a case, not enforcing the con-
+straint can produce slightly better results, as seen for Cygnus A
+images. Nevertheless, when the DDE calibration scheme is incor-
+porated, the result analysis highlights the superior performance of
+this constraint, recovering images with much higher SNR and DR
+compared to the case where it is not imposed. Especially in the
+case of model images for Hydra A, the enforcement of the polar-
+ization constraint leads to an appreciable improvement of ∼9 −10
+dBs in SNR of Stokes Q and U images (Table 1(c)) and around
+one order of magnitude in DR (Table 1(d)). It should be noted that
+Hydra A images have lesser amplitude than the ﬁrst set of images
+(Cygnus A). This is true speciﬁcally for Stokes Q and U images
+which are around one order of magnitude lower in amplitude than
+the corresponding Stokes I image and hence, difﬁcult to be recov-
+ered. In this respect, the obtained results emphasize the crucial role
+played by suitably chosen regularization prior in enhancing the re-
+construction quality. In fact, if the problem is not well regularized
+(i.e. the polarization constraint is not enforced), the solution of the
+underlying non-convex joint DDE calibration and imaging prob-
+lem may stuck in a local minimum leading to poor reconstruction
+quality. The good performance of the polarization constraint to re-
+cover these images shows suitability of this prior for full polariza-
+tion imaging. This validates the ﬁndings of Birdi et al. (2018b) and
+further extends them to the case of joint calibration and imaging.
+The above listed observations are further supported by the vi-
+sual inspection of the recovered images and the associated abso-
+lute error images, shown in Figs. 4-9. While Figs. 4, 5 and 6 dis-
+play the Cygnus A images for Stokes I, Q and U, respectively, the
+corresponding images for Hydra A are shown in Figs. 7, 8 and 9.
+The error images are obtained by computing the absolute differ-
+ence between the ground truth and reconstructed images. In each
+of these ﬁgures, the recovered images (ﬁrst and third columns) fol-
+lowed by their absolute error images (second and fourth columns)
+are shown. The shown images correspond to the reconstructions
+(and the associated error images) obtained when imaging is per-
+formed with: (second row) normalized DIEs, (1.a) without polar-
+ization constraint and (1.b) with polarization constraint, and (third
+row) DIE calibration (2.a) without and (2.b) with the enforcement
+of the polarization constraint. Similarly, the reconstructed images
+(and the associated error images) for the case of joint DDE calibra-
+tion and imaging, excluding the off-diagonal terms and perform-
+ing full Jones matrix calibration are presented respectively in third
+and fourth rows, both for (3.a) (and (3.c)) without polarization con-
+straint and (3.b) (and (3.d)) with polarization constraint. It can be
+observed that joint DDE calibration and imaging offers remarkable
+advantage over considering only DIEs, mitigating the artefacts oc-
+curring because of the calibration errors. Moreover, calibration of
+the off-diagonal terms is crucial for high dynamic range imaging by
+diminishing the diffused calibration artefacts in the background. In
+addition to these remarks, the quality of reconstruction is promoted
+by considering the polarization constraint in the reconstruction pro-
+cess. While the enforcement of this constraint yields lesser residual
+in the error images, a careful examination of the recovered images
+also indicates that this prior is able to produce highly resolved im-
+ages with ﬁner details as opposed to the case when the constraint is
+not taken into account.
+8
+CONCLUSIONS
+We have presented a joint calibration and imaging technique tak-
+ing into account the full polarization model for radio interferome-
+try. The proposed technique, dubbed Polca SARA, uniﬁes the esti-
+mation of the DDEs for the full Jones matrix and the Stokes im-
+ages of interest within a global algorithmic structure, exploiting
+the same optimization framework for both calibration and imag-
+ing. In particular, it solves the underlying non-convex minimiza-
+tion problem employing a block-coordinate forward-backward al-
+gorithm, thereby following a forward-backward scheme for esti-
+mation of each of the variables. The MATLAB code of the pro-
+posed method will soon be made available on GitHub (https://basp-
+group.github.io/Polca-SARA/).
+While our approach is shipped with convergence guarantees,
+it can also be adapted to incorporate suitable regularization priors
+for the variables under consideration. Thanks to this ﬂexibility, for
+the imaging step in the global algorithm, we have employed an ap-
+proach speciﬁcally developed for full Stokes imaging enforcing the
+physical polarization constraint (Birdi et al. 2018b). These features
+offered by our method are in contrast with the existing calibration
+and imaging algorithms in RI which (i) do not beneﬁt from global
+convergence and (ii) use in fact Stokes I imaging based techniques
+even for polarimetric imaging. The signiﬁcance of the latter remark
+is further highlighted by the results obtained from various numer-
+ical simulations performed, achieving better SNR and higher dy-
+namic range with the enforcement of the polarization constraint.
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+17
+-3
+-2.5
+-2
+-1.5
+-1
+Recovered images w/o
+Absolute error images
+Recovered images with
+Absolute error images
+polarization constraint
+polarization constraint
+Figure 7. Hydra A Stokes I true image in ﬁrst row and reconstructed images (best ones over 5 performed simulations for each case) in other rows for the cases:
+Imaging with normalized DIEs (second row), Joint DIE calibration and imaging (third row), Joint DDE calibration and imaging excluding the off-diagonal
+terms (fourth row), and considering full Jones matrix (ﬁfth row). In each case, column-wise recovered images followed by their corresponding error images are
+displayed when imaging is performed without polarization constraint (ﬁrst two columns) and with polarization constraint (last two columns). All the images
+are shown in log scale, with the same color range corresponding to the colorbar given in ﬁrst row.
+MNRAS 000, 1–20 (2019)
+18
+J. Birdi et al.
+-4
+-3.5
+-3
+-2.5
+-2
+Recovered images w/o
+Absolute error images
+Recovered images with
+Absolute error images
+polarization constraint
+polarization constraint
+Figure 8. Hydra A Stokes Q true image in ﬁrst row and reconstructed images (best ones over 5 performed simulations for each case) in other rows for the cases:
+Imaging with normalized DIEs (second row), Joint DIE calibration and imaging (third row), Joint DDE calibration and imaging excluding the off-diagonal
+terms (fourth row), and considering full Jones matrix (ﬁfth row). In each case, column-wise recovered images followed by their corresponding error images are
+displayed when imaging is performed without polarization constraint (ﬁrst two columns) and with polarization constraint (last two columns). All the images
+are shown in log scale, with the same color range corresponding to the colorbar given in ﬁrst row.
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+19
+-4
+-3.5
+-3
+-2.5
+-2
+Recovered images w/o
+Absolute error images
+Recovered images with
+Absolute error images
+polarization constraint
+polarization constraint
+Figure 9. Hydra A Stokes U true image in ﬁrst row and reconstructed images (best ones over 5 performed simulations for each case) in other rows for the cases:
+Imaging with normalized DIEs (second row), Joint DIE calibration and imaging (third row), Joint DDE calibration and imaging excluding the off-diagonal
+terms (fourth row), and considering full Jones matrix (ﬁfth row). In each case, column-wise recovered images followed by their corresponding error images are
+displayed when imaging is performed without polarization constraint (ﬁrst two columns) and with polarization constraint (last two columns). All the images
+are shown in log scale, with the same color range corresponding to the colorbar given in ﬁrst row.
+MNRAS 000, 1–20 (2019)
+20
+J. Birdi et al.
+Furthermore, in terms of the calibration, the results have shown the
+importance of calibrating for full Jones matrix, including DDEs and
+off-diagonal terms, to mitigate the artefacts appearing otherwise
+in the reconstructed images. Calibration of off-diagonal terms in
+Jones matrices, denoting the polarization leakage, has been shown
+to be particularly crucial to obtain high dynamic range images.
+Although in this ﬁrst presentation of the proposed algorithm
+we have dealt with simulated data, the good performance obtained
+by this approach unveil it as a promising joint calibration and imag-
+ing technique in RI. Keeping this in mind, we plan to investigate its
+performance on real RI data sets in near future. We further note
+that in practice, the polarization angle deduced from reconstructed
+Stokes Q and U images can suffer from a unitary rotational ambi-
+guity in the measurement model (Hamaker 2000; Smirnov 2011).
+A way to tackle this problem could be to add in the minimization
+problem some prior information about this rotation, that can be ob-
+tained from external calibration.
+Another possible direction of work is to extend the proposed
+framework to account for hyperspectral data. While on the calibra-
+tion part it would involve incorporation of DIEs/DDEs variation
+with observation frequency (Dabbech et al. 2019), the imaging part
+would need to be extended for wide-band polarimetric imaging,
+leveraging the adaptability offered by the currently developed ap-
+proach.
+ACKNOWLEDGEMENTS
+We would like to thank R. Perley from NRAO for providing the two
+sets of images used for simulation studies. This work was supported
+by the UK Engineering and Physical Sciences Research Council
+(EPSRC, grant EP/M011089/1).
+References
+Akiyama K., et al., 2017, ApJ, 838, 1
+Bhatnagar S., Cornwell T. J., 2004, A&A, 426, 747
+Bhatnagar S., Cornwell T., 2017, The Astronomical Journal, 154, 197
+Bhatnagar S., Rau U., Golap K., 2013, ApJ, 770, 91
+Birdi J., Repetti A., Wiaux Y., 2018a, in 2018 IEEE 10th Sensor Array and
+Multichannel Signal Processing Workshop (SAM). IEEE, pp 465–469
+Birdi J., Repetti A., Wiaux Y., 2018b, MNRAS, 478, 4442
+Candès E., Romberg J., Tao T., 2006, IEEE Trans. Inf. Theory, 52, 489
+Candès E., Wakin M., Boyd S., 2008, J. Fourier Anal. Appl., 14, 877
+Carrillo R., McEwen J., Wiaux Y., 2012, MNRAS, 426, 1223
+Carrillo R., McEwen J., Van De Ville D., Thiran J.-P., Wiaux Y., 2013, IEEE
+Signal Process. Lett., 20, 591
+Carrillo R., McEwen J., Wiaux Y., 2014, MNRAS, 439, 3591
+Chaux C., Combettes P. L., Pesquet J.-C., Wajs V. R., 2007, Inverse Prob-
+lems, 23, 1495
+Chen S. S., Donoho D. L., Saunders M. A., 2001, SIAM Rev., 43, 129
+Chierchia G., Pustelnik N., Pesquet J.-C., Pesquet-Popescu B., 2015, Sig.
+Image Vid. Process., 9, 1737
+Chouzenoux E., Pesquet J.-C., Repetti A., 2016, J. Global Optim., pp 1–29
+Combettes P. L., Pesquet J.-C., 2011, Fixed-Point Algorithms for Inverse
+Problems in Science and Engineering. Springer, New York
+Combettes P. L., Duñg D., V˜u B. C., 2011, J. Math. Anal. Appl., 380, 680
+Condat L., 2013, J. Opt. Theory Appl., 158, 460
+Cornwell T. J., 2008, IEEE J. Sel. Top. Sig. Process., 2, 793
+Dabbech A., Onose A., Abdulaziz A., Perley R. A., Smirnov O. M., Wiaux
+Y., 2018, MNRAS, 476, 2853
+Dabbech A., Repetti A., Wiaux Y., 2019, in International BASP Frontiers
+workshop 2019.
+Donoho D. L., 2006, IEEE Trans. Inf. Theory, 52, 1289
+Donoho D., Johnstone I., Kerkyacharian G., Picard D., 1995, J. R. Stat. Soc.
+Ser. B, 57, 301
+Fessler J. A., Sutton B. P., 2003, IEEE Trans. Signal Process., 51, 560
+Garsden H., et al., 2015, A&A, 575, A90
+Ginzburg V., Syrovatskii S., 1965, Ann. Rev. Astron. Astrophys., 3, 297
+Hamaker J. P., 2000, A&A Supp.Ser., 143, 515
+Hamaker J., Bregman J., Sault R., 1996, A&A Supp.Ser., 117, 137
+Högbom J. A., 1974, A&A, 15, 417
+Intema H., Van der Tol S., Cotton W., Cohen A., Van Bemmel I., Röttgering
+H., 2009, A&A, 501, 1185
+Kazemi S., Yatawatta S., Zaroubi S., Lampropoulos P., De Bruyn A., Koop-
+mans L., Noordam J., 2011, MNRAS, 414, 1656
+Mallat S. G., 2009, A wavelet tour of signal processing : the Sparse way.,
+2nd edn. Academic Press, Burlington, MA
+Moré J., 1978, The Levenberg-Marquardt algorithm: implementation and
+theory. Springer, Berlin, Heidelberg
+Moreau J.-J., 1965, Bull. Soc. Math. France, 93, 273
+Noordam J. E., 2004, in Ground-Based Telescopes. pp 817–826
+Onose A., Carrillo R., Repetti A., McEwen J., Thiran J., Pesquet J.-C.,
+Wiaux Y., 2016, MNRAS, 462, 4314
+Onose A., Dabbech A., Wiaux Y., 2017, MNRAS, 469, 938
+Pacholczyk A., 1970, Radio astrophysics: Nonthermal processes in galactic
+and extragalactic sources. Freeman,San Francisco
+Pesquet J.-C., Repetti A., 2015, J. Nonlinear Convex Anal., 16, 2453
+Pratley L., Johnston-Hollitt M., 2016, MNRAS, 462, 3483
+Pratley L., McEwen J. D., d’Avezac M., Carrillo R. E., Onose A., Wiaux
+Y., 2017, MNRAS, 473, 1038
+Repetti A., Wiaux Y., 2017, in Wavelets and Sparsity XVII 2017. Interna-
+tional Society for Optics and Photonics, p. 103941W
+Repetti A., Birdi J., Dabbech A., Wiaux Y., 2017, MNRAS, 470, 3981
+Rudin L., Osher S., Fatemi E., 1992, Phys. D: Nonlinear Phenomena, 60,
+259
+Salvini S., Wijnholds S., 2014, A&A, 571, A97
+Smirnov O., 2011, A&A, 527, A107
+Thompson A., Moran J., Swenson G., 2001, Interferometry and Synthesis
+in Radio Astronomy. Wiley-Interscience, New York
+Thouvenin P.-A., Repetti A., Dabbech A., Wiaux Y., 2018, in 2018 IEEE
+10th Sensor Array and Multichannel Signal Processing Workshop
+(SAM). IEEE, pp 475–479
+Van Weeren R., et al., 2016, The Astrophysical Journal Supplement Series,
+223, 2
+V˜u B., 2013, Adv. Comp. Math., 38, 667
+Wiaux Y., Jacques L., Puy G., Scaife A., Vandergheynst P., 2009, MNRAS,
+395, 1733
+Wiaux Y., Puy G., Vandergheynst P., 2010, MNRAS, 402, 2626
+Yatawatta S., Zaroubi S., De Bruyn A., Koopmans L., Noordam J., 2009, in
+DSP Workshop and 5th IEEE SPE Workshop, 2009.. pp 150–155
+APPENDIX A: TABLE OF NOTATIONS
+A list of useful notations and algorithmic parameters to be conﬁg-
+ured are provided in Table A1.
+This paper has been typeset from a TEX/LATEX ﬁle prepared by the author.
+MNRAS 000, 1–20 (2019)
+Joint DDE calibration and Stokes imaging for RI
+21
+S0
+Stokes matrix containing the high amplitude,
+thresholded part of S obtained with 1GC
+E
+Stokes matrix containing the unknown part of S
+Dt,α
+DDEs for antenna α and time instant t
+Uα,1 = Uα,2 = Uα
+Compact-support Fourier kernels corresponding
+to Dt,α
+U1 (and U2)
+Concatenation of matrices (Uα,1)1⩽α⩽na
+(and (Uα,2)1⩽α⩽na))
+K and P
+Support sizes in spatial and temporal
+Fourier domains of DDEs, respectively
+L(i) and J(i)
+Number of inner-loop FB iterations for DDEs and
+images updates, respectively
+η = [η1, η2, η3]
+Regularization parameters for the images
+γ
+Regularization parameter for the DDEs
+εU and εE
+Stopping criterion for the DDEs and images
+update, respectively
+ε0
+Global stopping criterion for Algorithm 1
+Table A1. Important variable notations and conﬁgurable algorithmic pa-
+rameters for Polca SARA method (Algorithm 1).
+MNRAS 000, 1–20 (2019)

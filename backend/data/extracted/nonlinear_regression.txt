@@ -1,0 +1,778 @@
+arXiv:2001.09265v1  [nlin.CG]  25 Jan 2020
+Elementary Cellular Automata along with delay sensitivity can model communal riot
+dynamics
+Souvik Roy,∗Abhik Mukherjee,† and Sukanta Das‡
+(Dated: January 28, 2020)
+This work explores the potential of elementary cellular automata to model the dynamics of riot.
+Here, to model such dynamics, we introduce probabilistic loss of information and delay perturbation
+in the updating scheme of automata to capture sociological parameters - presence of anti-riot popu-
+lation and organizational presence of communal forces in the rioting society respectively. Moreover,
+delay has also been incorporated in the model to capture the non-local interaction of neighbours.
+Finally, the model is veriﬁed by a recent event of riot that occurred in Baduria of West Bengal,
+India.
+I.
+INTRODUCTION
+Riots and their dynamics have been a popular topic
+to sociologists and historians [1–9]. In a parallel journey,
+computer scientists and mathematicians have found their
+interest in the study of riots, with a target to mathemat-
+ically model their dynamics [10–19]. The most popular
+approach of developing such models is to adopt epidemi-
+ological framework [10–13, 17]. For example, 1960’s Los
+Angeles (1965) - Detroit (1967) - Washington D.C. (1968)
+riots [10], 2005 French riot [11], 2011 London riots [12]
+etc. have been modelled using this approach. Recently,
+non-local interactions along with neighbourhood depen-
+dency of elements of the system have been introduced
+in the models of riots [11, 13, 16, 20]. It is argued that
+due to the globalization and the advent of communica-
+tion technology, long range, that is, non-local commu-
+nications among elements are necessary to better model
+the dynamics of riots.
+In this scenario, we undertake this research to show
+that the elementary cellular automata (ECAs) which rely
+only on local neighbourhood dependency can eﬃciently
+model the dynamics of riots, if the neighbourhood de-
+pendency is delay sensitive. In particular, to model riot
+dynamics by ECAs, we introduce ‘probabilistic loss of in-
+formation perturbation’ and ‘delay perturbation’ in the
+updating scheme of the automata. We observe that due
+to this updating scheme, the ECAs show a new kind of
+dynamical behaviour, which suggests us that some ECAs
+can be better model of riot. Finally, to validate our claim,
+we take into consideration a recent riot that happened in
+Baduria of West Bengal, India. Since media reports do
+not always reﬂect the ground realities of riots, we orga-
+nized an extensive ﬁeld study in Baduria to get insight
+∗svkr89@gmail.com; Department of Information Technology, In-
+dian Institute of Engineering Science and Technology, Shibpur,
+Howrah, West Bengal, India 711103.
+† abhikm.kol@gmail.com; Computer Science and Technology, In-
+dian Institute of Engineering Science and Technology, Shibpur,
+Howrah, West Bengal, India 711103.
+‡ sukanta@it.iiests.ac.in; Department of Information Technology,
+Indian Institute of Engineering Science and Technology, Shibpur,
+Howrah, West Bengal, India 711103.
+about rioting dynamics.
+Here, in the proposed ECA based model, probabilistic
+loss of information perturbation rate is related to socio-
+logical factor such as the presence of anti-riot population
+in the rioting society. Similarly, the presence of commu-
+nal elements in society, which plays a role to regenerate
+rioting spontaneity in the rioting society, indicates the
+physical implication of delay in the system. However, the
+inherent property of CA is local interaction which contra-
+dicts the recent trends of considering non-locality in the
+age of globalization [11, 13, 16, 20]. The delay passively
+induces a non-locality in the environment. To illustrate,
+the updated state information of a cell at time t reaches
+to its neighbouring cell at t+n time step where n depicts
+delay for the cell and its neighbouring cell. This implies,
+non-local information from distance n reaches to the cor-
+responding neighbouring cell. The presence of communal
+organization in society, which physically indicates delay
+in the system, induces this non-locality to regenerate the
+rioting spontaneity.
+II.
+DELAY SENSITIVE CELLULAR
+AUTOMATA
+Here, we work with simple one-dimensional three-
+neighbouring two-state cellular automata, which are
+commonly known as elementary cellular automata (ECA)
+[21]. The next state of each CA cell is determined as St+1
+i
+= f(St
+i−1,St
+i ,St
+i+1) where f is the next state function,
+St
+i−1,St
+i,St
+i+1 are the present states of left, self and right
+neighbour of the i-th CA cell at time t, respectively. The
+local transition function f: {0, 1}3 →{0, 1} can be ex-
+pressed as eight arguments of f. The decimal counterpart
+of eight next state is referred as ‘rule’. Each rule is asso-
+ciated with a ‘decimal code’ w, where w =f(0, 0, 0).20 +
+f(0, 0, 1).21 + · · · + f(1, 1, 1).27, for the naming purpose.
+There are 28(256) ECA rules, out of which 88 are mini-
+mal representative rules and the rest are their equivalent
+[22]. Classically, all the cells of a CA are updated simul-
+taneously. In the last decade, researchers have explored
+dynamics of CA under asynchronous updating schemes
+[23–30].
+Classically, in ECA, delay and probabilistic loss of in-
+2
+formation during information sharing among the neigh-
+bouring cells is not considered.
+In traditional cellular
+automata, if a cell updates its state at time t, then that
+state information is available to neighbouring cell at time
+t + 1. To deﬁne the delay involved in sharing of infor-
+mation for two neighbouring cells i and j (i ̸= j), we
+introduce a non-negative integer function D(i,j). In the
+proposed system, D(i,j) = D(j,i) ⩾1 for any pair of
+neighbouring cells i and j. To illustrate, D(i,j) = n in
+the system implies, if cell i updates its state at time t,
+then the updated state information is available to cell j
+at time t + n. In the proposed system, the delays are
+non-uniform in space; i.e. D(i,j) may be diﬀerent from
+D(i′,j′), where i and j; i′ and j′ are neighbouring cells,
+however, the delays are uniform in time. Practically, the
+delay perturbation parameter d ∈N assigns the maxi-
+mum possible delay in the proposed CA system. Every
+pair of neighbouring cells are randomly initialized with
+delay between 1 to d following a uniform distribution.
+For the loss of information, one can consider that the
+delay is ∞(inﬁnity). Here, ι (0 ≤ι ≤1) indicates the
+probabilistic loss of information perturbation rate.
+Now, for introducing probabilistic loss of information
+and delay in the system, each cell has to maintain state
+information of neighbours to get a view of neighbour’s
+state. In the proposed system, each cell has a view about
+the states of its neighbours which may change from time
+to time depending on the arrival of state information
+about neighbours. However, the cells act depending on
+the current state information about neighbours at that
+time. In this context, the state set is distinguished into
+two parts - the actualstate (self) of a cell and a vec-
+tor of neighbour’s viewstate. Now, the state set can be
+written as S′ = S × S2. Therefore, for a cell c, conﬁgu-
+ration at time t is distinguished into two parts - at
+c and
+vt
+c where at
+c ∈S is the actualstate and vt
+c ∈S2 is the
+vector of viewstate of left and right neighbours. Note
+that, the actualstate set S is suﬃcient to represent tra-
+ditional CA. Here, in the proposed CA system, the local
+transition function is also sub-divided into two parts - in
+the ﬁrst state update step, a cell changes its actualstate
+depending on the actualstate of the self and viewstates of
+neighbours; and, in the second information sharing step,
+the cell shares its updated actualstate to its neighbouring
+cells. Now, the local transition function can be written as
+f ′ = fu◦fs, where, fu is the state update function, and fs
+is the information-sharing function. Here, the operator
+‘◦’ indicates that the functions are applied sequentially
+to represent the actual update.
+To illustrate, Fig 1 depicts a simple 3-cell ECA, where
+D(i-1,i) = D(i+1,i-1) = 1 and D(i,i+1) = 2. In Fig. 1,
+each cell has a view about the states of neighbours, i.e.
+left and right one for each cell. For every time step, the
+ﬁrst step (dotted line) shows the state update function
+and the second step (straight line) shows the informa-
+tion sharing function. Here, the information about state
+change of cell i (resp. cell i+1) at ﬁrst time step reaches
+to cell i+1 (resp. cell i) at third time step due to de-
+i−1
+i
+i+1
+t
+t+1
+t+2
+FIG. 1. Example of delay and probabilistic loss of information
+perturbation updating scheme. The applied rule is ECA 50.
+lay perturbation. In Fig 1, the information about state
+change of cell i at ﬁrst time step does not reach to cell
+i-1 at second time step due to probabilistic loss of infor-
+mation perturbation.
+To sum up, the proposed CA system depends on the
+following two parameters : (i) The delay perturbation
+parameter d ∈N indicates the maximum delay limit of
+the system; (ii) The probabilistic loss of information per-
+turbation rate ι (0 ≤ι ≤1) indicates the probabilistic
+loss of information during information sharing.
+III.
+MODELING OF RIOTS
+A.
+Dynamic behaviour
+To model the riot dynamics, we investigates the gen-
+erative behaviour of the proposed ECA system. During
+this study, we start with the smallest possible seed pat-
+tern as initial conﬁguration where a single cell is in state
+1, i.e. ⟨· · · 0001000 · · ·⟩. From modelling and theoreti-
+cal research point of view, investigating dynamics of seed
+patterns starting with single cell in state 1 is well estab-
+lish research approach [31–33]. From the physical impli-
+cation point of view, the initial seed with a single cell in
+state 1 represents the triggering event of riots.
+Here, we study the qualitative behaviour of the system
+starting from a single seed where we need to look at the
+evolution of the conﬁguration, i.e. space-time diagrams,
+by inspection over a few time steps. Though this is not
+a formal method, but this approach can provide a good
+comparison. Note that, this generative behaviour study
+does not include 29 odd ECAs, out of 88 minimum rep-
+resentative ECAs, which have local transition function
+f(0, 0, 0) = 1. For odd ECAs, an empty background con-
+ﬁguration, i.e. · · · 000 · · ·, evolves to · · · 111 · · · which is
+unable to produce the generative behaviour of the sys-
+tem. Therefore, for even 59 rules, ECA depicts following
+behaviours - (i) Evolution to zero: after one time step,
+the seed cell in state 1 has vanished; (ii) Constant evolu-
+tion: the initial seed remains unchanged during the evo-
+lution of the system; (iii) Left evolution: the seed shifts
+or grows in the left side; (iv) Right evolution: the seed
+3
+ECA 14
+ECA 60
+ECA 30
+ECA 18
+FIG. 2. The samples of space time diagrams for the proposed updating schemes - (top) d = 1, ι = 0.0; (middle) d = 1, ι = 0.5;
+(bottom) d = 2, ι = 0.5.
+shifts or grows in the right; (v) Growth behaviour: the
+seed cell develops into a pattern for both left and right
+side. Fig. 2 depicts left evolution for ECA 14, right evo-
+lution for ECA 60 and growth behaviour for ECA 30.
+Table I shows the classiﬁcation of ECAs depending on
+the generative behaviour.
+Evolution to Zero:
+0
+8
+32
+40
+72
+104 128 136
+160 168 200 232
+Constant evolution:
+4
+12
+36
+44
+76
+108 132 140
+164 172 204
+Left evolution:
+2
+6
+10
+14
+34
+38
+42
+46
+74
+78
+106 130 134 138 142 162
+170
+Right evolution:
+24
+28
+56
+60
+152 156 184
+Growth behaviour:
+18
+22
+26
+30
+50
+54
+58
+90
+146 150 154 178
+TABLE I. Classiﬁcation of ECA rules depending on the gen-
+erative behaviour.
+Here, the target of this simple classiﬁcation is to iden-
+tify the ECAs which develop into a pattern for both left
+and right side, i.e. growth behaviour. Here, we make
+a sensible simple assumption that the riot propagation
+aﬀects every neighbour, i.e. both left and right for ECA.
+Therefore, 12 ECAs, out of 88, with growth behaviour are
+our target for modelling riot dynamics. In this context,
+note that, Redeker et. al. [31] classiﬁes the behaviour
+of traditional synchronous CA starting from a single
+seed into - ‘evolution to zero’,‘ﬁnite growth’,‘periodic
+patterns’,‘Sierpi`nski patterns’ and ‘complex behaviour’
+which have no clear equivalence to Wolfram’s classes [34].
+‘Evolution to zero’ class only shows similarity with this
+study. Here, the stable structure gets quickly destroyed
+in the presence of delay and probabilistic loss of informa-
+tion perturbation. As an evidence, in Fig. 2, fractal-like
+Sierpi`nski patterns [31] are destroyed for ECA 18 under
+the proposed system. Therefore, now, the target of this
+study is to identify candidate ECAs from 12 growth be-
+haviour ECAs to model the riot dynamics.
+B.
+Candidate ECAs for modelling riots
+Let us assume that the riot dynamics has two phases
+- spreading phase and diminishing phase. So, we choose
+4 candidate ECAs, out of 12, which show phase transi-
+tion under the proposed updating scheme, to model the
+riot dynamics (as an example, see ECA 18 in Fig 2).
+For these four ECAs 18, 26, 50 and 146, out of 88 min-
+imal representative rules, there exists a critical value of
+4
+FIG. 3. The samples of space time diagrams depicting phase
+transition - (left) d = 1, ι = 0.3; (middle) d = 1, ι = 0.4;
+(right) d = 1, ι = 0.5.
+probabilistic loss of information perturbation rate which
+distinguishes the behaviour of the system in two diﬀer-
+ent phases - passive phase (i.e. the system converges to a
+homogeneous ﬁxed point of all 0’s) and active phase (i.e.
+the system oscillates around a non-zero density). As an
+example for ECA 50, Fig. 3(left) depicts the active phase
+for probabilistic loss of information perturbation rate 0.3
+(ι = 0.3), however, a phase transition from active to pas-
+sive phase is observed in Fig. 3(right) where ι = 0.5. As
+physical implication with respect to rioting dynamics, the
+diminishing phase is not observed without the presence
+of certain percentage of anti-riot population, i.e. prob-
+abilistic loss of information perturbation rate. However,
+presence of certain percentage of anti-riot population in
+the society leads to passive phase in the diminishing riot-
+ing dynamics. According to [24],this phase transition be-
+longs to the directed percolation universality class. Note
+that, in the literature of rioting dynamics research, the
+idea of critical threshold was also discussed in [13, 35] for
+understanding level of social tension to start a riot and
+suﬃciently large number of protests to start a revolution
+respectively.
+ECA ιc
+d=1 ιc
+d=2 ιc
+d=3 ιc
+d=4
+18
+.27
+.38
+.46
+.48
+26
+.51
+.54
+.63
+.67
+50
+.48
+.50
+.53
+.55
+146
+.32
+.43
+.46
+.50
+TABLE II. The critical value for phase transition of ECA
+18, 26, 50 and 146.
+Now, to understand the quantitative behaviour of these
+candidate rules, we let the system evolve through 2000
+time steps and average the density parameter value for
+100 time steps. Note that, for a conﬁguration x ∈SL,
+the density can be deﬁned as d(x) = #1x/|x|, where #1x
+is the number of 1’s in the actualstate for the conﬁgura-
+tion and |x| is the size of the conﬁguration. Fig. 4 shows
+the plot of the proﬁle of density parameter starting from
+a single ‘1’ seed as a function of the probabilistic loss of
+information perturbation rate with a ﬁxed d parameter
+for ECA rules which depicts phase transition behaviour.
+Table II depicts the critical value of probabilistic loss of
+information perturbation rate for phase transition asso-
+ciated with these ECA rules where ιc
+d=k indicates the
+critical value with d parameter value k. Note that, the
+critical value for phase transition increases when the up-
+dating scheme is also associated with delay perturbation,
+see Table II for evidence. Moreover, the critical value
+of probabilistic loss of information perturbation rate for
+phase transition proportionally increases with increasing
+value of delay.
+Table II justiﬁes that the diminishing
+phase of riot needs more percentage of anti-riot popu-
+lation in the presence of sociological factor delay. Note
+that, this phase transition result is not observed for only
+delay perturbation updating scheme. To sum up, ECAs
+18,26,50,146 are the ﬁnal candidate rules for modelling ri-
+oting dynamics. Therefore, now, the target is to identify
+the best candidate rule among those ECAs for valida-
+tion of Baduria riot dynamics. In this scenario, the next
+section depicts the case study comprising Baduria riot’s
+dataset.
+IV.
+BADURIA RIOT AND THE PROPOSED
+SYSTEM
+A.
+Baduria riot dataset
+Attracting nationwide media attention, Baduria riot is
+the most well-exposed among recent Bengal’s riot events
+[36, 37]. The triggering event of Baduria riot took place
+after a social media religious post by a 17-year old student
+in a village Baduria of West Bengal on 2nd July, 2017.
+This social media post was seen as objectionable and
+went viral in Baduria. Starting with this, violent clashes
+were triggered between the two communities of Baduria,
+Basirhat, Swarupnagar, Deganga, Taki and Haroa sub-
+division.
+Here, we base our analysis here on reported incidents
+in media reports during Baduria rioting time. The au-
+thenticity of media report data is cross veriﬁed with ﬁeld
+study. We extract riot like events, as examples ‘attack
+on police vehicles’, ‘serious injuries’, ‘group clashed’ etc.,
+from 20 media reports [38–57] to build the data set. In
+the literature, the traditional methodology for quantify-
+ing the rioting activity is to study the daily crime reports
+of police data for analysing the riot dynamics [11, 12].
+However, this methodology suﬀers due to lack of data on
+rioting event geographically located in third-world coun-
+5
+FIG. 4. The plot shows the proﬁle of density parameter as a function of the probabilistic loss of information perturbation rate
+with a ﬁxed d parameter for ECA rules.
+Baduria
+Deganga
+Basirhat
+Basirhat
+Taki
+Swarupnagar
+Haroa
+Day1: 02/07/17
+Day2: 03/07/17
+Day3: 04/07/17
+Day4: 05/07/17
+Day5: 06/07/17
+Day6: 07/07/17
+Day7: 08/07/17
+Day8: 09/07/17
+FIG. 5. Graphical riot propagation dynamics of Baduria riot.
+try. Note that, arrest records, though available, do not
+indicate communal riot as explicit reason for the arrest.
+Here, we adopt two simple methodology for quantify-
+ing the rioting activity: Firstly, we deﬁne as a single event
+any rioting-like act, as listed in the media reports after
+ambiguity checking, depending on its intensity.
+Thus,
+‘rail blockades at 3 places’ counts as 3 events, ‘three
+police vehicles have been torched’ indicates 3 riot like
+events. We thus get a dataset composed of number of
+riot like events for every day from July 2 to July 9, 2017.
+Secondly, we quantify rioting activity from area (by sq.
+km.) aﬀected by riot on a day to day basis from media
+reports. Fig. 5 reﬂects the spatial propagation of riot dy-
+namics. It is not possible to quantify some important riot
+events, like (number of) group clashes, road blockades,
+market/shop/school closure, from media reports. There-
+fore, we quantify those rioting events by area aﬀected in
+riots day-wise. Figure 6 shows number of attack events
+on (a) police (vehicles, stations, persons); (b) religious
+place, home, rail line and serious injuries; (c) aﬀected
+area (in sq. km.) over the of time course.
+Now, we calculate the summation of percentage of in-
+tensity per rioting day, out of total intensity, for the ri-
+oting event datasets of Fig. 6(a),(b),(c). Hereafter, the
+percentage of intensity per rioting day of this summa-
+rized intensity indicates the normalized overall intensity
+of Baduria riot which is reﬂected in Figure 6(d). Here,
+we work with this normalized overall intensity to under-
+stand rioting dynamics, which shows simple growth (up)
+and shrink (down) dynamics. Note that, this simple up
+and down dynamics, without any rebound, was also ob-
+served for 2005 French riots [11] and US ethnic riots [10].
+With a contradiction, the dynamics with up and sudden
+down (i.e. rise for four days and suddenly down on ﬁfth
+day) was found in 2011 London riots [12, 13].
+On a diﬀerent internal dynamics perspective, the prop-
+agation dynamics of Baduria riot depends on the local
+communication of violent events [58] and local rumour
+propagation [59], [60]. However, during the riot event a
+parallel journey of religious harmony is also reported in
+media [39, 40] which ﬁnally converted the dynamics of
+the event as an early diminishing riot event. The ﬁeld
+data also reﬂects this evidence [61], [62].
+In this context, anti-riot population of society does not
+participate in this rumour propagation. Moreover, they
+play an important role in the early diminishing dynamics
+of the riots. Here, the term ‘anti-riot’ population is com-
+posed of following population - ﬁrstly, the secular pop-
+ulation of society [39, 40]; secondly, not ‘purely’ secular
+population, however, due to the economical dependency
+they play an anti-riot role during the riot time [63].
+B.
+Veriﬁcation
+Now, this ﬁnding is mapped with the best candidate
+rule among ECA 18, 26, 50, 146 for modelling the Baduria
+rioting dynamics.
+To compare the CA dynamics and
+Baduria riot dynamics, here, we let the system evolve
+starting from a single state ‘1’ seed and average the den-
+sity parameter value for every 100 time steps which de-
+6
+(a)
+(b)
+(c)
+(d)
+FIG. 6. The plot shows quantiﬁed rioting activity for every day from July 2 to July 9, 2017 of (a) attack on police (vehi-
+cles,stations,persons); (b) attack on religious place, home, rail line and serious injuries; (c) aﬀected area in riot (by sq. km.);
+(d) normalized overall intensity.
+ﬁnes one single time unit (∴1 time step ≈15 minute).
+Therefore, the normalized density parameter and normal-
+ized overall intensity of Baduria riot are the parameters
+for comparison in this study. Note that, normalized den-
+sity parameter is also calculated following the similar
+procedure of calculating normalized overall intensity pa-
+rameter. Fig. 7 shows the proﬁle of normalized density
+parameter or normalized overall intensity of Baduria riot
+as a function of the time series.
+According to Fig. 7,
+ECAs 26 and 146 show similar dynamics with Baduria
+riot, however, ECAs 18 and 50 come up with ‘late’ con-
+vergence dynamics for critical probabilistic loss of infor-
+mation perturbation rate (ιc) where d = 1.
+We iden-
+tiﬁed the best ﬁtting CA model using the standard root
+mean square deviation =
+sPT
+t=1(x1,t −x2,t)2
+T
+where x1,t
+and x2,t depict the time series normalized overall inten-
+sity of Baduria riots and density parameter value of CA
+model respectively. Here, ECA 26 (d = 1 and ιc = .51)
+shows the best ﬁtting attitude with Baduria riot data
+where the root mean square deviation = 0.064.
+Note
+that, ECA 18, 50 and 146 are associated with root mean
+square derivation value 0.129, 0.138 and 0.071 respec-
+tively. The best ﬁtting CA with d = 1 depicts the evi-
+dence of no major presence of organized communal force
+in the rioting society. Note that, the ﬁeld data also re-
+ﬂects this absence. Fig. 8 depicts the evidence associated
+with ‘late’ convergence with increasing value of delay per-
+turbation parameter for these ECA rules. Without pres-
+ence of organized communal force, the rioting society re-
+acts spontaneously and a simple up and down dynamics
+is reﬂected. However, increasing rebound dynamics is ob-
+served for increasing value of delay perturbation param-
+eter, see Fig. 8 as evidence. As an insight, the rebound
+dynamics indicates that organized communal force plays
+role for regenerating the spontaneity of rioting in the so-
+ciety.
+The proposed model only veriﬁes rioting dynamics of
+West Bengal event. However, as a discussion, ECA 146
+depicts similar sudden-down dynamics of 2011 London ri-
+ots [12], for evidence see Fig. 8. Moreover, Berestycki et.
+al [13] have analysed sudden spike dynamics to represent
+FIG. 7.
+The plot compares normalized overall intensity of
+Baduria riot and normalized density of ECA rules as a func-
+tion of time series. Here, d = 1 and ι = ιc.
+strong exogenous factor and slower but steady increase
+to reﬂect endogenous factors in rioting dynamics. In this
+context, ECA 18 and 50 shows similar sudden spike and
+steady growth dynamics respectively, see Fig. 8 for evi-
+dence. However, proper understanding about this simi-
+lar signature behaviour of the proposed CA system and
+exogenous-endogenous factors is still an open question
+for us. Now, depending on the wide variety of results,
+the study strongly indicates that this model is relevant
+for other rioting dynamics.
+To sumup, the study reﬂects the modelling aspects of
+the internal convergence rioting dynamics with respect to
+the sociological factors - presence of anti-riot population
+as well as organizational presence of communal forces.
+One may argue about the presence of other sociological
+factors in the rioting dynamics, however, our target is to
+propose a simple model which can able to capture the
+complex rioting dynamics. To validate our argument, we
+quote from Burbeck et al. [10] which is the pioneering
+work on epidemiological mathematical riot modelling.
+“First eﬀorts at model building in a new ﬁeld
+necessarily encounter the risk of oversimpliﬁ-
+cation, yet if the models are not kept as simple
+7
+FIG. 8. The plot shows the proﬁle of density parameter as a function of time steps with changing delay parameter for ECA
+rules. Here, the plot works with critical probabilistic loss of information perturbation rate ιc.
+as is practical they tend to become immune to
+falsiﬁcation.[10]”
+Moreover, this simple local interaction model can be able
+to capture non-locality using delay perturbation. Here,
+the proposed CA system introduces non-uniformity with
+respect to information sharing aspects, however, the sys-
+tem is associated with uniform rule. Several non-uniform
+internal dynamics are also reﬂected in Baduria incident,
+i.e. here, three types of internal dynamics (ﬁrst: loot-
+ing incident [64]; second: local resident vs refugees [65];
+third: local people vs police [66]) are reﬂected from the
+ﬁeld data. The current construction of CA model with
+uniform rule is unable to address this microscopic dynam-
+ics. Therefore, this research can be extended to explore
+the dynamics of the CA model with non-uniform rule.
+In terms of dynamical systems, the model adopts time
+varying system rather than linear time invariant system
+in the journey towards full ﬂedged non-linear dynamics.
+Acknowledgements This research is partially sup-
+ported by Impactful Policy Research in Social Science
+(IMPRESS) under Indian Council of Social Science Re-
+search, Govt. of India (P3271/220).
+The authors are grateful to Priyadarsini Sinha for her
+work as a ﬁeld data collecting team member. The authors
+are also grateful to Prof.
+Subhasis Bandopadhyay for
+enlightening discussions on this topic.
+[1] M. I. Midlarsky, American Political Science Review 72,
+996 (1978).
+[2] R. M. Govea and G. T. West, The Journal of Conﬂict
+Resolution 25, 349 (1981).
+[3] J. Bohstedt and D. E. Williams, The Journal of Interdis-
+ciplinary History 19, 1 (1988).
+[4] A. Charlesworth, Rural History 5, 122 (1994).
+[5] D. Myers, Mobilization: An International Quarterly 15,
+289 (2010).
+[6] D. J. Myers, American Sociological Review 62, 94 (1997).
+[7] S. Das, Social Scientist 18, 21 (1990).
+[8] S. Das, Communal Riots in Bengal, 1905-1947 (Oxford
+University Press, 1993).
+[9] S. Das, Modern Asian Studies 34, 281 (2000).
+[10] S. L. Burbeck, W. J. Raine,
+and M. J. A. Stark, The
+Journal of Mathematical Sociology 6, 1 (1978).
+[11] L. Bonnasse-Gahot, H. Berestycki, M.-A. Depuiset, M. B.
+Gordon, S. Roch, N. Rodriguez, and J.-P. Nadal, Scien-
+tiﬁc Reports 8 (2018).
+[12] T. P. Davies, H. M. Fry, A. G. Wilson, and S. R. Bishop,
+Scientiﬁc Reports 3 (2013).
+[13] H. Berestycki, J.-P. Nadal, and N. Rodiguez, Networks
+& Heterogeneous Media 10, 443 (2015).
+[14] B. L. Pitcher, R. L. Hamblin, and J. L. L. Miller, Amer-
+ican Sociological Review 43, 23 (1978).
+[15] D. Myers, American Journal of Sociology 106, 173
+(2000).
+[16] D. Braha, PLoS ONE 7 (2012).
+[17] P. Baudains, S. D. Johnson,
+and A. M. Braithwaite,
+Applied Geography 45, 211 (2013).
+[18] M. Granovetter, American Journal of Sociology 83, 1420
+(1978).
+[19] M. J. A. Stark, W. J. Raine, S. L. Burbeck, and K. K.
+Davison, American Sociological Review 39, 865 (1974).
+[20] S. Gonzlez-Bailn, J. Borge-Holthoefer, A. Rivero,
+and
+Y. Moreno, Scientiﬁc Reports 1 (2011).
+[21] S. Wolfram, Theory and applications of cellular automata
+(World Scientiﬁc, Singapore, ISBN 9971-50-124-4 pbk,
+1986).
+[22] W. Li and N. Packard, Complex Systems 4, 281 (1990).
+[23] N. Fat`es, J. Cellular Automata 9, 387 (2014).
+[24] S. Roy, Physica A: Statistical Mechanics and its Appli-
+cations 515, 600 (2019).
+[25] B. Sethi, S. Roy, and S. Das, Complexity 21, 370 (2016).
+[26] B. Schnﬁsch and A. de Roos, Biosystems 51, 123 (1999).
+[27] H. J. Blok and B. Bergersen, Phys. Rev. E 59, 3876
+(1999).
+[28] S. M. Reia and O. Kinouchi, Phys. Rev. E 91, 042110
+(2015).
+[29] O. Bour´e, N. Fat`es, and V. Chevrier, Natural Computing
+11, 553 (2012).
+[30] B. Sethi, S. Roy,
+and S. Das, Journal of Cellular Au-
+tomata 13, 527 (2018).
+[31] M. Redeker, A. Adamatzky, and G. J. Martinez, Interna-
+tional Journal of Modern Physics C 24, 1350010 (2013).
+[32] J. Gravner and D. Griﬀeath, Journal of Statistical
+Physics 142, 168 (2011).
+[33] J. Gravner and D. Griﬀeath, Theoretical Computer Sci-
+ence 466, 64 (2012).
+[34] S. Wolfram, Physica D: Nonlinear Phenomena 10, 1 (1984).
+8
+[35] J. Lang and H. D. Sterck, Mathematical Social Sciences
+69, 12 (2014).
+[36] INDIA TODAY (2016).
+[37] hindustan times (2018).
+[38] BBC India (2017).
+[39] FINANCIAL EXPRESS (2017).
+[40] NEWS 18 (2017).
+[41] THE NEW INDIAN EXPRESS (2017).
+[42] NDTV (2017).
+[43] hindustantimes (2017).
+[44] ﬁrstpost (2017).
+[45] Indianexpress (2017).
+[46] Firstpost (2017).
+[47] Hindustantimes (2017).
+[48] The Asian Age (2017).
+[49] Financial Express (2017).
+[50] Deccan Chronicle (2017).
+[51] Hindustan Times (2017).
+[52] The Asian Age (2017).
+[53] The New Indian Express (2017).
+[54] Eisamay (in Bengali) (2017).
+[55] Dna (2017).
+[56] Deccan Herald (2017).
+[57] Altnews (2017).
+[58] In some village there were incidents of bike burning of
+Hindu youth. On the spread of this news to some other
+village, Muslim youths in that village were beaten up.
+In this way of local communication the riot began to
+spread. Name: Hindu Salesman; Address: Vill- Choto Ji-
+rat, Basirhat; Interview date, time: 20th October, 2019,
+1:30pm at Itinda Ghat(near Icchamati River).
+[59] There were random rumours of attacks the madrasa or
+temples in the nearby villages. These rumours were prop-
+agating the riots. Name: Jallaluddin; Address: Bhabla
+halt, Basirhat; Occupation: Cycle garage owner; Inter-
+view date, time: 20th October, 2019, 3:00pm at Bhabla
+halt Station (Muslim area).
+[60] There were rumours about the attacks upon mandir-
+masjid but on his veriﬁcation he found that there were no
+such incidents. Name: Tapas Ghosh; Address: Paikpara,
+Basirhat; Occupation: Shopkeeper; Interview date, time:
+20th October, 2019, 4:00pm at Paikpara (Muslim area).
+[61] As he said a sick Muslim-youth along with his old mother
+were found sitting near the road. Out of riot fear, they
+were clueless about what to do and how to reach home.
+The Muslim-youth was discharged from hospital and was
+seen carrying saline bottles along with him. The Hindu
+salesman felt very sympathetic towards the Muslim-
+youth, he took the Muslim-youth to his house to provide
+him shelter. Due to this attitude the Hindu-neighbour of
+the Hindu-salesman at ﬁrst got angry but later on they
+understood the situation. Name: Hindu Salesman; Ad-
+dress: Vill- Choto Jirat, Basirhat; Interview date, time:
+20th October, 2019, 1:30pm at Itinda Ghat(near Iccha-
+mati River).
+[62] After the attack a Muslim doctor generously gave Rs.
+5000/- to a poor Hindu shopkeeper whose shop was
+attacked. Name:
+Tapas Ghosh;
+Address:
+Paikpara,
+Basirhat; Occupation: Shopkeeper; Interview date, time:
+20th October, 2019, 4:00pm at Paikpara (Muslim area).
+[63] There exists a dependency of Hindu-Muslim in the area,
+it is seen that Muslim workers work under Hindu owner
+and vice-versa, and also seen that they work together
+as workers, that is the main reason of early convergence
+of the riot. Name: Sambhu Seth; Address: Trimohini,
+Basirhat; Occupation: Owner of Private Eye Hospital;
+Interview date, time: 20th October, 2019, 12:00pm.
+[64] On 3rd and 4th day of July 2017 there was attack and loot
+in the Hindu shops of the area, along with a small pan and
+cigarette shop nearby. He claimed the loot was of 22lakhs
+during the incident. Out of sorrow he expressed that the
+small pan and cigarette shop received its reimbursement
+whereas others including him did not receive. In the Tri-
+mohini area the Hindu and Muslim shops are situated on
+opposite sides of the main road, due to which it is easy
+to identify the shops by their religion. In the evening
+at around 8pm of 3rd July there was an attack in the
+Rath Jatra at Trimohini which was followed by the loot
+at mid-night. Following this incident there were attacks
+and loots in the Muslim shops of the area on 5th July.
+Name: Sambhu Seth; Address: Trimohini, Basirhat; Oc-
+cupation: Owner of Private Eye Hospital; Interview date,
+time: 20th October, 2019, 12:00pm.
+[65] He said that the Hindu and Muslim residents of the area
+were united and wanted peace. He further accused to-
+wards the Bangladeshi Hindu refugees of the area. He
+also added that these Bangladeshi Hindu refugees have
+no permanent residence or land and mostly inhabits in
+the bustees of adjoining railway land. Along with these
+Bangladeshi Hindu refugees may be outsiders were in-
+volved in the riot. Name: Jallaluddin; Address: Bhabla
+halt, Basirhat; Occupation: Cycle garage owner; Inter-
+view date, time: 20th October, 2019, 3:00pm.
+[66] He said that there was no such Hindu-Muslim clash
+incident in Baduria not like Bashirhat. Mainly there
+was clash between police and the local people. Name:
+Muslim-Shopkeeper; Address: Baduria Chowmata (near
+Baduria police station); Interview date, time: 20th Oc-
+tober, 2019, 6:00pm.

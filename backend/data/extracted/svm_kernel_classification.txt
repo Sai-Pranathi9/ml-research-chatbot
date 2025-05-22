@@ -1,0 +1,1533 @@
+Draft version November 29, 2017
+Preprint typeset using LATEX style emulateapj v. 01/23/15
+THE LYα-LYC CONNECTION: EVIDENCE FOR AN ENHANCED CONTRIBUTION OF UV-FAINT
+GALAXIES TO COSMIC REIONIZATION
+Mark Dijkstra1, Max Gronke1 & Aparna Venkatesan2
+1Institute of Theoretical Astrophysics, University of Oslo, P.O. Box 1029 Blindern, N-0315 Oslo, Norway and
+2Department of Physics and Astronomy, University of San Francisco, 2130 Fulton Street, San Francisco, CA 94117I
+Draft version November 29, 2017
+ABSTRACT
+The escape of ionizing Lyman Continuum (LyC) photons requires the existence of low-NHI sightlines,
+which also promote escape of Lyman-Alpha (Lyα). We use a suite of 2500 Lyα Monte-Carlo radiative
+transfer simulations through models of dusty, clumpy interstellar (‘multiphase’) media from Gronke
+& Dijkstra (2016), and compare the escape fractions of Lyα (f Lyα
+esc ) and LyC radiation (f ion
+esc ). We ﬁnd
+that f ion
+esc and f Lyα
+esc
+are correlated: galaxies with a low f Lyα
+esc
+consistently have a low f ion
+esc , while galaxies
+with a high f Lyα
+esc
+exhibit a large dispersion in f ion
+esc . We argue that there is increasing observational
+evidence that Lyα escapes more easily from UV-faint galaxies. The correlation between f ion
+esc and f Lyα
+esc
+then implies that UV-faint galaxies contribute more to the ionizing background than implied by the
+faint-end slope of the UV-luminosity function. In multiphase gases, the ionizing escape fraction is
+most strongly aﬀected by the cloud covering factor, fcl, which implies that f ion
+esc is closely connected to
+the observed Lyα spectral line shape. Speciﬁcally, LyC emitting galaxies typically having narrower,
+more symmetric line proﬁles. This prediction is qualitatively similar to that for ‘shell models’.
+Subject headings: line: proﬁles- radiative transfer - (galaxies:) intergalactic medium - galaxies: high-
+redshift- ultraviolet: galaxies- (cosmology:) dark ages, reionization, ﬁrst stars
+1. INTRODUCTION
+The escape fraction of ionizing photons, f ion
+esc , repre-
+sents one of the key parameters describing cosmic reion-
+ization (e.g. Haiman & Holder 2003; Cen 2003; Wyithe
+& Loeb 2003; Mitra et al. 2011).
+Observational con-
+straints on f ion
+esc are still weak (see Fig 13 of Smith et al.
+2016). Ionizing photons, also known as Lyman Contin-
+uum (LyC) photons, have only been directly observed
+to escape for a handful of galaxies (e.g. Borthakur et al.
+2014; Izotov et al. 2016; Vanzella et al. 2016a, also see
+Benson et al.
+2013, Smith et al.
+2016 and references
+therein). Observations of the Lyα forest constrain the
+LyC volume emissivity (the rate at which LyC photons
+are released into the IGM per unit volume), while ob-
+servations of the UV-luminosity function of star form-
+ing galaxies provide direct constraints on the produc-
+tion rate of LyC photons. These two constraints com-
+bined constrain the volume-averaged escape fraction of
+ionizing photons, denoted with ⟨f ion
+esc ⟩, and show that
+⟨f ion
+esc ⟩increases with redshift (Inoue et al. 2006; Kuhlen
+& Faucher-Gigu`ere 2012; Becker & Bolton 2013).
+The LyC escape fraction depends on more than just
+redshift.
+Various models and simulations predict that
+f ion
+esc decreases with dark matter halo mass (e.g. Yajima et
+al. 2011; Ferrara & Loeb 2013; Paardekooper et al. 2013;
+Wise et al. 2014, but also see Gnedin et al. 2008, Ma et
+al. 2015, Sharma et al. 2016), which in turn correlates
+1 mark.dijkstra@astro.uio.no
+with observables such as the non-ionizing UV-continuum
+luminosity of galaxies. The reason that not all simula-
+tions agree on this mass-dependence is partly because
+diﬀerent studies focus on galaxies with very diﬀerent
+masses, at very diﬀerent redshifts, and diﬀerent imple-
+mentations for sub-grid physics associated with feedback,
+which can strongly aﬀect the properties of the simulated
+interstellar medium. Ab initio modeling of f ion
+esc still rep-
+resents a major theoretical challenge (see e.g. Fernandez
+& Shull 2011 for a discussion), and models may have
+to include additional physical processes such as X-ray
+heating/ionization (Benson et al. 2013), runaway stars
+(Conroy & Kratter 2012) and binary evolution (Ma et al.
+2016), all of which can facilitate the escape of ionizing
+photons.
+Irrespective of theoretical and observational uncertain-
+ties, the escape of ionizing photons requires that paths
+exist which contain low column densities of atomic hy-
+drogen, i.e. NHI <∼1/σion ≈1017 cm−2, where σion =
+6 × 10−18 cm2 denotes the photoionization cross-section
+evaluated at the Lyman limit (e.g. Verner et al. 1996).
+These same low column density paths provide escape
+routes for Lyα photons (Behrens et al. 2014, Verhamme
+et al. 2015). LyC and Lyα escape are therefore expected
+to be correlated, at least at some level (e.g. Rauch et al.
+2011, Erb et al. 2014, Micheva et al. 2016). If the escape
+of LyC photons is facilitated by (supernova-driven) winds
+that blew low-column density holes (see e.g. Dove et al.
+2000, Sharma et al. 2016), then this provides a physi-
+cal mechanism connecting f ion
+esc and f Lyα
+esc , as observations
+arXiv:1604.08208v2  [astro-ph.CO]  15 Jul 2016
+2
+Dijkstra et al.
+of Lyα emitting galaxies indicate that galactic outﬂows
+promote the escape of Lyα photons (Kunth et al. 1998,
+Atek et al. 2008, Woﬀord et al. 2013, Rivera-Thorsen et
+a. 2015, see Hayes 2015 for a review).
+The goal of this paper is to more quantitatively ex-
+plore the correlation between Lyα and LyC photons, for
+which we use a large suite of simpliﬁed models of the
+multi-phase ISM that span the wide range of physical
+conditions encountered in observed galaxies (ﬁrst pre-
+sented in Gronke & Dijkstra 2016). Yajima et al. (2014)
+previously found a clear correlation between f Lyα
+esc
+and
+f ion
+esc in their cosmological hydrodynamical simulations of
+a Milky Way-like galaxy. Their calculations should be
+viewed as a ‘bottom-up’ (or ab-initio) approach to quan-
+tifying this correlation, while our work should be viewed
+as a ‘top-down’ (or empirical) approach. As neither ap-
+proach has converged yet (see § 2), our work should be
+viewed as complementary to that of Yajima et al. (2014).
+Addressing the correlation between f Lyα
+esc
+and f ion
+esc has
+become (even) more relevant for cosmic reionization as,
+we will argue in § 4.1, there is increasing evidence that
+f Lyα
+esc
+increases towards lower UV-luminosities.
+The outline of this paper is as follows: In § 2 we present
+our models and show the predicted correlation between
+f Lyα
+esc
+and f ion
+esc in § 3. We discuss implications of our re-
+sults in § 4, before presenting our conclusions in § 5.
+2. THE MODEL
+The escape of both ionizing and Lyα photons depends
+sensitively on the distribution of neutral gas throughout
+the interstellar medium. For Lyα photons, the kinemat-
+ics of this neutral gas is possibly even more important
+(Kunth et al. 1998, Atek et al. 2008, Steidel et al. 2010,
+Woﬀord et al. 2013, Rivera-Thorsen et al. 2015). Mod-
+eling Lyα transfer on interstellar scales therefore requires
+a proper model for both the distribution and kinemat-
+ics of the neutral gas in the ISM, which likely requires
+magneto-hydrodynamical simulations with sub-pc reso-
+lution (e.g. Fujita et al. 2009, Dijkstra & Kramer 2012).
+This requirement underlines why it is important to have
+a complementary top-down approach to the bottom-up
+analysis by Yajima et al. (2014), whose simulations had
+a spatial resolution of 250h−1 comoving pc and gas mass
+resolution of M = 3 × 105h−1M⊙.
+To circumvent the demanding requirements to prop-
+erly model interstellar Lyα transfer from ﬁrst principles,
+this process has been represented by highly simpliﬁed
+models, which include (i) the ‘shell’ model, which con-
+sists of a Lyα source surrounded by a geometrically thin
+shell of neutral, dusty hydrogen, which is (typically) out-
+ﬂowing (see e.g. Ahn et al. 2003, Verhamme et al. 2006,
+Gronke et al. 2015a). The shell model -which contains
+seven free parameters - has been remarkably successful
+at reproducing observed Lyα spectra line proﬁles (e.g.
+Verhamme et al.
+2008, Hashimoto et al.
+2015, Yang
+et al. 2016, though some issues have been pointed out
+by Barnes & Haehnelt 2010, Kulas et al. 2012, Chonis
+et al.
+2013); and (ii) the ‘clumpy ISM’ model, which
+consists of a (large) collection of spherical clumps that
+contain dusty, neutral hydrogen gas, embedded within a
+hot inter-clump medium, and which represent simpliﬁed
+versions of multiphase interstellar media (e.g. Neufeld
+1991, Hansen & Oh 2006, Laursen et al. 2013, Gronke
+& Dijkstra 2014). Clumpy models naturally give rise to
+a non-zero porosity of the neutral gas, and a ‘continuum
+covering factor’ of neutral gas that is less than 100&,
+both of which facilitates Lyα escape (e.g. Shibuya et al.
+2014, Trainor et al. 2015, Rivera-Thorsen et al. 2015).
+Both sets of simpliﬁed models can be interpreted as ‘sub-
+grid’ models that describe the Lyα transfer on scales that
+have not been modelled yet from ﬁrst principles.
+In shell models, the shell completely surrounds the Lyα
+source. The escape fraction f ion
+esc is determined by its HI
+column (NHI) as f ion
+esc (ν) = exp[−σion(ν)NHI], and f ion
+esc
+is practically binary (f ion
+esc ≈0 for NHI > 1017 cm−2 or
+f ion
+esc ≈1.0 for NHI <∼1017 cm−2). However the production
+rate of Lyα is zero for f ion
+esc ≈1.0, as nebular luminosities
+depend on f ion
+esc as ∝(1−f ion
+esc ) (e.g. Schaerer 2003). The
+shell model therefore technically only gives rise to Lyα
+emission while f ion
+esc ̸= 0 over a ﬁnely tuned narrow range
+of NHI centered on NHI ∼1017 cm−2.
+Here, we focus on the clumpy ISM models. We have
+recently constructed a large library of clumpy models
+(Gronke & Dijkstra 2016). In these models, the clumps
+have HI column densities large enough to make them
+opaque to LyC photons. However, there exist sightlines
+that do not penetrate any clumps, and which allow LyC
+photons to escape. In clumpy models, f ion
+esc is related to
+the fraction of sightlines from the LyC source(s) which do
+not intersect any clumps (this corresponds to the ‘picket
+fence model’ of Heckman et al. 2011).
+The geometry of the clumpy ISM model and its the
+main parameters are based on that described in Laursen
+et al. (2013). We refer the interested reader to these
+papers for a more detailed description on how Laursen et
+al. (2013) constrain their parameters through observed
+galaxies. Here, we only present only a brief description
+of the model.
+In the clumpy ISM model, the multiphase ISM is rep-
+resented by a large number of neutral, spherical ‘clumps’
+which are embedded within a hot gas.
+The neutral
+clumps are distributed in a sphere of radius rgal = 5 kpc.
+The clouds themselves have radius rcl. The cloud cover-
+ing factor fcl denotes the total number of clouds from the
+center of the sphere to its edge, averaged over all sight-
+lines. The content of the cold [hot] clumps [inter-clump
+medium] is described by Tcl, nHI,cl [TICM, nHI,ICM] for
+temperature2 and the number density of hydrogen, re-
+spectively. The dust optical optical depth through the
+clouds per path-length given by σdZcl/ZsunnHI where
+σd = 1.58 × 10−21 cm2 (Pei 1992; Laursen et al. 2009),
+where Zcl denotes the ‘metallicity’ of the cloud (the ICM
+has metallicity ZICM ≡ζZZcl). Following previous anal-
+yses, we assume that there is no further structure to the
+cold clumps.
+That is, we do not further split up the
+2 The temperature is deﬁned as b2 ≡2kpT/mp, where b2 =
+v2
+th+v2
+turb. Here vth [vturb] denotes the thermal [turbulent] velocity
+of the gas.
+The Lyα-LyC Connection
+3
+HI
+ICM, nHI,ICM, TICM
+vcl
+Fig. 1.— Schematic representation of the adopted geometry in our ‘clumpy ISM’ models, which represent simpliﬁed versions of multiphase
+interstellar media. A sphere or radius rcl = 5 kpc is ﬁlled with outﬂowing, neutral, dusty clumps of gas embedded within a hot interclump
+medium. The covering factor fcl denotes the average number of clumps along sightlines from the center to the edge of the cloud. The
+clumps surround a spatially extended Lyα (and LyC) source, both of which are characterized by an exponential volume emissivity proﬁle
+with scale length Hem. A fraction Pcl of all Lyα and LyC photons is emitted inside cold clumps.
+neutral clumps into ‘warm’ and ‘cold’ neutral media, as
+is the case for realistic multiphase gases (e.g. McKee &
+Ostriker 1977).
+The clumps are outﬂowing3 with a velocity proﬁle
+v(r) = v∞,cl
+(
+1 −
+ r
+rmin
+1−βcl)1/2
+(1)
+for r > rmin = 1 kpc and otherwise zero (Steidel et al.
+2010, Laursen et al. 2013). In addition to this, the clouds
+have a random, isotropic velocity distribution which is
+Gaussian with a standard deviation σcl.
+Lyα photons are emitted randomly following an ex-
+ponential radial volume emissivity proﬁle ϵLyα(r) =
+N exp(−r/Hem) where N is a normalization constang,
+and r is the distance to the center of the cloud.
+The
+photon is emitted inside a cloud with probability Pcl,
+which would force it to escape from its birthcloud ﬁrst.
+The frequency of the photon is drawn from a Gaussian
+with standard deviation σi. In all our models, we assume
+the LyC emission traces Lyα emission exactly, including
+that a fraction Pcl is emitted inside a neutral clump. The
+vast majority of the LyC photons that are emitted inside
+a cloud do not to escape.
+We thus need 14 parameters to completely character-
+ize our models4. Laursen et al. (2013) discuss plausible
+ranges for each parameter based on theoretical models,
+and observations of the ISM in the Milky Way, nearby
+dwarf galaxies, Lyα emitters (LAEs) and drop-out galax-
+ies out to z ∼6. Our ﬁducial model adopts the central
+value of the range quoted in Laursen et al. (2013) as ‘rea-
+sonable’, with the exception of the outﬂow velocity v∞,cl
+for which Laursen et al. (2013) chose deliberately small
+values. Values for each parameter are listed in Table 1
+3 Changing the sign of v(r) only ‘ﬂips’ the emerging Lyα spec-
+trum around x = 0, and leaves our fion
+esc and fLyα
+esc
+unaﬀected.
+4 Note, that the parameters given here diﬀer slightly from what
+we used in Gronke & Dijkstra (2014). There, we ignored the ﬁlling
+of the ICM since we were interested in the (enhancement of) the
+Lyα escape fraction.
+shown in the Appendix. We assembled a library of 2, 500
+spectra (using ∼10, 000 escaped photons each). We drew
+each parameter uniformly5 from the range indicated in
+Table 1, which is loosely based on the ‘extreme’ range
+in Laursen et al. (2013). This choice gives us a suite of
+empirical, simpliﬁed models of the multi-phase ISM that
+span the wide range of physical conditions encountered
+in observed galaxies.
+3. RESULTS: CORRELATION BETWEEN fion
+esc AND fLyα
+esc
+Figure 2 shows f ion
+esc as a function of f Lyα
+esc . Each cross
+represents a Monte-Carlo radiative transfer simulation
+for one random realization of a clumpy ISM model. The
+color of the cross denotes fcl.
+There are several take-away points from this plot.
+1. The 2500 models give rise to signiﬁcant variation in
+f Lyα
+esc
+(which spans ∼3 orders of magnitude) and f ion
+esc
+(which spans ∼4 orders of magnitude). Models that
+give rise to f Lyα
+esc
+>∼0.1−0.2 would correspond to galax-
+ies with relatively ‘strong’ Lyα emission, such as Lyα
+emitters. Our models therefore give rise to a popu-
+lation of ‘Lyα emitters’ and weaker Lyα sources such
+as drop-out galaxies with weak Lyα emission. Our re-
+sults also indicate that for at ﬁxed f Lyα
+esc , the dispersion
+in f ion
+esc can be large.
+2. When f Lyα
+esc
+is small, then f ion
+esc is small. Lyα photons
+are destroyed most eﬃciently when they encounter,
+and scatter in, many diﬀerent clumps. The number
+of scattering events (or ‘cloud interactions’) scales as
+Ncl ∝f 2
+cl (fcl ≫1, Hansen & Oh 2006).
+If fcl is
+larger, then the Poission probability of having clear
+sightlines becomes exponentially smaller:
+the Pois-
+son probability that a sightline from r = 0 inter-
+sects zero clumps equals6 P(Nclump = 0|fcl, r = 0) =
+5 Note that nHI,ICM, nd,ICM, TICM, Tcl, Zcl and ζZ were drawn
+uniformly in log-space.
+6 The expression for P(Nclump = 0|fcl) which properly includes
+4
+Dijkstra et al.
+10-3
+10-2
+10-1
+100
+fesc, Lyα
+10-4
+10-3
+10-2
+10-1
+100
+fesc, ion
+1.6
+2.4
+3.2
+4.0
+4.8
+5.6
+6.4
+7.2
+fcl
+Fig. 2.— The ionizing photon escape fraction, fion
+esc , as a function
+of Lyα escape fraction, fLyα
+esc , for a suite of 2500 clumpy ISM mod-
+els. Each cross represents the angle-averaged escape fraction for
+a complete Lyα Monte-Carlo radiative transfer calculation for one
+particular parametrization of the clumpy ISM model. The color of
+the crosses denote the cloud covering factor fcl. This plot shows
+that there is a correlation between the two parameters: galaxies
+with low fLyα
+esc
+have a low fion
+esc , while galaxies with high fLyα
+esc
+show
+a large spread in fion
+esc , driven strongly by fcl.
+(1 −Pcloud) exp(−fcl), where 1 −Pcloud denotes the
+probability that the LyC photon was not emitted in-
+side a cloud.
+This result may make it diﬃcult to explain inferred
+f ion
+esc ∼0.1 −0.2 for a small subset LBGs (e.g. Iwata
+et al.
+2009, Micheva et al.
+2016).
+This apparent
+discrepancy can be alleviated in ﬁve ways: (i) reso-
+nant scattering of Lyα oﬀresidual HI gas in the dif-
+fuse IGM can suppress the observed Lyα ﬂux by an
+additional factor of 1.5 −2.0 depending on redshift
+(e.g. Laursen et al. 2011), which should be applied to
+our predicted f Lyα
+esc
+when comparing to observations;
+(ii) the fraction of LBGs with claimed LyC detections
+is very small, which suggests this population is rare,
+and not captured by our analysis in spite of our cov-
+erage of a broad range of ISM physical conditions;
+(iii) While LBGs generally have smaller f Lyα
+esc
+than
+LAEs, f Lyα
+esc
+appears correlated with the Lyα EW (e.g.
+Trainor et al. 2015, Micheva et al. 2016), which itself
+scales as EW∝(1−f ion
+esc )f Lyα
+esc
+(see § 4.4).
+This sug-
+gests that those LBGs that show LyC leakage, may in
+fact have larger f Lyα
+esc
+than the LBG population as a
+whole; (iv) For very large f ion
+esc , the production rate
+of Lyα decreases, which mimicks a low f Lyα
+esc
+(see § 4.4
+for more discussion on this); (v) Each cross in Fig-
+ure 2 represents an angle-average of the escape frac-
+tions for each of the 2500 models. The ‘apparent’ f ion
+esc
+can be larger along sightlines which do not intersect
+any clumps. The Lyα escape fraction can also be en-
+hanced for these same sightlines, though scattering of
+the Lyα emissivity proﬁle ϵLyα(r) must take into account that the
+probability P(Nclump = 0|fcl, r) depends on emission direction for
+r ̸= 0. This makes the expression for P(Nclump = 0|fcl) a bit more
+complicated but preserves the exponential dependence on fcl.
+Lyα photons suppresses the angular variation of f Lyα
+esc
+(see Gronke & Dijkstra 2014). The angular variation
+of both escape fraction can be represented by replac-
+ing each cross in Figure 2 with a distribution which
+is elongated along the f ion
+esc -direction, which may help
+explain that objects exist for which f ion
+esc is high, while
+f Lyα
+esc
+is low.
+3. The dispersion in f ion
+esc at ﬁxed f Lyα
+esc
+increases with
+f Lyα
+esc . In other words, as we increase f Lyα
+esc
+the prob-
+ability of having a large f ion
+esc increases. There are a
+number of ways to boost f Lyα
+esc . These include reduc-
+ing the dust content of the neutral clumps, increasing
+the outﬂow velocity, and reducing fcl. As mentioned
+above, reducing fcl enhance the Poisson probability
+that there exist sightlines that do not intersect any
+clumps, which increases f ion
+esc . Matthee et al. (2016b)
+recently found f ion
+esc >∼60% for 8 Hα emitters (HAEs)
+out of a sample of 191. Two of these LyC emitting
+HAEs have a high f Lyα
+esc
+(Matthee et al. 2016a). For
+the remaining 6 the Lyα is not good enough (yet) to
+constrain f Lyα
+esc .
+4. The color coding of the crosses in Figure 2 show clearly
+that high f ion
+esc are those with low fcl. This again re-
+ﬂects that a lower average number density of clouds
+from the center to the edge of the ‘galaxy’ boosts the
+Poisson probability for having clean sightlines.
+The strong fcl-dependence of f ion
+esc is easily understood
+from analytic arguments. The simulations indicate that
+this result is not signiﬁcantly aﬀected by varying the
+other parameters. The black dashed line shows the best
+linear ﬁt through the collection of data points. We stress
+that the purpose of this line is to illustrate that f ion
+esc and
+f Lyα
+esc
+are correlated. The exact ‘best-ﬁt’ correlation de-
+pends on how the 14 model-parameters were sampled:
+diﬀerent PDFs for the model parameters would likely
+yield a diﬀerent best-ﬁt correlation. This may help ex-
+plain that our correlation diﬀers quantitatively from that
+found by Yajima et al. (2014), who found few objects
+with high f Lyα
+esc
+and low f ion
+esc . This diﬀerence may also
+reﬂect that (i) the simulations do not resolve the multi-
+phase interstellar medium, and may therefore not prop-
+erly capture that Lyα photons avoid destruction by dust
+by scattering oﬀthe surface of dense, neutral clumps
+which contain most of the dust, (ii) that our model ar-
+tiﬁcially enhances this surface scattering eﬀect, by rep-
+resenting the multi-phase ISM as a two-phase medium.
+We stress that the purpose of our calculations was not to
+derive the correct correlation, which would be overambi-
+tious, but rather to show that for reasonable parameters
+for the multiphase ISM, a correlation exists.
+Finally,
+it is worth mentioning that the fact that both f ion
+esc and
+f Lyα
+esc
+are aﬀected most strongly by fcl implies that the
+precise structure of the clumps (i.e. the presence of a
+‘cold neutral medium’ inside the clumps), would intro-
+duce changes that are subdominant to those introduced
+by fcl.
+4. DISCUSSION
+The Lyα-LyC Connection
+5
+4.1. The MUV-dependence of f Lyα
+esc
+The ‘Lyα fraction’ denotes the fraction of galaxies that
+have a Lyα emission line stronger than some threshold
+equivalent width.
+Observations indicate that the Lyα
+fraction increases with MUV (e.g.
+Stark et al.
+2010,
+Pentericci et al.
+2011, Caruana et al.
+2012, Ono et
+al. 2012, Schenker et al. 2012, Pentericci et al. 2014,
+Caruana et al. 2014). Gronke et al. (2015b) combined
+observations of the UV-LF with current constraints on
+the UV-dependence of the Lyα fraction, and predicted
+that Lyα-LFs should be have steeper faint ends than the
+UV-LFs.
+Speciﬁcally, if we denote the faint-end slope
+of the Lyα LF with αLyα, then αLyα = αUV −x where
+x ∼0.2 −0.4 (see Fig 2 of Gronke et al. 2015b). Recent
+measurements of faint end slope of Lyα emitter luminos-
+ity functions at z = 5.7 indicate that αLyα ∼−2.2 ± 0.2
+(Dressler et al. 2015), and that αLyα ∼−1.75 ± 0.1 at
+z ∼2 (Konno et al. 2016). These measurements agree
+well7 with prediction using Lyα fraction constraints, and
+provides independent conﬁrmation that more Lyα radi-
+ation emerges per ‘unit’ UV-ﬂux density towards lower
+UV luminosities.
+This enhanced emergence of Lyα ﬂux from UV-faint
+galaxies implies that (i) the Lyα production rate in-
+creases, and/or (ii) f Lyα
+esc
+increases towards lower UV-
+luminosities. Recent work has shown that at z ∼4 the
+ionizing photon production eﬃciency, ξion (Robertson et
+al. 2013), appears to be independent of MUV in the range
+−21 < MUV < −19 at z ∼4−5 (see Fig 1 of Bouwens et
+al. 2016, which also shows that there is still a large scat-
+ter). The Lyα production eﬃciency should then also not
+depend on MUV, as Lyα production is directly tied to
+ionizing photon production. In contrast, over this same
+range in MUV, the Lyα fraction rises rapidly (see Fig 13
+of Stark et al. 2010). This suggests that the enhanced
+visibility of Lyα ﬂux is mostly driven by an enhanced
+escape fraction, and provides the basis for our statement
+that there is observational support that f Lyα
+esc
+increases
+towards lower UV-luminosities (or towards higher MUV).
+Trainor et al. (2015) note that in LAEs with Hα detec-
+tions, the inferred f Lyα
+esc
+correlates signiﬁcantly with Lyα
+EW, which provides independent conﬁrmation that Lyα
+EW is an indicator of Lyα escape.
+Oyarz´un et al. (2016) recently found that the Lyα-
+EW PDF, and therefore the Lyα fraction, depends on
+stellar mass, M∗. This supports that f Lyα
+esc
+increases to-
+wards lower M∗. Our ﬁnding of a correlation between
+f Lyα
+esc
+and f ion
+esc then implies that f ion
+esc also increases to-
+wards lower M∗. Faisst (2016) independently came to
+this conclusion by combining the observed correlation
+between f ion
+esc and the [O III]λ5007/[O II]λ3727 line ra-
+tio, and the (anti-)correlation of this line ratio with M∗
+inferred from local high-z analogues. We stress that we
+focus on the MUV-dependence of f ion
+esc because this al-
+7 Gronke et al. (2015b) only predicted Lyα LFs at z ≥3. We
+extrapolated their predictions for αLyα to z ∼2. This same extrap-
+olation would translate to a faint-end slope of the UV-luminosity
+function at z ∼2.3 that is αUV ∼−1.5, which agrees with re-
+cent determinations (see Fig 10 of Parsa et al.
+2016), though
+not all (see e.g.
+Reddy & Steidel 2009, who found a steeper
+αUV = −1.73 ± 0.07).
+Fig. 3.— An increase in fion
+esc towards lower UV luminosities gives
+rise to a steepening of the LyC luminosity function (LF), which can
+be mimicked with a steeper UV LF and a constant fion
+esc . The top
+panel of this Figure shows the relative contribution dϵion/dMUV
+(in arbitrary units) to the ionizing volume emissivity ϵion at z = 6
+by galaxies with MUV ± dMUV/2 for the measured αUV = −1.85
+(black solid line), and steeper LFs with αUV = −2.25 (blue dotted
+line) and αUV = −2.05 (red dashed line). While we cannot pre-
+dict (yet) which αUV mimicks the true MUV-dependence of fion
+esc ,
+this plot visually illustrates the enhanced contribution of UV-faint
+galaxies to cosmic reionization. The lower panel shows the ratio
+between the models in the top panel and the ﬁducial model (shown
+as the black solid line).
+lows us to directly connect our results to the UV-LF of
+continuum selected galaxies, which is routinely used to
+quantify the LyC volume emissivity of galaxies during
+cosmic reionization.
+4.2. Implications for Reionization
+One of the main open questions in reionization is
+whether galaxies provided enough photons to reionize the
+Universe, and if so, which galaxies provided the dominant
+contribution to the ionizing background that drove reion-
+ization. These questions are commonly addressed by ex-
+trapolating the faint-end of the (non-ionizing) UV-LF of
+drop-out galaxies to some minimum UV luminosity (cor-
+responding to a maximum M lim
+UV), and then see whether
+theses galaxies provided enough photons to either reion-
+ize the Universe, or to keep it ionized (e.g. Wilkins et al.
+2011; Shull et al. 2012; Kuhlen & Faucher-Gigu`ere 2012;
+Finkelstein et al. 2012a; Robertson et al. 2013).
+This
+approach introduces two parameters related to the UV-
+LF: (i) its faint end slope (αUV), and (ii) its minimum
+cut-oﬀluminosity (M lim
+UV). For a ﬁxed set of parameters
+(αUV, M lim
+UV), the question whether galaxies reionized the
+Universe then translates to a constraint on f ion
+esc . This
+constraint on f ion
+esc represents a (weighted) average over
+the full population of UV emitting galaxies. There have
+been numerous theoretical eﬀorts to model the faint end
+slope of the UV-LF and where it may ﬂatten (e.g. Jaacks
+et al. 2013, Mason et al. 2015, O’Shea et al. 2015, Liu
+et al. 2016).
+If Lyα and LyC escape are correlated, then we also ex-
+pect f ion
+esc to increase towards lower UV luminosities. Just
+6
+Dijkstra et al.
+like the case for Lyα, if we were to plot the LyC luminos-
+ity function (i.e. the number density of galaxies as a func-
+tion of LyC luminosity), it would be steeper than the UV
+luminosity function. This steepening can be mimicked
+by a model in which f ion
+esc does not depend on MUV, and
+in which the faint-end slope of the UV-luminosity func-
+tion is made steeper.
+Figure 3 visually illustrates the
+impact of this steepening, and the top panel shows the
+relative contribution dϵion/dMUV to the ionizing volume
+emissivity ϵion by galaxies in the range MUV ± dMUV/2.
+The black solid line shows dϵion/dMUV for the ‘standard’
+Schechter function parameters at z = 6, (αUV, M∗) =
+(−1.85, −20.2) (using the ﬁtting formula from Bouwens
+et al. 2015). For the blue dotted line [red dashed line] we
+increased αUV →−2.25, which represents the steepening
+relevant for the Lyα LF [αUV →−2.05, which represents
+an intermediate case]. While we do not know which αUV
+mimicks the correct MUV dependence of f ion
+esc , it does il-
+lustrate the possible enhanced contribution of UV-faint
+galaxies to cosmic reionization8. The enhancement is il-
+lustrated in the lower panel of Figure 3 which shows the
+ratio of the models shown in the top panel. This plot
+shows that in a model with αUV = −2.25 galaxies with
+MUV ∼−16 contribute
+>∼10 times more to the total
+ionizing photon production rate than when α = −1.85.
+This model extends down to MUV = −14, which corre-
+sponds (roughly) to the limit to which the UV-LF has
+been constraint to be a power-law (see e.g Alavi et al.
+2014; Parsa et al. 2016; Livermore et al. 2016, also see
+O’Shea et al. 2015 and Liu et al. 2016 for theoretical
+arguments why the UV-LF may ﬂatten at MUV >∼−14).
+Finally, Lyα escape in clumpy ISM models – which
+were introduced to reﬂect the multi-phase nature of the
+ISM – is most strongly regulated by covering factor, and
+to a lesser extent by other parameters such as the dust
+content (Gronke & Dijkstra 2016). Star forming galax-
+ies are known to become bluer towards higher redshift,
+which is taken as evidence that star forming galaxies get
+less dusty towards higher redshifts (e.g. Finkelstein et
+al. 2012b; Bouwens et al. 2012). Our conclusions would
+break down if Lyα escape were driven entirely by the
+changing dust content of an otherwise identical scatter-
+ing medium. In this case however, we would expect both
+the width and (possibly) velocity shift of the Lyα line to
+increase with MUV, because Lyα scattering causes pho-
+tons to diﬀuse in frequency space, and to broaden the
+Lyα spectral line shape.
+If only dust were regulating
+Lyα escape, then dust would suppress this frequency dif-
+fusion and cause lines to be narrower (see e.g. Fig 8 of
+Laursen et al. 2009). The evolution in Lyα line width
+and shift predicted by the ‘pure dust’ scenario is not con-
+sistent with observations which indicate that Lyα spectra
+of Lyα emitting galaxies, if anything, tend to get nar-
+rower: Konno et al. (2016) have shown that shell-model
+ﬁts to observed Lyα line proﬁles favor increasingly low HI
+column densities towards higher z for otherwise identical
+shell model parameters. The reduced HI column density
+introduces less frequency diﬀusion, and makes Lyα line
+8 Decreasing α reduces the contribution of UV-bright galaxies,
+i.e. MUV < M∗, to dϵion/dMUV because reducing α also aﬀects
+the bright end of the luminosity function.
+proﬁles narrower9.
+In addition, there is observational
+support that the covering factor of low-ionization metal
+lines decreases with z (e.g. Jones et al. 2013). If these
+metals trace cold, neutral gas, then this supports the no-
+tion that Lyα escape increases towards higher redshift
+(at least partly) because of the evolution in the covering
+factor of neutral gas.
+4.3. Connection f ion
+esc to the Lyα Spectrum
+Figure 2 showed that f ion
+esc depends sensitively on fcl,
+which was due to the exponential dependence on fcl
+of the Poisson probability of having sightlines with no
+clumps. The parameter fcl is known to play a key role
+in Lyα transfer through clumpy media (Hansen & Oh
+2006). We have demonstrated that fcl is one the 14 pa-
+rameters of the clumpy models that most strongly aﬀects
+the emerging Lyα spectrum (Gronke & Dijkstra 2016).
+This implies immediately that f ion
+esc should be closely cor-
+related with spectral features of the Lyα line.
+Figure 4 compares Lyα spectra for 25 models with the
+highest f ion
+esc > 0.37 (right panel) to 25 models with the
+lowest f ion
+esc < 10−4 (left panel). These two panels illus-
+trate clearly that a high f ion
+esc corresponds to having nar-
+rower, more symmetric Lyα lines. Models that have the
+highest f ion
+esc show a variety in their spectra. We caution
+that the width and velocity oﬀ-set of the models with
+the lowest f ion
+esc are larger than what has been observed.
+This is likely an artefact of the models: models with the
+lowest f ion
+esc have the highest fcl ∼8. Lyα photons typ-
+ically scatter oﬀ∼f 2
+CL separate clouds before escaping
+(e.g. Hansen & Oh 2006), and each ‘cloud-interaction’
+can impart of noticeable Doppler boost on the Lyα pho-
+ton, which broadens the Lyα spectral line.
+The connection between the Lyα spectral shape and
+ionizing photon escape was pointed out previously by
+Behrens et al.
+(2014, in the context of modiﬁed shell
+models) and Verhamme et al. (2015, in the context of
+shell models). In these models, LyC escape translated
+to (i) signiﬁcant Lyα ﬂux at systemic velocity and/or
+(ii) a small peak separation (∆v <∼300 km s−1).
+In
+multiphase models, it is not possible to point out fea-
+tures in the spectrum that guarantee a LyC detection,
+partly because of the larger variety in the spectra asso-
+ciated with models that have larger f ion
+esc . In addition,
+in clumpy models Lyα photons can escape after scat-
+tering oﬀa single gas cloud, and close to the frequency
+at which they were initially emitted (also see Hansen&
+Oh 2006, Laursen et al.
+2013).
+Moreover, while nar-
+row Lyα lines that are symmetric around the systemic
+velocity of the host galaxy translate to a higher prob-
+ability of being a LyC emitting galaxy, LyC escape is
+highly anisotropic (Lyα escape less so, see Gronke & Di-
+jkstra 2014), which further complicates making robust
+predictions for whether we can observe LyC ﬂux from a
+galaxy or not. However, anisotropic escape of LyC pho-
+tons similarly aﬀects other promising LyC-leakage indi-
+9 Also, the velocity oﬀ-set of the peak ﬂux density of the Lyα
+spectral line shape decreases towards UV-fainter galaxies (e.g. Erb
+et al. 2014; Song et al. 2014).
+The Lyα-LyC Connection
+7
+−1000
+0
+1000
+2000
+3000
+4000
+v (km/s)
+Intensity (normalized)
+fesc,ion < 0.01%
+−1000
+−500
+0
+500
+1000
+1500
+2000
+v (km/s)
+fesc,ion > 37.49%
+0.25
+0.50
+0.75
+fesc,Lyα
+Fig. 4.— Left panel: Lyα spectra emerging from 25 models with the lowest fion
+esc < 10−4. Right panel: Lyα spectra emerging from the 25
+models with the highest fion
+esc > 0.37. This Figure shows that for models with low fion
+esc Lyα spectra are redshifted, asymmetric, and broad.
+The width and velocity oﬀ-set of the models with the lowest fion
+esc are larger than what has been observed, which is likely because of the
+simpliﬁed representation of the multiphase ISM (see text). Although models with high fion
+esc exhibit a variety of spectral line shapes, their
+spectra are generally narrower and more symmetric.
+cators10 such as the [O III]λ5007/[O II]λ3727 line ratio
+(Jaskot & Oey 2013, Nakajima & Ouchi 2014).
+The low-redshift ‘Lyman Break Analogue’ (LBA,
+Heckman et al. 2011, Borthakur et al. 2015) and ‘green
+pea galaxy’ (Henry et al. 2015, Yang et a. 2016, Izotov
+et al. 2016) with reported detections of LyC escape, had
+unusual Lyα spectra in the sense that the spectra con-
+tained signiﬁcant ﬂux blueward of Lyα resonance. These
+spectra were diﬀerent than those shown in Figure 4 in
+that they had deep ‘absorption’ troughs separating the
+blue and red peaks, which are absent from the spectra in
+Figure 4. The absence of these absorption troughs in the
+theoretical spectra may reﬂect the lack trace amounts of
+residual HI (possibly in the CGM) at systemic velocity
+(see Gronke & Dijkstra 2016). In any case, the presence
+of ﬂux blueward of the Lyα resonance indicates that the
+lines are more symmetric around the Lyα resonance than
+is common.
+4.4. Suppressed Lyα Production for large f ion
+esc
+The Lyα production rate scales as ∝(1−f ion
+esc ). The
+total Lyα ﬂux that we receive from a distant galaxy, as
+well as the equivalent width (EW) of the line, both scale
+as ∝(1−f ion
+esc )f Lyα
+esc .
+Figure
+5
+shows
+logf ion
+esc as
+a
+function
+of
+log[f Lyα
+esc (1−f ion
+esc )].
+The
+turnover
+at
+high-f ion
+esc and
+high-f Lyα
+esc
+reﬂects
+that
+the
+quantity
+f Lyα
+esc (1−f ion
+esc )
+cannot exceed (1−f ion
+esc ) (which is indicated as the red
+dotted line). At ﬁxed f ion
+esc there exists a distribution of
+f Lyα
+esc (1−f ion
+esc ), which reﬂects the dispersion in f Lyα
+esc . The
+average of this distribution peaks at some maximum
+10 On the other hand, LyC escape enhances the ionizing radi-
+ation ﬁeld in close proximity to star forming galaxies, which can
+increase the surface brightness in ﬂuorescent Lyα and Hα emission
+(see Mas-Ribas & Dijkstra 2016).
+f ion
+esc,max (also see Dijkstra et al.
+2014).
+The value of
+f ion
+esc,max is model-dependent, and even in the context
+of our model it depends on how we sampled our 14
+parameters. It nevertheless seems reasonable to assume
+that f ion
+esc,max∼0.1 −0.5. For large f ion
+esc >f ion
+esc,max the Lyα
+luminosity drops again, which mimicks a reduction in
+f Lyα
+esc . We expect this ‘apparent’ reduction in the escape
+fraction to translate to a reduction in the Lyα fraction
+and/or a ﬂattening of the Lyα luminosity function at
+low Lyα luminosities11. No evidence for either this drop
+or this ﬂattening exists at z ∼6 in current data (though
+it may be present at z 6.5, see Fig 7 of Matthee et al.
+2015), which implies that this eﬀect is not important
+in current observations at z ∼6. More quantitatively,
+Dressler et al.
+(2015) infer a steep faint end slope of
+the LAE LF down to Lα < 1042 erg s−1.
+Gronke et
+al.
+(2015b) show that Lyα luminosity of Lα ∼1042
+erg s−1 probes galaxies with MUV ∼−18 ± 1 (see their
+Fig 3).
+This therefore implies hat f ion
+esc <f ion
+esc,max, and
+that therefore this eﬀect is not important, down to
+MUV ∼−18 ± 1.
+At z > 6 there is observational evidence for a reduc-
+tion in the Lyα ﬂux from star forming galaxies compared
+to expectations based on extrapolations from lower red-
+shift observations (see e.g. Dijkstra 2014 and references
+therein).
+There are indications that this reduction is
+more severe for UV-faint galaxies (e.g. Ono et al. 2012,
+Pentericci et al. 2014), which is commonly interpreted
+as a signature of inhomogeneous reionization, but might
+also reﬂect that f ion
+esc →f ion
+esc,max in UV-faint galaxies at
+z ∼7 (also see Dijkstra et al.
+2014).
+It is theoreti-
+cally possible to distinguish between these two scenarios:
+(i) reionization leaves a unique signature on the angu-
+11 Although a ﬂattening has possibly been detected at z ∼3
+by Rauch et al. (2008) at Lα ∼1041 erg s−1, which would probe
+galaxies with MUV ∼−15 ± 1 (see Gronke et al. 2015 for a discus-
+sion).
+8
+Dijkstra et al.
+10−3
+10−2
+10−1
+100
+fesc,Lyα(1 −fesc,ion)
+10−4
+10−3
+10−2
+10−1
+100
+fesc,ion
+1.6
+2.4
+3.2
+4.0
+4.8
+5.6
+6.4
+7.2
+fcl
+Fig. 5.— This plot shows fion
+esc as a function of the ‘apparent’
+Lyα escape fraction, fLyα
+esc (1−fion
+esc ), which reﬂects that the pro-
+duction rate of Lyα photons scales as ∝(1−fion
+esc ). The red-dotted
+line shows the maximum apparent escape fraction (1−fion
+esc ). Large
+fion
+esc thus also suppresses the observed Lyα ﬂux, mimicking a reduc-
+tion in fLyα
+esc . This Figure illustrates that there exists a maximum
+average fLyα
+esc (1−fion
+esc ) at some fion
+esc ≡fion
+esc,max∼0.1−0.5 (see text).
+lar clustering of Lyα emitters (McQuinn et al.
+2007,
+Mesinger & Furlanetto 2008, Jensen et al. 2013, Sobac-
+chi & Mesinger 2015), and which can be measured with
+Subaru’s Hyper-Suprime Cam12 (see e.g. Jensen et al.
+2014, Sobacchi & Mesinger 2015), (ii) if Lyα disappears
+as a result of f ion
+esc becoming large, then we should see a
+similar decrease in the line strength of other non-resonant
+nebular lines such as Hα (and Hβ), something that can
+be tested with the James Webb Space Telescope13 (Gard-
+ner et al. 2006).
+Redshift z ∼6 is particularly interesting as reioniza-
+tion likely had little impact on the observed Lyα ﬂux
+from galaxies. Should future data reveal a ﬂattening in
+the Lyα LF at low Lyα luminosities and/or a reduction in
+the Lyα fraction at lower UV-luminosities, then this may
+provide a valuable constraint on f ion
+esc at this redshift. In
+addition, understanding whether f ion
+esc introduces a ﬂat-
+tening in the Lyα LF at low Lyα luminosities and/or a
+drop in the Lyα fraction at faint UV luminosities, would
+help us better constrain the role that reionization plays
+in suppressing the Lyα ﬂux from galaxies at z > 6.
+4.5. Impact of Delayed Lyα Escape due to Trapping
+The escape fraction of LyC photons from a galaxy can
+vary signiﬁcantly on time-scales of ∼10 Myr (Kimm &
+Cen 2014; Ma et al. 2015), which corresponds approxi-
+mately to the life-time of massive stars. Trapping of Lyα
+photons by HI gas can introduce a lag in the escape of
+Lyα and LyC photons (Yajima & Li 2014): Lyα photons
+scatter inside HI gas when f ion
+esc ≪1, but are ‘released’
+12 http://www.naoj.org/Projects/HSC/
+13 http://www.jwst.nasa.gov/
+eﬃciently when low-column channels temporarily open-
+up, which allow LyC photons to escape. Time-variations
+in f ion
+esc and delayed escape of Lyα has only a minor, pos-
+itive, impact on our results by slightly more tightly cou-
+pling f Lyα
+esc
+and f ion
+esc , as we explain below.
+Trapping of Lyα photons is limited to time-scales
+ttrap ≪10 Myr, as the typical Lyα trapping time equals
+ttrap = |xp|tcross, where tcross ≡R/c denotes the time it
+takes radiation to escape in the absence of scattering,
+and |xp| ≈12(NHI/1020 cm−2)1/3(T/104 K)1/6 for a
+static, uniform, spherical gas cloud with an HI column
+density NHI and temperature T (Adams, 1975).
+In
+reality, this estimate provides a strict upper limit to the
+delay time: velocity gradients, density inhomogeneities
+reduce ttrap (Bonilha et al. 1979, Dijkstra & Loeb 2008).
+Laursen et al. (2013) evaluated that the typical trapping
+time for Lyα in clumpy media considered here to be
+ttrap ∼2 × 104 yr. Trapping of Lyα photons is therefore
+unlikely to introduce a lag between the escape of Lyα
+and LyC photons at a level where it has observable
+consequences. Moreover, if anything, this eﬀect would
+serve to more tightly couple Lyα and LyC escape, as
+LyC escape would be accompanied with the escape of
+Lyα photons that were trapped inside the HI gas.
+5. CONCLUSIONS
+The escape fraction of ionizing photons, f ion
+esc , repre-
+sents one of the great unknowns in our understanding
+of cosmic reionization. Observational constraints on f ion
+esc
+are still weak, and theoretical predictions remain incom-
+plete owing to the challenging nature of the calcula-
+tions.
+We have computed the correlation between the
+escape fractions of Lyα (f Lyα
+esc ) and ionizing (LyC) ra-
+diation (f ion
+esc ) by performing Monte-Carlo simulations of
+Lyα radiative transfer through a suite of 2500 models of
+dusty, clumpy interstellar media. This represents a ‘top-
+down’ (empirical) approach to modelling LyC and Lyα
+transfer through realistic, multiphase interstellar media,
+and complements the previous ‘bottom-up’ (ab initio)
+approach by Yajima et al. (2014), who used hydrody-
+namical simulations to generate models of the ISM. Our
+main results are:
+• We ﬁnd that f ion
+esc and f Lyα
+esc
+are correlated.
+The
+dispersion in f ion
+esc at ﬁxed f Lyα
+esc
+increases towards larger
+f Lyα
+esc :
+galaxies with low f Lyα
+esc
+have a low f ion
+esc , while
+galaxies with high f Lyα
+esc
+show a large spread in f ion
+esc (see
+Fig 2). The dispersion in f ion
+esc is driven by the disper-
+sion in fcl, which measures the cloud covering factor.
+Our results agree qualitatively with those obtained by
+Yajima et al (2014, who also found a positive correla-
+tion), but quantitatively some diﬀerences remain, which
+reﬂects that neither approach has converged yet (see the
+discussion in § 2).
+While predictions of both f ion
+esc and f Lyα
+esc
+are still highly
+uncertain, the existence of a correlation between the
+two quantities can be predicted more robustly, which
+is underlined by the fact that two diﬀerent, indepen-
+dent approaches conﬁrm the existence of this correla-
+The Lyα-LyC Connection
+9
+tion. The f Lyα
+esc -f ion
+esc correlation reﬂects that the escape
+of ionizing photons requires that sightlines exist which
+contain low column densities of atomic hydrogen, i.e.
+NHI <∼1/σion ≈1017 cm−2. These same-low column den-
+sity paths provide escape routes for Lyα photons (also
+see Behrens et al. 2014, Verhamme et al. 2015). At a
+deeper level, the escape of Lyα is facilitated by outﬂows,
+which may also create low column density holes out of
+galaxies, which in turn permit LyC photons to escape.
+• We argued that the positive correlation between f ion
+esc
+and f Lyα
+esc
+is directly relevant for studies of cosmic reion-
+ization, as there is increasing observational support from
+both continuum and line selected galaxies that Lyα es-
+capes more easily from UV-faint galaxies (see § 4.1).
+The correlation between f ion
+esc and f Lyα
+esc
+then implies that
+ionizing photons also escape more easily from UV-faint
+galaxies at this redshift.
+This implies that UV-faint
+galaxies contribute more to the volume emissivity of ion-
+izing photons than implied by the faint-end slope of the
+UV-luminosity function (§ 4.2). These conclusions may
+be invalidated if the escape of Lyα is regulated purely by
+dust. However, we argued in § 4.2 that observations do
+not support this picture.
+• Because
+the
+‘apparent’
+Lyα
+escape
+frac-
+tion,
+f Lyα
+esc (1−f ion
+esc ),
+reaches a maximum value for
+f ion
+esc =f ion
+esc,max∼0.1 −0.5 (see § 4.4), we expect a drop
+in the Lyα fraction at lower UV-luminosities and/or a
+ﬂattening of the Lyα LF at lower Lyα luminosities, if
+f ion
+esc continues to rise monotonically. This has not been
+observed yet at z ∼6 (but possibly at z ∼6.5, see
+Matthee et al. 2015), which implies that f ion
+esc <f ion
+esc,max in
+galaxies with MUV ∼−18 ± 1. The observed reduction
+in Lyα ﬂux from galaxies at z > 6 may be partly due
+to f ion
+esc approaching f ion
+esc,max (also see Dijkstra et al.
+2014). LAE clustering measurements and observations
+of Balmer lines can help determine the role of f ion
+esc in
+the disappearance of Lyα emission from galaxies at z >∼6
+(see § 4.4).
+• Figure 2 also shows that the ionizing escape fraction
+is strongly aﬀected by the cloud covering factor, fcl. As a
+result, f ion
+esc is closely connected to the observed Lyα spec-
+tral line shape (see § 4.3) with LyC emitting objects typi-
+cally having narrower, more symmetric Lyα lines (Fig 4,
+also see Erb et al. 2014). In multiphase models, LyC
+emitting object exhibit a wide range of spectral line pro-
+ﬁles, and it is not possible to identify spectral features
+that ‘guarantee’ a LyC detection.
+Lyα emitting galaxies are valuable for constraining the
+ionization state of the intergalactic medium (see e.g. Di-
+jkstra 2014, and references therein). Our work implies
+that these galaxies also provide unique insights into the
+nature of the sources that reionized the Universe, in spite
+of the fact that modeling interstellar Lyα radiative trans-
+fer remains highly challenging. We emphasize that our
+results diﬀer from previous works which estimated the
+contribution of LAEs to cosmic reionization (see e.g. Ya-
+jima et al. 2014): LAEs represent a subset of galaxies
+within a limited range of MUV and with a (relatively)
+large f Lyα
+esc
+(and hence f ion
+esc ), where the precise range in
+MUV and f Lyα
+esc
+both depend on the minimum Lyα lumi-
+nosity and Lyα EW of the LAE sample of interest. In
+addition, the contribution of LAEs to cosmic reioniza-
+tion depends sensitively on Lyα EW-PDF as a function
+of MUV, which is not well constrained, especially at faint
+MUV. Here, we make a more general (and robust) point
+that the faint-end of the LAE LF helps constrain the
+MUV-dependence of f Lyα
+esc
+and by extension, f ion
+esc .
+In the next years, the number of Lyα emitting galaxies
+at z ∼5.7 −7 is anticipated to grow by ∼1 −2 orders
+of magnitude with surveys performed on Subaru’s Hyper
+Suprime-Cam (HSC). Moreover, integral-ﬁeld unit spec-
+trographs such as MUSE14 will enable us to detect fainter
+Lyα emitting sources and better constrain the faint-end
+slope of Lyα emitter luminosity function, and also better
+characterize the (sometimes spatially resolved) spectra of
+Lyα emission lines. Recent spectroscopic observations of
+gravitationally lensed galaxies (e.g.
+Treu et al.
+2015,
+Schmidt et al.
+2016, Vanzella et al.
+2016b) have un-
+covered several (intrinsically) UV-faint galaxies with a
+prominent Lyα emission line, and/or other spectral fea-
+tures such as a high [O III]λ5007/[O II]λ3727 line ratio,
+which favor LyC escape (Huang et al.
+2016, Vanzella
+et al.
+2016b).
+These observations -which support the
+case for an enhanced contribution of UV faint galaxies
+to cosmic reionization- provide a preview of what will be
+routinely possible with the next generation of ground-
+based telescopes such as the European Extremely Large
+Telescope (E-ELT)15, the Thirty Meter Telescope16, and
+the Giant Magellan Telescope (GMT)17.
+Acknowledgements We thank the Aspen Center for
+Physics, where part of this collaboration was initiated,
+and which is supported by National Science Foundation
+grant PHY-1066293. MD thanks the astronomy depart-
+ment at UCSB for their kind hospitality. MG thanks the
+Physics & Astronomy department of JHU for their kind
+hospitality. AV gratefully acknowledges support from the
+University of San Francisco Faculty Development Fund.
+We thank Peng Oh and Crystal Martin for helpful dis-
+cussions. Finally, we thank an anonymous referee for a
+constructive report which helped us improve the presen-
+tation of this work.
+REFERENCES
+14
+https://www.eso.org/sci/facilities/develop/
+instruments/muse.html
+15 https://www.eso.org/sci/facilities/eelt/
+16 \protecthttp://www.tmt.org/
+Adams, T. F. 1975, ApJ, 201, 350
+Alavi, A., Siana, B., Richard, J., et al. 2014, ApJ, 780, 143
+17 http://www.gmto.org/
+10
+Dijkstra et al.
+Atek, H., Kunth, D., Hayes, M., ¨Ostlin, G., & Mas-Hesse, J. M.
+2008, A&A, 488, 491
+Ahn, S.-H., Lee, H.-W., & Lee, H. M. 2003, MNRAS, 340, 863
+Barnes, L. A., & Haehnelt, M. G. 2010, MNRAS, 403, 870
+Becker, G. D., & Bolton, J. S. 2013, MNRAS, 436, 1023
+Behrens, C., Dijkstra, M., & Niemeyer, J. C. 2014, A&A, 563,
+A77
+Benson, A., Venkatesan, A., & Shull, J. M. 2013, ApJ, 770, 76
+Blanc, G. A., Adams, J. J., Gebhardt, K., et al. 2011, ApJ, 736,
+31
+Bonilha, J. R. M., Ferch, R., Salpeter, E. E., Slater, G., &
+Noerdlinger, P. D. 1979, ApJ, 233, 649
+Borthakur, S., Heckman, T. M., Leitherer, C., & Overzier, R. A.
+2014, Science, 346, 216
+Bouwens, R. J., Illingworth, G. D., Oesch, P. A., et al. 2012, ApJ,
+754, 83
+Bouwens, R. J., Illingworth, G. D., Oesch, P. A., et al. 2015, ApJ,
+803, 34
+Bouwens, R. J., Smit, R., Labbe, I., et al. 2015, arXiv:1511.08504
+Caruana, J., Bunker, A. J., Wilkins, S. M., et al. 2012, MNRAS,
+427, 3055
+Caruana, J., Bunker, A. J., Wilkins, S. M., et al. 2014, MNRAS,
+443, 2831
+Cen, R. 2003, ApJ, 591, 12
+Chonis, T. S., Blanc, G. A., Hill, G. J., et al. 2013, ApJ, 775, 99
+Conroy, C., & Kratter, K. M. 2012, ApJ, 755, 123
+Dijkstra, M., & Loeb, A. 2008, MNRAS, 391, 457
+Dijkstra, M., & Kramer, R. 2012, MNRAS, 424, 1672
+Dijkstra, M., & Jeeson-Daniel, A. 2013, MNRAS, 435, 3333
+Dijkstra, M., Wyithe, S., Haiman, Z., Mesinger, A., & Pentericci,
+L. 2014, MNRAS, 440, 3309
+Dijkstra, M. 2014, PASA, 31, e040
+Dove, J. B., Shull, J. M., & Ferrara, A. 2000, ApJ, 531, 846
+Dressler, A., Henry, A., Martin, C. L., et al. 2015, ApJ, 806, 19
+Erb, D. K., Steidel, C. C., Trainor, R. F., et al. 2014, ApJ, 795, 33
+Faisst, A. L. 2016, arXiv:1605.06507
+Ferrara, A., & Loeb, A. 2013, MNRAS, 431, 2826
+Finkelstein, S. L., Papovich, C., Ryan, R. E., et al. 2012a, ApJ,
+758, 93
+Finkelstein, S. L., Papovich, C., Salmon, B., et al. 2012b, ApJ,
+756, 164
+Fujita, A., Martin, C. L., Mac Low, M.-M., New, K. C. B., &
+Weaver, R. 2009, ApJ, 698, 693
+Gardner, J. P., Mather, J. C., Clampin, M., et al. 2006, SSR, 123,
+485
+Gnedin, N. Y., Kravtsov, A. V., & Chen, H.-W. 2008, ApJ, 672,
+765-775
+Gronke, M., & Dijkstra, M. 2014, MNRAS, 444, 1095
+Gronke, M., Bull, P., & Dijkstra, M. 2015a, ApJ, 812, 123
+Gronke, M., Dijkstra, M., Trenti, M., & Wyithe, S. 2015b,
+MNRAS, 449, 1284
+Gronke, M., & Dijkstra, M. 2016, Accepted to ApJ,
+arXiv:1604.06805
+Haiman, Z., & Holder, G. P. 2003, ApJ, 595, 1
+Hansen, M., & Oh, S. P. 2006, MNRAS, 367, 979
+Hashimoto, T., Verhamme, A., Ouchi, M., et al. 2015, ApJ, 812,
+157
+Hayes, M., Schaerer, D., ¨Ostlin, G., et al. 2011, ApJ, 730, 8
+Hayes, M. 2015, PASA, 32, e027
+Henry, A., Scarlata, C., Martin, C. L., & Erb, D. 2015, ApJ, 809,
+19
+Huang, K., et al., 2016, submitted to ApJL
+Inoue, A. K., Iwata, I., & Deharveng, J.-M. 2006, MNRAS, 371,
+L1
+Iwata, I., Inoue, A. K., Matsuda, Y., et al. 2009, ApJ, 692, 1287
+Izotov, Y. I., Orlitov´a, I., Schaerer, D., et al. 2016, Nature, 529,
+178
+Jaacks, J., Thompson, R., & Nagamine, K. 2013, ApJ, 766, 94
+Jaskot, A. E., & Oey, M. S. 2013, ApJ, 766, 91
+Jensen, H., Laursen, P., Mellema, G., et al. 2013, MNRAS, 428,
+1366
+Jensen, H., Hayes, M., Iliev, I. T., et al. 2014, MNRAS, 444, 2114
+Jones, T. A., Ellis, R. S., Schenker, M. A., & Stark, D. P. 2013,
+ApJ, 779, 52
+Kimm, T., & Cen, R. 2014, ApJ, 788, 121
+Konno, A., Ouchi, M., Nakajima, K., et al. 2016,
+arXiv:1512.01854
+Kuhlen, M., & Faucher-Gigu`ere, C.-A. 2012, MNRAS, 423, 862
+Kulas, K. R., Shapley, A. E., Kollmeier, J. A., et al. 2012, ApJ,
+745, 33
+Kunth, D., Mas-Hesse, J. M., Terlevich, E., Terlevich, R.,
+Lequeux, J., & Fall, S. M. 1998, A&A, 334, 11
+Laursen, P., Sommer-Larsen, J., & Andersen, A. C. 2009, ApJ,
+704, 1640
+Laursen, P., Sommer-Larsen, J., & Razoumov, A. O. 2011, ApJ,
+728, 52
+Laursen, P., Duval, F., Ostlin, G. 2013, ApJ, 766, p124-143
+Liu, C., Mutch, S. J., Angel, P. W., et al. 2015, arXiv:1512.00563
+Livermore, R. C., Finkelstein, S. L., & Lotz, J. M. 2016,
+arXiv:1604.06799
+Ma, X., Kasen, D., Hopkins, P. F., et al. 2015, MNRAS, 453, 960
+Ma, X., Hopkins, P. F., Kasen, D., et al. 2016, arXiv:1601.07559
+Mason, C. A., Trenti, M., & Treu, T. 2015, ApJ, 813, 21
+Mas-Ribas, L., & Dijkstra, M. 2016, arXiv:1603.04840, accepted
+to ApJ
+Matthee, J., Sobral, D., Santos, S., et al. 2015, MNRAS, 451, 400
+Matthee, J., Sobral, D., Oteo, I., et al. 2016a, MNRAS, 458, 449
+Matthee, J., Sobral, D., Best, P., et al. 2016b, arXiv:1605.08782
+McKee, C. F., & Ostriker, J. P. 1977, ApJ, 218, 148
+McQuinn, M., Hernquist, L., Zaldarriaga, M., & Dutta, S. 2007,
+MNRAS, 381, 75
+Mesinger, A., & Furlanetto, S. R. 2008, MNRAS, 386, 1990
+Micheva, G., Iwata, I., Inoue, A. K., et al. 2015, arXiv:1509.03996
+Mitra, S., Choudhury, T. R., & Ferrara, A. 2011, MNRAS, 413,
+1569
+Nakajima, K., & Ouchi, M. 2014, MNRAS, 442, 900
+Neufeld, D. A. 1991, ApJL, 370, L85
+Ono, Y., Ouchi, M., Mobasher, B., et al. 2012, ApJ, 744, 83
+Oyarz´un, G. A., Blanc, G. A., Gonz´alez, V., et al. 2016, ApJL,
+821, L14
+O’Shea, B. W., Wise, J. H., Xu, H., & Norman, M. L. 2015,
+ApJL, 807, L12
+Paardekooper, J.-P., Pelupessy, F. I., Altay, G., & Kruip, C. J. H.
+2011, A&A, 530, A87
+Paardekooper, J.-P., Khochfar, S., & Dalla Vecchia, C. 2013,
+MNRAS, 429, L94
+Parsa, S., Dunlop, J. S., McLure, R. J., & Mortlock, A. 2016,
+MNRAS, 456, 3194
+Pei, Y. C. 1992, ApJ, 395, 130
+Pentericci, L., Fontana, A., Vanzella, E., et al. 2011, ApJ, 743, 132
+Pentericci, L., Vanzella, E., Fontana, A., et al. 2014, ApJ, 793, 113
+Rauch, M., Haehnelt, M., Bunker, A., et al. 2008, ApJ, 681,
+856-880
+Rauch, M., Becker, G. D., Haehnelt, M. G., et al. 2011, MNRAS,
+418, 1115
+Reddy, N. A., & Steidel, C. C. 2009, ApJ, 692, 778
+Rivera-Thorsen, T. E., Hayes, M., ¨Ostlin, G., et al. 2015, ApJ,
+805, 14
+Robertson, B. E., Furlanetto, S. R., Schneider, E., et al. 2013,
+ApJ, 768, 71
+Schaerer, D. 2003, A&A, 397, 527
+Schenker, M. A., Stark, D. P., Ellis, R. S., et al. 2012, ApJ, 744,
+179
+Schmidt, K. B., Treu, T., Bradaˇc, M., et al. 2016, ApJ, 818, 38
+Shibuya, T., Ouchi, M., Nakajima, K., et al. 2014, ApJ, 788, 74
+Shull, J. M., Harness, A., Trenti, M., & Smith, B. D. 2012, ApJ,
+747, 100
+Smith, B. M., Windhorst, R. A., Jansen, R. A., et al. 2016,
+submitted to ApJ, arXiv:1602.01555
+Sobacchi, E., & Mesinger, A. 2015, MNRAS, 453, 1843
+Song, M., Finkelstein, S. L., Gebhardt, K., et al. 2014, ApJ, 791, 3
+Stark, D. P., Ellis, R. S., Chiu, K., Ouchi, M., & Bunker, A. 2010,
+MNRAS, 408, 1628
+Trainor, R. F., Steidel, C. C., Strom, A. L., & Rudie, G. C. 2015,
+ApJ, 809, 89
+Treu, T., Schmidt, K. B., Brammer, G. B., et al. 2015, ApJ, 812,
+114
+Vanzella, E., de Barros, S., Vasei, K., et al. 2016a,
+arXiv:1602.00688
+Vanzella, E., De Barros, S., Cupani, G., et al. 2016, accepted to
+ApJL, arXiv:1603.01616
+Verhamme, A., Schaerer, D., & Maselli, A. 2006, A&A, 460, 397
+The Lyα-LyC Connection
+11
+TABLE 1
+Overview of the model parameters.
+Parameter
+Fiducial value
+Allowed range
+Units
+v∞, cl
+100.0
+[0.0, 800.0]
+km s−1
+rcl
+100.0
+[30.0, 200.0]
+pc
+Pcl
+0.35
+[0.0, 1.0]
+Hem
+1000.0
+[500.0, 3.0 × 103]
+pc
+fcl
+3.5
+[0.8, 8.0]
+TICM†
+106
+[3.0 × 105, 5.0 × 107]
+K
+nHI, ICM†
+5.0 × 10−8
+[10−12, 10−6]
+cm−3
+σi
+50.0
+[5.0, 100.0]
+km s−1
+ζZ †
+0.01
+[10−4, 0.1]
+Tcl†
+104
+[5.0 × 103, 5.0 × 104]
+K
+βcl
+1.5
+[1.1, 2.5]
+Zcl†
+0.2
+[0.03, 1.0]
+Z⊙
+σcl
+40.0
+[5.0, 100.0]
+km s−1
+nHI, cl†
+0.35
+[0.03, 3.0]
+cm−3
+Note. — Variables marked with † were drawn from a uniform distribution in log-space.
+Verhamme, A., Schaerer, D., Atek, H., & Tapken, C. 2008, A&A,
+491, 89
+Verhamme, A., Orlitov´a, I., Schaerer, D., & Hayes, M. 2015,
+A&A, 578, A7
+Verner, D. A., Ferland, G. J., Korista, K. T., & Yakovlev, D. G.
+1996, ApJ, 465, 487
+Wilkins, S. M., Bunker, A. J., Lorenzoni, S., & Caruana, J. 2011,
+MNRAS, 411, 23
+Wise, J. H., Demchenko, V. G., Halicek, M. T., et al. 2014,
+MNRAS, 442, 2560
+Woﬀord, A., Leitherer, C., & Salzer, J. 2013, ApJ, 765, 118
+Wyithe, J. S. B., & Loeb, A. 2003, ApJ, 586, 693
+Yajima, H., Choi, J.-H., & Nagamine, K. 2011, MNRAS, 412, 411
+Yajima, H., Li, Y., Zhu, Q., et al. 2014, MNRAS, 440, 776
+Yajima, H., & Li, Y. 2014, MNRAS, 437, 3962
+Yang, H., Malhotra, S., Gronke, M., et al. 2016, ApJ, 820, 130
+APPENDIX
+MODEL PARAMETERS
+Table 1 provides an overview of the 14 parameters that are needed to fully characterize the multi-phase media. The
+second row contains the ﬁducial value for each parameter, which was taken from Laursen et al. (2013). The third row
+indicates the range of values from which we randomly drew model parameters.

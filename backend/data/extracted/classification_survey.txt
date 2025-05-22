@@ -1,0 +1,2828 @@
+COMPUTING SPECTRAL MEASURES OF SELF-ADJOINT
+OPERATORS∗
+MATTHEW COLBROOK†, ANDREW HORNING‡, AND ALEX TOWNSEND§
+Abstract. Using the resolvent operator, we develop an algorithm for computing smoothed ap-
+proximations of spectral measures associated with self-adjoint operators. The algorithm can achieve
+arbitrarily high-orders of convergence in terms of a smoothing parameter for computing spectral
+measures of general diﬀerential, integral, and lattice operators.
+Explicit pointwise and Lp-error
+bounds are derived in terms of the local regularity of the measure. We provide numerical examples,
+including a partial diﬀerential operator, a magnetic tight-binding model of graphene, and compute
+one thousand eigenvalues of a Dirac operator to near machine precision without spectral pollution.
+The algorithm is publicly available in SpecSolve, which is a software package written in MATLAB.
+Key words. spectrum, spectral measures, resolvent, spectral methods, rational kernels
+AMS subject classiﬁcations. 47A10, 46N40, 47N50, 65N35, 81Q10
+1. Introduction. The spectrum of a ﬁnite matrix consists only of discrete eigen-
+values; however, many of the inﬁnite-dimensional operators in mathematical analysis
+and physical applications include a continuous spectral component [59,100]. Notably,
+eigenvalues and eigenvectors do not diagonalize operators with continuous spectra,
+and one needs extra information to fully describe the operator and associated dy-
+namics of physical models [46, 109].
+Given a self-adjoint operator L acting on a
+Hilbert space H, the spectral measure (see (2.2)) of L is a quantity of great inter-
+est because it provides an analogue of diagonalization through the spectral theo-
+rem (see section 2). Spectral measures are related to correlation in stochastic pro-
+cesses and signal-processing [43, 58] [89, Ch. 7], scattering cross-sections in particle
+physics [32–34], the local density-of-states in crystalline materials [5,49,69], and many
+other quantities [24,27,61,114,119]. Furthermore, through spectral measures one can
+compute the functional calculus of L, which is used to solve evolution equations such
+as the Schr¨odinger equation in quantum mechanics [51,71].
+The eigenvalues and eigenvectors of an inﬁnite-dimensional operator with dis-
+crete spectrum are usually computed by discretizing and employing a matrix eigen-
+solver [9,12]. Computing spectral measures is more subtle, and previous eﬀorts have
+mainly focused on operators where analytical formulas or heuristics are available
+(see section 3). Building on [15, 54], we develop a general framework for computing
+approximations to spectral measures of operators that only requires two capabilities:
+1. A numerical solver for shifted linear equations, i.e., (L −z)u = f with z ∈C.
+2. Numerical approximations to inner products of the form ⟨u, f⟩.
+Here, ⟨·, ·⟩is the inner product associated with H, which can be general provided one
+can compute ⟨u, f⟩. We develop high-order rational convolution kernels that allow us
+to construct accurate approximations to spectral measures by solving the shifted linear
+equations (see Table 5.1 and Figure 5.1). Error bounds show that our approximations
+to the spectral measure converge rapidly (see Theorems 5.2 and 5.3).
+We apply
+∗Submitted to the editors December 2, 2020.
+Funding: The ﬁrst author was supported by EPSRC grant EP/L016516/1. The work of the
+second and third authors is supported by the National Science Foundation grant no. 1818757.
+†Department of Applied Mathematics and Theoretical Physics, University of Cambridge, Cam-
+bridge, CB3 0WA. (m.colbrook@damtp.cam.ac.uk)
+‡Center for Applied Mathematics, Cornell University, Ithaca, NY 14853. (ajh326@cornell.edu)
+§Department of Mathematics, Cornell University, Ithaca, NY 14853. (townsend@cornell.edu)
+1
+Preprint for review purposes only.
+arXiv:2006.01766v2  [math.NA]  1 Dec 2020
+2
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+our algorithm to diﬀerential (see subsection 7.1), integral (see subsection 4.1), and
+lattice (see subsection 7.2) operators to demonstrate its versatility, high accuracy, and
+robustness. We also use our approximations of spectral measures to compute the ﬁrst
+thousand eigenvalues of a Dirac operator (corresponding to bound states in the gap of
+the essential spectrum) without spectral pollution (see subsection 7.3). Thus, spectral
+measures are also a useful tool for the computation of discrete spectra when there are
+gaps in the essential spectrum or when discrete spectra cluster (see subsections 7.2
+and 7.3). To accompany this paper, we have developed a publicly available MATLAB
+package called SpecSolve for computing spectral measures of a large class of self-
+adjoint operators [19].
+The paper is organized as follows. We recall the deﬁnition of the spectral measure
+of an operator in section 2 and survey existing algorithms in section 3. In section 4,
+we introduce our computational framework and derive high-order versions in sec-
+tion 5. In section 6 we discuss algorithmic issues and tackle challenging applications
+in section 7. Finally, we point out additional capabilities and use of the algorithm
+in section 8.
+2. The spectral measure of a self-adjoint operator. Any linear operator
+acting on a ﬁnite-dimensional Hilbert space has a purely discrete spectrum consisting
+of eigenvalues. In particular, the spectral theorem for self-adjoint A ∈Cn×n states
+that there exists an orthonormal basis of eigenvectors v1, . . . , vn for Cn such that
+(2.1)
+v =
+ n
+X
+k=1
+vkv∗
+k
+!
+v,
+v ∈Cn
+and
+Av =
+ n
+X
+k=1
+λkvkv∗
+k
+!
+v,
+v ∈Cn,
+where λ1, . . . , λn are eigenvalues of A, i.e., Avk = λkvk for 1 ≤k ≤n. In other words,
+the projections vkv∗
+k decompose Cn and diagonalize A.
+In the inﬁnite-dimensional setting, we replace v ∈Cn by f ∈H, and A by a self-
+adjoint operator L with domain D(L) ⊂H.1 If L has non-empty continuous spectrum,
+then eigenfunctions of L do not form a basis for H or diagonalize L. However, the
+spectral theorem for self-adjoint operators states that the projections vkv∗
+k in (2.1)
+can be replaced by a projection-valued measure E [87, Thm. VIII.6]. The measure E
+assigns an orthogonal projector to each Borel-measurable set such that
+f =
+Z
+R
+dE(y)
+
+f,
+f ∈H
+and
+Lf =
+Z
+R
+y dE(y)
+
+f,
+f ∈D(L).
+Analogous to (2.1), E decomposes H and diagonalizes the operator L.
+The spectral measure of L with respect to f ∈H is a scalar measure deﬁned
+as µf(Ω) := ⟨E(Ω)f, f⟩, where Ω⊂R is a Borel-measurable set [87]. It is useful to
+examine Lebesgue’s decomposition of µf [97], i.e.,
+(2.2)
+dµf(y) =
+X
+λ∈Λp(L)
+⟨Pλf, f⟩δ(y −λ)dy
+|
+{z
+}
+discrete part
++ ρf(y) dy + dµ(sc)
+f
+(y)
+|
+{z
+}
+continuous part
+.
+The discrete part of µf is a sum of Dirac delta distributions, supported on the set
+of eigenvalues of L, which we denote by Λp(L). The coeﬃcient of each δ in the sum
+is ⟨Pλf, f⟩= ∥Pλf∥2, where Pλ is the orthogonal spectral projector associated with
+1Considering L : D(L) →H allows us to treat unbounded operators such as diﬀerential operators.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+3
+the eigenvalue λ, and ∥· ∥=
+p
+⟨·, ·⟩is the norm on H. The continuous part of µf
+consists of an absolutely continuous2 part with Radon–Nikodym derivative ρf ∈L1(R)
+and a singular continuous component µ(sc)
+f
+. Without loss of generality, we assume
+throughout that ∥f∥= 1, which ensures that µf is a probability measure.
+Many operators have non-empty continuous spectra [59, Ch. 10] such as self-
+adjoint Toeplitz operators on ℓ2(N) (square summable sequences, where N = {1, 2, ...})
+[8], diﬀerential operators on bounded domains with singular variable coeﬃcients [44,
+66] and unbounded domains [108, Ch. V] [30, Ch. XIII,Ch. XIV], and integral per-
+turbations of multiplication operators and Cauchy-type integral operators [37,62]. In
+physical systems that scatter or radiate energy, the associated operator typically has
+a mix of continuous and discrete spectra, e.g., see RAGE theorem [2, 35, 90]. We
+aim to evaluate smoothed approximations of µf when L has a non-empty continuous
+spectrum. This means that we compute samples from a smooth function gϵ, with
+smoothing parameter ϵ > 0, that converges weakly to µf [6, Ch. 1]. That is,
+Z
+R
+φ(y)gϵ(y) dy →
+Z
+R
+φ(y) dµf(y),
+as
+ϵ ↓0,
+for any bounded, continuous function φ. Approximation properties and explicit con-
+vergence bounds are studied in sections 4 and 5.
+3. Applications of spectral measures. Spectral measures appear in many
+traditional topics of applied analysis, such as ordinary (ODEs) and partial diﬀerential
+equations (PDEs), stochastic processes, orthogonal polynomials, and random matrix
+theory. Here, we give a brief survey of existing algorithms for computing µf and
+closely related quantities.
+3.1. Particle and condensed matter physics. Spectral measures are prom-
+inent in quantum mechanics [47, 87], where a self-adjoint operator L represents an
+observable quantity, and µf describes the likelihood of diﬀerent outcomes when the
+observable is measured (see subsection 5.2). In this setting, f ∈H with ∥f∥= 1
+represents a quantum state. For example, in quantum models of interacting parti-
+cles, spectral measures of many-body Hamiltonians are used to study the response
+of a quantum system to perturbations [32]. In condensed matter physics, spatially-
+resolved statistical properties of materials are analyzed using the local density-of-
+states3 (LDOS) of an n × n matrix An [60, Ch. 6.4], which is the spectral measure
+of An taken with respect to a vector b [69]. Here, An is typically a discretized or
+truncated Hamiltonian and one is interested in the thermodynamic limit n →∞, so
+that An is too large to compute a full eigenvalue decomposition.
+There are two main classes of numerical methods for computing these measures.
+One class constructs smooth global approximations of the measure with explicit
+moment-matching procedures [65, 92, 118], while another class exploits a connection
+between the spectral measure and the resolvent operator to evaluate samples from a
+smoothed approximation to the measure [5,33,49]. For example, the so-called recur-
+sion method [5,49] evaluates the resolvent of tridiagonal Hamiltonians using associated
+continued-fraction expansions. Resolvent techniques to compute the DOS of ﬁnite ma-
+trices also appear in the study of random matrices and Schr¨odinger operators, where
+the connection is made through the Stieltjes transform [4,10].
+2We take “absolutely continuous” to be with respect to Lebesgue measure.
+3This is distinct from the global density-of-states (DOS), which is formally obtained from the
+LDOS via an averaging procedure [60, Ch. 6.4].
+Preprint for review purposes only.
+4
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+The resolvent of an operator L with spectrum Λ(L) is given by [59, p. 173]
+(3.1)
+RL(z) = (L −z)−1,
+z ∈C \ Λ(L).
+In section 4, we evaluate a smoothed approximation of µf by evaluating the resol-
+vent function ⟨RL(z)f, f⟩in the upper half-plane, i.e., Im(z) > 0. Our approach is
+closely related to the second class of methods developed for operators in quantum me-
+chanics. A key theme in the above moment-matching and resolvent-based approaches
+is smoothing, which is introduced by convolution with a smoothing kernel to avoid
+diﬃculties associated with the singular part of the measure [69]. The smoothed ap-
+proximations of the spectral measures that we compute in sections 4 and 5 also have
+the form of Kϵ ∗µf, where Kϵ is a smoothing kernel with smoothing parameter ϵ > 0.
+Our framework is “discretization-oblivious,” in the sense that it directly resolves
+the spectral measure of an inﬁnite-dimensional L, and not an underlying discretiza-
+tion. This means that our algorithms do not suﬀer from spectral pollution.4 Moreover,
+our framework can be used with any accurate numerical method for solving linear op-
+erator equations and computing inner products, making it applicable to diﬀerential,
+integral, and lattice operators.
+Achieving a discretization-oblivious framework re-
+quires balancing reﬁnement in the computation of ⟨RL(z)f, f⟩and reﬁnement in the
+smoothing parameter, which we do in a principled way (see subsection 4.3).
+3.2. Time evolution and spectral density estimation. Spectral measures
+provide a useful lens when studying processes that evolve over time. Suppose that
+u : [0, T] →H evolves over time according to the abstract Cauchy problem
+(3.2)
+du
+dt = −iLu,
+u(0) = f ∈H,
+where L is a self-adjoint operator. For example, (3.2) could describe the evolution of
+a quantum system according to the Schr¨odinger equation [71]. Semigroup theory [81]
+shows that the solution to (3.2) is given by the operator exponential e−iLtf. The
+autocorrelation function of u is of interest, i.e.,
+⟨u(t), f⟩= ⟨e−iLtf, f⟩=
+Z
+R
+e−iyt dµf(y),
+t ∈[0, T],
+which can reveal features that persist over time [105]. This interpretation of a time
+evolution process is quite ﬂexible and can be adapted to describe many signals, u,
+generated by PDEs [26,55,94] and stochastic processes [43,58] [89, Ch. 7].
+In certain evolution processes, µf is referred to as the spectral density of u [21].
+The task of spectral density estimation is to recover µf from samples of u(t) [99,
+Ch. 1.5]. A popular technique used in spectral density estimation, related to statistical
+kernel density estimation [115, 116], reconstructs a smoothed approximation to µf
+by convolving the empirical measure (a discrete measure supported on the observed
+samples) with a smoothing kernel [78,83]. The particular choice of smoothing kernel
+aﬀects the convergence properties of the smoothed spectral density [79].
+In analogy to the variance-bias tradeoﬀencountered when selecting the smoothing
+parameter in statistical kernel density estimation [80, 88], our smoothed approxima-
+tions, Kϵ ∗µf, exhibit a tradeoﬀbetween numerical cost and smoothing (see sub-
+section 4.3).
+In section 5, we adapt arguments from kernel density estimation to
+determine what properties a smoothing kernel needs to achieve a high-order of con-
+vergence in the smoothing parameter.
+4Spectral pollution is the phenomenon of eigenvalues of ﬁnite discretizations/truncations clus-
+tering at points not in the spectrum of L as the truncation size increases.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+5
+3.3. Sturm–Liouville and Jacobi operators. Spectral density functions are
+used in the analysis of singular Sturm–Liouville problems and related classes of self-
+adjoint operators [72]. A subtle distinction between spectral measures µf and the
+spectral density function associated with a Sturm–Liouville problem is that the latter
+does not depend on a given vector f. Instead, the spectral density function corre-
+sponds to the multiplicative version of the spectral theorem [87, Thm. VIII.4], which
+induces a Fourier transform-type pair [14]. However, computational methods for both
+spectral quantities share similarities. For example, one can compute spectral density
+functions using a Plemelj-type formula [119], which is similar to (4.1).
+A common approach to computing spectral density functions associated with
+Sturm–Liouville operators on unbounded domains is to truncate the domain and
+take an appropriate limit of an eigenvalue counting function, as implemented in the
+software package SLEDGE [40,41,84]. This is similar in spirit to DOS calculations,
+though convergence analysis remains challenging due to the truncation of the inﬁnite
+interval [85]. This approach can be computationally expensive since the eigenvalues
+cluster as the domain size increases; often, hundreds of thousands of eigenvalues and
+eigenvectors need to be computed. One can avoid this cost for certain operators by
+leveraging analytic limit formulas and solving an ODE at each evaluation point of
+the spectral density function [38,39]. Similar methods apply to compute the inverse
+scattering transform for the Toda lattice and the KdV equation [7,114].
+For a Jacobi operator J on ℓ2(N), under suitable conditions [106, Ch. 2], the
+spectral measure µe1 of J (e1 denotes the ﬁrst canonical basis vector) coincides with
+the measure given by the multiplicative version of the spectral theorem. Moreover,
+µe1 is the probability measure associated with the orthonormal polynomials whose
+three-term recurrence relation is associated with J [25]. Due to this connection, the
+study of spectral measures has a rich history in the theory of orthogonal polynomials
+and quadrature rules for numerical integration [25, 27, 68, 103, 106]. In special cases,
+one can recover a distribution function for µe1 as a limit of functions constructed using
+Gaussian quadrature [13, Ch. 2]. One can even use connection coeﬃcients between
+families of orthogonal polynomials to compute spectral measures of Jacobi operators
+that arise as compact perturbations of Toeplitz operators [117]. Applications in this
+direction include quantum theory and random matrix theory [42,61,95].
+While these approaches are specialized to a selected class of operators, we focus
+on developing a general framework to deal rigorously with arbitrary order ODEs and
+PDEs (see subsection 7.1), and integral operators (see subsection 4.1).
+The price
+we pay for this generality is the need to solve shifted linear systems close to the
+operator’s spectrum. We demonstrate that this can be done robustly with fast, well-
+conditioned, and spectrally accurate methods (see section 6). Similarly, we aim to
+build a framework that treats general discrete or lattice operators (see subsection 6.3).
+4. Resolvent-based approach to evaluate the spectral measure. The key
+to our framework for computing spectral measures is the resolvent of L (see (3.1)).
+A classical result in operator theory is Stone’s formula, which says that the spectral
+measure of L can be recovered from the jump in the resolvent RL(z) across the real
+axis [101] [87, Thm. VII.13]. More precisely, if we select ϵ > 0 and regard RL(x + iϵ)
+as a function of the real variable x, then we have that
+(4.1)
+1
+2πi⟨(RL( · + iϵ) −RL( · −iϵ))f, f⟩= 1
+πIm(⟨RL( · + iϵ)f, f⟩) →µf as ϵ ↓0.
+Here, the equality is due to the conjugate symmetry of RL(z) across the real axis and
+the limit should be understood in the sense of weak convergence of measures.
+Preprint for review purposes only.
+6
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+Stone’s formula is a consequence of the functional calculus identity
+(4.2)
+⟨RL(x + iϵ)f, f⟩=
+Z
+R
+dµf(y)
+y −(x + iϵ).
+By using (4.2) to rewrite (4.1), we arrive at an expression for the jump over the real
+axis as a convolution of the spectral measure with the Poisson kernel, i.e.,
+(4.3)
+1
+π Im(⟨RL(x + iϵ)f, f⟩) = 1
+π
+Z
+R
+ϵ
+ϵ2 + (x −y)2 dµf(y).
+The Poisson kernel is one of the most common kernels used to smooth approximations
+of measures in particle and condensed matter physics (see the discussion in subsec-
+tion 3.1). When L has no singular continuous spectrum, substituting the spectral
+measure given in (2.2) into the expression (4.3) shows that RL(x + iϵ) provides an
+approximation to both the discrete and continuous components of the measure µf for
+ϵ > 0. That is,
+(4.4)
+1
+π Im(⟨RL(x + iϵ)f, f⟩) = 1
+π
+X
+λ∈Λp(L)
+ϵ ⟨Pλf, f⟩
+ϵ2 + (x −λ)2 + 1
+π
+Z
+R
+ϵ ρf(y)
+ϵ2 + (x −y)2 dy.
+The contribution from the sum in (4.4) is a series of Poisson kernels centered at the
+eigenvalues and scaled by the corresponding coeﬃcients ⟨Pλf, f⟩for λ ∈Λp(L). As
+ϵ ↓0, the sum converges to a series of Dirac delta distributions representing the
+discrete part of the measure in (2.2). Meanwhile, the integral in (4.4) contributes a
+smoothed approximation to the Radon–Nikodym derivative ρf.
+Motivated by (4.4), we select ϵ > 0 and approximate samples of µf by evaluating
+(4.5)
+µϵ
+f(x) := 1
+πIm(⟨RL(x + iϵ)f, f⟩) .
+From (4.1), we know that as ϵ ↓0 we have µϵ
+f →µf in the sense of weak convergence of
+measures. Moreover, if µf has some additional local regularity about a point x0 ∈R,
+then µϵ
+f(x0) →ρf(x0) as ϵ ↓0 (see Theorem 4.1). There is a two-step procedure for
+evaluating µϵ
+f(x0) at some x0 ∈R, which is immediate from (4.5):
+1. Solve the shifted linear equation for uϵ:
+(4.6)
+(L −x0 −iϵ)uϵ = f,
+uϵ ∈D(L).
+2. Compute the inner product µϵ
+f(x0) = 1
+πIm(⟨uϵ, f⟩).
+In practice, the smaller ϵ>0, the more computationally expensive it is to evaluate (4.5)
+because if x0 ∈Λ(L) then the resolvent operator RL(x0 + iϵ) is unbounded in the
+limit ϵ ↓0. One often computes µϵ
+f(x0) for successively smaller ϵ to obtain a sequence
+that converges to µf(x0). For example, Richardson’s extrapolation can improve the
+convergence rate in ϵ [15], which can be proven using the machinery of section 5.
+Typically, one wants to sample µϵ
+f at several points x1, . . . , xm ∈R, and then
+construct a local or global representation of µϵ
+f for visualization or further computa-
+tions. If one wants to visualize µϵ
+f in an interval, then we recommend evaluating at
+equispaced points in that interval. However, when one wants to calculate an integral
+with respect to µϵ
+f, it is better to evaluate µϵ
+f at quadrature nodes (see subsection 5.2).
+Note that if xj ̸∈Λ(L), then µϵ
+f(xj) →0 as ϵ ↓0 (for example, see Figure 4.1).
+Although singular continuous spectrum may appear to be an exotic phenomenon,
+it occurs in applications of practical interest. For example, discrete Schr¨odinger op-
+erators with aperiodic potentials on ℓ2(Z) (such as the Fibonacci Hamiltonian) can
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+7
+-2
+-1
+0
+1
+2
+10-4
+10-2
+100
+102
+µϵ
+f(x)
+x
+ϵ = 0.001
+ϵ = 0.01
+ϵ = 0.1
+-2
+-1
+0
+1
+2
+10-4
+10-2
+100
+102
+-0.5
+-0.45
+-0.4
+-0.35
+-0.3
+10-1
+100
+µϵ
+f(x)
+x
+ϵ = 0.001
+ϵ = 0.01
+ϵ = 0.1
+Figure 4.1. Left: The smoothed approximation µϵ
+f for the integral operator in (4.7) and dif-
+ferent ϵ. The discretization sizes for solving the shifted linear systems are adaptively selected. The
+dashed line corresponds to the spectral measure of the operator given by u(x) →xu(x). Adding the
+compact perturbation (the integral term) alters the shape of the measure over [−1, 1] and there is an
+additional eigenvalue near x ≈1.37. Right: The same computation except with a ﬁxed discretization
+size of N = 300 to solve (4.6). The magniﬁed region shows spurious high-frequency oscillations for
+ϵ = 0.001, an artifact caused by the discrete spectrum of the underlying discretization.
+have spectra that are Cantor sets with purely singular continuous spectral measures
+(see [3,22,23,45,86,102]). When Λ(L) has a non-zero singular continuous component,
+µϵ
+f →µf weakly as ϵ ↓0 and our algorithms can compute µf(U) (for open sets U)
+and the functional calculus of L.5
+4.1. Evaluating the spectral measure of an integral operator. To illus-
+trate our evaluation strategy, consider the integral operator deﬁned by
+(4.7)
+[Lu](x) = xu(x) +
+Z 1
+−1
+e−(x2+y2)u(y) dy,
+x ∈[−1, 1],
+u ∈L2([−1, 1]).
+The integral operator L in (4.7) has continuous spectrum in [−1, 1], due to the xu(x)
+term, and discrete spectrum in R \ [−1, 1] from the integral term (a compact per-
+turbation [59]). Figure 4.1 (left) shows three smoothed approximations of µf with
+f(x) =
+p
+3/2 x, for smoothing parameter ϵ = 0.1, 0.01, and 0.001. We see the pres-
+ence of an eigenvalue near x ≈1.37 from a spike in the smoothed measure that
+approximates a Dirac delta .
+To perform the two-step procedure described above on a computer, one must
+discretize the operator L, and we do this by discretizing L with an N × N matrix
+corresponding to an adaptive Chebyshev collocation scheme.6 While the precise dis-
+cretization details are delayed until subsection 6.2, Figure 4.1 illustrates the critical
+role that N plays when evaluating µϵ
+f. In particular, there are two limits to take in
+theory: N →∞and ϵ ↓0. It is known that these two limits must be taken with con-
+siderable care [15]. If N is kept ﬁxed as one takes ϵ ↓0, then the computed samples of
+µϵ
+f do not converge (see Figure 4.1 (right)) because the computed samples get polluted
+by the discrete spectrum of the discretization. Instead, as one takes ϵ ↓0, one must
+5In general, it is also impossible to design a black-box method that separates the singular con-
+tinuous component of µf from the other components. This is made precise in [15], which uses the
+framework of the Solvability Complexity Index (SCI) hierarchy [16–18].
+6While N ×N discretizations converge for Fredholm operators [56], square truncations of spectral
+discretizations of operators may not always converge. Instead, one may need to take rectangular
+truncations to ensure that discretizations of RL(z)f converge [15].
+Preprint for review purposes only.
+8
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+appropriately increase N too. In practice, we increase N by selecting it adaptively
+to ensure that we adequately resolve solutions to (4.6) (see Figure 4.1 (left)). The
+precise details on how we adequately resolve solutions are given in subsection 6.2.
+4.2. Pointwise convergence of smoothed measure. It is known that if
+µf is locally absolutely continuous with continuous Radon–Nikodym derivative ρf
+(see (2.2)), then µϵ
+f converges pointwise to ρf [52, p. 22]. However, under additional
+smoothness assumptions on µf, it is useful to understand how rapidly µϵ
+f converges to
+µf. The connection between µϵ
+f and the Poisson kernel in (4.3) allows us to do this on
+intervals for which µf possesses some local regularity so that ρf is H¨older continuous.
+We let Ck,α(I) denote the H¨older space of functions that are k times continuously
+diﬀerentiable on an interval I with an α-H¨older continuous kth derivative [36]. For
+h1 ∈C0,α(I) and h2 ∈Ck,α(I) we deﬁne the seminorm and norm, respectively, as
+|h1|C0,α(I) = sup
+x̸=y∈I
+|h1(x) −h1(y)|
+|x −y|α
+,
+∥h2∥Ck,α(I) = |h(k)
+2 |C0,α(I) + max
+0≤j≤k ∥h(j)
+2 ∥∞,I.
+Theorem 4.1. Suppose that the measure µf in (2.2) is absolutely continuous on
+the interval I = (x0 −η, x0 + η) for some x0 ∈R and η > 0, let µϵ
+f be deﬁned as
+in (4.5), and let 0 ≤α < 1. If ρf ∈C0,α(I), then
+|ρf(x0) −µϵ
+f(x0)| = O(ϵα),
+as
+ϵ ↓0.
+Proof. First, decompose ρf into two non-negative parts so that ρf = ρ1 + ρ2,
+where the support of ρ1 is in I and ρ2 vanishes on (x0 −η/2, x0 + η/2).
+Since
+ρf(x0) = ρ1(x0) and the Poisson kernel integrates to 1, we can use the convolution
+representation for µϵ
+f (see (4.3) and (4.5)) and the commutativity of convolution to
+bound the approximation error as
+(4.8)
+π|ρf(x0) −µϵ
+f(x0)| =
+
+Z
+R
+ϵ
+ϵ2 + y2 ρ1(x0)dy −
+Z
+R
+ϵdµf(y)
+ϵ2 + (x0 −y)2
+
+≤
+
+Z
+R
+ϵ
+ϵ2 + y2 (ρ1(x0) −ρ1(x0 −y))dy
+ +
+Z
+R
+ϵdµ(r)
+f (y)
+ϵ2 + (x0 −y)2 .
+Here, dµ(r)
+f (y) := dµf(y) −ρ1(y)dy is a non-negative measure with support in R\(x0−
+η/2, x0 + η/2). Since µf is a probability measure, we have that
+R
+R dµ(r)
+f (y) ≤1, and
+the second term in (4.8) is bounded via
+(4.9)
+Z
+R
+ϵdµ(r)
+f (y)
+ϵ2 + (x0 −y)2 =
+Z
+|x0−y|≥η/2
+ϵdµ(r)
+f (y)
+ϵ2 + (x0 −y)2 ≤
+ϵ
+ϵ2 + η2
+4
+.
+Since ρf ∈C0,α(I), standard arguments using cutoﬀfunctions [36] show that we can
+choose ρ1 so that |ρ1|C0,α(I) ≤|ρf|C0,α(I) + Cη−α∥ρf∥∞,I for some universal constant
+C. Consequently, we have that
+|ρ1(x0) −ρ1(x0 −y)| ≤|ρ1|C0,α(I)|y|α ≤(|ρf|C0,α(I) + Cη−α∥ρf∥∞,I)|y|α.
+Substituting this bound into the ﬁrst term on the right-hand side of (4.8) and com-
+bining with (4.9), yields
+|ρf(x0) −µϵ
+f(x0)| ≤|ρf|C0,α(I) + Cη−α∥ρf∥∞,I
+π
+Z
+R
+ϵ
+ϵ2 + y2 |y|α dy +
+ϵ
+π
+
+ϵ2 + η2
+4
+.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+9
+-1
+-0.5
+0
+0.5
+1
+-60
+-50
+-40
+-30
+-20
+-10
+0
+10
+uϵ(x)
+x
+-3
+-2
+-1
+0
+1
+2
+3
+-5
+0
+5
+uϵ(θ)
+θ
+Figure 4.2. Real part of the numerical solutions to the shifted linear equations in (4.6) for
+the integral operator in (4.7) (left) and the Schr¨odinger operator in (4.11) (right), with ϵ = 0.1
+(yellow), ϵ = 0.05 (orange), and ϵ = 0.01 (blue). The solutions to (4.11) are mapped to [−π, π] via
+x = 10i(1 −eiθ)/(1 + eiθ). We discretize using sparse, well-conditioned spectral methods and the
+discretization sizes are selected adaptively to accurately resolve uϵ(x) and uϵ(θ).
+Calculating the integral explicitly leads to
+(4.10) |ρf(x0) −µϵ
+f(x0)| ≤
+ |ρf|C0,α(I) + Cη−α∥ρf∥∞,I
+
+sec
+απ
+2
+
+ϵα +
+ϵ
+π
+
+ϵ2 + η2
+4
+.
+The right-hand side of (4.10) is O(ϵα) as ϵ ↓0, which concludes the proof.
+In Theorem 4.1, we see that the convergence rate of |ρf(x0) −µϵ
+f(x0)| as ϵ ↓0
+depends on the local regularity of µf. One can also show (see Theorem 5.2) that
+|ρf(x0) −µϵ
+f(x0)| = O(ϵ log(1/ϵ)) if ρf ∈C1(I) as well as the fact that any additional
+smoothness assumptions on ρf no longer improve the convergence rate.7 Since our
+procedure is local, the convergence rate is not aﬀected by far away discrete and singular
+continuous components of µf. However, the convergence degrades near singular points
+in the spectral measure because the constants in (4.10) blow up as η →0. While
+|ρf(x0) −µϵ
+f(x0)| = O(ϵα) in Theorem 4.1 is stated as an asymptotic statement, we
+can also obtain explicit bounds for adaptive selection of ϵ (see Theorem 5.2).
+4.3. A numerical balancing act. To explore the practical importance of the
+convergence rates in Theorem 4.1, we examine the numerical cost associated with
+solving the shifted linear systems in (4.6). When the real component of the shift is in
+the continuous spectrum of L and ϵ is small, we typically require large discretizations
+to avoid the situation observed in Figure 4.1 (right). There are many potential reasons
+why we require large discretization sizes as ϵ ↓0. Here are two illustrative examples:
+1) Interior layers. Revisiting the integral operator example in (4.7), we select
+x0 = 1/2 in the continuous spectrum of L, and f(x) =
+p
+3/2 x. In Figure 4.2 (left),
+we observe that the solution uϵ(x) develops an interior layer and blows up at x0 = 1/2
+as ϵ ↓0. The blow-up occurs because the multiplicative term in L −(x0 + iϵ) has a
+root at x0 = 1/2 when ϵ = 0, giving rise to a pole in uϵ(x). For ϵ > 0, the pole of
+uϵ(x) is located at a distance of O(ϵ) away from the real axis. A large discretization
+size is needed to resolve uϵ(x) for small ϵ due to the thin interior layer in uϵ(x).
+7The logarithmic term occurs due to the non-integrability of x/(π(x2 + 1)). One can also show
+that the error rate of O(ϵ log(1/ϵ)) is achieved if ρf ∈C0,1(I) is Lipschitz continuous.
+Preprint for review purposes only.
+10
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+0
+1000
+2000
+3000
+4000
+10-15
+10-10
+10-5
+100 |µϵ
+f,N(x0) −µϵ
+f(x0)|/|µϵ
+f(x0)|
+N
+ϵ = 0.05
+ϵ = 0.01
+ϵ = 0.005
+10-2
+10-1
+100
+10-2
+10-1
+100
+|ρf(x0) −µϵ
+f(x0)|/|ρf(x0)|
+O(ϵ log(ϵ−1))
+ϵ
+Figure 4.3.
+Left: The relative error in the numerical approximation µϵ
+f,N, corresponding
+to discretization size N, of the smoothed measure in (4.5) for the integral operator in (4.7) with
+ϵ = 0.05, ϵ = 0.01, and ϵ = 0.005. Right: The pointwise relative diﬀerence between the smoothed
+measure µϵ
+f(x) and the density ρf(x), evaluated at x0 = 1/2, compared with the O(ϵ log(ϵ−1)) error
+bound in Theorem 5.2 for the integral operator in (4.7). The relative error is computed by comparing
+with a numerical solution that has been adaptively resolved to machine precision.
+2) Oscillatory behavior. Consider the second-order diﬀerential operator given by
+(4.11)
+[Lu](x) = −d2u
+dx2 (x) +
+x2
+1 + x6 u(x),
+x ∈R.
+We select x0 = 0.3 in the continuous spectrum of L, and f(x) =
+p
+9/π · x2/(1 + x6).
+In Figure 4.2 (right), we plot solutions mapped onto the domain [−π, π] by the change-
+of-variables x = 10i(1 −eiθ)/(1 + eiθ). The solutions uϵ(x) are highly oscillatory with
+slow decay as θ →±π. As ϵ ↓0 the decay degrades and the persistent oscillations
+correspond to a transition in the nature of the singular points of (4.6) at ±∞. This
+means a large discretization is needed to resolve uϵ(x) for small ϵ.
+The dominating computational expense in evaluating µϵ
+f is solving the shifted
+linear systems in (4.6), and the cost of computing uϵ(x) generally increases as ϵ ↓0.
+There is a balancing act. On the one hand, we wish to stay as far away from the
+spectrum as possible, so that the evaluation of µϵ
+f is computationally eﬃcient. On the
+other hand, we desire samples of µϵ
+f to be good approximations to ρf, which requires
+a small ϵ > 0.
+Even though we use sparse, well-conditioned spectral methods to
+discretize (4.6) (see section 6), the trade-oﬀbetween computational cost and accuracy
+means that the slow convergence rate determined in Theorem 4.1 is a severe limitation.
+In Figure 4.3, we explore the discretization sizes that are needed to evaluate spectral
+measures with the Poisson kernel accurately. For the integral operator in (4.7) and ϵ =
+0.05, 0.01, and 0.005, we observe that we need N = 400, 1700, and 3100, respectively
+(see Figure 4.3 (left)).
+Unfortunately, to obtain samples of the spectral measure
+with two digits of relative accuracy, we require that ϵ ≈0.01 (see Figure 4.3). For this
+example, we observe that we require N ≈20/ϵ for small ϵ > 0, so it is computationally
+infeasible to obtain more than ﬁve or six digits of accuracy with the Poisson kernel.
+In addition to the computational cost of increasing N, the discretizations used to
+solve the linear systems in (4.6) become increasingly ill-conditioned when x0 ∈Λ(L)
+and ϵ ↓0 (a reﬂection of ∥RL(x0+iϵ)∥= ϵ−1). This can limit the attainable accuracy.
+Moreover, the performance of iterative methods, if used to accelerate the solution
+of the large shifted linear systems, may also suﬀer. In our experience, the cost of
+increasing N is usually the limiting factor and we rarely take ϵ < 10−2.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+11
+5. High-order kernels.
+Theorem 4.1 demonstrates that µϵ
+f →ρf pointwise
+in intervals for which µf is absolutely continuous with H¨older continuous density ρf,
+where the rate of convergence depends on the H¨older exponent of ρf. However, even
+when ρf possesses additional regularity, the best rate of convergence for smoothed
+measures using the Poisson kernel is O(ϵ log(1/ϵ)). A natural question is:
+“Can we use other kernels to exploit additional regularity in µf?”
+In this section, we construct kernels that can be used to compute smoothed mea-
+sures that approximate ρf to high-order in ϵ when ρf is smooth. This allows us to
+obtain accurate samples of µf while avoiding extremely small ϵ and the associated
+computational cost of solving the shifted linear equations in (4.6) when the shifts are
+close to the real line. We use K(x) to denote a kernel for which Kϵ(x) = ϵ−1K(x/ϵ)
+is an approximation to the identity, i.e., Kϵ →δ as ϵ ↓0 in the sense of distribu-
+tions [98, Ch. 3], where δ is the Dirac delta distribution.
+To gain intuition about the conditions that K(x) must satisfy so that Kϵ ∗µf
+approximates µf to high-order, consider an absolutely continuous probability measure
+µ with density ρ supported on an interval I = (x0−η, x0+η), for some x0 ∈R and η >
+0. The following argument is common in statistical non-parametric regression [115,
+116]. Since we want Kϵ to be an approximation to the identity, our ﬁrst property is
+that
+R
+R K(x)dx = 1. For further properties, we examine the approximation error
+[Kϵ ∗µ](x0) −ρ(x0) =
+Z
+R
+Kϵ(y)(ρ(x0 −y) −ρ(x0)) dy.
+Assuming that ρ ∈Cn,α(I) for some 0 < α < 1, we can use an nth order Taylor
+expansion of ρ(x0 −y) −ρ(x0) to rewrite the approximation error as
+[Kϵ ∗µ](x0) −ρ(x0) =
+n−1
+X
+k=1
+(−1)kρ(k)(x0)
+k!
+Z
+R
+Kϵ(y)yk dy +
+Z
+R
+Kϵ(y)Rn(x0, y) dy,
+where Rn(x0, y) denotes the O(|y|n) remainder term in the Taylor series and ρ(k) is
+the kth derivative of ρ. The change-of-variables y →ϵy reveals that the kth term in
+the series is of size O(ϵk), provided that K(y)yk is integrable. Meanwhile, the H¨older
+continunity of ρ(n) shows that the term involving Rn(x0, y) is of size O(ϵn+α) provided
+that K(y)yn+α is integrable and
+R
+R K(y)yn dy = 0. Therefore, a kernel that achieves
+an O(ϵn+α) approximation error has vanishing moments, i.e.,
+R
+R K(y)yk dy = 0 for
+1 ≤k ≤n.
+In practice, µ may not be absolutely continuous and its absolutely continuous part
+may have a density ρ with singular points or unbounded support. As in Theorem 4.1,
+we can deal with the general case by decomposing ρ = ρ1 + ρ2 into two non-negative
+parts, where ρ1 is suﬃciently smooth and compactly supported on I, and where ρ2
+vanishes in a neighborhood of x0. The cost of this decomposition is a second term in
+the approximation error (analogous to the second term on the right-hand side of (4.8))
+[Kϵ ∗µ](x0) −ρ(x0) =
+Z
+R
+Kϵ(y)(ρ1(x0 −y) −ρ1(x0)) dy +
+Z
+R
+Kϵ(x0 −y) dµ(r)(y),
+where dµ(r)(y) = dµ(y) −ρ1(y)dy.
+To ensure that this additional term does not
+dominate as ϵ ↓0, it is necessary that the kernel K(y) decays at an appropriate rate
+as |y| →∞. This ensures that Kϵ(x0 −y) is suﬃciently small on the support of
+dµ(r)(y) (see (4.9) for the decay in the Poisson kernel). Motivated by this discussion,
+we make the following deﬁnition (similar to [115, Def. 1.3]).
+Preprint for review purposes only.
+12
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+Definition 5.1 (mth order kernel). Let m be a positive integer and K ∈L1(R).
+We say K is an mth order kernel if it satisﬁes the following properties:
+(i) Normalized:
+R
+R K(x)dx = 1.
+(ii) Zero moments: K(x)xj is integrable and
+R
+R K(x)xjdx = 0 for 0 < j < m.
+(iii) Decay at ±∞: There is a constant CK, independent of x, such that
+(5.1)
+|K(x)| ≤
+CK
+(1 + |x|)m+1 ,
+x ∈R.
+It is straightforward to verify that the Poisson kernel is a ﬁrst-order kernel and
+the Gaussian kernel, i.e., h(x) = (2π)−1/2e−x2/2, is a second-order kernel. While the
+Gaussian kernel plays an important role in DOS calculations [69] and kernel density
+estimation [93], it is not as useful in our framework since the evaluation of hϵ ∗µf is
+not immediately related to pointwise evaluations of the resolvent (see subsection 5.1).
+Since an mth order kernel, K, is an approximation to the identity, one can show
+that Kϵ ∗µf converges weakly to µf. Moreover, in intervals where µf is absolutely
+continuous and suﬃciently regular, Kϵ ∗µf converges pointwise to ρf and the rate of
+convergence increases with the smoothness of ρf, up to a maximum of O(ϵm log(1/ϵ)).
+Theorem 5.2. Let K be an mth order kernel and suppose that the measure µf
+is absolutely continuous on I = (x0 −η, x0 + η) for η > 0 and a ﬁxed x0 ∈R.
+Let ρf be the Radon–Nikodym derivative of the absolutely continuous component of
+µf, and suppose that ρf ∈Cn,α(I) with α ∈[0, 1). Denote the pointwise error by
+Eϵ(x) = |ρf(x) −[Kϵ ∗µf](x)|. Then it holds that
+(i) If n + α < m, then, for a constant C(n, α) depending only on n and α,
+(5.2) Eϵ(x0)≤
+CKϵm
+(ϵ + η
+2)m+1 +C(n, α)∥ρf∥Cn,α(I)
+Z
+R
+|K(y)||y|n+αdy
+ 1 + η−n−α
+ϵn+α.
+(ii) If n + α ≥m, then, for a constant C(m) depending only on m,
+(5.3) Eϵ(x0)≤
+CKϵm
+(ϵ + η
+2)m+1 + C(m)∥ρf∥Cm(I)
+ 
+CK +
+Z
+η
+ϵ
+−η
+ϵ
+|K(y)||y|mdy
+!
+ 1 + η−m
+ϵm.
+Here, CK is from (5.1).
+Proof. See Appendix A.1.
+Using (5.1) to bound |K(y)| in (5.2) and (5.3), Theorem 5.2 shows that, under
+local regularity conditions near x0 ∈R and for ﬁxed η > 0, an mth order kernel has
+|ρf(x0) −[Kϵ ∗µf](x0)| = O(ϵn+α) + O(ϵm log(1/ϵ)),
+as
+ϵ ↓0.
+The logarithmic term appears in the case that K(x)xm is not integrable. The upper
+bounds on Eϵ(x0) in Theorem 5.2 deteriorate as the interval of regularity shrinks
+(η →0), which is to be expected.8
+5.1. Rational kernels. Now that we know the necessary properties of a kernel
+K so that Kϵ ∗µf achieves high-order convergence (see Deﬁnition 5.1), we can de-
+velop a resolvent-based approach to approximately evaluate a spectral measure more
+8Similar results to Theorem 5.2, without the ﬁrst term on the right-hand side of (5.2) and (5.3),
+for absolutely continuous probability measures with globally H¨older continuous density functions are
+used in kernel density estimation in statistics (see, for example, [115, Prop. 1.2]).
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+13
+eﬃciently. The key to our computational framework (see section 4) is the connection
+between the smoothed measure and the resolvent in (4.3). This relation allows us to
+compute the convolution of the measure µf with the Poisson kernel by evaluating the
+resolvent operator at the poles of the (rescaled) Poisson kernel. In other words, we
+can sample the smoothed measure by solving the shifted linear equations in (4.6).
+Using the identity in (4.2), we can build generalizations of (4.3) for convolutions
+with rational functions. Suppose that the kernel K is of the form
+(5.4)
+K(x) =
+1
+2πi
+n1
+X
+j=1
+αj
+x −aj
+−
+1
+2πi
+n2
+X
+j=1
+βj
+x −bj
+,
+where a1, . . . , an1 are distinct points in the upper half-plane and b1, . . . , bn2 are distinct
+points in the lower half-plane. We restrict K to have only simple poles to avoid having
+to compute powers of the resolvent. Using (4.2), the convolution Kϵ ∗µf is given by
+(5.5)
+[Kϵ ∗µf](x) = −1
+2πi
+
+
+n1
+X
+j=1
+αj⟨RL(x −ϵaj)f, f⟩−
+n2
+X
+j=1
+βj⟨RL(x −ϵbj)f, f⟩
+
+.
+Our goal is to choose the poles and residues in (5.4) so that K is an mth order kernel.
+Given an integer m ≥1, we are interested in ﬁnding the smallest possible n1 and n2
+in (5.4) so that (5.5) is as eﬃcient to evaluate as possible.
+We want K(x) = O(|x|−(m+1)) as |x| →∞, which forces linear constraints to
+hold between the α1, . . . , αn2 and β1, . . . , βn2 parameters, as follows. Generically, K
+in (5.4) is a type (n1+n2−1, n1+n2) rational function, which means it can be written
+as the quotient of a degree n1 + n2 −1 polynomial and a degree n1 + n2 polynomial.
+In this form, the coeﬃcient of highest power of x in the numerator is a multiple of
+n1
+X
+j=1
+αj −
+n2
+X
+j=1
+βj,
+which must vanish for K to have suﬃcient decay. Under this condition, we ﬁnd that
+K(x)x =
+1
+2πi
+n1
+X
+j=1
+αjaj
+x −aj
+−
+1
+2πi
+n2
+X
+j=1
+βjbj
+x −bj
+.
+We can apply the same argument as before to see that when m ≥2, we require that
+n1
+X
+j=1
+αjaj −
+n2
+X
+j=1
+βjbj = 0.
+We repeat this process m −1 times (each time multiplying each term in the sum by
+the appropriate aj or bj) to ﬁnd that K(x) = O(|x|−(m+1)) as |x| →∞if and only if
+(5.6)
+n1
+X
+j=1
+αjak
+j =
+n2
+X
+j=1
+βjbk
+j ,
+k = 0, . . . , m −1.
+Assuming (5.6) is satisﬁed, the normalization and zero moment conditions (see Def-
+inition 5.1 (i) and (ii)) provide us with m linear conditions on the moments of K,
+which can be computed explicitly via contour integration. Employing a semi-circle
+Preprint for review purposes only.
+14
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+m
+πK(x) Qm
+j=1(x −aj)(x −aj)
+{α1, . . . , α⌈m/2⌉}
+2
+20
+9
+ 1+3i
+2
+	
+3
+−5
+4x2 + 65
+16
+{−2 + i, 5}
+4
+−3536
+625 x2 + 21216
+3125
+ −39−65i
+24
+, 17+85i
+8
+	
+5
+130
+81 x4 −12350
+729 x2 + 70720
+6561
+ 15−10i
+4
+, −39+13i
+2
+, 65
+2
+	
+6
+1287600
+117649 x4 −34336000
+823543 x2 + 667835200
+40353607
+ 725+1015i
+192
+, −2775−6475i
+192
+, 1073+7511i
+96
+	
+Table 5.1
+The numerators and residues of the ﬁrst six rational kernels with equispaced poles (see (5.8)).
+We give the ﬁrst ⌈m/2⌉residues because the others follow by the symmetry αm+1−j = αj.
+contour in the upper half-plane, applying Cauchy’s residue theorem, and taking the
+radius of the semi-circle to inﬁnity, we ﬁnd that the moments are given in terms of
+the poles and residues of K, i.e.,
+Z
+R
+K(y)yk dy =
+n1
+X
+j=1
+αjak
+j =
+n2
+X
+j=1
+βjbk
+j ,
+k = 0, . . . , m −1,
+where the second equality follows from (5.6) or closing the contour in the lower half-
+plane. Therefore, the rational kernel in (5.4) is an mth order kernel provided that the
+following (transposed) Vandermonde systems are satisﬁed:
+(5.7)
+
+
+
+
+
+1
+. . .
+1
+a1
+. . .
+an1
+...
+...
+...
+am−1
+1
+. . .
+am−1
+n1
+
+
+
+
+
+
+
+
+
+
+α1
+α2
+...
+αn1
+
+
+
+
+=
+
+
+
+
+
+1
+. . .
+1
+b1
+. . .
+bn2
+...
+...
+...
+bm−1
+1
+. . .
+bm−1
+n2
+
+
+
+
+
+
+
+
+
+
+β1
+β2
+...
+βn2
+
+
+
+
+=
+
+
+
+
+
+1
+0
+...
+0
+
+
+
+
+.
+The systems in (5.7) are guaranteed to have solutions when n1, n2 ≥m. For compu-
+tational eﬃciency, we select n1 = n2 = m poles in the upper and lower half-planes.
+The Poisson kernel ﬁts into this setting with m = 1, a1 = b1 = i and α1 = β1 = 1.
+It may appear from (5.5) that we need 2m resolvent evaluations to evaluate Kϵ∗µf
+at a single point x. However, if the poles are selected so that bj = aj and βj = αj, then
+the conjugate symmetry of the resolvent, i.e., ⟨RL(¯z)f, f⟩= ⟨RL(z)f, f⟩, reduces the
+number of resolvent evaluations to m. With this choice, we ﬁnd that
+[Kϵ ∗µf](x) = −1
+π
+m
+X
+j=1
+Im (αj ⟨RL(x −ϵaj)f, f⟩) ,
+which is analogous to (4.5). While the properties of an mth order kernel determine
+the number of poles and the residues of K (see (5.7)), the locations of the poles in
+the upper half-plane are left to our discretion.
+5.1.1. Equispaced poles. As a natural extension of the Poisson kernel, whose
+two poles are at ±i, we consider the family of mth order kernels with equispaced poles
+in the upper and lower half-planes given by
+(5.8)
+aj =
+2j
+m + 1 −1 + i,
+bj = aj,
+1 ≤j ≤m.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+15
+-4
+-2
+0
+2
+4
+0
+0.5
+1
+1.5
+K(x)
+x
+m = 1
+
+m = 2
+-
+m = 3
+
+m = 4
+-
+m = 5
+
+m = 6
+-
+10-2
+10-1
+100
+10-10
+10-5
+100|ρf(x0) −[Kϵ ∗µf](x0)|/|ρf(x0)|
+ϵ
+m = 1
+m = 2
+m = 3
+m = 4 m = 5
+m = 6
+Figure 5.1. Left: The mth order kernels constructed from (5.7) with poles in (5.8) for 1 ≤
+m ≤6. Right: The pointwise relative error in smoothed measures of the integral operator in (4.7)
+computed using the high-order kernels with poles in (5.8) for 1 ≤m ≤6.
+The relative error is
+computed by comparing with a numerical solution that is resolved to machine precision.
+0
+1
+2
+3
+4
+5
+6
+10-6
+10-4
+10-2
+100
+[Kϵ ∗µf](x)
+x
+m = 1
+m = 2
+
+
+
+
+m = 6
+10-2
+10-1
+100
+10-10
+10-8
+10-6
+10-4
+10-2
+100|ρf(x0) −[Kϵ ∗µf](x0)|/|ρf(x0)|
+ϵ
+m = 1
+m = 2
+m = 3
+m = 4
+m = 5
+m = 6
+Figure 5.2. Results for the Schr¨odinger operator in (4.11) using mth order kernels with equi-
+spaced poles (see (5.8)). Left: Smoothed approximations to the spectral measure. Right: Pointwise
+relative error, computed by comparing with a numerical solution resolved to machine precision.
+We then determine the residues by solving the Vandermonde system in (5.7). The ﬁrst
+six kernels are plotted in Figure 5.1 (left) and are explicitly written down in Table 5.1.
+Empirically, we found that the choice in (5.8) performed slightly better than other
+natural choices such as Chebyshev points with an oﬀset +i, rotated roots of unity or
+dyadic poles aj = i2−j. Dyadic poles have the advantage that if ϵ is halved, the
+resolvent only needs to be computed at one additional point. The ill-conditioning
+of the Vandermonde system did not play a role for the values of m here. Moreover,
+equispaced poles are particularly useful when one wishes to sample the smoothed
+measure Kϵ ∗µf over an interval since samples of the resolvent can be reused for
+diﬀerent points in the interval. Finally, if ϵ is found to be insuﬃciently small, instead
+of re-evaluating the resolvent at m points, one can add poles closer to the real axis
+(with a smaller ϵ) and reuse the old resolvent evaluations. This eﬀectively increases m,
+and hence the coeﬃcients αj need to be recomputed. This may be computationally
+beneﬁcial since the cost of solving the Vandermonde system is typically negligible
+compared to the cost of evaluating the resolvent close to the real axis.
+To demonstrate the practical advantage of high-order kernels, we revisit the ex-
+amples from section 4 and compute the smoothed measure Kϵ ∗µf using mth order
+Preprint for review purposes only.
+16
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+0.3
+0.4
+0.5
+0.6
+0.7
+-1000
+-800
+-600
+-400
+-200
+0
+200
+x
+-3
+-2
+-1
+0
+1
+2
+3
+-5
+0
+5
+θ
+Figure 5.3. Real part of Pm
+j=1 βjRL(x −ϵbj)f, where ϵ is chosen to achieve a relative error
+of 0.0001 for the integral operator in (4.7) (left) and 0.005 for the Schr¨odinger operator in (4.11)
+(right), with m = 1 (blue), m = 2 (yellow), m = 3 (orange), and m = 4 (purple). Recall that the
+solutions to (4.11) are mapped to [−π, π] via x = 10i(1 −eiθ)/(1 + eiθ).
+kernels with equispaced poles. In Figure 5.1 (right) and Figure 5.2 (right), we observe
+the convergence rates predicted in Theorem 5.2 for the integral operator in (4.7) and
+the diﬀerential operator in (4.11), respectively. While the Poisson kernel requires us
+to solve linear equations with shifts extremely close to the continuous spectrum to
+achieve a few digits of accuracy in our approximation to ρf, a sixth-order kernel en-
+ables us to achieve about 11 and 9 digits of accuracy, respectively, without decreasing ϵ
+below 0.01. Figure 5.2 (left) shows the increased resolution obtained when using high-
+order kernels for the diﬀerential operator in (4.11) with smoothing parameter ϵ = 0.1.
+Although using a sixth-order kernel requires six times as many resolvent evaluations
+as that of the Poisson kernel, this is typically favorable because the cost of evaluating
+the resolvent near the continuous spectrum of L increases as ϵ ↓0 (see subsection 4.3).
+In Figure 5.3 (which should be compared to Figure 4.2), we plot the real part of
+the linear combination of solutions, given by
+Re
+
+
+m
+X
+j=1
+βjRL(x −ϵbj)f
+
+.
+Here, ϵ is selected to achieve a relative error of 0.0001 and 0.005 in the density of
+the integral and Schr¨odinger operators, respectively. For a ﬁxed relative error, the
+high-order kernels lead to numerical solutions that are less peaked (or less oscillatory),
+which allows us to use much smaller discretizations of the linear operators.
+5.2. Other types of convergence. Consider the radial Schr¨odinger operator
+with a Hellmann potential and angular momentum quantum number ℓ, given by [50]
+(5.9)
+[Lu](r) = −d2u
+dr2 (r) +
+ℓ(ℓ+ 1)
+r2
++ 1
+r (e−r −1)
+
+u(r),
+r > 0.
+The spectral properties of L are of interest in quantum chemistry, where the Hellman
+potential models atomic and molecular ionization processes [48]. Ionization rates and
+related transition probabilities are usually studied by computing bound and resonant
+states of L; however, we compute this information directly from the spectral measure.
+For example, if f(r) = Ce−(r−r0)2 (where C is chosen so that ∥f∥L2(R+) = 1) is
+the radial component of the wave function of an electron interacting with an atomic
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+17
+[Kϵ ∗µf](x)
+x
+r0 = 4
+r0 = 3
+r0 = 2
+10-2
+10-1
+100
+10-8
+10-6
+10-4
+10-2
+100
+∥ρf −[Kϵ ∗µf]∥L1/∥ρf∥L1
+m = 1
+m = 2
+m = 3
+m = 4
+ϵ
+Figure 5.4. Left: The smoothed approximation to the density on the absolutely continuous
+spectrum of L in (5.9), with fr0(r) = Cr0e−(r−r0)2 and ℓ= 1, for r0 = 2, r0 = 3, and r0 = 4 (Cr0
+is a normalization constant so that ∥fr0∥L2(R+) = 1). The shaded area under each curve corresponds
+to P(1/2 ≤E ≤2) in (5.10) for the particle with wave function fr0(r). Right: The L1((1/2, 2))
+relative error in smoothed measures for the radial Schr¨odinger operator in (5.9). The relative error
+is computed by comparing with a numerical solution that is resolved to machine precision.
+core via the Hellmann potential in (5.9), then we can calculate the probability that
+the electron escapes from the atomic core with energy E ∈[a, b] (with 0 < a < b) via
+(5.10)
+P(a ≤E ≤b) = µf([a, b]) ≈
+Z b
+a
+[Kϵ ∗µf](y) dy,
+ϵ ≪1.
+The error for the approximation in (5.10) is bounded above by
+µf([a, b]) −
+Z b
+a
+[Kϵ ∗µf](y) dy
+ ≤
+Z b
+a
+|ρf(y)−[Kϵ∗µf](y)| dy = ∥ρf −Kϵ∗µf∥L1([a,b]).
+This leads us naturally to the notion of Lp convergence on an interval. The smoothed
+measure always converges to ρf in L1([a, b]) when µf is absolutely continuous on [a, b].
+However, in analogy with the pointwise results in subsection 4.2 and section 5, we
+need to impose some additional regularity on ρf to obtain rates of convergence. We
+let Wk,p(I) denote the Sobolev space of functions in Lp(I) such that f and its weak
+derivatives up to order k have a ﬁnite Lp norm [36].
+Theorem 5.3. Let K be an mth order kernel and 1 ≤p < ∞. Suppose that the
+measure µf is absolutely continuous on the interval I = (a −η, b + η) for η > 0 and
+some a < b. Let ρf denote the Radon–Nikodym derivative of the absolutely continuous
+component of µf, and suppose that ρI := ρf|I ∈Wm,p(I). Then,
+∥ρI −[Kϵ ∗µf]∥Lp((a,b)) ≤CK(b −a)1/p
+ ϵ + η
+2
+m+1 ϵm
++ C(m)CK∥ρI∥Wk,p(I)
+ 1 + η−m
+log
+
+1 + b −a + 2η
+ϵ
+
+ϵm,
+where C(m) is a constant depending only on m, and CK is from (5.1).
+Proof. See Appendix A.2.
+Preprint for review purposes only.
+18
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+Theorem 5.3 implies the asymptotic error rate9
+∥ρI −[Kϵ ∗µf]∥Lp(I) = O(ϵm log(1/ϵ)),
+as
+ϵ ↓0.
+The L1 convergence for the approximation to the probabilities in (5.10) is shown
+in Figure 5.4 (right), which agrees with the asymptotic rates implied by Theorem 5.3.
+If one wishes to compute dynamics of the electron interacting with the atomic core
+via the Hellman potential, then we need a slightly weaker form of convergence. For
+instance, the time autocorrelation of the electron’s wave function can be computed
+by integrating the function Ft(E) = e−iEt against the measure µf, so that
+µf(Ft) = ⟨e−iLtf, f⟩=
+Z ∞
+−∞
+e−iyt dµf(y) ≈
+Z ∞
+−∞
+e−iyt [Kϵ ∗µf](y) dy,
+ϵ ≪1.
+Unlike the previous cases of pointwise and L1 convergence, we do not need any ad-
+ditional requirements on the measure µf, which may be singular and have discrete
+components, to obtain convergence rates. Instead, we require that the function F be
+suﬃciently smooth. For example, if F ∈Cn,α(R) and K is an mth order kernel, then
+approximating F via convolutions and applying Fubini’s theorem shows that
+|µf(F) −[Kϵ ∗µf](F)| = O(ϵn+α) + O(ϵm log(1/ϵ)),
+as
+ϵ ↓0.
+Finally, note that a kernel cannot be non-negative everywhere and have an order
+greater than two. This is not a problem in practice since we can replace [Kϵ ∗µf](x)
+by max{0, [Kϵ ∗µf](x)} with the same error bounds in Theorems 5.2 and 5.3.
+6. The resolvent framework in practice. Given an mth order rational ker-
+nel, deﬁned by distinct poles a1, . . . , am in the upper half-plane, the resolvent-based
+framework for evaluating an approximate spectral measure is summarized in Algo-
+rithm 6.1. This algorithm, which can be performed in parallel for several x0, forms
+the foundation of SpecSolve. SpecSolve uses equispaced poles (see subsection 5.1.1)
+by default, but users may select other options with the name-value pair ‘PoleType’.
+In practice, the resolvent in Algorithm 6.1 is discretized before being applied. We
+compute an accurate value of µϵ
+f provided that the resolvent is applied with suﬃ-
+cient accuracy (see Figure 4.1), which can be done adaptively with a posteriori error
+bounds [15]. For an eﬃcient adaptive implementation, SpecSolve constructs a ﬁxed
+discretization, solves linear systems at each required complex shift, and checks the ap-
+proximation error at each shift. If further accuracy is needed at a subset of the shifts,
+then the discretization is reﬁned geometrically, applied at these shifts, and the error
+is recomputed. This process is repeated until the resolvent is computed accurately at
+all shifts. The user may (optionally) specify initial and maximum discretization sizes
+with the name-value pairs ‘DiscMin’ and ‘DiscMax’.
+SpecSolve supports three types of operators: (1) ordinary diﬀerential opera-
+tors, (2) integral operators, and (3) inﬁnite matrices with ﬁnitely many non-zeros
+per column. For more general operators and inner products, the user must supply a
+command that solves the shifted linear equations in Algorithm 6.1 and a command
+that evaluates the inner products, allowing a user to evaluate spectral measures for
+exotic problems and employ their favorite discretization.
+9Theorem 5.3 for p = 2 without the ﬁrst term on the right-hand side and for absolutely con-
+tinuous probability measures with Wm,2(R) density function is used in kernel density estimation in
+statistics [115, Prop. 1.5]. In this context, the L2 error is used to bound the bias term in the mean
+integrated squared error. The case of L1 convergence requires a diﬀerent proof technique.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+19
+Algorithm 6.1 A practical framework for evaluating an approximate spectral mea-
+sure of an operator L at x0 ∈R with respect to a vector f ∈H.
+Input: L : D(L) →H, f ∈H, x0 ∈R, a1, . . . , am ∈{z ∈C : Im(z) > 0}, and ϵ > 0.
+1: Solve the Vandermonde system (5.7) for the residues α1, . . . , αm ∈C.
+2: Solve (L −(x0 −ϵaj))uϵ
+j = f for 1 ≤j ≤m.
+3: Compute µϵ
+f(x0) = −1
+π Im
+Pm
+j=1 αj⟨uϵ
+j, f⟩
+
+.
+Output: µϵ
+f(x0).
+6.1. Ordinary diﬀerential operators. As part of its capabilities, SpecSolve
+computes samples from a smoothed approximation to the spectral measure of a self-
+adjoint, regular ordinary diﬀerential operator on the real-line or on the half-line, i.e.,
+(6.1)
+[Lu](x) = cp(x)dpu
+dxp (x) + · · · + c1(x)du
+dx(x) + c0(x)u(x),
+p ≥0,
+with the standard inner products. Here, the variable coeﬃcients c0, . . . , cp are smooth
+functions and cp ̸= 0 on the relevant domain (real-line or half-line).
+Note that
+L in (6.1) is not necessarily self-adjoint: the user provides the variable coeﬃcients
+c0, . . . , cp and must verify that L is self-adjoint.
+To demonstrate, recall the Schr¨odinger operator deﬁned on the real line in (4.11).
+We can compute a smoothed approximation to its spectral measure using the function
+diffMeas as follows.
+xi = linspace(0,6,121);
+% Evaluation pts
+f = @(x) x.^2./(1+x.^6) * sqrt(9/pi);
+% Measure wrt f(x)
+c = {@(x) x.^2./(1+x.^6), @(x) 0, @(x) -1};
+% Schrodinger op
+mu = diffMeas(c, f, xi, 0.1, ‘order’, 1);
+% epsilon=0.1, m=1
+The diﬀerential operator is speciﬁed by its coeﬃcients c0, . . . , c2, which are input as
+a cell array of function handles. Given evaluation points xi and function handle f,
+diffMeas computes the smoothed measure, with respect to f, using the speciﬁed
+smoothing parameter and kernel order (the default kernel is m = 2).
+To apply the resolvent of a diﬀerential operator acting on functions on the real
+line, the associated diﬀerential equation (see Algorithm 6.1) is automatically trans-
+planted to the periodic interval [−π, π] with an analytic map and solved with an
+adaptive Fourier spectral method [9]. Typically, the diﬀerential equation has singular
+points at ±π after mapping, and the Fourier spectral method usually converges to
+a bounded analytic solution [9, Ch. 17.8]. Similarly, on the half-line, the diﬀerential
+equation is mapped to the unit interval [−1, 1] with an analytic map and solved with
+an adaptive nonperiodic analogue of the Fourier spectral method known as the ultra-
+spherical spectral method [77]. After solving the diﬀerential equation on the mapped
+domain, the inner products in (4.5) are computed using a trapezoidal rule (for the
+unit circle) [113] or a Clenshaw–Curtis rule (for the unit interval) [111, Ch. 19].
+In many applications, diﬀerential operators on the half-line may have a singular
+point at the origin. This makes an eﬃcient and automatic representation of variable
+coeﬃcients somewhat subtle. For example, the radial Schr¨odinger operator in (5.9)
+has a singular point at the origin for ℓ≥1, and the shifted linear equations in Algo-
+rithm 6.1 should be multiplied through by r2 so that subsequent discretizations yield
+sparse, banded matrices [77]. In addition to diffMeas, SpecSolve contains a small
+gallery of functions that sample smoothed spectral measures for common operators
+with singular points, such as rseMeas, which samples the smoothed measure of the
+Preprint for review purposes only.
+20
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+radial Schr¨odinger operator with a user-speciﬁed potential.
+To illustrate, we use rseMeas to compute P(1/2 ≤E ≤2) from (5.10).
+normf = sqrt(pi/8)*(2-igamma(1/2,8)/gamma(1/2)); % Normalization
+f = @(r) exp(-(r-2).^2)/sqrt(normf);
+% Measure wrt f(r)
+V={@(r) 0, @(r) exp(-r)-1, 1};
+% Potential, l=1
+[xi, wi] = chebpts(20,
+[1/2 2]);
+% Quadrature rule
+mu = rseMeas(V, f, xi, 0.1, ‘Order’, 4)
+% epsilon=0.1, m=4
+ion_prob = wi * mu;
+% Ionization prob
+The user speciﬁes the potential of the radial Schr¨odinger operator through a cell array
+of function handles: V{1} is the nonsingular part of the potential, V{2} is the variable
+coeﬃcient for the r−1 Coulomb term, and V{3} is the quantum angular momentum
+number that deﬁnes the coeﬃcient for the r−2 centrifugal term.
+6.2. Integral operators. In SpecSolve, the function intMeas computes sam-
+ples from a smoothed approximation of the spectral measure of an integral operator,
+acting on functions deﬁned on [−1, 1], of the form
+[Lu](x) = a(x)u(x) +
+Z 1
+−1
+g(x, y) u(y) dy,
+x ∈[−1, 1],
+u ∈L2([−1, 1]).
+We assume that the multiplicative coeﬃcient a(x) and the kernel g(x, y) are smooth
+functions (well-approximated by polynomials), and that g(x, y) = g(y, x) so that L is
+self-adjoint with respect to the standard inner product. Revisiting the integral opera-
+tor from (4.7), we can compute the smoothed measure with a few simple commands.
+xi = linspace(-2.5,2.5,501);
+% Evaluation pts
+f = @(x) sqrt( 3/2 ) * x;
+% Measure wrt f(x)
+a = { @(x) x, @(x,y) exp(-(x.^2+y.^2)) };
+% Integral operator
+mu = intMeas(a, f, xi, 0.1, ‘Order’, 1);
+% epsilon=0.1, m=1
+The integral operator is speciﬁed by a cell array containing function handles for the
+kernel and multiplicative coeﬃcient. Given smoothing parameter and kernel order,
+the smoothed measure is approximated at the evaluation points xi.
+To apply the resolvent, we use an adaptive Chebyshev collocation scheme to solve
+the shifted linear systems in Algorithm 6.1. For eﬃcient storage and computation, we
+exploit low numerical rank structure in the discretization of the smooth kernels when
+possible [110]. We apply a Clenshaw–Curtis quadrature rule to compute the inner
+products required to sample µϵ
+f [111].
+6.3. Inﬁnite sparse matrices. In SpecSolve, the function infmatMeas deals
+with discrete systems. We consider the canonical Hilbert space ℓ2(N) (with the stan-
+dard inner product) and assume that L is realized as an inﬁnite matrix A such that
+A =
+
+
+
+a11
+a12
+. . .
+a21
+a22
+. . .
+...
+...
+...
+
+
+,
+aij = ⟨Lej, ei⟩= aji,
+where ei is the ith canonical unit vector. We assume that the span of the canonical
+basis forms a core10 of L and that there is known function F : N →N such that
+aij = 0 if i > F(j).11 There is no loss of generality in working in ℓ2(N) since we can
+10This technical condition means that the closure of L restricted to the span of the canonical basis
+is L, and hence we can equate L with the inﬁnite matrix A.
+11Weaker assumptions such as known asymptotic decay of each column are also possible.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+21
+always choose an orthonormal basis of a separable Hilbert space to obtain H ∼= ℓ2(N).
+The majority of graph operators that are encountered in physics can be put in this
+framework. For example, given a ﬁnite range interaction Hamiltonian on ℓ2(Zd), one
+can enumerate the vertices of the graph to obtain a realization of ℓ2(Zd) ∼= ℓ2(N) as
+well as an associated function F. The value of [Kϵ ∗µf](x0) for some f ∈ℓ2(N) is
+then approximated through least-squares solutions of the rectangular systems [15]
+PF (N)(A −(x0 + ϵaj))PNuϵ
+j = PF (N)f,
+where Pn denotes the orthogonal projection onto the span of the ﬁrst n basis vectors.
+For a rectangular truncation H = PF (N)APN supplied by the user, we can, for exam-
+ple, compute the smoothed measure with respect to the ﬁrst canonical basis vector
+via the following commands.
+xi = linspace(-3.1,3.1,125);
+% Evaluation pts
+b = zeros(size(H,1),1); b(1) = 1;
+% Measure wrt vector b
+mu = infmatMeas(H,b,xi,0.05,‘Order’,2);
+% epsilon=0.05, m=2
+An example for a magnetic Schr¨odinger equation on a graphene lattice (see subsec-
+tion 7.2) is provided in the gallery of examples in SpecSolve.
+7. Examples. We now provide three examples to demonstrate the versatility of
+our computational framework.
+7.1. Example 1:
+Beam and two-dimensional Schr¨odinger equations.
+The increased computational eﬃciency achieved through high-order kernels allows
+us to treat PDEs and high-order ODEs. First, consider a fourth-order diﬀerential
+operator associated with the elastic beam equation, given by
+(7.1)
+[Lu](x) = d4u
+dx4 (x) −d
+dx
+
+1 −e−x2 du
+dx
+
+(x) + a sin(x)
+1 + x2 u(x),
+x ∈R,
+for some constant a ∈R. Figure 7.1 (left) shows Kϵ ∗µf, for a second-order kernel
+with ϵ = 0.05 and f(x) =
+√
+2π−1/(1 + x2), when a = 0, 5, and 10. When a = 0, the
+operator is positive with continuous spectrum in [0, ∞). When a ̸= 0, there is also an
+eigenvalue below the continuous spectrum, corresponding to the spikes in Figure 7.1
+(left). We also observe that diﬀerent values of a alter the proﬁle of ρf on [0, ∞).
+Next, consider the two-dimensional Schr¨odinger operator given by
+(7.2)
+[Lu](x1, x2) = −∇2u(x1, x2) +
+ 
+e−x2
+1
+1 + x2
+2
++ a (erf(x1) + erf(x2))
+!
+u(x1, x2),
+xj ∈R,
+for some constant a ∈R, where erf(·) is the error function. To apply the resolvent
+we map R2 to the torus [−π, π]2 via xj →10i(1 −eiθj)/(1 + eiθj). We then used a
+tensorized Fourier spectral method with hyperbolic cross ordering of the basis func-
+tions [71, Ch. III]. Figure 7.1 (right) shows Kϵ ∗µf, for a fourth-order kernel with
+ϵ = 0.2 and f(x1, x2) = exp(−x2
+1 −x2
+2)
+√
+2π−1, when a = 0, 1, and 2. The spectrum of
+the operator is [−2a, ∞) and we observe that the convolution [Kϵ ∗µf](x) takes small
+negative values in the vicinity of the lower boundary of the spectrum.
+7.2. Example 2: The Schr¨odinger equation on a graphene lattice. We
+now apply our method to a magnetic tight-binding model of graphene, which involves
+a discrete graph operator [1]. Graphene is a two-dimensional material with carbon
+atoms situated at the vertices of a honeycomb lattice (see Figure 7.2), whose unusual
+Preprint for review purposes only.
+22
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+-4
+-2
+0
+2
+4
+6
+10-6
+10-4
+10-2
+100
+[Kϵ ∗µf](x)
+x
+a = 10
+a = 5
+a = 0
+-5
+0
+5
+10
+-0.05
+0
+0.05
+0.1
+0.15
+0.2
+0.25
+0.3
+-5
+-4
+-3
+-2
+-4
+-2
+0
+10-5
+@
+@
+I a = 0
+
+a = 1
+@@
+R
+a = 2
+[Kϵ ∗µf](x)
+x
+Figure 7.1. Left: Smoothed approximations to the spectral measures of the elastic beam opera-
+tors in (7.1) for a second-order kernel with a = 0, 5, and 10. Right: Smoothed approximations to the
+spectral measures of the two-dimensional Schr¨odinger operators in (7.2) for a fourth-order kernel
+with a = 0, 1, and 2. The magniﬁed region demonstrates that [Kϵ ∗µf](x) is not always positive for
+kernels of order greater than two.
+properties are studied in condensed-matter physics [75,76]. The magnetic properties of
+graphene are important because of the experimental observation of the quantum Hall
+eﬀect and Hofstadter’s butterﬂy [82], and the exciting new area of twistronics [11,70].
+7.2.1. The model. A honeycomb lattice can be decomposed into two bipartite
+sub-lattices (see Figure 7.2 (left)) and thus, the wave function of an electron can be
+modeled as the spinor [1]
+ψm,n = (ψ[1]
+m,n, ψ[2]
+m,n)T ∈C2,
+ψ = (ψm,n) ∈l2(Z2; C2) ∼= ℓ2(N).
+Here, (m, n) ∈Z2 labels a position on the sub-lattices and ℓ2(Z2; C2) denotes the space
+of square summable C2-valued sequences indexed by Z2. To deﬁne the Hamiltonian,
+consider the following three magnetic hopping operators T1, T2, T3 : ℓ2(Z2; C2) →
+ℓ2(Z2; C2) for a given magnetic ﬂux per unit cell Φ (in dimensionless units):
+(T1ψ)m,n =
+ 
+ψ[2]
+m,n
+ψ[1]
+m,n
+!
+,
+(T2ψ)m,n =
+ 
+ψ[2]
+m+1,n
+ψ[1]
+m−1,n
+!
+,
+(T3ψ)m,n =
+ 
+e−2πiΦmψ[2]
+m,n+1
+e2πiΦmψ[1]
+m,n−1
+!
+.
+After a suitable gauge transformation, the free Hamiltonian can be expressed as H0 =
+T1 + T2 + T3 and Λ(H0) ⊂[−3, 3]. A suitable ordering of lattice points leads to a
+sparse discretization of H0, where the kth column contains O(
+√
+k) non-zero entries
+(see Figure 7.2 (right)). Therefore, for an approximation using N basis sites, the
+action of the resolvent can be computed in O(N 3/2) operations [112].
+7.2.2. The computed measures. Figure 7.3 shows how the spectral measure
+of H0, taken with respect to the vector e1, varies with Φ. For Φ ∈Q, the spectrum is
+absolutely continuous, and we show the Radon–Nikodym derivative of the measure,
+ρe1. The calculations, performed with a fourth-order kernel and ϵ = 0.01, show a
+sharp Hofstadter-type butterﬂy.12
+Figure 7.4 (left) shows an approximation of ρe1 when Φ = 1/4 using a fourth-
+order kernel and ϵ = 0.01. We also show, as shaded vertical strips, the output of
+12Hofstadter’s butterﬂy [53] is the visual representation of the fractal, self-similar nature of the
+spectrum of a Hamiltonian describing non-interacting two-dimensional electrons in a magnetic ﬁeld
+in a lattice. The most famous example is for the almost Mathieu operator on ℓ2(Z).
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+23
+B
+0
+200
+400
+600
+800
+1000
+0
+100
+200
+300
+400
+500
+600
+700
+800
+900
+1000
+Figure 7.2. Left: Honeycomb structure of graphene as a bipartite graph. We have shown the
+spinor structure via the circled lattice vertices and the indexing via (m, n). The arrow shows the
+perpendicular magnetic ﬁeld B. Right: Sparsity structure of the ﬁrst 103 × 103 block of the inﬁnite
+matrix, and the corresponding growing local bandwidth.
+-3
+-2
+-1
+0
+1
+2
+3
+0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+0.7
+0.8
+0.9
+1
+10-5
+10-4
+10-3
+10-2
+10-1
+100
+101
+Φ
+x
+Figure 7.3.
+The Radon–Nikodym derivative of the measure for various Φ, computed with
+ϵ = 0.01. The spectrum is fractal for irrational Φ, which is approximated by rational Φ. The small
+gaps in the spectrum are clearly visible (corresponding to the blue shaded regions) and the logarithmic
+scale shows the sharpness of the approximation to ρe1, which vanishes in these gaps.
+the algorithm in [20] which computes the spectrum with error control (we used an
+error bound of 10−3) and without spectral pollution.13 The support of Kϵ ∗µf is
+the whole real line due to the non-compact support of the kernel K. However, if
+x ̸∈Λ(H0), then applying (5.1) directly to the deﬁnition of convolution shows that
+|[Kϵ ∗µf](x)| ≤CKϵm/(ϵ + dist(x, Λ(H0)))m+1, where CK is the constant in (5.1), so
+|[Kϵ ∗µf](x)| decays rapidly oﬀof the spectrum. We also consider a multiplication
+operator (potential) perturbation, modeling a defect, of the form
+(7.3)
+V (x) = cos(∥x∥2π)
+(∥x∥2 + 1)2 ,
+where x denotes the position of a vertex normalized so each edge has length 1. The
+perturbed operator is then H0+V . Since the perturbation is trace class, the absolutely
+continuous part of the spectrum remains the same (though the measure changes) and
+13With a non-periodic potential (7.3), this is a highly non-trivial problem since ﬁnite truncation
+methods typically suﬀer from spectral pollution inside the convex hull of the essential spectrum.
+Preprint for review purposes only.
+24
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+-3
+-2
+-1
+0
+1
+2
+3
+10-3
+10-2
+10-1
+100
+101
+102
+x
+-3
+-2
+-1
+0
+1
+2
+3
+10-3
+10-2
+10-1
+100
+101
+102
+x
+Figure 7.4.
+Left: Smoothed measure with no potential.
+We show the algorithm in [20] as
+shaded strips (green) for comparison. Right: The same computation but with the added potential
+in (7.3). The additional eigenvalues correspond to spikes in the smoothed measure.
+the potential induces additional eigenvalues (see Figure 7.4 (right)). Again, we see
+that |[Kϵ∗µf](x)| decays rapidly oﬀof the spectrum. In particular, the measure is not
+corrupted by spikes in the gaps in the essential spectrum or similar artifacts caused
+by spectral pollution.
+7.3. Example 3: Discrete spectra and Dirac operators. In this example,
+we consider the case of the Dirac operator L = DV deﬁned below. Often this operator
+has discrete eigenvalues in the interval (−1, 1), which forms a gap in the essential
+spectrum.
+This means that standard Galerkin methods used to compute Λ(DV )
+typically suﬀer from spectral pollution in the gap. That is, as the discretization size
+increases, the discrete spectrum of the Galerkin discretization clusters in a way that
+does not approximate Λ(DV ). There is a vast literature on methods that seek to
+avoid spectral pollution when computing Λ(DV ) [29,63,64,91,104]. The majority of
+existing approaches work for certain classes of potentials and avoid spectral pollution
+on particular subsets of (−1, 1). Even for Coulomb-type potentials, spectral pollution
+can be a diﬃcult issue to overcome, and computations typically achieve a few digits of
+precision for the ground state and a handful of the ﬁrst few excited states. A popular
+approach is the so-called kinetic balance condition, which does not always work for
+Coulomb potentials [31,67,96]. Our approach does not suﬀer from spectral pollution
+and can compute the ﬁrst thousand eigenvalues to near machine precision accuracy.
+7.3.1. Recovering eigenvalues and projections onto eigenspaces. The
+dominated convergence theorem applied to (4.3) shows that, for any x ∈R, we have
+(7.4)
+lim
+ϵ↓0 ϵ · Im (⟨RL(x + iϵ)f, f⟩) =
+X
+λ∈Λp(L)∩{x}
+⟨Pλf, f⟩.
+Moreover, if there is no singular continuous spectra in a neighborhood of x, and x is
+not an accumulation point of Λp(L), then (7.4) can be sharpened to
+(7.5)
+ϵ · Im (⟨RL(x + iϵ)f, f⟩) =
+X
+λ∈Λp(L)∩{x}
+⟨Pλf, f⟩+ O(ϵ).
+These formulas allow us to compute the locations of eigenvalues of the operator, and
+the corresponding projection coeﬃcients onto the eigenspaces for vectors f.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+25
+7.3.2. The Dirac operator. We consider a diﬀerential operator DV associated
+with a coupled ﬁrst-order system of diﬀerential equations that describes the motion
+of a relativistic spin-1/2 particle in a radially symmetric potential V (r), deﬁned by
+DV =
+
+1 + V (r)
+−d
+dr + κ
+r
+d
+dr + κ
+r
+−1 + V (r)
+
+.
+Here, κ = j + 1/2 for j ∈Z (related to the angular momentum of the particle) and
+DV is a special case of the Dirac operator with a radially symmetric potential [107].
+If V satisﬁes suitable conditions [107], then DV is a self-adjoint operator with
+essential spectrum supported on (−∞, −1] ∪[1, ∞). Depending on V (r), the spec-
+trum may also contain discrete eigenvalues in (−1, 1). Generally, in computational
+chemistry, positive eigenvalues correspond to bound states of a relativistic quantum
+electron in the external ﬁeld V , and negative eigenvalues correspond to bound states
+of a positron [107].
+7.3.3. Computing eigenvalues while avoiding spectral pollution. Assum-
+ing that f in (7.4) is not orthogonal to any of the eigenfunctions, it follows from (7.4)
+and (7.5) that the positions of the peaks of the function
+νϵ
+f(x) := ϵ · Im (⟨RDV (x + iϵ)f, f⟩)
+correspond to the eigenvalues. To test this, we consider the case of κ = −1 and the
+Coulomb-type potentials V (r) = γ/r for −
+√
+3/2 < γ < 0. For these potentials, the
+eigenvalues are known analytically as [107, Ch. 7]
+Ej(DV ) =
+
+1 + γ2(j +
+p
+1 −γ2)−2−1/2
+,
+j ≥0.
+Note that the eigenvalues accumulate at 1. This makes computing Ej(DV ) diﬃcult
+when j is large, even in the absence of spectral pollution.
+Figure 7.5 (left) shows νϵ
+f with ϵ = 10−10, f(r) = (
+√
+2re−r,
+√
+2re−r), and γ =
+−0.8. One can robustly compute νϵ
+f for a ﬁxed ϵ > 0 by using the techniques in sub-
+section 6.1 and adaptively selecting the discretization size. For ϵ = 10−10, we can
+accurately compute E1(DV ), . . . , E1000(DV ) by the location of the local maxima of
+νϵ
+f. Moreover, the size of the peaks correspond to ∥PEjf∥2. Figure 7.5 (left) shows
+that ∥PEjf∥2 decreases at an algebraic rate as j →∞. If one is not satisﬁed with
+the accuracy of the computed eigenvalues, then one can decrease ϵ at the expense of
+an increased computational cost. In Figure 7.5 (right), we show the absolute error in
+the computed eigenvalues Ej(DV ) for j = 0, 5, 10, 100, 500, and 1000 as ϵ ↓0. We ﬁnd
+that our algorithm can resolve hundreds of eigenvalues, even when highly clustered,
+to an accuracy of essentially machine precision.
+8. Conclusions and additional potential applications. In this paper, we
+have developed a general framework for evaluating smoothed approximations to the
+spectral measures of self-adjoint operators. We have highlighted the theoretical and
+practical aspects of the algorithm in the context of diﬀerential, integral, and lattice
+operators. The resolvent-based framework robustly captures discrete and continuous
+spectral properties of the operator, rather than any underlying discretizations, yielding
+a ﬂexible and eﬃcient method for a variety of spectral problems.
+A general computational framework for computing the spectral measure µf opens
+the door to a new set of algorithms for computing with operators and studying their
+Preprint for review purposes only.
+26
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+10-6
+10-4
+10-2
+100
+10-20
+10-15
+10-10
+10-5
+100
+3.1
+ 10-7
+3.2
+ 10-7
+3.3
+ 10-7
+1 −x
+νϵ
+f(x)
+10-10
+10-5
+100
+10-15
+10-10
+10-5
+100
+ϵ
+Absolute Error
+Figure 7.5. Left: The function νϵ
+f(x) for x near 1. The sloped dashed line shows the algebraic
+decay of ∥PEj f∥2 (approximately O(j−3)).
+The magniﬁed region shows the extreme clustering,
+where the vertical dashed line corresponding to E1000. Right: The absolute error in the computed
+eigenvalues Ej(DV ) for j = 0, 5, 10, 100, 500, 1000 as ϵ ↓0.
+spectral properties. As spectral characterizations of continuous and discrete models
+draw renewed interest in the context of data-centered applications, our algorithms
+may be useful in understanding the behavior of large real-world networks and new
+random graph models. The development of rational kernels and corresponding local
+evaluation schemes may also be useful for local explorations of the spectral density
+of operators of large ﬁnite dimension, such as in DOS calculations in physics [69] or
+real-world networks [28].
+Our framework can be used to compute the vector-valued functional calculus via
+F(L)f ≈−1
+2πi
+Z ∞
+−∞
+F(y)
+m
+X
+j=1
+[αjRL(y −ϵaj)f −βjRL(y −ϵbj)f] dy,
+which is useful in the solution of time-evolution problems. For example, taking F(y) =
+exp(−ity) gives an approximation of the solution to the linear Schr¨odinger equation
+with initial state f at time t. The vector-valued functional calculus may also be used to
+solve more complicated evolution systems, such as non-autonomous Cauchy problems
+and non-linear problems, through splitting methods [71,73]. Therefore, our approach
+may aid the development of discretization-oblivious exponential integrators for PDEs
+or sampling from stochastic processes with self-adjoint generators [57, Ch. 17].
+Appendix A. Convergence rates and error bounds.
+In this Appendix, we
+prove the pointwise and Lp convergence bounds of Kϵ ∗µf to ρf as ϵ ↓0.
+A.1. Pointwise error bounds. The pointwise convergence shows that samples
+of Kϵ ∗µf are meaningful because they converge to ρf, at a rate determined by the
+local regularity of ρf and the order of the kernel. Recall that in Theorem 5.2, K is
+an mth order kernel, the measure µf is absolutely continuous on I = (x0 −η, x0 + η)
+for η > 0 and a ﬁxed x0 ∈R, and that ρf ∈Cn,α(I) with α ∈[0, 1).
+Proof of Theorem 5.2. First, we decompose ρf into two non-negative parts ρf =
+ρ1 +ρ2, where ρ1 is compactly supported on I and ρ2 vanishes on (x0 −η/2, x0 +η/2).
+Using the convolution representation for Kϵ ∗µf, we have
+(A.1) |ρf(x0) −[Kϵ ∗µf](x0)|≤
+
+Z
+R
+Kϵ(y) (ρ1(x0 −y) −ρ1(x0)) dy
++
+
+h
+Kϵ ∗µ(r)
+f
+i
+(x0)
+.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+27
+Here, the measure dµ(r)
+f (y) = dµf(y) −ρ1(y)dy is non-negative and supported in the
+complement of (x0 −η/2, x0 + η/2). Since µf is a probability measure, we have that
+R
+R dµ(r)
+f (y) ≤1, and the second term on the right-hand side of (A.1) is bounded by
+(A.2)
+
+h
+Kϵ ∗µ(r)
+f
+i
+(x0)
+ =
+
+Z
+R
+Kϵ(x0 −y)dµ(r)
+f (y)
+ ≤
+sup
+|y|≥η/2
+|Kϵ(y)| ≤
+CKϵm
+(ϵ + η
+2)m+1 .
+where the constant CK is given in Deﬁnition 5.1.
+To bound the ﬁrst term in (A.1), we expand ρ1(x0 −y) using Taylor’s theorem:
+(A.3)
+ρ1(x0 −y) =
+k−1
+X
+j=0
+(−1)jρ(j)
+1 (x0)
+j!
+yj + (−1)k ρ(k)
+1 (ξy)
+k!
+yk,
+k = min(n, m),
+where |ξy −x0| ≤|y|. We consider two cases separately.
+Case (i): n + α < m. In this case k = n and we can select ρ1 so that
+1
+n!
+ρ(n)
+1
+
+C0,α(I) ≤C(n, α)∥ρf∥Cn,α(I)
+ 1 + η−n−α
+,
+for some universal constant C(n, α) that only depends on n and α. Existence of such a
+decomposition follows from standard arguments with cut-oﬀfunctions. Plugging (A.3)
+into (A.1) and applying the vanishing moment condition (Deﬁnition 5.1 (ii)), we obtain
+(A.4)
+Z
+R
+Kϵ(y) (ρ1(x0 −y) −ρ1(x0)) dy = (−1)n
+Z
+R
+Kϵ(y)ρ(n)
+1 (ξy)
+n!
+yn dy.
+Since n < m, we can use the vanishing moment condition again to obtain
+(A.5)
+Z
+R
+Kϵ(y)ρ(n)
+1 (ξy)
+n!
+yn dy =
+Z
+R
+Kϵ(y)ρ(n)
+1 (ξy) −ρ(n)
+1 (x0)
+n!
+yn dy.
+Since ρ(n)
+1
+∈C0,α(I) and |ξy−x0| ≤|y|, we have |ρ(n)
+1 (ξy)−ρ(n)
+1 (x0)| ≤|ρ(n)
+1 |C0,α(I)|y|α.
+Applying this bound to the integrand in (A.5) and changing variables y →ϵy,
+(A.6)
+
+Z
+R
+Kϵ(y)ρ(n)
+1 (ξy) −ρ(n)
+1 (x0)
+n!
+yn dy
+ ≤ϵn+α
+n!
+ρ(n)
+1
+
+C0,α(I)
+Z
+R
+|K(y)||y|n+α dy.
+Recalling our selection of ρ1 and combining (A.6) with (A.2) proves case (i).
+Case (ii): n + α ≥m. In this case k = m and we can select ρ1 such that
+2e
+ρ(m)
+1
+
+∞≤C(m)∥ρf∥Cm(I)
+ 1 + η−m
+,
+for some universal constant C(m) that only depends on m. Again, existence of such a
+decomposition follows from standard arguments with cut-oﬀfunctions. Since ρ1 has
+compact support in I, we have that ρ1(x0 −y) = 0 if |y| ≥η. We split the range of
+integration in (A.4), substitute the Taylor expansion in (A.3), and change variables
+y →ϵy, to obtain
+
+Z
+R
+Kϵ(y) (ρ1(x0 −y) −ρ1(x0)) dy
+ ≤|ρ1(x0)|
+
+Z
+|y|≥η/ϵ
+K(y) dy
+
++
+m−1
+X
+j=1
+ϵj
+j!
+ρ(j)
+1 (x0)
+
+
+Z
+|y|<η/ϵ
+K(y)yj dy
+ + ϵm
+m!
+ρ(m)
+1
+
+∞
+Z
+|y|<η/ϵ
+|K(y)| |y|m dy.
+(A.7)
+Preprint for review purposes only.
+28
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+By the vanishing moment condition (see Deﬁnition 5.1 (ii)), we have that
+(A.8)
+
+Z
+|y|<η/ϵ
+K(y)yj dy
+ =
+
+Z
+|y|≥η/ϵ
+K(y)yj dy
+ ,
+1 ≤j ≤m −1.
+Deﬁnition 5.1 (iii) implies that |K(x)||x|m+1 ≤|K(x)|(1 + |x|)m+1 ≤CK. Substitut-
+ing (A.8) into (A.7) with the bound for |K(x)| and integrating, yields an upper bound
+for the right hand side of (A.7):
+(A.9)
+m−1
+X
+j=0
+ϵj
+j!
+ρ(j)
+1 (x0)
+ 2CK
+m −j
+ ϵ
+η
+m−j
++ ϵm
+m!
+ρ(m)
+1
+
+∞
+Z
+|y|<η/ϵ
+|K(y)| |y|m dy.
+Since we can write ρ(j)
+1 (x0) as an iterated integral of ρ(m)
+1
+, we ﬁnd that
+ρ(j)
+1 (x0) =
+Z x0
+x0−η
+Z t1
+x0−η
+· · ·
+Z tm−j−1
+x0−η
+ρ(m)
+1
+(tm−j)dtm−j · · · dt1,
+0 ≤j ≤m −1,
+and so it follows that |ρ(j)
+1 (x0)| ≤ηm−j∥ρ(m)
+1
+∥∞. Thus, we have
+(A.10)
+m−1
+X
+j=0
+ϵj
+j!
+ρ(j)
+1 (x0)
+ 2CK
+m −j
+ ϵ
+η
+m−j
+≤2eCK∥ρ(m)
+1
+∥∞ϵm.
+Recalling our selection of ρ1, case (ii) follows from (A.2), (A.9), and (A.10).
+A.2. Lp error bounds. In subsection 5.2 we motivate error bounds for ∥ρf −
+Kϵ ∗µf∥L1 to ensure that the calculation of ionization probabilities is meaningful.
+In this subsection, we prove the Lp error bounds stated in Theorem 5.3. It is often
+easier to prove these kind of results in Fourier space so we begin by understanding
+the regularity properties of bK for an mth order kernel (see Deﬁnition 5.1), where
+(A.11)
+bK(ω) :=
+Z
+R
+K(x)e−2πixωdx,
+ω ∈R.
+Lemma A.1 (Regularity of Fourier Transform).
+Let K be an mth order kernel
+(see Deﬁnition 5.1). For any α ∈(0, 1), we have that bK ∈Cm−1,α(R) and
+(A.12)
+| bK(ω) −1| ≤| bK(m−1)|C0,α
+(m −1)!
+|ω|m−1+α.
+Proof. Using (5.1) we can diﬀerentiate through the integral sign in (A.11) to
+conclude that bK is (m −1)-times continuously diﬀerentiable. Moreover, (5.1) implies
+that bK(m−1) ∈Ws,2(R) for any s < 3/2 (see [74] for deﬁnition of fractional Sobolev
+spaces). Therefore, bK ∈Cm−1,α(R) for any α ∈(0, 1) [74, Thm. 3.26].
+For (A.12), note that the normalization condition (Deﬁnition 5.1 (i)) implies that
+bK(0) = 1, while the vanishing moment criterion (Deﬁnition 5.1 (ii)) implies that
+( bK)(j)(0) = (−2πi)j R
+R K(x)xjdx = 0 for 1 ≤j ≤m −1. The bound (A.12) then
+follows by using the (m−1)th order Taylor expansion for bK at the origin and applying
+the H¨older condition to the remainder.
+We can now use this to bound the Lp error of a smoothed approximation Kϵ ∗g
+when g ∈Wm,p(R) and has compact support.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+29
+Lemma A.2. Let K be an mth order kernel and let g be any function such that
+g ∈Wm,p(R) for 1 ≤p < ∞and supp(g) ⊂I = (a −η, b + η) for some η > 0. Then,
+for any ϵ > 0, we have that14
+(A.13)
+∥[Kϵ ∗g] −g∥Lp(I) ≤2ϵmCK
+m!
+∥g(m)∥Lp(R) log(1 + (b −a + 2η)/ϵ).
+Proof. Since K ∈L1(R), we can deﬁne the function
+(A.14)
+φ1(x) =
+Z x
+−∞
+K(y)dy −H(x)
+Z
+R
+K(y)dy =
+(R x
+−∞K(y)dy,
+x < 0,
+−
+R ∞
+x K(y)dy,
+x > 0,
+where H(x) denotes the Heaviside step function. Using (5.1) and integrating directly,
+we see that φ1 ∈L2(R). Furthermore, since
+R
+R K(y)dy = 1, we can diﬀerentiate φ1 in
+the sense of tempered distributions to obtain φ′
+1 = K −δ0. Taking Fourier transforms,
+we see that
+(2πiω)bφ1(ω) = bK(ω) −1.
+However, bφ1, bK ∈L2(R) and hence we must have bφ1(ω) = ( bK(ω)−1)(2πiω)−1 almost
+everywhere, and in particular that ( bK(ω) −1)(2πiω)−1 ∈L2(R).
+If m > 1, then by (5.1) and the case deﬁnition of φ1 in (A.14), we have φ1 ∈L1(R)
+and hence bφ1 can be identiﬁed with a continuous function.
+Furthermore, (A.12)
+implies that bφ1(0) =
+R
+R φ1(y)dy = 0 and hence we can deﬁne
+φ2(x) =
+Z x
+−∞
+φ1(y)dy −H(x)
+Z
+R
+φ1(y)dy =
+(R x
+−∞φ1(y)dy,
+x < 0,
+−
+R ∞
+x φ1(y)dy,
+x > 0.
+Again by using (5.1) and integrating directly, we see that φ2 ∈L2(R). We can take
+distributional derivatives and Fourier transforms as before to deduce that bφ2(ω) =
+( bK(ω) −1)(2πiω)−2 almost everywhere. We continue this argument inductively, us-
+ing Lemma A.1, and for j = 2, . . . , m deﬁne φj(x) =
+R x
+−∞φj−1(y)dy. The argument
+shows that bφj(ω) = ( bK(ω) −1)(2πiω)−j. Using (5.1) and integrating, we have
+(A.15)
+|φj(x)| ≤CK(m −j)!/(m!(1 + |x|)m−j+1),
+1 ≤j ≤m.
+Let gn ∈C∞
+c (R) for n ≥1 be a sequence of functions with supp(gn) ⊆(a −η −
+n−1, b+η +n−1) such that ∥g −gn∥Wm,p(R) →0 as n →∞. Let φm,ϵ = ϵ−1φm(xϵ−1),
+so that
+bφm,ϵ(ω) =
+bKϵ(ω) −1
+(2πiϵω)m
+It follows, by the convolution theorem and Carleson’s theorem, that for a.e. x ∈R
+(A.16)
+[Kϵ ∗gn](x) −gn(x) =
+Z
+R
+bKϵ(ω) −1
+(2πiω)m (2πiω)mbgn(ω)e2πiωxdω = ϵm[φm,ϵ ∗g(m)
+n
+](x).
+Letting Ln = ((b −a) + 2(η + n−1)), we have [φm,ϵ ∗g(m)
+n
+](x) = [χ[−Ln,Ln]φm,ϵ ∗
+g(m)
+n
+](x) for x ∈I, where χU denotes the indicator function of a set U. Moreover,
+14The log(1/ϵ) factor is avoided if extra decay—beyond Deﬁnition 5.1 (iii)—is assumed on K.
+Preprint for review purposes only.
+30
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+χ[−Ln,Ln]φm,ϵ ∈L1(R) by H¨older’s inequality. Taking the Lp norm on both sides
+of (A.16) and applying Young’s convolution inequality, yields
+(A.17)
+∥[Kϵ ∗gn] −gn∥Lp(I) ≤ϵm∥g(m)
+n
+∥Lp(R)∥φm,ϵ∥L1([−Ln,Ln]).
+By taking the limit n →∞in (A.17), we have that
+(A.18)
+∥[Kϵ ∗g] −g∥Lp(I) ≤ϵm∥g(m)∥Lp(R)
+Z
+|y|≤(b−a)+2η
+|φm,ϵ(y)| dy.
+Finally, by (A.15) with j = m, we have that |φm,1(x)| ≤CK(m!(1 + |x|))−1.
+Changing variables y →ϵy in the last integral in (A.18), applying the bound for φm,1,
+and integrating yields the upper bound in (A.13).
+We are now ready to prove the Lp error bounds when 1 ≤p < ∞.
+Proof of Theorem 5.3. Let I′ = (a −η/2, b + η/2). Since ρf|I ∈Wm,p(I), we
+can decompose ρf = ρ1 + ρ2 such that ρ1 is non-negative, supported in I with
+2∥ρ(m)
+1
+∥Lp(R)/m! ≤C(m)∥ρf∥Wm,p(I)(1 + η−m) for some constant C(m) (that de-
+pends only on m) and ρ2 is non-negative with support contained in R \ I′. Therefore,
+ρf = ρ1 on (a, b) and
+(A.19) ∥ρf −Kϵ ∗µf∥Lp((a,b)) ≤∥ρ1 −Kϵ ∗ρ1∥Lp((a,b)) + ∥Kϵ ∗ρ1 −Kϵ ∗µf∥Lp((a,b)).
+The ﬁrst term is bounded via Lemma A.2. To bound the second term, we note that the
+measure µ(r)
+f
+= µf −ρ1 is non-negative, supported in R \ I′, and has
+R
+R dµ(r)
+f (y) ≤1.
+Applying property (iii) in Deﬁnition 5.1, we see that
+∥Kϵ ∗ρ1 −Kϵ ∗µf∥p
+Lp((a,b)) ≤
+Z b
+a
+ 
+ϵ−1
+Z
+R\I′ |K ((x −y)/ϵ)| dµ(r)(y)
+!p
+dx
+≤Cp
+K(b −a)(ϵ + η/2)−(m+1)pϵmp.
+Combining the bounds for the terms in (A.19) concludes the proof.
+Acknowledgements. The authors are grateful to St John’s College, Cambridge
+for funding the ﬁrst author to visit Cornell University, during which the collaboration
+started. We thank Anthony Austin and Mikael Slevinsky for carefully reading a draft
+version of this manuscript and the referees whose careful comments helped us improve
+the manuscript.
+REFERENCES
+[1] A. Agazzi, J.-P. Eckmann, and G. M. Graf. The colored Hofstadter butterﬂy for the honey-
+comb lattice. J. Stat. Phys., 156(3):417–426, 2014.
+[2] W. O. Amrein and V. Georgescu. Characterization of bound states and scattering states in
+quantum mechanics. Technical report, Univ., Geneva, 1973.
+[3] A. Avila and S. Jitomirskaya. The ten martini problem. Annals of Mathematics, 170:303–342,
+2009.
+[4] Z. Bai and J. W. Silverstein.
+Spectral Analysis of Large Dimensional Random Matrices,
+volume 20. Springer, 2010.
+[5] N. Beer and D. G. Pettifor. The recursion method and the estimation of local densities of
+states. In The Electronic Structure of Complex Systems, pages 769–777. Springer, 1984.
+[6] P. Billingsley. Convergence of Probability Measures. John Wiley & Sons, second edition, 1999.
+[7] D. Bilman and T. Trogdon. Numerical inverse scattering for the Toda lattice. Comm. Math.
+Phys., 352(2):805–879, 2017.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+31
+[8] A. B¨ottcher and B. Silbermann. Introduction to large truncated Toeplitz matrices. Springer-
+Verlag, New York, 1999.
+[9] J. P. Boyd. Chebyshev and Fourier spectral methods. Courier Corporation, 2001.
+[10] R. Carmona and J. Lacroix. Spectral Theory of Random Schr¨odinger Operators. Prob. Appl.
+Birkh¨auser Boston, 1990.
+[11] K. Chang. A physics magic trick: Take 2 sheets of carbon and twist. The New York Times,
+Oct 2019.
+[12] F. Chatelin. Spectral Approximation of Linear Operators. Academic Press, 1983.
+[13] T. S. Chihara.
+An Introduction to Orthogonal Polynomials.
+Gordon and Breach Science
+Publishers, New York-London-Paris, 1978.
+[14] E. A. Coddington and N. Levinson.
+Theory of Ordinary Diﬀerential Equations.
+Krieger
+Publishing, Malabar, FL, 1984.
+[15] M. J. Colbrook.
+Computing spectral measures and spectral types.
+arXiv preprint
+arXiv:1908.06721v2, 2019.
+[16] M. J. Colbrook. The Foundations of Inﬁnite-Dimensional Spectral Computations. PhD thesis,
+University of Cambridge, 2020.
+[17] M. J. Colbrook and A. C. Hansen. The foundations of spectral computations via the solvability
+complexity index hierarchy: Part I. arXiv:1908.09592, 2019.
+[18] M. J. Colbrook and A. C. Hansen. On the inﬁnite-dimensional QR algorithm. Numer. Math.,
+143(1):17–83, 2019.
+[19] M.
+J.
+Colbrook,
+A.
+Horning,
+and
+A.
+Townsend.
+SpecSolve.
+github
+(online)
+https://github.com/SpecSolve, 2020.
+[20] M. J. Colbrook, B. Roman, and A. C. Hansen. How to compute spectra with error control.
+Phys. Rev. Lett., 122:250201, 2019.
+[21] H. Cram´er.
+On some classes of nonstationary stochastic processes.
+In Proceedings of the
+Fourth Berkeley symposium on mathematical statistics and probability, volume 2, pages
+57–78. University of Los Angeles, Press Berkeley and Los Angeles, 1961.
+[22] D. Damanik. Singular continuous spectrum for a class of substitution Hamiltonians. Letters
+in Mathematical Physics, 46(4):303–311, 1998.
+[23] D. Damanik, M. Embree, and A. Gorodetski. Spectral properties of Schr¨odinger operators
+arising in the study of quasicrystals. In Mathematics of aperiodic order, pages 307–370.
+Springer, 2015.
+[24] D. Damanik and B. Simon. Jost functions and Jost solutions for Jacobi matrices, I. A necessary
+and suﬃcient condition for Szeg˝o asymptotics. Invent. Math., 165(1):1–50, 2006.
+[25] P. Deift. Orthogonal Polynomials and Random Matrices: a Riemann–Hilbert Approach, vol-
+ume 3 of Courant Lecture Notes. Amer. Math. Soc., Providence, RI, 1999.
+[26] F. Dell’Oro and V. Pata. Second order linear evolution equations with general dissipation.
+Appl. Math. Opt., 2019.
+[27] J. Dombrowski and P. Nevai. Orthogonal polynomials, measures and recurrence relations.
+SIAM J. Math. Anal., 17(3):752–759, 1986.
+[28] K. Dong, A. R. Benson, and D. Bindel. Network density of states. In Proceedings of the
+25th ACM SIGKDD International Conference on Knowledge Discovery & Data Mining,
+pages 1152–1161, 2019.
+[29] G. W. F. Drake and S. P. Goldman. Application of discrete-basis-set methods to the Dirac
+equation. Phys. Rev. A, 23(5):2093, 1981.
+[30] N. Dunford and J. T. Schwartz. Linear Operators: Part II: Spectral Theory: Self Adjoint
+Operators in Hilbert Space. Interscience Publishers, 1963.
+[31] K. G. Dyall and K. Fægri Jr. Kinetic balance and variational bounds failure in the solution of
+the Dirac equation in a ﬁnite Gaussian basis set. Chem. Phys. Let., 174(1):25–32, 1990.
+[32] V. D. Efros, W. Leidemann, and G. Orlandini. Response functions from integral transforms
+with a Lorentz kernel. Phys. Lett. B, 338(2-3):130–133, 1994.
+[33] V. D. Efros, W. Leidemann, G. Orlandini, and N. Barnea.
+The Lorentz integral trans-
+form (LIT) method and its applications to perturbation-induced reactions. J. Phys. G,
+34(12):R459, 2007.
+[34] V. D. Efros, W. Leidemann, and V. Y. Shalamova. On calculating response functions via their
+Lorentz integral transforms. Few-Body Sys., 60(2):35, 2019.
+[35] V. Enss.
+Asymptotic completeness for quantum mechanical potential scattering.
+Comm.
+Math. Phys., 61(3):285–291, 1978.
+[36] L. C. Evans. Partial Diﬀerential Equations, volume 19. Amer. Math. Soc., second edition,
+2010.
+[37] K. O. Friedrichs. On the perturbation of continuous spectra. Commun. Pure Appl. Math.,
+1(4):361–406, 1948.
+Preprint for review purposes only.
+32
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+[38] C. Fulton, D. Pearson, and S. Pruess. Computing the spectral function for singular Sturm–
+Liouville problems. J. Comput. Appl. Math., 176(1):131–162, 2005.
+[39] C. Fulton, D. Pearson, and S. Pruess. New characterizations of spectral density functions for
+singular Sturm–Liouville problems. J. Comput. Appl. Math., 212(2):194–213, 2008.
+[40] C. Fulton and S. Pruess. The computation of spectral density functions for singular Sturm–
+Liouville problems involving simple continuous spectra.
+ACM Trans. Math. Soft.,
+24(1):107–129, 1998.
+[41] C. Fulton, S. Pruess, and W. Shoaﬀ. Parallel computation of Sturm–Liouville spectral density
+functions. Parallel Algorithms and Applications, 4(1-2):41–51, 1994.
+[42] F. Gamboa, J. Nagel, and A. Rouault.
+Sum rules via large deviations.
+J. Func. Anal.,
+270(2):509–559, 2016.
+[43] V. Girardin and R. Senoussi.
+Semigroup stationary processes and spectral representation.
+Bernoulli, 9(5):857–876, 2003.
+[44] I. M. Glazman. Direct Methods of Qualitative Spectral Analysis of Singular Diﬀerential Op-
+erators. Israel Program for Scientiﬁc Translations, 1965.
+[45] A. Y. Gordon, S. Jitomirskaya, Y. Last, and B. Simon.
+Duality and singular continuous
+spectrum in the almost Mathieu equation. Acta Mathematica, 178(2):169–183, 1997.
+[46] K. Gustafson. Operator spectral states. Comput. Math. Appl., 34(5-6):467–508, 1997.
+[47] B. C. Hall. Quantum Theory for Mathematicians, volume 267 of Graduate Texts in Mathe-
+matics. Springer, 2013.
+[48] M. Hamzavi, K.-E. Thylwe, and A. Rajabi. Approximate bound states solution of the Hell-
+mann potential. Commun. Theor. Phys., 60(1):1, 2013.
+[49] R. Haydock, V. Heine, and M. J. Kelly.
+Electronic structure based on the local atomic
+environment for tight-binding bands. J. Phys. C: Solid State Phys., 5(20):2845, 1972.
+[50] H. Hellmann. A new approximation method in the problem of many electrons. J. Chem.
+Phys, 3(1):61–61, 1935.
+[51] M. Hochbruck and A. Ostermann. Exponential integrators. Acta Numerica, 19:209–286, 2010.
+[52] K. Hoﬀman. Banach Spaces of Analytic Functions. Prentice–Hall, 1962.
+[53] D. R. Hofstadter. Energy levels and wave functions of Bloch electrons in rational and irrational
+magnetic ﬁelds. Physical review B, 14(6):2239, 1976.
+[54] A. Horning and A. Townsend. FEAST for diﬀerential eigenvalue problems. SIAM Journal on
+Numerical Analysis, 58(2):1239–1262, 2020.
+[55] D. Hundertmark, M. Meyries, L. Machinek, and R. Schnaubelt. Operator semigroups and
+dispersive equations. In 16th Internet Seminar on Evolution Equations, 2013.
+[56] S. Joe. Discrete collocation methods for second kind Fredholm integral equations. SIAM J.
+Numer. Anal., 22(6):1167–1177, 1985.
+[57] O. Kallenberg. Foundations of Modern Probability. Springer Science & Business Media, 2006.
+[58] G. Kallianpur and V. Mandrekar. Spectral theory of stationary H-valued processes. J. Mul-
+tivar. Anal., 1(1):1–16, 1971.
+[59] T. Kato. Perturbation Theory for Linear Operators, volume 132. Springer Science & Business
+Media, second edition, 1976.
+[60] A. Kiejna and K. F. Wojciechowski. Metal Surface Electron Physics. Elsevier, 1996.
+[61] R. Killip and B. Simon.
+Sum rules for Jacobi matrices and their applications to spectral
+theory. Ann. Math., 158:253–321, 2003.
+[62] W. Koppelman. On the spectral theory of singular integral operators. Trans. Am. Math.
+Soc., 97(1):35–63, 1960.
+[63] W. Kutzelnigg. Basis set expansion of the Dirac operator without variational collapse. Inter.
+J. Quant. Chem., 25(1):107–129, 1984.
+[64] W. Kutzelnigg. Relativistic one-electron Hamiltonians for electrons only and the variational
+treatment of the Dirac equation. Chem. Phys., 225(1-3):203–222, 1997.
+[65] P. W. Langhoﬀ.
+Stieltjes–Tchebycheﬀmoment-theory approach to photoeﬀect studies in
+Hilbert space. In Theory and Applications of Moment Methods in Many-Fermion Sys-
+tems, pages 191–212. Springer, 1980.
+[66] B. M. Levitan and I. S. Sargsian.
+Introduction to Spectral Theory: Selfadjoint Ordinary
+Diﬀerential Operators, volume 39 of Translations of Mathematical Monographs. Amer.
+Math. Soc., 1975.
+[67] M. Lewin and ´E. S´er´e. Spectral pollution and how to avoid it (with applications to Dirac and
+periodic Schr¨odinger operators). Proc. Lond. Math. Soc. (3), 100(3):864–900, 2010.
+[68] J. Liesen and Z. Strakos. Krylov subspace methods: principles and analysis. Oxford University
+Press, Oxford, 2013.
+[69] L. Lin, Y. Saad, and C. Yang. Approximating spectral densities of large matrices. SIAM
+Rev., 58(1):34–65, 2016.
+Preprint for review purposes only.
+COMPUTING SPECTRAL MEASURES
+33
+[70] X. Lu, P. Stepanov, W. Yang, et al. Superconductors, orbital magnets and correlated states
+in magic-angle bilayer graphene. Nature, 574(7780):653–657, 2019.
+[71] C. Lubich. From Quantum to Classical Molecular Dynamics: Reduced Models and Numerical
+Analysis.
+Zurich Lectures in Advanced Mathematics. European Mathematical Society
+(EMS), Z¨urich, 2008.
+[72] V. A. Marchenko. Sturm–Liouville Operators and Applications, volume 373 of AMS Chelsea
+Publishing. Amer. Math. Soc., 2011.
+[73] R. I. McLachlan and G. R. W. Quispel. Splitting methods. Acta Numerica, 11:341–434, 2002.
+[74] W. C. H. McLean. Strongly Elliptic Systems and Boundary Integral Equations. Cambridge
+university press, 2000.
+[75] C. A. H. Neto, F. Guinea, N. M. R. Peres, K. S. Novoselov, and A. K. Geim. The electronic
+properties of graphene. Rev. Modern Phys., 81(1):109, 2009.
+[76] K. S. Novoselov. Nobel lecture: Graphene: Materials in the ﬂatland. Reviews of Modern
+Physics, 83(3):837, 2011.
+[77] S. Olver and A. Townsend.
+A fast and well-conditioned spectral method.
+SIAM Rev.,
+55(3):462–489, 2013.
+[78] E. Parzen. On consistent estimates of the spectrum of a stationary time series. Ann. Math.
+Stat., 28:329–348, 1957.
+[79] E. Parzen. Mathematical considerations in the estimation of spectra. Technometrics, 3(2):167–
+190, 1961.
+[80] E. Parzen. On estimation of a probability density function and mode. Ann. Math. Stats.,
+33(3):1065–1076, 1962.
+[81] A. Pazy. Semigroups of Linear Operators and Applications to Partial Diﬀerential Equations,
+volume 44 of Applied Mathematical Sciences. Springer Science & Business Media, 2012.
+[82] L. A. Ponomarenko, R. V. Gorbachev, G. L. Yu, D. C. Elias, R. Jalil, A. A. Patel,
+A. Mishchenko, A. S. Mayorov, C. R. Woods, J. R. Wallbank, et al. Cloning of Dirac
+fermions in graphene superlattices. Nature, 497(7451):594, 2013.
+[83] M. B. Priestley. Basic considerations in the estimation of spectra. Technometrics, 4(4):551–
+564, 1962.
+[84] S. Pruess and C. T. Fulton.
+Mathematical software for Sturm–Liouville problems.
+ACM
+Trans. Math. Soft., 19(3):360–376, 1993.
+[85] S. Pruess and C. T. Fulton. Error analysis in the approximation of Sturm–Liouville spectral
+density functions. J. Math. Anal. Appl., 203(2):518–539, 1996.
+[86] C. Puelz, M. Embree, and J. Fillman. Spectral approximation for quasiperiodic jacobi oper-
+ators. Integral Equations and Operator Theory, 82(4):533–554, 2015.
+[87] M. Reed and B. Simon. Methods of Modern Mathematical Physics. I. Academic Press, Inc.,
+Harcourt Brace Jovanovich, New York, second edition, 1980.
+[88] M. Rosenblatt. Remarks on some nonparametric estimates of a density function. Ann. Math.
+Stats., 27(3):832–837, 1956.
+[89] M. Rosenblatt. Stochastic curve estimation, volume 3 of NSF-CBMS Regional Conference
+Series in Probability and Statistics. IMS, 1991.
+[90] D. Ruelle. A remark on bound states in potential-scattering theory. Il Nuovo Cimento A
+(1965-1970), 61(4):655–662, 1969.
+[91] V. M. Shabaev, I. I. Tupitsyn, V. A. Yerokhin, G. Plunien, and G. Soﬀ. Dual kinetic balance
+approach to basis-set expansions for the Dirac equation. Phys. Rev. Lett., 93(13):130405,
+2004.
+[92] R. N. Silver and H. R¨oder. Densities of states of mega-dimensional Hamiltonian matrices.
+Inter. J. Modern Phys. C, 5(04):735–753, 1994.
+[93] B. W. Silverman. Density Estimation for Statistics and Data Analysis. Routledge, 2018.
+[94] B. Simon. Schr¨odinger semigroups. Bull. Am. Math. Soc., 7(3):447–526, 1982.
+[95] B. Simon.
+Szeg˝o’s theorem and its descendants: Spectral Theory for L2 Perturbations of
+Orthogonal Polynomials, volume 6 of Porter Lectures. Princeton university press, 2010.
+[96] R. E. Stanton and S. Havriliak. Kinetic balance: A partial solution to the problem of varia-
+tional safety in Dirac calculations. J. Chem. Phys., 81(4):1910–1918, 1984.
+[97] E. M. Stein and R. Shakarchi.
+Real Analysis: Measure Theory, Integration, and Hilbert
+Spaces. Princeton University Press, 2009.
+[98] E. M. Stein and R. Shakarchi. Functional Analysis: Introduction to Further Topics in Analy-
+sis, volume 4 of Princeton Lectures in Analysis. Princeton University Press, 2011.
+[99] P. Stoica and R. L. Moses. Spectral analysis of signals. Pearson Prentice Hall Upper Saddle
+River, NJ, 2005.
+[100] M. Stone and P. Goldbart. Mathematics for Physics: a Guided Tour for Graduate Students.
+Cambridge University Press, 2009.
+Preprint for review purposes only.
+34
+MATTHEW COLBROOK, ANDREW HORNING, AND ALEX TOWNSEND
+[101] M. H. Stone. Linear Transformations in Hilbert Space, volume 15 of Amer. Math. Soc. Colloq.
+Pub. Amer. Math. Soc., Providence, RI, 1990.
+[102] A. S¨ut˝o. Singular continuous spectrum on a Cantor set of zero Lebesgue measure for the
+Fibonacci Hamiltonian. Journal of statistical physics, 56(3-4):525–531, 1989.
+[103] G. Szeg˝o. Orthogonal Polynomials. Amer. Math. Soc., New York, 1939.
+[104] J. D. Talman. Minimax principle for the Dirac equation. Phys. Rev. Lett., 57(9):1091, 1986.
+[105] D. J. Tannor. Introduction to Quantum Mechanics: a Time-Dependent Perspective. Univer-
+sity Science Books, 2007.
+[106] G. Teschl.
+Jacobi Operators and Completely Integrable Nonlinear Lattices, volume 72 of
+Mathematical Surveys and Monographs. Amer. Math. Soc., Providence, RI, 2000.
+[107] B. Thaller. The Dirac Equation. Texts and Monographs in Physics. Springer-Verlag, Berlin,
+1992.
+[108] E. C. Titchmarsh.
+Eigenfunction Expansions Associated With Second Order Diﬀerential
+Equations, Part I. Oxford University Press, second edition, 1962.
+[109] T. Touhei. A scattering problem by means of the spectral representation of Green’s function
+for a layered acoustic half-space. Comput. Mech., 25(5):477–488, 2000.
+[110] A. Townsend and L. N. Trefethen. An extension of Chebfun to two dimensions. SIAM J. Sci.
+Comput., 35(6):C495–C518, 2013.
+[111] L. N. Trefethen. Approximation Theory and Approximation Practice, volume 164 of Other
+Titles in Applied Mathematics. SIAM, second edition, 2019.
+[112] L. N. Trefethen and D. Bau III. Numerical Linear Algebra. SIAM, Philadelphia, PA, 1997.
+[113] L. N. Trefethen and J. A. C. Weideman. The exponentially convergent trapezoidal rule. SIAM
+Rev., 56(3):385–458, 2014.
+[114] T. Trogdon, S. Olver, and B. Deconinck.
+Numerical inverse scattering for the Korteweg–
+de Vries and modiﬁed Korteweg–de Vries equations.
+Phys. D: Nonlinear Pheno.,
+241(11):1003–1025, 2012.
+[115] A. B. Tsybakov. Introduction to Nonparametric Estimation. Springer Science & Business
+Media, 2008.
+[116] M. P. Wand and M. C. Jones. Kernel Smoothing. Chapman and Hall/CRC, 1994.
+[117] M. Webb and S. Olver. Spectra of Jacobi operators via connection coeﬃcient matrices. arXiv
+preprint arXiv:1702.03095, 2017.
+[118] A. Weiße, G. Wellein, A. Alvermann, and H. Fehske. The kernel polynomial method. Rev.
+Modern Phys., 78(1):275, 2006.
+[119] J. Wilkening and A. Cerfon. A spectral transform method for singular Sturm–Liouville prob-
+lems with applications to energy diﬀusion in plasma physics.
+SIAM J. Appl. Math.,
+75(2):350–392, 2015.
+Preprint for review purposes only.

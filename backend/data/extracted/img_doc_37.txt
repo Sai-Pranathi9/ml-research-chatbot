@@ -1,0 +1,4 @@
+Scanned Research Note on Regression Linear regression fits a straight line to the data,
+minimizing squared errors. Ridge and Lasso regression add regularization to reduce
+
+overfitting

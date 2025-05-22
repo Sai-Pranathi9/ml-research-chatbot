@@ -1,0 +1,991 @@
+arXiv:2007.03773v1  [physics.atom-ph]  7 Jul 2020
+Transition Frequencies and Hyperﬁne Structure in 113,115In+: Application of a
+Liquid-Metal Ion Source for Collinear Laser Spectroscopy
+Kristian K¨onig,∗J¨org Kr¨amer, Phillip Imgram, Bernhard Maaß, Wilfried N¨ortersh¨auser, and Tim Ratajczyk
+Institut f¨ur Kernphysik, Technische Universit¨at Darmstadt,
+Schlossgartenstr.
+9, 64289 Darmstadt, Germany
+(Dated: July 9, 2020)
+We demonstrate the ﬁrst application of a liquid-metal ion source for collinear laser spectroscopy
+in proof-of-principle measurements on naturally abundant In+.
+The superior beam quality, i.e.,
+the actively stabilized current and energy of a beam with very low transverse emittance, allowed
+us to perform precision spectroscopy on the 5s2 1S0 →5s5p 3P1 intercombination transition in
+115In+, which is to our knowledge the slowest transition measured with collinear ﬂuorescence laser
+spectroscopy so far. By applying collinear and anticollinear spectroscopy, we improved the center-of-
+gravity frequency νcg = 1 299 617 759. 3 (1.2) and the hyperﬁne constants A = 6957.19 (28) MHz and
+B = −443.7 (2.4) MHz by more than two orders of magnitude. A similar accuracy was reached for
+113In+ in combination with literature data and the isotope shift between both naturally abundant
+isotopes was deduced to ν(113In) −ν(115In) = 696.3 (3.1) MHz.
+Nuclear alignment induced by
+optical pumping in a preparation section of the ion beamline was demonstrated as a pump-and-
+probe approach to provide sharp features on top of the Doppler broadened resonance proﬁle.
+I.
+INTRODUCTION
+Sources for atomic, ionic and molecular beams ﬁnd ap-
+plications in many ﬁelds of research. In this paper, we
+describe the ﬁrst utilization of a liquid-metal ion source
+(LMIS) for collinear laser spectroscopy and present char-
+acterizing measurements using an In+ beam. Due to the
+superior performance, such ion sources found a multi-
+tude of applications, ranging from focused-ion-beam mi-
+croprobes over mask/circuit repair and manipulation to
+lithography (see e.g. [1–4] and references therein). Due
+to their compact design, high reliability and low main-
+tenance requirements, these sources are even used as ion
+thrusters for space crafts [5, 6]. They are able to deliver
+ion currents of up to several mA, which allows to reduce
+the transverse emittance signiﬁcantly by trimming the
+beam [7]. Operation with a few pure elements is pos-
+sible, among them especially indium and gallium, which
+have very low melting points and low vapor pressures, but
+there are many suitable eutectic alloys containing most
+metallic elements [8].
+This also allows the production
+of molecular beams of various charge states. While most
+metallic ions are also accessible with standard plasma ion
+sources like electron cyclotron resonance ion sources or
+Penning ion sources, these advantages and the relatively
+low cost make LMIS an interesting alternative.
+We will report on the adaption of a liquid-metal ion
+source for the needs of collinear laser spectroscopy and
+present atomic spectra obtained from beams of natural
+abundant indium. Our realization actively stabilizes ion
+current and ion energy, leading to optimal conditions for
+these experiments. Furthermore, we demonstrate laser
+spectroscopy in the deep UV, which sets high demands,
+∗Current address:
+National Superconducting Cyclotron Lab-
+oratory,
+Michigan
+State
+University,
+East
+Lansing,
+USA;
+kkoenig@ikp.tu-darmstadt.de
+particularly on laser system and ﬂuorescence detection,
+and present optical pumping schemes that allow spec-
+troscopy on narrow spectral features to overcome preci-
+sion limits due to broad resonance signals.
+We chose In+ for the characterization measurements
+since the 5s2 1S0 →5s5p 3P1 intercombination transition
+at 230.6 nm is still accessible with standard laser systems
+and the narrow linewidth of 360 kHz makes it an interest-
+ing candidate for laser-based high-voltage metrology [7].
+The transition is still strong enough to perform collinear
+ﬂuorescence laser spectroscopy, but is to our knowledge
+the slowest transition investigated with that technique so
+far.
+At other facilities, collinear laser spectroscopy was per-
+formed over a wide range of indium isotopes, particularly
+to investigate nuclear properties close to the Z = 50 shell
+closure [9–11]. However, in all cases atomic beams were
+used. Therefore, we will evaluate the accessibility of the
+ionic state for complementary measurements. This is of
+special interest for the hyperﬁne structure parameters A
+and B, where disagreement was found between experi-
+ment and theory in recent studies of atomic 5p →ns
+transitions [12]. This indicates an increased importance
+of electron correlations in the excited atomic states. In
+the ion, the hyperﬁne interaction is about an order of
+magnitude stronger than in the atomic states and might
+therefore be a guide for improved coupled cluster calcu-
+lations. So far, only a few ionic transitions have been
+measured with high precision.
+Among them, the for-
+bidden 5s2
+1S0 →5s5p 3P0 transition, which is em-
+ployed for optical clocks [13, 14]. In this context, also
+one hyperﬁne component (F = 9/2 →F ′ = 11/2) of the
+5s2 1S0 →5s5p 3P1 intercombination transition has been
+precisely measured as it is routinely employed as cooling
+transition [15]. The other components and, hence, the
+A and B factors are known with signiﬁcant lower accu-
+racies. We were able to improve those by two orders of
+magnitude.
+2
+II.
+EXPERIMENTAL SETUP
+The
+measurements
+were
+conducted
+at
+the
+new
+Collinear Apparatus for Laser Spectroscopy and Applied
+Science (COALA) at TU Darmstadt. We identiﬁed the
+rest-frame transition frequencies ν0 of all three hyperﬁne
+transitions (F = 9/2 →F ′ = 7/2, 9/2, 11/2) of 115In+ via
+collinear/anticollinear spectroscopy:
+νc · νa = ν0γ(1 + β) · ν0γ(1 −β) = ν2
+0
+(1)
+where νc and νa are the collinear and anticollinear laser
+frequencies at resonance with the Doppler-shifted tran-
+sition frequency, β is the ion velocity and γ the time-
+dilation factor. A detailed description of the experimen-
+tal realization including all applied ion sources, beamline
+and laser systems is given in [7].
+Here, we will give a brief explanation with a focus
+on the operation of the liquid-metal ion source (LMIS)
+and the beam preparation, since to our knowledge such
+a source has not been used in collinear spectroscopy pre-
+viously. As depicted in Fig. 1, the LMIS and the asso-
+ciated power supplies are ﬂoated on a high-voltage plat-
+form from which the In+ ion beam is emitted with a total
+kinetic energy of 15 keV to the beamline at ground po-
+tential. The LMIS was developed and assembled at TU
+Dresden [16].
+Between the emitter module, consisting
+of a capillary (50 µm bore diameter) on top of a heated
+reservoir ﬁlled with indium, and an extractor electrode in
+a few mm distance, a potential diﬀerence of about 5.2 kV
+is applied. The electric ﬁeld is strong enough to ionize
+the liquid metal, which is fed through the capillary and
+the generated ions are then accelerated by the same ﬁeld
+[3, 17]. We stabilize the emitted ion current by operat-
+ing the power supply ﬂoating the emitter module at a
+current limit of typically 10 µA. This evokes voltage ﬂuc-
+tuations which we counteract by adapting the potential
+of the high-voltage platform, leading to an ion beam with
+constant current and ion energy.
+Even though the beam emitted from an LMIS has
+a large divergence [18, 19], it can be used to generate
+beams with very low transverse emittance, since it orig-
+inates from a spot with diameter of less than 100 nm.
+We restrict the beam to a 2-mm diameter aperture in
+a distance of 200 mm from the emitter and estimate a
+normalized emittance of 10–50π mm mrad
+√
+eV by com-
+paring the transmission through the pinhole with the di-
+vergence angles measured with a similar LMIS [7, 20].
+After trimming most of the ion beam, the remaining 2-
+nA beam passes a ceramic high-voltage break and is col-
+limated by an Einzel lens in 150 mm distance, ﬁnally pro-
+viding a beam with a longitudinal spread of 22 eV. Larger
+ion currents can be achieved by using larger apertures or
+larger emitter currents. We tested stable operation of up
+to 250 µA (before the aperture) that comes at the cost of
+a larger longitudinal energy spread [1].
+The longitudinal velocity distribution leads to Doppler
+broadening which is signiﬁcantly compressed by the
+acceleration to 15 keV. Nevertheless, already a kinetic
+secondary
+electrons
+200 mm
+150 mm
++ 4.9 kV
+Einzel lens
+2-mm aperture
+extractor
+emitter
+insulator
+shield
+- 0.3 kV
++ 10 kV
++ 4 kV
+10 µA
+2 nA
+FIG. 1.
+Adaption of a liquid-metal ion source for collinear
+laser spectroscopy. The ion current is kept constant by reg-
+ulating the voltage applied to the emitter module while the
+total ion energy is stabilized by adapting the potential of the
+high voltage platform. It turned out that it is important to
+operate the trimming aperture on the same potential as the
+LMIS, since secondary electrons, generated by ion impinge-
+ment, are otherwise accelerated back to the source. This de-
+teriorates the ion-beam stability strongly [21, 22]. In our case,
+the relatively slow electrons can be deﬂected by ﬂoating the
+extractor plate on a negative potential of −300 V. Behind the
+aperture a ceramic insulator connects the source to the beam-
+line at ground potential. The ion beam is collimated by an
+Einzel lens.
+energy width of 22 eV causes a linewidth of about
+500 MHz which is much larger than the natural linewidth
+of 360 kHz of the investigated intercombination transi-
+tion. This can be cured by using, e.g., gas-ﬁlled radio-
+frequency traps to cool the beam that are installed at
+many other laser spectroscopy facilities.
+As an alter-
+native, we present a proof-of-principle realization of a
+pump-and-probe scheme that creates sharp spectral fea-
+tures on top of the Doppler broadened transition.
+After a 10 ◦bend, we superimpose the ion beam with
+the laser beams that are either copropagating (collinear)
+or counterpropagating (anticollinear) to the ion beam.
+After passing through ion optics for beam manipulation,
+an iris aperture with adjustable size localizes the position
+of all beams. In a distance of 2.6 m downstream, a second
+iris is installed, hence deﬁning angle and position of all
+beams. Several arrays of drift tubes and a ﬂuorescence
+detection region (FDR) that can be ﬂoated on individual
+potentials, are placed between the apertures. In particu-
+lar, a ﬁrst 1.2-m long drift tube enables optical manipu-
+lations of the ion beam. A second 0.17-m long drift tube
+is placed directly in front of the FDR and can be used for
+probing slow transitions. Our FDR is especially designed
+for spectroscopy in the deep UV-range and the combina-
+tion of imaging and non-imaging optics leads to a passive
+background suppression [24]. Photons that are emitted
+from the ion beam are collected with a mirror array cov-
+ering a solid angle of nearly 4π and counted with photo-
+multiplier tubes. The relatively long lifetime of 440 ns of
+the excited state of the investigated 5s2 1S0 →5s5p 3P1
+intercombination transition in combination with the fast
+ion beam that travels at a speed of 16 cm/µs allows us to
+probe the transition in the drift tube in front of the FDR,
+shutter the laser beam with an acousto-optical modula-
+tor (AOM) and monitor the ﬂuorescence photons while
+3
+-800 -600 -400 -200
+0
+200
+400
+600
+800
+3600
+3800
+4000
+4200
+4400
+4600
+4800
+5000
+5200
+acol. cw
+Voigt fit
+counts
+relative frequency [MHz]
+(a)
+-800 -600 -400 -200
+0
+200
+400
+600
+800
+50
+100
+150
+200
+250
+300
+counts
+relative frequency [MHz]
+(b)
+(c)
+col. bunched
+Voigt fit
+-800 -600 -400 -200
+0
+200
+400
+600
+800
+100
+150
+200
+250
+300
+counts
+relative frequency [MHz]
+ acol. bunched
+ asym. Voigt fit
+FIG. 2. Resonance spectra of the 5s2 1S0 F = 9/2 →5s5p 3P1 F ′ = 11/2 transition of 115In+ obtained by varying the scan voltage
+applied to the drift tube in front of the ﬂuorescence detection region (FDR). (a): Continuous measurement in anticollinear
+geometry. (b): The collinear laser is shuttered with an AOM while observing the ﬂuorescence light in the FDR to remove the
+laser-induced background. In both cases the spectra are well described by a Voigt proﬁle with a width of ΓFWHM ≈500 MHz,
+dominated by the Doppler width. (c): Laser-ion overlap was worsened to estimate its systematic impact (see text). To account
+for the resulting asymmetric lineshape, an asymmetric contribution has been included in the applied ﬁt function [23].
+the laser is blocked. This completely eliminates the oth-
+erwise dominant background from scattered laser light.
+The laser system consists of two Sirah Matisse 2 TS
+Ti:Sapphire lasers, which are operated at 920 nm and
+pumped with 19 W of 532-nm light from two Spectra
+Physics Millennia eV lasers each. The light is quadru-
+pled in four cavity-based frequency doublers (Spectra
+Physics, Wavetrain 2) yielding up to 100 mW of 230-nm
+light. Both Ti:Sapphire lasers are locked to a Menlo Sys-
+tems FC1500-250-WG frequency comb by a new locking
+scheme developed in cooperation with both manufactur-
+ers (see [7] for more details). The results presented here,
+are the ﬁrst application of this locking scheme, achieving
+a stability of about 60 kHz for the fundamental frequency
+at a time scale of minutes. Due to the direct lock to a fre-
+quency standard via the comb, long-term drifts are sup-
+pressed. The UV light is sent through spatial ﬁlters to
+create collimated TEM00 beams, which are then guided
+5 m through air to the downstream end of the beamline.
+While the anticollinear laser beam is directly transmitted
+through a plane uncoated quartz window into the beam-
+line, the collinear laser beam is transported another 5.5 m
+through air parallel to the beamline, before injecting the
+beam in opposite direction into the collinear apparatus
+through a similar window.
+III.
+RESULTS
+We
+investigated
+the
+intercombination
+transition
+5s2 1S0 →5s5p 3P1 of In+ in order to use this tran-
+sition for high-voltage metrology [7]. It consists of three
+hyperﬁne transitions (F = 9/2 →F ′ = 7/2, 9/2, 11/2) sep-
+arated by about 35 GHz, whereof the last one is the so-
+called cooling transition for optical clocks based on In+.
+As demonstrated in [25], we could clearly resolve both
+naturally abundant isotopes. However, we focused only
+on the more abundant 115In isotope (95.7 %) since we
+can deduce all relevant parameters for 113In from precise
+nuclear ratios measured in [26, 27].
+While our setup is optimized for the anticollinear ge-
+ometry, resulting in low background rates of only 10 kHz
+for a laser power of 1 mW, it is worse by a factor of 25
+in the collinear case. As mentioned above, we used the
+drift tube in front of the ﬂuorescence detection region for
+probing the ions. This was realized by Doppler tuning,
+i.e., the lasers are stabilized to a ﬁxed frequency while
+the potential of the drift tube is scanned. The change
+of the ion velocity leads to varying Doppler shifts that
+are used to scan across the resonance. The ﬂuorescence
+detection region was ﬂoated on a diﬀerent potential to
+avoid laser-ion interactions outside the drift tube. We
+compared ﬂuorescence detection under these conditions
+with direct excitation inside the FDR. According to the
+relative signal strength, 14 % of the photons are still de-
+tected when exciting the ion beam only inside the drift
+tube. In Fig. 2a the optical response for the excitation
+of the In+ beam in cw mode in anticollinear geometry
+inside the drift tube is shown.
+Due to the low back-
+ground rate in this direction, a high signal-to-noise ratio
+of 22:1 is achieved within 8 min of accumulation time. In
+Fig. 2b, a resonance spectrum taken in collinear geome-
+try with a shuttered laser beam, is depicted. The beam-
+on/beam-oﬀperiods were chosen as 10 µs/2 µs explaining
+the smaller signal strength for the same accumulation
+time.
+Due to the drastically reduced background, the
+signal-to-noise ratio is slightly improved to 25:1 despite
+the high background rates in this direction. We identiﬁed
+the remaining background - unfortunately after the ex-
+periment - to be caused by the vacuum gauges. Turning
+those oﬀwill allow us to record practically background-
+free spectra in the future. In both cases, the resonances
+have a width of ΓFWHM ≈500 MHz and their resonance
+frequency can be determined with a statistical uncer-
+tainty of approximately 4 MHz from the ﬁt. The Voigt
+proﬁle ﬁtted to the experimental data is dominated by
+the Gaussian contribution which conﬁrms the expecta-
+tions on the ion production process regarding the initial
+4
+velocity distribution.
+For the precise determination of the three hyperﬁne
+transitions, we superimposed collinear and anticollinear
+lasers as well as the ion beam. The alignment of both
+laser beams could be easily checked in front of the anti-
+collinear window where both beams arrive from the laser
+lab. Comparing the spot positions from one laser before
+and from the other after passing through the beamline
+and vice versa in a distance of 10 m, enables an excel-
+lent superposition of both laser beams. Their size was
+adjusted to a diameter of 2 mm to match with the ion
+beam size. By using the adjustable iris diaphragms in-
+side the beamline, the ion-laser overlap was optimized.
+For the determination of the rest-frame transition fre-
+quencies, a series of alternately performed collinear (c)
+and anticollinear (a) measurements was taken. To pre-
+clude uncertainties from unresolved long-term drifts, the
+applied measurement scheme was a-c-c-a.
+As demon-
+strated in Eq. 1, the rest-frame transition frequency ν0
+can be determined by multiplying the resonant frequen-
+cies νc and νa obtained in collinear and anticollinear mea-
+surements, respectively, if both are detected from an ion
+beam with identical velocity β. But since Doppler tun-
+ing is applied, the ion velocity is varied and this equation
+is not applicable as long as the two resonances do not
+appear at exactly the same scan voltage. Therefore, we
+chose both frequencies in a way that the resonance signal
+appeared at almost the same scan voltage. The remain-
+ing small deviation of the resonant scan voltage ∆Uscan
+is corrected by linearly approximating its impact on the
+frequency of one laser
+δν = ∂ν
+∂U · ∆Uscan = 2ν0q
+mc2
+ν2
+ν2 −ν2
+0
+· ∆Uscan
+(2)
+and including this in Eq. 1. This yields
+ν0 =
+s
+νc −∂νc
+∂U · ∆Uscan
+
+· νa −∆νrecoil .
+(3)
+Here, also the shift due to the photon recoil ∆νrecoil ≈
+hν2
+0/2mc2 = 33 kHz is taken into account. Due to the
+long lifetime, we do not expect more than one interac-
+tion.
+With this method the rest-frame transition fre-
+quencies between the ground state and all three hyperﬁne
+states of the 5s5p 3P1 level were measured. The results
+are listed in Tab. I. By taking seven pairs of collinear
+and anticollinear measurements for the transition to the
+F ′ = 11/2 state and nine pairs for the transitions to the
+F ′ = 9/2 and F ′ = 7/2 states at the same day, the statis-
+tical uncertainty was reduced to 1.2 MHz, 1.4 MHz and
+1.5 MHz, respectively.
+This corresponds to the uncer-
+tainty of the weighted average that is slightly larger than
+the standard deviation of the mean. The systematic un-
+certainty is estimated to be less than 1.5 MHz.
+As demonstrated in [28, 29] it is generally possible to
+reduce the systematic uncertainty to 100 kHz at COALA.
+However, the energy distribution of the ion beam used in
+those measurements was below 100 meV compared to the
+TABLE I. Rest-frame transition frequencies and hyperﬁne pa-
+rameters A and B of the 5s2 1S0 →5s5p 3P1 transition in
+115In+. Our values are in excellent agreement with ion-trap
+measurements [15, 30] but provide considerably improved ac-
+curacy in most cases.
+The measurement performed with a
+monochromator [31] shows a systematic deviation of almost
+300 MHz, indicating a wrong calibration of their apparatus.
+This was also pointed out in a re-evaluation of the avail-
+able literature data [32], in which a recalibrated value for the
+center-of-gravity frequency νcg was published.
+Transition
+This work
+Literature
+Ref.
+MHz
+MHz
+9/2 →11/2 1 299 648 955. 7 (1.9)
+1 299 648 954. 54 (10) [15]
+1 299 648 690 (150)
+[31]
+9/2 →9/2 1 299 611 097. 9 (2.1)
+1 299 610 830 (180)
+[31]
+9/2 →7/2 1 299 579 291. 4 (2.1)
+1 299 578 990 (180)
+[31]
+A
+6 957. 19 (28)
+6 960 (90)
+[30]
+B
+−443. 7 (2.4)
+−480 (420)
+[30]
+νcg
+1 299 617 759. 3 (1.2)
+1 299 617 480 (150)
+[31]
+1 299 617 744 (45)
+[32]
+width of about 22 eV in our case. The dynamical proper-
+ties of the electrostatic 10 ◦deﬂector used to superimpose
+both beams, act as an energy ﬁlter and distribute ions
+with diﬀerent kinetic energies in a direction perpendicu-
+lar to the ion beam direction in the horizontal plane. A
+misalignment between ion and laser beams can lead to a
+partial overlap of ion and laser beam and exclude a part
+of the velocity distribution from the interaction with the
+laser light. If the two laser beams diﬀer in position or
+diameter, this asymmetry might aﬀect both spectra (a,c)
+diﬀerently and, hence, can cause uncorrelated shifts when
+extracting the centroid frequencies. To quantify this un-
+certainty, a series of collinear/anticollinear measurements
+was performed with the overlap of both beams worsened
+on purpose. The spectra were ﬁtted with an asymmetric
+proﬁle [23] which becomes necessary for a proper descrip-
+tion of the data as shown exemplary in Fig. 2c. Besides
+a higher statistical uncertainty of 2.2 MHz, the center of
+the rest-frame transition frequency extracted from these
+measurements is shifted by 1.5 MHz compared to the re-
+sults listed in Tab. I. Even though this shift is within the
+statistical uncertainty bands, it is conservatively consid-
+ered as systematic contribution to account for possible
+deviations due to the asymmetric shape caused by a par-
+tial overlap of ion and laser beams.
+IV.
+DISCUSSION
+Three groups have previously reported measurements
+on the 5s2 1S0 →5s5p 3P1 transition of 115In+ neglecting
+the measurement of Paschen and Campbell carried out
+in 1938 [33]. Most recently Wang et al. [15] measured
+the cooling transition (F = 9/2 →F ′ = 11/2) on a single
+ion in a radio-frequency trap with an accuracy of 100 kHz
+by using a frequency comb. Our value agrees well within
+5
+our uncertainty bands, which conﬁrms the accuracy of
+our measurement. Another measurement performed in a
+radio-frequency trap by Peik et al. [30] provided all hy-
+perﬁne transitions but is not listed in Tab. I since they
+speciﬁed large uncertainties of 600 MHz.
+Nevertheless,
+it should be noted that their values are in good agree-
+ment and diﬀer by less than 90 MHz to our results. A
+smaller uncertainty of 150-180MHz is stated by Larkins
+and Hannaford [31] who performed measurements using
+an chelle monochromator. However, their values show
+a systematic deviation of about 280 MHz to our results
+and to those from Wang and coworkers. A similar devi-
+ation of 277 MHz has been observed in the clock transi-
+tion (5s2 1S0 →5s5p 3P0) at 236.5 nm [13]. As pointed
+out in detail by Kramida [32], who summarized and
+re-evaluated all spectroscopic data of In+, the calibra-
+tion of the monochromator and the conversion from the
+air wavelength into vacuum wavenumbers of [31] can be
+strongly aﬀected by underestimated systematic eﬀects.
+Based on the accurate value of [15], Kramida recalibrated
+these measurements and gave a value for the center of
+gravity of the 5s2 1S0 →5s5p 3P1 transition [32]. From
+our values we can also deduce the center-of-gravity fre-
+quency νcg as well as the hyperﬁne parameters A and B.
+These have been calculated analytically from
+∆ν = 1
+2AC + B
+8
+3C(C + 1) −4I(I + 1)J(J + 1)
+I(2I −1)J(2J −1)
+(4)
+where ∆ν denotes the frequency diﬀerence from the indi-
+vidual hyperﬁne transitions to the center of gravity and
+C = F(F + 1) −I(I + 1) −J(J + 1). Our results are
+included in Tab. I. Only Peik et al. explicitly stated the
+hyperﬁne parameters in their work (see Tab. I) but these
+can be deduced from Larkins and Hannaford’s values as
+well (A = 6960 (26)MHz and B = −460 (190)MHz [31]).
+Both are in excellent agreement with our results. More-
+over, the re-evaluated center of gravity agrees nicely.
+With the precise ratios of the magnetic dipole moment
+µ [26] and electric quadrupole moment Q [27] between
+115In and 113In
+µ(115In+)/µ(113In+) = 1.0021437 (12)
+Q(115In+)/Q(113In+) = 1.0138236 (13)
+we can calculate the hyperﬁne constants of 113In+ to
+be A(113In+) = 6942.32(75)MHz and B(113In+) =
+−437.7 (2.4)MHz.
+We included an uncertainty contri-
+bution considering a hyperﬁne structure anomaly, which
+we estimate to be smaller than 0.01 % since both isotopes
+have the same nuclear spin of I = 9/2 and because mea-
+surements in the P1/2 and P3/2 states of atomic indium
+revealed anomalies of only 7.5 · 10−6 and 23.8 · 10−6, re-
+spectively [34].
+The
+hyperﬁne
+constants
+can
+also
+be
+employed
+to extract the isotope shift ν(113In) −ν(115In)
+=
+696.3(2)(3.1)MHz from the precise measurement of
+Wang et al. [15]. The ﬁrst uncertainty value of 0.2 MHz
+corresponds to the combined experimental uncertainty
+of both experiments while the large systematic contribu-
+tion of 3.1 MHz is an estimation of a possible hyperﬁne
+structure anomaly contribution, being neglected in [15].
+Based on experimental uncertainties only, they present
+an uncertainty of 1.68 MHz but since the same analysis
+is applied, this systematic contribution needs to be con-
+sidered as well.
+V.
+PUMP-AND-PROBE MEASUREMENTS
+In order to overcome the limitations caused by the
+large velocity distribution inherent in the operation prin-
+ciple of the LMIS or of other ion source with relatively
+large energy spread, pump-and-probe measurements can
+be applied. For a proof of principle, we demonstrated this
+by operating the ﬁrst 1.2-m long drift tube at a constant
+potential. One velocity class of the ion beam that is in
+resonance with the laser, will interact and can be manip-
+ulated. In the case of In+, there is no hyperﬁne structure
+splitting in the 1S0 ground state. However, the hyperﬁne
+interaction still allows us to use laser light to reshuﬄe
+population between the mF = −9/2, −7/2, ..., +9/2 nu-
+clear magnetic substates and to produce orientation or
+alignment of the nuclear spin.
+This property is con-
+served while the ion travels to the ﬂuorescence detec-
+tion region even though there is no guiding ﬁeld as it
+is usually applied in collinear optical pumping measure-
+ments, as demonstrated for example in [35, 36].
+The
+reason is the long relaxation time caused by the ions’
+small magnetic moment being exclusively of nuclear ori-
+gin, and the reduction of magnetic stray ﬁelds by proper
+shielding with permalloy. Subsequent excitation of the
+ions manipulated by the ﬁrst laser interaction will lead
+to an increased or decreased ﬂuorescence rate depending
+on the combination of laser polarizations that are used in
+the pump and the probe process. A narrow peak or a dip
+will appear accordingly on top of the Doppler broadened
+main resonance.
+We have realized this in a simple way using the same
+linearly-polarized light for both, optical pumping in the
+ﬁrst drift tube and probing in the FDR. Therefore, the
+potential at the optical pumping region is chosen such
+that the laser beam is in resonance with ions close to the
+center of the Doppler broadened line. Then, the potential
+at the FDR is scanned to perform Doppler tuning around
+the center of the resonance. The peak or dip will only
+appear if ions of the same velocity class are addressed in
+both regions. The result is shown for all three hyperﬁne
+transitions in Fig. 3.
+The sharp spectral feature observed in all three cases
+exhibits a width of about 14 MHz on top of the main reso-
+nance. Please note that the x-axis spans only 60-100MHz
+compared to the more than 1.6-GHz wide region in Fig. 2.
+The width of the spectral feature is reduced by a factor
+of 35 compared to the Doppler-broadened peak but still
+considerably wider than the 360-kHz natural linewidth of
+the transition. A substantial fraction of this is expected
+6
+F = 9/2     F = 11/2
+-50 -40 -30 -20 -10
+0
+10
+20
+30
+40
+50
+142000
+143000
+144000
+145000
+146000
+counts
+relative frequency [MHz]
+F = 9/2     F = 9/2
+-50 -40 -30 -20 -10
+0
+10
+20
+30
+40
+50
+172000
+173000
+174000
+175000
+176000
+177000
+178000
+179000
+180000
+counts
+relative frequency [MHz]
+F = 9/2     F = 7/2
+(a)
+(b)
+(c)
+counts
+relative frequency [MHz]
+140000
+142000
+144000
+146000
+148000
+-30
+-20
+-10
+0
+10
+20
+30
+FIG. 3. Spectral features imprinted on top of the main resonance of the diﬀerent hyperﬁne transitions. By optically pumping
+one velocity class in the 1.2-m long drift tube in front of the ﬂuorescence detection region (FDR), the population of the magnetic
+substates is altered, which is detected with the same laser by scanning the potential applied to the FDR. In all cases, linearly
+polarized laser light is used. The direction of the features (peak or dip) and the relative intensity depends on the transition
+strengths of the diﬀerent hyperﬁne transitions.
+to be caused by transit-time broadening and – to a lesser
+extent – saturation broadening. Transit-time broadening
+with a square-wave on/oﬀ-resonance condition which is
+given by the fast entrance and exit of the ions into the
+resonant potential inside the FDR, causes a sin2(x)/x2-
+like lineshape. This function on top of a broad Gaussian
+has been used for the ﬁts depicted in Fig. 3 and is able
+to successfully reproduce the measured proﬁle. Never-
+theless, based on the experimental conditions one would
+expect the resonance to be a factor of three narrower as
+it is observed. The reason for the additional broadening
+is not fully understood yet.
+On the other hand, the characteristic of the feature in
+terms of sign (dip or peak) and relative intensity agrees
+well with calculations based on the transition strength
+between the diﬀerent mF states (Clebsch-Gordan coef-
+ﬁcients) [25].
+The partial strength of ∆mF = ±1 de-
+cays in the F = 9/2 →F ′ = 11/2 transition favors de-
+cay towards smaller |mF | values, where most of the π-
+transition strength is located. Therefore a peak is ob-
+served in Fig. 3a.
+While the preferred direction of de-
+cay is the same in the F = 9/2 →F ′ = 9/2 transition,
+the π-transition strength is concentrated on the transi-
+tions with large |mF | values. Hence, the total transition
+strength is weakened and a dip appears in Fig. 3b. Fi-
+nally, in subﬁgure c, the dip is intuitively understandable
+since π-excitation will transport the population eventu-
+ally into the mF = ±9/2 states, which are dark states in
+the F = 9/2 →F ′ = 7/2 transition under these condi-
+tions. This approach was successfully applied for high-
+voltage metrology measurements in [7].
+Furthermore,
+this linewidth reduction by a factor of 35 will allow even
+more precise determinations of the centroid frequencies
+and the systematic uncertainties due to a spatial energy
+separation will be avoided.
+VI.
+CONCLUSION AND OUTLOOK
+We demonstrated that liquid-metal ion sources are
+well suited to generate metallic ion beams for high-
+precision collinear laser spectroscopy experiments.
+An
+excellent transverse emittance was achieved by trimming
+the beam. Despite the large longitudinal energy spread,
+we were able to present measurements of the three hy-
+perﬁne transitions at the MHz level. Such measurements
+could further be improved, as demonstrated here, with
+the pump-and-probe technique.
+The procedure is not
+limited to beams from LMIS but will be useful for all
+kind of beams from ion sources with large energy spread
+like, e.g., electron cyclotron resonance (ECR) sources and
+electron beam ion sources (EBIS). At COALA, we want
+to apply the latter to produce He-like ions of beryllium to
+carbon for laser spectroscopy in the 1s2s 3S1 →1s2p 3PJ
+manifold.
+Combined with high-precision atomic struc-
+ture theory [37], we expect to extract accurate nuclear
+charge radii directly from optical spectroscopy without
+the need to refer to electron scattering or muonic atom
+spectroscopy. Since the EBIS has a similar energy spread,
+pump-and-probe techniques will play a crucial role to
+reach the targeted accuracy of better than 1 MHz. De-
+pending on the element and nuclear spin of the isotope
+various techniques will be employed: saturation spec-
+troscopy, Λ-spectroscopy or optical pumping as it was
+demonstrated here.
+VII.
+ACKNOWLEDGEMENTS
+We thank P. Laufer and M. Tajmar for their support
+during the commissioning of the LMIS.
+We acknowledge support by the Deutsche Forschungs-
+gemeinschaft (DFG, German Research Foundation) un-
+der Grant INST No.
+163/392-1 FUGG and – Projek-
+tnummer 279384907 – SFB 1245, the Helmholtz Inter-
+national Center for FAIR (HIC4FAIR) and the Hessian
+7
+Academy for FAIR (HFHF). K.K., P.I., B.M and T.R.
+acknowledge support from HGS-HIRE.
+[1] L. Swanson, Nucl. Instr. Meth. Phys. Res. 218, 347 (1983).
+[2] G. Mair, Int. J. Mass Spectrom. 114, 1 (1992).
+[3] J.
+Orloﬀ,
+M.
+Utlaut,
+and
+L.
+Swanson,
+High Resolution Focused Ion Beams: FIB and its Applications
+(Springer, Boston, MA, 2003).
+[4] L. Bischoﬀ, Ultramicroscopy 103, 59 (2005).
+[5] M.
+Tajmar,
+C.
+Scharlemann,
+A.
+Genovese,
+N.
+Buldrini,
+W.
+Steiger,
+and
+I.
+Vasiljevich,
+Ultramicroscopy 109, 442 (2009).
+[6] M. Tajmar and B. Jang, CEAS Space Journal 4 (2013).
+[7] K. K¨onig, J. Kr¨amer, C. Geppert, P. Imgram, B. Maaß,
+T. Ratajczyk, and W. N¨ortersh¨auser, Rev. Sci. Instrum.
+, in print (2020).
+[8] L. Bischoﬀ, P. Mazarov, L. Bruchhaus,
+and J. Gierak,
+Appl. Phys. Rev. 3, 021101 (2016).
+[9] G.
+Ulm,
+J.
+Eberz,
+G.
+Huber,
+H.
+Lochmann,
+R.
+Menges,
+R.
+Kirchner,
+O.
+Klepper,
+T.
+Kuehl,
+P. Larsson, D. Marx, D. Murnick,
+and D. Schardt,
+Z. Phys. A 321, 395 (1985).
+[10] J. Eberz, U. Dinger, G. Huber, H. Lochmann, R. Menges,
+R. Neugart, R. Kirchner, O. Klepper, T. K¨uhl, D. Marx,
+G. Ulm, and K. Wendt, Nucl. Phys. A 464, 9 (1987).
+[11] B. K. Sahoo, A. R. Vernon, R. F. G. Ruiz, C. L.
+Binnersley, J. Billowes, M. L. Bissell, T. E. Cocol-
+ios, G. J. Farooq-Smith, K. T. Flanagan, W. Gins,
+R. P. de Groote,
+´A. Koszor´us,
+G. Neyens, K. M.
+Lynch,
+F.
+Parnefjord-Gustafsson,
+C.
+M.
+Ricketts,
+K. D. A. Wendt, S. G. Wilkins,
+and X. F. Yang,
+New J. Phys. 22, 012001 (2020).
+[12] A. R. Vernon, C. M. Ricketts, J. Billowes, T. E. Co-
+colios, B. S. Cooper, K. T. Flanagan, R. F. G. Ruiz,
+F. P. Gustafsson, G. Neyens, H. A. Perrett, B. K. Sa-
+hoo, Q. Wang, F. J. Waso, and X. F. Yang, “Laser spec-
+troscopy of indium rydberg atom bunches by electric ﬁeld
+ionization,” (2020), arXiv:2005.06051 [physics.atom-ph].
+[13] Y. Wang, T. Liu, R. Dumke, A. Stejskal, Y. Zhao,
+J. Zhang, Z. Lu, L. Wang, T. Becker, and H. Walther,
+Laser Physics , 1017 (2007).
+[14] J. Keller, T. Burgermeister, D. Kalincev, A. Didier,
+A. P. Kulosa, T. Nordmann, J. Kiethe,
+and T. E.
+Mehlst¨aubler, Phys. Rev. A 99, 013405 (2019).
+[15] Y. H. Wang, R. Dumke, J. Zhang, T. Liu, A. Stejskal,
+Y. N. Zhao, Z. H. Lu, L. J. Wang, T. Becker,
+and
+H. Walther, Eur. Phys. J. D 44, 307311 (2007).
+[16] W. Pilz, P. Laufer, M. Tajmar, R. B¨ottger,
+and
+L. Bischoﬀ, Rev. Sci. Instrum. 88, 123302 (2017).
+[17] R. G. Forbest, Vacuum 48, 85 (1997).
+[18] G.
+Alton
+and
+P.
+Read,
+Nucl. Instr. Meth. Phys. Res., B 54, 7 (1991).
+[19] D.
+L¨oﬀelmacher,
+J.
+Adamczewski,
+A.
+Stephan,
+J. Meijer,
+H. R¨ocken,
+H. Bukow,
+and C. Rolfs,
+Nucl. Instr. Meth. Phys. Res., B 139, 422 (1998).
+[20] I.
+Vasiljevich
+and
+M.
+Tajmar,
+Ultramicroscopy 111, 969 (2011).
+[21] W. Czarczynski, J. Vac. Sci. Technol. 13, 113 (1995).
+[22] G. L. R. Mair, J. Phys. D 30, 921 (1997).
+[23] A.
+L.
+Stancik
+and
+E.
+B.
+Brauns,
+Vib. Spectrosc. 47, 66 (2008).
+[24] B. Maaß, K. K¨onig, J. Kr¨amer, A. Miller, K. Mi-
+namisono, W. N¨ortersh¨auser, and F. Sommer, submitted
+to J. Instr. (2020).
+[25] K. K¨onig, Laser-Based High-Voltage Metrology with ppm
+Accuracy, Ph.D. thesis, Technische Universit¨at Darm-
+stadt (2018).
+[26] M. Rice and R. V. Pound, Phys. Rev. 106, 953 (1957).
+[27] T. G. Eck and P. Kusch, Phys. Rev. 106, 958 (1957).
+[28] P.
+Imgram,
+K.
+K¨onig,
+J.
+Kr¨amer,
+T.
+Ratajczyk,
+R. A. M¨uller, A. Surzhykov,
+and W. N¨ortersh¨auser,
+Phys. Rev. A 99, 012511 (2019).
+[29] P. M¨uller, K. K¨onig, P. Imgram, J. Kr¨amer,
+and
+W. N¨ortersh¨auser, submitted to Phys. Rev. X (2020).
+[30] E.
+Peik,
+G.
+Hollemann,
+and
+H.
+Walther,
+Phys. Rev. A 49, 402 (1994).
+[31] P.
+L.
+Larkins
+and
+P.
+Hannaford,
+Z. Phys. D : At., mol. clusters 27, 313 (1993).
+[32] A. Kramida, J Res Natl Inst Stand Technol 118, 52 (2013).
+[33] F.
+Paschen
+and
+J.
+S.
+Campbell,
+Annalen der Physik 423, 29 (1938).
+[34] T.
+G.
+Eck,
+A.
+Lurio,
+and
+P.
+Kusch,
+Phys. Rev. 106, 954 (1957).
+[35] E. Arnold, J. Bonn, R. Gegenwart, W. Neu, R. Neugart,
+E. W. Otten, G. Ulm, K. Wendt, and the ISOLDE Col-
+laboration, Phys. Lett. B 197, 311 (1987).
+[36] A. Voss, M. R. Pearson, F. Buchinger, J. E. Crawford,
+R. F. Kieﬂ, C. D. P. Levy, W. A. MacFarlane, E. Man´e,
+G. D. Morris, O. T. J. Shelbaya, Q. Song, and D. Wang,
+J. Phys. G 41, 015104 (2013).
+[37] V.
+A.
+Yerokhin,
+V.
+Patk´oˇs,
+and
+K.
+Pachucki,
+Phys. Rev. A 98, 032503 (2018).

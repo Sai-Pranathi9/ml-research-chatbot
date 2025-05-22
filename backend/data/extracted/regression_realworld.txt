@@ -1,0 +1,1092 @@
+Optical frequency ratio of a 171Yb+ single-ion clock
+and a 87Sr lattice clock
+S D¨orscher, N Huntemann, R Schwarz, R Lange,
+E Benkler, B Lipphardt, U Sterr, E Peik, and C Lisdat
+Physikalisch-Technische Bundesanstalt, Bundesallee 100, 38116 Braunschweig,
+Germany
+E-mail:
+soeren.doerscher@ptb.de
+4 September 2020
+Abstract.
+We report direct measurements of the frequency ratio of the 642 THz
+2S1/2(F = 0)–2F7/2(F = 3) electric octupole transition in 171Yb+
+and the
+429 THz 1S0–3P0 transition in 87Sr.
+A series of 107 measurements has been
+performed at the Physikalisch-Technische Bundesanstalt between December 2012
+and October 2019.
+Long-term variations of the ratio are larger than expected
+from the individual measurement uncertainties of few 10−17.
+The cause of
+these variations remains unknown.
+Even taking these into account, we ﬁnd a
+fractional uncertainty of the frequency ratio of 2.5 × 10−17, which improves upon
+previous knowledge by one order of magnitude.
+The average frequency ratio
+is νYb+/νSr = 1.495 991 618 544 900 537(38).
+This represents one of the most
+accurate measurements between two diﬀerent atomic species to date.
+Keywords: optical clocks, frequency ratio, ytterbium ion clock, strontium lattice clock
+Submitted to: Metrologia
+arXiv:2009.05470v1  [physics.atom-ph]  11 Sep 2020
+Optical frequency ratio of a 171Yb+ single-ion clock and a 87Sr lattice clock
+2
+1. Introduction
+The International System of Units (SI) has been
+revised fundamentally in 2019, redeﬁning several of its
+base units [1].
+While the deﬁnition of the SI base
+unit of time, the ‘second’, has remained essentially
+unchanged, there has been tremendous progress in
+time and frequency metrology over the past decades
+[2]. In particular, optical atomic clocks have surpassed
+primary realizations of the second in terms of frequency
+instability [3, 4, 5] and systematic uncertainty [6, 7, 8,
+9] by two orders of magnitude or more.
+Thus, the
+International Committee for Weights and Measures
+recommends standard frequency values of several
+atomic transitions [10] as Secondary Representations
+of the Second (SRS) [11].
+They presently include
+nine transitions with fractional uncertainties between
+4 × 10−16 and 2 × 10−15; eight of these are optical
+transitions [10]. Recently, measurements of transition
+frequencies with uncertainties near and even below
+2 × 10−16 have been reported for transitions in optical
+clocks using
+171Yb [12] and
+87Sr [5, 13].
+These
+absolute frequency measurements are limited by the
+uncertainty of the 133Cs primary frequency standards
+(PFS) serving as the reference.
+Since the ratio
+ρ of any two unperturbed atomic clock transition
+frequencies is a universal, dimensionless constant, the
+direct determination of an optical frequency ratio via
+a frequency comb [14] permits signiﬁcantly smaller
+uncertainty.
+The Working Group of Strategic Planning of
+the Consultative Committee for Time and Frequency
+has
+presented
+a
+roadmap
+towards
+a
+redeﬁnition
+of the second based on an optical transition that
+outlines the guiding requirements on optical clocks
+[10]. Measurements of optical clock frequency ratios
+with uncertainties below 5 × 10−18 are among the
+milestones of this roadmap.
+Furthermore, direct
+intercomparisons
+are
+essential
+for
+applications
+in
+fundamental research, such as searches for variations
+of fundamental constants [15, 16] or indications of dark
+matter [17], and in applied sciences, e.g., in geosciences
+for measuring geopotential diﬀerences [18, 19].
+Various means to compare the optical clocks of
+diﬀerent laboratories have been investigated. Phase-
+stabilized optical ﬁbre links and satellite-based links
+permit remote frequency ratio measurements over
+continental [20] and intercontinental distances [21],
+respectively.
+Transportable optical clocks [22, 23,
+19] enable comparisons without direct interconnection
+between laboratories.
+Another approach is based
+on measuring the frequency ratio of a heterogeneous
+pair
+of
+clocks
+(ρ
+̸=
+1)
+locally.
+The
+ratios
+determined at diﬀerent laboratories can be reported
+and subsequently compared to evaluate the clock
+performances.
+Moreover, closures of the pairwise
+frequency ratios between three or more types of
+clocks can be used to test reproducibility, even if
+only a single laboratory operates a speciﬁc pair.
+Evaluations of closures at the level of 10−16 fractional
+uncertainty have been reported recently [12, 13, 24].
+Due to the correlations between optical frequency ratio
+measurements, new methods [25, 26] have emerged for
+their combined evaluation, e.g., in the context of SRS
+[10].
+Comparisons of optical clocks using diﬀerent
+species with uncertainty below 1 × 10−16 have been
+reported by several groups [27, 28, 29, 30, 31, 24,
+32].
+Here, we report on direct comparisons of a
+171Yb+
+single-ion clock realizing the
+2S1/2(F
+=
+0)–2F7/2(F
+= 3) electric octupole (E3) transition
+frequency νYb+ ≈642 THz and a 87Sr optical lattice
+clock interrogating the (5s2) 1S0–(5s5p) 3P0 transition
+at νSr
+≈
+429 THz.
+A series of measurements
+with uncertainties of few 10−17 has been conducted
+at the Physikalisch-Technische Bundesanstalt (PTB),
+spanning a period of seven years. These are the ﬁrst
+measurements reported for this speciﬁc pair of clock
+species to date. We investigate the reproducibility of
+our measurements and derive an average value of the
+frequency ratio.
+2. Experimental setup
+We compare the Yb+
+single-ion clock Yb-1 and the
+Sr optical lattice clock at PTB and measure their
+frequency ratio ρYb+/Sr = νYb+/νSr directly by means
+of an optical frequency comb. The clocks are located
+in diﬀerent buildings at a distance of about 200 m on
+the PTB campus. Figure 1 illustrates the experimental
+setup; a detailed description is given below.
+2.1. Frequency combs and links
+In each building, an optical frequency comb (FC) is
+linked by an optical ﬁbre to the local oscillator (LO)
+of the respective clock. To establish a phase-coherent
+link between the two frequency combs, light from
+transfer lasers, TL(Yb) and TL(Sr), operating near
+344 THz and 194 THz, is sent to both combs. All ﬁbre
+links shown in ﬁgure 1 are actively phase-stabilized.
+Using the transfer oscillator scheme [14], we determine
+the frequency ratio ρYb+/Sr from radio-frequency (rf)
+beat signals.
+Here, we typically employ the TL(Sr)
+transfer laser and use TL(Yb) to validate link and
+comb performance during measurements.
+Dead-time-free counters record the frequencies of
+all rf signals required to determine ρYb+/Sr.
+They
+are operated in phase-averaging mode (Λ-mode) with
+a gate time of 1 ms,
+a report time of 1 s,
+and
+synchronized to a common pulse-per-second (PPS)
+signal.
+Synchronous acquisition avoids frequency
+Optical frequency ratio of a 171Yb+ single-ion clock and a 87Sr lattice clock
+3
+Sr
+LO(Yb)
+TL(Yb)
+TL(Sr)
+Yb-1
+Si-2
+194 THz
+FC(Yb)
+FC(Sr)
+LO(Sr)
+429 THz
+429 THz
+194 THz
+344 THz
+321 THz
+642 THz
+194 THz
+344 THz
+200 m
+Figure 1.
+Experimental setup for comparing the Yb-1 single-ion clock and the Sr lattice clock at PTB. The clocks are located in
+diﬀerent buildings, about 200 m apart. The measurement topology is illustrated schematically at the level of key components (FC:
+frequency comb, LO: local oscillator, TL: transfer laser) in each building, including the Si-2 ultrastable laser system. Black lines
+indicate phase-stabilized ﬁbre links. A detailed description is given in section 2 of the main text.
+oﬀsets caused by drifts of the acquired signals and
+rejects noise from the transfer lasers and combs. The
+PPS signal and a 100 MHz reference are transmitted
+from the building housing the Yb+
+clock to the one
+housing the Sr clock, using high-quality rf cables (see
+also [5]).
+We monitor the phase stabilization of the ﬁbre
+paths
+to
+and
+between
+the
+combs
+by
+counting
+the respective in-loop beat frequencies,
+as phase
+ﬂuctuations on the paths enter directly into the
+calculation of ρYb+/Sr. Some of the rf signals are band-
+pass-ﬁltered by electronic tracking with phase-locked
+voltage-controlled oscillators before being counted. In
+these cases, we track and count two replicas with
+diﬀerent settings of the phase-locked loops. Diﬀerences
+of the two frequencies indicate cycle slips of a tracking
+oscillator.
+Invalid data are ﬁltered out in post-
+processing.
+2.2. Yb+ single-ion clock
+The ytterbium ion clock Yb-1 at PTB has been
+described in detail in previous publications [33, 16,
+34, 7].
+It realizes the frequency of the 2S1/2(F =
+0)–2F7/2(F = 3) E3 transition using a single 171Yb+
+ion conﬁned in a radio-frequency Paul trap.
+The
+clock has recently been evaluated with a fractional
+systematic uncertainty of 2.7 × 10−18 [7].
+During
+the measurements reported here, the clock has been
+operated either with this systematic uncertainty or the
+slightly larger uncertainty reported in [34].
+Since early 2017, the noise properties of the
+probe laser are signiﬁcantly improved by stabilizing
+it to a laser system referenced to the length of a
+cryogenic silicon cavity (Si-2) [35].
+As a result,
+the fractional instability of the frequency ratio as
+expressed by the Allan deviation (ADEV) σy(τ),
+where τ is the averaging time, reduces from σy(τ) ≈
+4.3 × 10−15(τ/s)−1/2 to σy(τ) ≈1.0 × 10−15(τ/s)−1/2
+(see ﬁgure 2).
+2.3. Sr lattice clock
+The laboratory strontium lattice clock at PTB has
+been described in previous publications [36, 37, 38, 20,
+5]. We interrogate the (5s2) 1S0–(5s5p) 3P0 transition
+of a few hundred laser-cooled
+87Sr atoms that are
+conﬁned in a nearly horizontal optical lattice.
+All measurements reported in this article have
+been performed using one apparatus, which underwent
+the following modiﬁcations:
+We replaced the plate
+capacitor, which had been used to measure the static
+diﬀerential polarizability of the Sr clock transition
+[39], by a copper structure, into which the atomic
+sample can be transported for interrogation with well-
+controlled BBR (‘cold environment’) [40], in late 2014.
+However, it was not used for any of the measurements
+reported here.
+Its temperature was monitored and
+included in the evaluation of the BBR ﬁeld.
+We
+removed it in early 2018 (see section 3.1).
+Several
+laser systems have been replaced over time [41, 42].
+We have been using the same titanium:sapphire lattice
+laser system since 2014. Its output is spectrally ﬁltered
+by a volume Bragg grating, which has a full width at
+Optical frequency ratio of a 171Yb+ single-ion clock and a 87Sr lattice clock
+4
+1
+10
+10²
+10³
+10⁴
+10⁵
+10⁻¹⁸
+10⁻¹⁷
+10⁻¹⁶
+σy
+τ (s)
+10⁻¹⁵
+Figure
+2.
+Overlapping
+Allan
+deviation
+σy(τ)
+of
+a
+typical frequency ratio measurement with (blue diamonds) and
+without (red circles) stability transfer from the Si-2 ultrastable
+laser to the LO of the Yb+
+and Sr clocks.
+Fractional
+frequency instabilities of 1.0 × 10−15(τ/s)−1/2 (solid blue line)
+and 4.3 × 10−15(τ/s)−1/2 (red dashed line) are observed. The
+underlying data sets are those from Modiﬁed Julian Dates 57906
+through 57928 and 57184 through 57197, respectively.
+Table 1.
+Typical uncertainty budget of the Sr lattice clock in
+low-uncertainty mode, as reported recently in [5]. All values are
+given in units of νSr.
+Eﬀect
+Frequency shift
+Uncertainty
+(10−18)
+(10−18)
+Optical lattice
+−3.6
+3.1
+Blackbody radiation
+−4906.4
+13.7
+Blackbody radiation (oven)
+−3.0
+1.2
+Quadratic Zeeman
+−134.1
+1.0
+Cold collisions
+−0.6
+0.9
+Servo error
+0.0
+0.7
+Tunnelling
+0.0
+4.8
+DC Stark
+−2.0
+0.7
+Background gas collisions
+−1.9
+1.9
+Other
+0.0
+<0.1
+Total
+−5052
+15
+half maximum of about 60 GHz, as a precaution to
+avoid light shifts due to ampliﬁed spontaneous emission
+(ASE).
+The
+fractional
+systematic
+uncertainty
+of
+the
+strontium clock has been improved gradually from
+3 × 10−17 [36] to about 1.5 × 10−17 [5] (see table 1).
+As improved interrogation laser systems [41, 35]
+have become available, we frequently operate the
+clock with an additional dead time of one to two
+seconds between subsequent interrogation cycles (‘low-
+uncertainty mode’).
+This reduces the thermal load
+on the physics package and results in decreased
+blackbody radiation (BBR) uncertainty [5],
+while
+preserving an acceptable frequency instability (see
+below).
+In the current apparatus, this uncertainty
+is limited both by the temperature inhomogeneity
+of the vacuum system itself and by the temperature
+gradient along the main magnetic ﬁeld coils, which are
+water-cooled and located inside the vacuum system.
+We have also improved our characterization of the
+frequency shift due to BBR from the strontium oven
+by a factor of eight, using a mechanical shutter
+for a direct measurement of the diﬀerential eﬀect
+[5]. The improved characterization has been applied
+retroactively to earlier measurements.
+Moreover, we
+have reduced the uncertainty of optical lattice light
+shifts by a factor of three [5], using a procedure similar
+to the ‘operational magic wavelength’ [43] to better
+account for correlations of light shift contributions. We
+use a light-shift model that accounts for a possible
+intensity imbalance between the lattice beams due to
+reﬂection losses. It is equivalent to the model presented
+in [44].
+The strontium clock’s frequency instability has
+been improved from about σy(τ) ≈6 × 10−16(τ/s)−1/2
+to σy(τ) ≈2 × 10−16(τ/s)−1/2 [37] by an improved
+local oscillator [41].
+It has been reduced further, to
+σy(τ) ≈5 × 10−17(τ/s)−1/2 [5], by transferring the
+stability of Si-2 [35] to LO(Sr) in 2016. These values
+refer to operating the clock without additional dead
+time (‘high-stability mode’). In low-uncertainty mode,
+frequency instability is higher, but still nearly an order
+of magnitude below that of the Yb+ clock.
+For the measurements reported here, the Sr clock
+has usually been operated in low-uncertainty mode,
+with
+fractional
+systematic
+uncertainties
+typically
+between 1.5 × 10−17 and 2 × 10−17. We also include
+some data from high-stability operation, e.g., the
+monitoring of lattice light shifts.
+Typically, the
+uncertainty of these measurements has been only
+slightly
+larger,
+mainly
+between
+1.8 × 10−17
+and
+3.0 × 10−17.
+2.4. Gravitational redshift correction
+The
+fractional
+gravitational
+redshift
+between
+the
+Sr lattice clock and Yb-1 has been determined as
+69.5(5) × 10−18 [45].
+3. Data analysis
+We have performed a series of frequency comparisons
+between the Yb+
+clock and the Sr clock directly
+in the optical domain, as discussed in section 2.
+This series consists of a total of 107 measurements
+recorded between December 2012 and October 2019.
+Figure 3 shows the measured values of the frequency
+Optical frequency ratio of a 171Yb+ single-ion clock and a 87Sr lattice clock
+5
+ratio ρYb+/Sr by date.
+The improved frequency
+stability of Yb-1 since 2017 has enabled an increased
+rate of measurements, because it reduces the typical
+measurement
+duration
+required
+for
+a
+statistical
+uncertainty of about 1 × 10−17 to a few hours. This has
+been particularly useful for the investigations discussed
+in section 3.1.
+The measurements shown in ﬁgure 3 are typically
+separated by interruptions of considerable duration or
+by deliberate changes of the operating conditions of
+either clock; brief gaps within a data set are tolerated.
+In total, we have recorded more than 1000 h of data.
+The
+fractional
+uncertainty
+of
+an
+individual
+measurement is typically about 2.5 × 10−17,
+with
+comparable contributions from the systematics of the
+Sr clock and statistics.
+Notable exceptions include
+the ﬁrst measurement from 2012, which had a higher
+systematic uncertainty than later measurements, and
+several brief measurements, which are dominated by
+the statistical uncertainty.
+As
+shown
+in
+ﬁgure
+3,
+the
+scatter
+of
+our
+measurements is typically no more than a few parts
+in 1017 on short time scales, but may be up to about
+one part in 1016 over periods of half a year or longer.
+For data sets up to a few days, we compute the
+ADEV of the frequency ratio (see ﬁgure 2) and observe
+no signiﬁcant deviation from white frequency noise
+behaviour beyond the initial servo attack time. For the
+full data set, we ﬁnd a reduced chi-square χ2
+red = 1.9
+with respect to the total uncertainties, however. This
+shows that long-term scatter of the ratio seen in ﬁgure 3
+is larger than expected from the uncertainties of the
+individual measurements.
+3.1. Investigation of potential unaccounted frequency
+shifts
+The unexpectedly large long-term variations of the
+ratio may be caused by an incorrectly characterized
+or unknown systematic frequency shift.
+We have
+thus been investigating the performance of both clocks
+as well as that of the links and combs to exclude
+or conﬁrm potential sources of error, since the ﬁrst
+signiﬁcant variation of the ratio was observed in early
+2017.
+We
+have
+carefully
+checked
+the
+experimental
+setup and our evaluation of the systematic frequency
+shifts. Where possible, we have not only reevaluated
+systematic eﬀects by interleaving clock stabilizations
+at diﬀerent settings in a single clock, but also by
+monitoring the frequency ratio ρYb+/Sr. Moreover, we
+have deliberately changed parts of the experimental
+setup to verify that they have no inﬂuence on the
+measured frequency ratio.
+Yb+
+clock
+The following eﬀects have been investi-
+gated for the single-ion clock:
+• Excess micromotion in the Yb+
+clock can be
+caused by uncompensated DC electric ﬁelds at
+the position of the ion and results in second-order
+Doppler and Stark shifts.
+It is monitored by
+analyzing the ﬂuorescence light using the photon
+correlation technique [46, 47] during the cooling
+period of the clock cycle. Typically, we minimize
+it as discussed in [34] once per day.
+Because
+of the large mass of the ytterbium ion, large
+intentionally applied deviations from the optimal
+conﬁguration of compensation ﬁelds only lead to
+expected fractional frequency shifts on the order
+of 10−17, marginally resolvable in the frequency
+ratio.
+• Light-shift
+cancellation
+is
+important
+for
+the
+realization of an optical clock based on the E3
+transition.
+For all measurements reported here,
+we use a hyper-Ramsey interrogation sequence
+[48] for which we control the step frequency that
+compensates the light shift by Rabi spectroscopy
+in interleaved interrogation cycles [34].
+To
+investigate for potential limitations of the light-
+shift cancellation, the duration of Ramsey pulses
+has
+been
+reduced
+by
+a
+factor
+of
+two
+and
+consequently the light shift during the pulses by
+a factor of four.
+Furthermore, the free atomic
+state evolution between Ramsey pulses has been
+changed from 60 ms up to 450 ms.
+• The ion trap drive rf amplitude
+as well as
+the orientation and magnitude of the externally
+applied magnetic ﬁeld have mainly been kept
+constant, but have been varied deliberately for
+some measurements.
+• The local oscillator LO(Yb) has been checked
+for as a possible source of frequency shifts by
+disabling the prestabilization to Si-2 for some
+measurements.
+Sr clock
+The following eﬀects and systems have been
+investigated for the lattice clock:
+• The DC Stark shift due to residual electric ﬁelds
+has been checked regularly by applying an external
+electric ﬁeld as described in [38]. Moreover, the
+magnetic ﬁeld coils eﬀectively shield the atomic
+sample from its environment, especially, since
+the cold environment has been removed (see
+section 2.3). The electric potentials of the coils
+themselves were measured directly.
+• The lattice light shift has been monitored for
+potential inconsistency with our model, e.g., due
+to a residual ASE background.
+We have varied
+the operating conditions of the lattice laser (see
+Optical frequency ratio of a 171Yb+ single-ion clock and a 87Sr lattice clock
+6
+ρ - 1.495 991 618 544 900 (10⁻¹⁸)
+MJD − 56000
+0
+1000
+2000
+2250
+2500
+2750
+400
+500
+600
+700
+2019
+2018
+2017
+2015
+2014
+2013
+2016
+300
+Figure 3.
+Values of the frequency ratio ρYb+/Sr (grey-ﬁlled circles) measured in direct comparisons of the Yb-1 single-ion clock,
+realizing the E3 transition, and the laboratory Sr lattice clock at PTB, by Modiﬁed Julian Date (MJD) of the measurement. Grey
+and black error bars indicate the statistical and total measurement uncertainties, respectively. The solid red line and red-shaded
+area illustrate the average frequency ratio and standard uncertainty derived in section 3.2. Vertical, light grey lines indicate the
+MJD corresponding to 1 January from 2013 through 2019.
+section 2.3), such as the pump laser power.
+A
+change in the lattice laser frequency due to the
+improved treatment of lattice light shifts (see
+section 2.3) serves as an additional test for such
+inconsistencies.
+• Stray light has been checked as a potential source
+of additional light shifts, by selectively blocking
+light sources or by installing additional mechanical
+shutters in laser systems.
+• The quadratic Zeeman shift has been checked
+by varying the external magnetic ﬁeld during
+spectroscopy by a factor of ﬁve.
+• BBR from the Sr oven has been characterized
+by measuring the frequency shift directly (see
+section 2.3 and [5]).
+• Collisions with the background gas, which may
+cause frequency shifts, have varied over the course
+of the measurement series, due to changes in resid-
+ual pressure. Measured trap lifetimes range from
+below 1 s through more than 5 s. Additionally, we
+have installed a mass spectrometer to monitor the
+composition of the background gas.
+• Line pulling has been checked for by varying the
+duration of the spectroscopy pulse by about a
+factor of two.
+• The local oscillator LO(Sr) has been checked for
+as a possible source of frequency shifts.
+We
+have disabled the prestabilization to Si-2 for some
+measurements. Likewise, the phase stabilization
+from LO(Sr) to the atomic sample has been
+disabled for other measurements, to check for
+indications for uncompensated phase changes.
+The latter measurements are not included in the
+data set analyzed here.
+• We have also checked the control system
+of
+the clock apparatus by introducing a variable
+delay between preparation and interrogation, by
+toggling the synchronization of the experimental
+sequence to the mains phase, and by changing the
+order of the four interrogations from which the
+error signal is derived [36].
+Frequency combs The investigations regarding the
+frequency combs include the following tests and
+modiﬁcations:
+• The fractional frequency oﬀset and instability of
+the comb-to-comb connection between the two
+buildings including contributions from the combs
+Optical frequency ratio of a 171Yb+ single-ion clock and a 87Sr lattice clock
+7
+themselves are assessed regularly. The diﬀerence
+between the fractional frequency ratios of the
+transfer lasers TL(Yb) and TL(Sr) measured with
+the two combs is smaller than 2 × 10−18 for
+all data sets longer than 5 × 103 s, with typical
+fractional instabilities of 3 × 10−17 at τ = 1 s,
+3 × 10−18 at 103 s ≤τ ≤104 s, and 2 × 10−19
+at τ = 106 s. All these quantities are well below
+the uncertainty and instability of the fractional
+frequency ratio of the two clocks at the respective
+averaging times.
+• Evaluation using a single frequency comb has
+been
+performed
+to
+exclude
+any
+considerable
+contributions of the links and frequency combs to
+the instability and uncertainty of the frequency
+ratio measurement. To this end, the light ﬁeld of
+LO(Yb) has been sent to FC(Sr) via a ﬁbre link for
+some of the measurements in 2018. The frequency
+ratio ρYb+/Sr was determined using only FC(Sr),
+in addition to the method outlined in section 2.1.
+Both results agreed on the level of the uncertainty
+and instability as evaluated above using TL(Yb)
+and TL(Sr).
+We have not found any inconsistencies with our
+evaluation of the systematic shifts or any signiﬁcant
+correlation between recorded changes made to the
+experimental setup and the frequency ratio in any of
+these measurements.
+3.2. Average frequency ratio
+As discussed in section 3.1, the cause of the observed
+long-term variations of the frequency ratio ρYb+/Sr
+remains unknown. Larger scatter than expected from
+the measurement uncertainty has also been observed
+in other comparisons involving optical clocks [49, 32].
+Similarly, we treat the excess scatter as the result of
+a varying, unknown systematic frequency shift with
+a constant, ‘dark’ uncertainty ud.
+This approach
+implicitly assumes that the shift scatters around zero
+rather than an unknown oﬀset.
+Our measurements strongly suggest that this shift
+is predominantly varying slowly in time (see ﬁgure 3)
+and thus correlated between measurements in temporal
+proximity.
+We determine ud/ρYb+/Sr = 18 × 10−18
+by requiring that χ2
+red = 1 for our data set if ud
+is included as an additional constant uncertainty in
+each measurement.
+The average ratio of ρYb+/Sr
+is the arithmetic mean with weights wi
+derived
+from the statistical uncertainty ua,i, the combined
+systematic uncertainty ub,i of the clocks, and the
+common dark uncertainty ud for each measurement,
+as w−1
+i
+=
+u2
+a,i + u2
+b,i + u2
+d.
+The uncertainty of
+the average frequency ratio is the root-sum-square
+value of the contributions from statistics, systematics,
+ρ - 1.495 991 618 544 900 (10⁻¹⁸)
+400
+600
+700
+0
+5
+PDF (arb. units)
+500
+Figure
+4.
+Probability density function resulting from
+aggregating the measurements shown in ﬁgure 3 (blue, shaded
+curve) as discussed in the main text.
+The mean value of the
+distribution is shown as a grey line.
+and the unknown eﬀect.
+The former is below
+2 × 10−18 for the full data set. Systematic shifts and
+the unknown eﬀect are each treated as correlated.
+Hence, their combined uncertainty is not reduced
+by averaging; it is determined through the average
+value of the variances u2
+b,i + u2
+d using the weights
+wi.
+We ﬁnd an average frequency ratio ρYb+/Sr =
+1.495 991 618 544 900 537(38), as shown in ﬁgure 3.
+We have compared this result to those of other
+methods to conﬁrm that the value found for ρYb+/Sr
+is robust and its uncertainty reproducible.
+Scaling
+the individual measurements’ uncertainties by
+p
+χ2
+red,
+similar
+to
+[32],
+leads
+to
+an
+average
+value
+that
+deviates from the above result by −2 × 10−19 and
+an uncertainty of 3.5 × 10−17.
+Figure 4 shows the
+result of aggregating the individual measurements,
+similar to the linear pooling method for ﬁnding a
+consensus of independent measurements [50, 51]. The
+mixed probability density function (PDF) is the sum
+of normal distributions that are centered around the
+measured value and that have a second moment
+q
+u2
+a,i + u2
+b,i
+and
+weight
+1/
+
+u2
+a,i + u2
+b,i
+
+for
+each
+measurement.
+The resulting mean value of ρYb+/Sr
+deviates from the result above by 2 × 10−18.
+The
+uncertainty of 5.0 × 10−17 resulting from the second
+moment of the mixed PDF is slightly higher than
+the uncertainty found above.
+However, this method
+does not account for the reduction of the statistical
+uncertainty by averaging the individual measurements.
+Optical frequency ratio of a 171Yb+ single-ion clock and a 87Sr lattice clock
+8
+4. Conclusion
+A series of comparisons between a 171Yb+ (E3) single-
+ion clock and a 87Sr optical lattice clock spanning a
+period of seven years has been performed at PTB. The
+frequency ratio ρYb+/Sr of the undisturbed clock tran-
+sitions has been measured with individual measure-
+ment uncertainties of few 10−17. These measurements
+demonstrate how the increasing stability and robust-
+ness of the clocks have enabled more frequent compar-
+isons of the systems.
+Our measurements have also revealed that the
+frequency ratio of the clocks, while well-reproducible
+within the clocks’ combined uncertainty in the short
+term, exhibits an unexpectedly large scatter in the
+long term.
+These variations are on the order of
+several 10−17, which is below the resolution of absolute
+frequency measurements but exceeds the combined
+uncertainty of the clocks (χ2
+red
+⪅
+2).
+In the
+present case, no uncontrolled frequency shifts could
+be identiﬁed despite an extensive search. While this
+result is speciﬁc to the clocks used here, it highlights
+the importance of direct comparisons of optical clocks
+over extended periods of time or using multiple pairs
+of clocks.
+Taking the long-term variation into account, we
+ﬁnd a frequency ratio of
+ρYb+/Sr = 1.495 991 618 544 900 537(38)
+between the clocks. This result can be compared to
+future measurements of ρYb+/Sr at diﬀerent laborato-
+ries, either directly or indirectly as part of a closure, to
+investigate the reproducibility in the combined system
+and to update the recommended frequency values of
+the SRS [10]. The fractional uncertainty of 2.5 × 10−17
+of our measurement improves upon knowledge from re-
+cent absolute frequency measurements [5, 13, 16] by an
+order of magnitude. Furthermore, it is one of the low-
+est reported for comparisons of diﬀerent clock species;
+a lower uncertainty has only been achieved in [32]. To
+our knowledge, this is the only series of measurements
+directly comparing optical clocks of diﬀerent type over
+seven years or longer.
+Acknowledgments
+We thank T Legero, D Matei, and S H¨afner for
+operating
+the
+Si-2
+laser
+system,
+C
+Grebing
+for
+operating one of the optical frequency combs during
+the ﬁrst few measurements, and N Lemke, S Falke,
+A Al-Masoudi, M Abdel Haﬁz, and C Sanner for
+their contributions to operating the clocks during some
+measurements. We acknowledge support by the project
+18SIB05 ROCIT, which has received funding from the
+EMPIR programme co-ﬁnanced by the Participating
+States
+and
+from
+the
+European
+Union’s
+Horizon
+2020 Research and Innovation Programme, and by
+the Deutsche Forschungsgemeinschaft (DFG, German
+Research Foundation) under Germany’s Excellence
+Strategy – EXC-2123 QuantumFrontiers – 390837967
+and CRC 1227 DQ-mat within project B02.
+References
+[1] Bureau International des Poids et Mesures 2019 Le Syst`eme
+international d’unit´es / The International System of
+Units Pavillon de Breteuil,
+F-92310 S`evres,
+France
+9th edition 2019 URL https://www.bipm.org/utils/
+common/pdf/si-brochure/SI-Brochure-9.pdf
+[2] Bize S 2019 Comptes Rendus Physique 20(1–2) 153–168
+[3] Schioppo M, Brown R C, McGrew W F, Hinkley N, Fasano
+R J, Beloy K, Yoon T H, Milani G, Nicolodi D, Sherman
+J A, Phillips N B, Oates C W and Ludlow A D 2017
+Nature Photonics 11 48–52
+[4] Oelker E, Hutson R B, Kennedy C J, Sonderhouse L,
+Bothwell T, Goban A, Kedar D, Sanner C, Robinson J M,
+Marti G E, Matei D G, Legero T, Giunta M, Holzwarth
+R, Riehle F, Sterr U and Ye J 2019 Nature Photonics 13
+714–719
+[5] Schwarz R, D¨orscher S, Al-Masoudi A, Benkler E, Legero
+T, Sterr U, Weyers S, Rahm J, Lipphardt B and Lisdat
+C 2020 Phys. Rev. Research 2(3) 033242
+[6] McGrew W F, Zhang X, Fasano R J, Sch¨aﬀer S A, Beloy K,
+Nicolodi D, Brown R C, Hinkley N, Milan G, Schioppo
+M, Yoon T H and Ludlow A D 2018 Nature 564 87–90
+[7] Sanner C, Huntemann N, Lange R, Tamm C, Peik E,
+Safronova M S and Porsev S G 2019 Nature 567 204–208
+[8] Brewer S M, Chen J S, Hankin A M, Clements E R, Chou
+C W, Wineland D J, Hume D B and Leibrandt D R 2019
+Phys. Rev. Lett. 123 033201
+[9] Bothwell T, Kedar D, Oelker E, Robinson J M, Bromley
+S L, Tew W L, Ye J and Kennedy C J 2019 Metrologia
+56 065004
+[10] Riehle F, Gill P, Arias F and Robertsson L 2018 Metrologia
+55 188–200
+[11] Consultative Committee for Time and Frequency (CCTF)
+2004 Report of the 16th meeting (1-2 April 2004) to the
+International Committee for Weights and Measures URL
+www.bipm.org/utils/common/pdf/CC/CCTF/CCTF16.pdf
+[12] McGrew W F, Zhang X, Leopardi H, Fasano R J, Nicolodi
+D, Beloy K, Yao J, Sherman J A, Sch¨aﬀer S A, Savory J,
+Brown R C, R¨omisch S, Oates C W, Parker T E, Fortier
+T M and Ludlow A D 2019 Optica 6 448–454
+[13] Nemitz N, Gotoh T, Nakagawa F, Ito H, Hanado Y, Ido
+T and Hachisu H 2020 Absolute frequency of 87Sr at
+1.8 × 10−16 uncertainty by reference to remote Primary
+Frequency Standards arXiv:2008.00723 [physics.atom-
+ph]
+[14] Stenger J, Schnatz H, Tamm C and Telle H R 2002 Phys.
+Rev. Lett. 88 073601
+[15] Godun R M, Nisbet-Jones P B R, Jones J M, King S A,
+Johnson L A M, Margolis H S, Szymaniec K, Lea S N,
+Bongs K and Gill P 2014 Phys. Rev. Lett. 113(21) 210801
+[16] Huntemann N, Lipphardt B, Tamm C, Gerginov V, Weyers
+S and Peik E 2014 Phys. Rev. Lett. 113 210802
+[17] Roberts B M, Delva P, Al-Masoudi A, Amy-Klein A,
+Bærentsen C, Baynham C F A, Benkler E, Bilicki S,
+Bowden W, Cantin E, Curtis E A, D¨orscher S, Frank
+F, Gill P, Godun R M, Grosche G, Hees A, Hill I R,
+Hobson R, Huntemann N, Kronj¨ager J, Koke S, Kuhl A,
+Lange R, Legero T, Lipphardt B, Lisdat C, Lodewyck J,
+Lopez O, Margolis H S, ´Alvarez-Mart´ınez H, Meynadier
+F, Ozimek F, Peik E, Pottie P E, Quintin N, Schwarz
+Optical frequency ratio of a 171Yb+ single-ion clock and a 87Sr lattice clock
+9
+R, Sanner C, Schioppo M, Silva A, Sterr U, Tamm C,
+LeTargat R, Tuckey P, Vallet G, Waterholter T, Xu D
+and Wolf P 2020 New J. Phys. accepted manuscript
+URL https://doi.org/10.1088/1367-2630/abaace
+[18] Grotti J, Koller S, Vogt S, H¨afner S, Sterr U, Lisdat C,
+Denker H, Voigt C, Timmen L, Rolland A, Baynes F N,
+Margolis H S, Zampaolo M, Thoumany P, Pizzocaro M,
+Rauf B, Bregolin F, Tampellini A, Barbieri P, Zucco M,
+Costanzo G A, Clivati C, Levi F and Calonico D 2018
+Nature Physics 14 437–441
+[19] Takamoto M, Ushijima I, Ohmae N, Yahagi T, Kokado K,
+Shinkai H and Katori H 2020 Nature Photonics 14 411–
+415
+[20] Lisdat C, Grosche G, Quintin N, Shi C, Raupach S, Grebing
+C, Nicolodi D, Stefani F, Al-Masoudi A, D¨orscher S,
+H¨afner S, Robyr J L, Chiodo N, Bilicki S, Bookjans E,
+Koczwara A, Koke S, Kuhl A, Wiotte F, Meynadier F,
+Camisard E, Abgrall M, Lours M, Legero T, Schnatz H,
+Sterr U, Denker H, Chardonnet C, Le Coq Y, Santarelli
+G, Amy-Klein A, Le Targat R, Lodewyck J, Lopez O and
+Pottie P E 2016 Nature Com. 7 12443
+[21] Fujieda M, Yang S H, Gotoh T, Hwang S W, Hachisu H,
+Kim H, Lee Y K, Tabuchi R, Ido T, Lee W K, Heo
+M S, Park C Y, Yu D H and Petit G 2018 IEEE Trans.
+Ultrason. Ferroelectr. Freq. Control 6 973–978
+[22] Koller S B, Grotti J, Vogt S, Al-Masoudi A, D¨orscher S,
+H¨afner S, Sterr U and Lisdat C 2017 Phys. Rev. Lett.
+118 073601
+[23] Cao J, Zhang P, Shang J, Cui K, Yuan J, Chao S, Wang S,
+Shu H and Huang X 2017 Appl. Phys. B 123 112 ISSN
+1432-0649
+[24] Ohmae N, Bregolin F, Nemitz N and Katori H 2020 Opt.
+Express 28 15112–15121
+[25] Margolis H S and Gill P 2015 Metrologia 52 628–634
+[26] Robertsson L 2016 Metrologia 53 1272–1280
+[27] Rosenband T, Hume D B, Schmidt P O, Chou C W, Brusch
+A, Lorini L, Oskay W H, Drullinger R E, Fortier T M,
+Stalnaker J E, Diddams S A, Swann W C, Newbury
+N R, Itano W M, Wineland D J and Bergquist J C 2008
+Science 319 1808–1812
+[28] Takamoto M, Ushijima I, Das M, Nemitz N, Ohkubo
+T, Yamanaka K, Ohmae N, Takano T, Akatsuka T,
+Yamaguchi A and Katori H 2015 C. R. Physique 16 489–
+498 special Issue: The measurement of time / La mesure
+du temps
+[29] Yamanaka K, Ohmae N, Ushijima I, Takamoto M and
+Katori H 2015 Phys. Rev. Lett. 114(23) 230801
+[30] Nemitz N, Ohkubo T, Takamoto M, Ushijima I, Das M,
+Ohmae N and Katori H 2016 Nature Photonics 10 258–
+261
+[31] Origlia S, Pramod M S, Schiller S, Singh Y, Bongs K,
+Schwarz R, Al-Masoudi A, D¨orscher S, Herbers S, H¨afner
+S, Sterr U and Lisdat C 2018 Phys. Rev. A 98 053443
+[32] Beloy K, Bodine M I, Bothwell T, Brewer S M, Bromley
+S L, Chen J S, Deschˆenes J D, Diddams S A, Fasano
+R J, Fortier T M, Hassan Y S, Hume D B, Kedar D,
+Kennedy C J, Khader I H, Koepke A A, Leibrandt
+D R, Leopardi H, Ludlow A D, McGrew W F, Milner
+W R, Newbury N R, Nicolodi D, Oelker E, Parker
+T E, Robinson J M, Romisch S, Schaﬀer S A, Sherman
+J A, Sinclair L C, Sonderhouse L, Swann W C, Yao J,
+Ye J and Zhang X 2020 Frequency ratio measurements
+with 18-digit accuracy using a network of optical clocks
+arXiv:2005.14694 [physics.atom-ph]
+[33] Huntemann N, Okhapkin M, Lipphardt B, Weyers S, Tamm
+C and Peik E 2012 Phys. Rev. Lett. 108 090801
+[34] Huntemann N, Sanner C, Lipphardt B, Tamm C and Peik
+E 2016 Phys. Rev. Lett. 116(6) 063001
+[35] Matei D G, Legero T, H¨afner S, Grebing C, Weyrich R,
+Zhang W, Sonderhouse L, Robinson J M, Ye J, Riehle F
+and Sterr U 2017 Phys. Rev. Lett. 118 263202
+[36] Falke S, Lemke N, Grebing C, Lipphardt B, Weyers S,
+Gerginov V, Huntemann N, Hagemann C, Al-Masoudi
+A, H¨afner S, Vogt S, Sterr U and Lisdat C 2014 New J.
+Phys. 16 073023
+[37] Al-Masoudi A, D¨orscher S, H¨afner S, Sterr U and Lisdat C
+2015 Phys. Rev. A 92 063814
+[38] Grebing C, Al-Masoudi A, D¨orscher S, H¨afner S, Gerginov
+V, Weyers S, Lipphardt B, Riehle F, Sterr U and Lisdat
+C 2016 Optica 3 563–569
+[39] Middelmann T, Falke S, Lisdat C and Sterr U 2012 Phys.
+Rev. Lett. 109(26) 263004
+[40] Middelmann T, Lisdat C, Falke S, Vellore Winfred J S R,
+Riehle F and Sterr U 2011 IEEE Trans. Instrum. Meas.
+60 2550–2557
+[41] H¨afner S, Falke S, Grebing C, Vogt S, Legero T, Merimaa
+M, Lisdat C and Sterr U 2015 Opt. Lett. 40 2112–2115
+[42] Schwarz R, D¨orscher S, Al-Masoudi A, Vogt S, Li Y and
+Lisdat C 2019 Rev. Sci. Instrum. 90 023109
+[43] Katori H, Ovsiannikov V D, Marmo S I and Palchikov V G
+2015 Phys. Rev. A 91 052503
+[44] Nemitz N, Jørgensen A A, Yanagimoto R, Bregolin F and
+Katori H 2019 Phys. Rev. A 99(3) 033424
+[45] Denker H, Timmen L, Voigt C, Weyers S, Peik E, Margolis
+H S, Delva P, Wolf P and Petit G 2018 Journal of
+Geodesy 5 487–516 ISSN 1432-1394
+[46] Keller J, Burgermeister T, Kalincev D, Kiethe J and
+Mehlst¨aubler T E 2016 J. Phys.: Conf. Ser. 723 012027
+[47] Bergmann K, Theuer H and Shore B W 1998 Rev. Mod.
+Phys. 70 1003–1025
+[48] Yudin V I, Taichenachev A V, Oates C W, Barber Z W,
+Lemke N D, Ludlow A D, Sterr U, Lisdat C and Riehle
+F 2010 Phys. Rev. A 81 011804(R)
+[49] Baillard X, Fouch´e M, Le Targat R, Westergaard P G,
+Lecallier A, Chapelet F, Abgrall M, Rovera G D, Laurent
+P, Rosenbusch P, Bize S, Santarelli G, Clairon A,
+Lemonde P, Grosche G, Lipphardt B and Schnatz H 2008
+Eur. Phys. J. D 48 11–17
+[50] Koepke A, Lafarge T, Possolo A and Toman B 2017
+Metrologia 54 S34–S62
+[51] Koepke A, Lafarge T, Toman B and Possolo A 2017 NIST
+Consensus Builder–User’s Manual National Institute
+of Standards and Technology Gaithersburg, MD URL
+https://consensus.nist.gov

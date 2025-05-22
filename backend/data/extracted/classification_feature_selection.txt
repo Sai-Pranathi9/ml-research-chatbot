@@ -1,0 +1,2716 @@
+arXiv:1902.04640v3  [math.AP]  22 Aug 2019
+REGULARITY OF EXTREMAL SOLUTIONS OF NONLOCAL ELLIPTIC SYSTEMS
+MOSTAFA FAZLY
+Abstract. We examine regularity of the extremal solution of nonlinear nonlocal eigenvalue problem
+
+
+
+Lu
+=
+λF (u, v)
+in Ω,
+Lv
+=
+γG(u, v)
+in Ω,
+u, v
+=
+0
+on Rn \ Ω,
+with an integro-diﬀerential operator, including the fractional Laplacian, of the form
+L(u(x)) = lim
+ǫ→0
+Z
+Rn\Bǫ(x)
+[u(x) −u(z)]J(z −x)dz,
+when J is a nonnegative measurable even jump kernel. In particular, we consider jump kernels of the form
+of J(y) = a(y/|y|)
+|y|n+2s where s ∈(0, 1) and a is any nonnegative even measurable function in L1(Sn−1) that
+satisﬁes ellipticity assumptions. We ﬁrst establish stability inequalities for minimal solutions of the above
+system for a general nonlinearity and a general kernel. Then, we prove regularity of the extremal solution
+in dimensions n < 10s and n < 2s +
+4s
+p∓1 [p +
+p
+p(p ∓1)] for the Gelfand and Lane-Emden systems when
+p > 1 (with positive and negative exponents), respectively. When s →1, these dimensions are optimal.
+However, for the case of s ∈(0, 1) getting the optimal dimension remains as an open problem. Moreover, for
+general nonlinearities, we consider gradient systems and we establish regularity of the extremal solution in
+dimensions n < 4s. As far as we know, this is the ﬁrst regularity result on the extremal solution of nonlocal
+system of equations.
+2010 Mathematics Subject Classiﬁcation. 35R09, 35R11, 35B45, 35B65, 35J50
+Key words: Nonlocal elliptic systems, regularity of extremal solutions, stable solutions, nonlinear eigenvalue problems.
+1. Introduction and main results
+Let Ω⊂Rn be a bounded smooth domain. Consider the nonlinear nonlocal eigenvalue problem
+(P)λ,γ
+
+
+
+Lu
+=
+λF(u, v)
+in Ω,
+Lv
+=
+γG(u, v)
+in Ω,
+u, v
+=
+0
+on Rn \ Ω,
+where λ, γ are positive parameters, F, G are smooth functions and the operator L is an integral operator of
+convolution type
+(1.1)
+L(u(x)) = lim
+ǫ→0
+Z
+Rn\Bǫ(x)
+[u(x) −u(z)]J(z −x)dz.
+Here, J is a nonnegative measurable even jump kernel such that
+(1.2)
+Z
+Rn min{|y|2, 1}J(y)dy < ∞.
+The above nonlocal operator with a measurable kernel
+(1.3)
+J(x, z) =
+c(x, z)
+|x −z|n+2s ,
+when the function c(x, z) is bounded between two positive constants, 0 < c1 ≤c2, is studied extensively in
+the literature from both theory of partial diﬀerential equations and theory of probability points of view, see
+the book of Bass [1] and references therein. Integro-diﬀerential equations and systems, of the above form,
+arise naturally in the study of stochastic processes with jumps, and more precisely in L´evy processes. A L´evy
+process is a stochastic process with independent and stationary increments. A special class of such processes
+is the so called stable processes. These are the processes that satisfy self-similarity properties, and they are
+1
+also the ones appearing in the Generalized Central Limit Theorem. We refer interested readers to the book
+of Bertoin [2] for more information. The inﬁnitesimal generator of any isotropically symmetric stable L´evy
+process in Rn is
+(1.4)
+Lu(x) =
+Z
+Sn−1
+Z ∞
+−∞
+[u(x + rθ) + u(x −rθ) −2u(x)] dr
+r1+2s dµ(θ),
+where µ is any nonnegative and ﬁnite measure on the unit sphere Sn−1 called the spectral measure and
+s ∈(0, 1). When the spectral measure is absolutely continuous, dµ(θ) = a(θ)dθ, the above operators can be
+rewritten in the form of
+(1.5)
+L(u(x)) = lim
+ǫ→0
+Z
+Rn\Bǫ(x)
+[u(x + y) + u(x −y) −2u(x)]a(y/|y|)
+|y|n+2s dy,
+where s ∈(0, 1) and a is any nonnegative even function in L1(Sn−1). Note that the fractional Laplacian
+operator L = (−∆)s with 0 < s < 1 that is
+(1.6)
+Lu(x) = lim
+ǫ→0
+Z
+Rn\Bǫ(x)
+[u(x) −u(z)]
+cn,s
+|x −z|n+2s dz,
+for a positive constant cn,s is the simplest stable L´evy process for dµ(θ) = cn,sdθ. Note that the above
+operator can be written in the form of (1.1) due to the fact that a is even. The regularity of solutions for
+equation Lu = f has been studied thoroughly in the literature by many experts and in this regard we refer
+interested to [1, 10, 25, 37, 41] and references therein. The most common assumption on the jump kernel in
+this context is 0 < c1 ≤a(θ) ≤c2 in Sn−1 and occasionally a(θ) ≥c1 > 0 in a subset of Sn−1 with positive
+measure. In this article, we consider the ellipticity assumption on the operator L of the form
+(1.7)
+0 < c1 ≤
+inf
+ν∈Sn−1
+Z
+Sn−1 |ν · θ|2sa(θ)dθ and 0 ≤a(θ) < c2 for all θ ∈Sn−1,
+where c1 and c2 are constants. Note that regularity results (interior and boundary) under such an assumption
+on general operator L is studied in the literature, and in this regard we refer interested readers to [37, 38]
+and references therein. For particular nonlinearities of F and G, we consider the following Gelfand system
+(G)λ,γ
+
+
+
+Lu
+=
+λev
+in Ω,
+Lv
+=
+γeu
+in Ω,
+u, v
+=
+0
+on Rn \ Ω,
+and the Lane-Emden system, when p > 1
+(E)λ,γ
+
+
+
+Lu
+=
+λ(1 + v)p
+in Ω,
+Lv
+=
+γ(1 + u)p
+in Ω,
+u, v
+=
+0
+on Rn \ Ω,
+and the Lane-Emden system with singular nonlinearity, for p > 1 and when 0 < u, v < 1
+(M)λ,γ
+
+
+
+Lu
+=
+λ
+(1−v)p
+in Ω,
+Lv
+=
+γ
+(1−u)p
+in Ω,
+u, v
+=
+0
+on Rn \ Ω.
+Note that for the case of p = 2 the above singular nonlinearity and system is known as the MicroElec-
+troMechanical Systems (MEMS), see [19, 29] and references therein for the mathematical analysis of such
+equations. In addition, we study the following gradient system with more general nonlinearities
+(H)λ,γ
+
+
+
+Lu
+=
+λf ′(u)g(v)
+in Ω,
+Lv
+=
+γf(u)g′(v)
+in Ω,
+u, v
+=
+0
+on Rn \ Ω.
+The nonlinearities f and g will satisfy various properties but will always at least satisfy
+(1.8)
+f is smooth, increasing and convex with f(0) = 1 and f superlinear at inﬁnity.
+2
+A bounded weak solution pair (u, v) is called a classical solution when both components u, v are regular
+in the interior of Ωand (P)λ,γ holds. Given a nonlinearity f which satisﬁes (1.8), the following nonlinear
+eigenvalue problem
+(Q)λ
+ −∆u
+=
+λf(u)
+in Ω,
+u
+=
+0
+on ∂Ω,
+is now well-understood. Brezis and V´azquez in [4] raised the question of determining the boundedness of u∗
+for general nonlinearities f satisfying (1.8). See, for instance, [3–6, 9, 11, 15, 34–36, 43] for both local and
+nonlocal cases. It is known that there exists a critical parameter λ∗∈(0, ∞), called the extremal parameter,
+such that for all 0 < λ < λ∗there exists a smooth, minimal solution uλ of (Q)λ. Here the minimal solution
+means in the pointwise sense. In addition for each x ∈Ωthe map λ 7→uλ(x) is increasing in (0, λ∗). This
+allows one to deﬁne the pointwise limit u∗(x) := limλրλ∗uλ(x) which can be shown to be a weak solution,
+in a suitably deﬁned sense, of (Q)λ∗. For this reason u∗is called the extremal solution. It is also known
+that for λ > λ∗, there are no weak solutions of (Q)λ. The regularity of the extremal solution has been of
+great interests in the literature. There have several attempts to tackle the problem and here we list a few.
+For a general nonlinearity f satisfying (1.8), Nedev in [35] proved that u∗is bounded when n ≤3. This was
+extended to fourth dimensions when Ωis a convex domain by Cabr´e in [5]. The convexity of the domain was
+relaxed by Villegas in [43]. Most recently, Cabr´e et al. in [7] claimed the regularity result when n ≤9. For
+the particular nonlinearity f(u) = eu, known as the Gelfand equation, the regularity is shown u∗∈L∞(Ω)
+for dimensions n < 10 by Crandall and Rabinowitz in [15], see also [21]. If Ωis a radial domain in Rn with
+n < 10 the regularity is shown in [6] when f is a general nonlinearity satisfying conditions (1.8) but without
+the convexity assumption. In view of the above result for the exponential nonlinearity, this is optimal. Note
+that for the case of Ω= B1, the classiﬁcation of all radial solutions to this problem was originally done by
+Liouville in [31] for n = 2 and then in higher dimensions in [28, 32, 34] and references therein. For power
+nonlinearity f(u) = (1 + u)p and for singular nonlinearity f(u) = (1 −u)−p when 0 < u < 1 for p > 1,
+known as the Lane-Emden equation and MEMS equation respectively, the regularity of extremal solutions
+is established for the Joseph-Lundgren exponent, see [28], in the literature. We refer interested readers to
+[15, 18–20, 26] and references therein for regularity results and Liouville theorems.
+The regularity of extremal solutions for nonlocal eigenvalue problem,
+(S)λ
+
+(−∆)su
+=
+λf(u)
+in Ω,
+u
+=
+0
+on Rn \ Ω,
+is studied in the literature, see [11, 36, 39, 40], when 0 < s < 1. However, there are various questions
+remaining as open problems. Ros-Oton and Serra in [36] showed that for a general nonlinearity f, u∗is
+bounded when n < 4s. In addition, if the following limit exists
+(1.9)
+lim
+t→∞
+f(t)f ′′(t)
+|f ′(t)|2
+< ∞,
+then u∗is bounded when n < 10s.
+Note that speciﬁc nonlinearities f(u) = eu, f(u) = (1 + u)p and
+f(u) = (1 −u)−p for p > 1 satisfy the above condition (1.9). When s →1, the dimension n < 10 is optimal.
+However, for the fractional Laplacian n < 10s is not optimal, see Remark 5.1. In the current article, we prove
+counterparts of these regularity results for system of nonlocal equations. Later in [39], Ros-Oton considered
+the fractional Gelfand problem, f(u) = eu, on a domain Ωthat is convex in the xi-direction and symmetric
+with respect to {xi = 0}, for 1 ≤i ≤n. As an example, the unit ball satisﬁes these conditions. And he
+proved that u∗is bounded for either n ≤2s or n > 2s and
+(1.10)
+Γ( n
+2 )Γ(1 + s)
+Γ( n−2s
+2
+)
+> Γ2( n+2s
+4
+)
+Γ2( n−2s
+4
+).
+This, in particular, implies that u∗is bounded in dimensions n ≤7 for all s ∈(0, 1). The above inequality
+is expected to provide the optimal dimension, see Remark 5.1.
+Relaxing the convexity and symmetry
+conditions on the domain remains an open problem. Capella et al. in [11] studied the extremal solution of a
+problem related to (S)λ in the unit ball B1 with a spectral fractional Laplacian operator that is deﬁned using
+Dirichlet eigenvalues and eigenfunctions of the Laplacian operator in B1. They showed that u∗∈L∞(B1)
+3
+when 2 ≤n < 2
+h
+s + 2 +
+p
+2(s + 1)
+i
+. More recently, Sanz-Perela in [40] proved regularity of the extremal
+solution of (S)λ with the fractional Laplacian operator in the unit ball with the same condition on n and
+s. This implies that u∗is bounded in dimensions 2 ≤n ≤6 for all s ∈(0, 1). Note also that it is well-
+known that there is a correspondence between the regularity of stable solutions on bounded domains and
+the Liouville theorems for stable solutions on the entire space, via rescaling and a blow-up procedure. For
+the classiﬁcation of solutions of above nonlocal equations on the entire space we refer interested readers to
+[12, 16, 24, 30], and for the local equations to [19–21] and references therein.
+For the case of systems, as discussed in [14, 22, 33], set Q := {(λ, γ) : λ, γ > 0} and deﬁne
+(1.11)
+U := {(λ, γ) ∈Q : there exists a smooth solution (u, v) of (P)λ,γ} .
+We assume that F(0, 0), G(0, 0) > 0. A simple argument shows that if F is superlinear at inﬁnity for u,
+uniformly in v, then the set of λ in U is bounded. Similarly we assume that G is superlinear at inﬁnity
+for v, uniformly in u, and hence we get U is bounded. We also assume that F, G are increasing in each
+variable. This allows the use of a sub/supersolution approach and one easily sees that if (λ, γ) ∈U then so
+is (0, λ] × (0, γ]. One also sees that U is nonempty. We now deﬁne Υ := ∂U ∩Q, which plays the role of the
+extremal parameter λ∗. Various properties of Υ are known, see [33]. Given (λ∗, γ∗) ∈Υ set σ := γ∗
+λ∗∈(0, ∞)
+and deﬁne
+(1.12)
+Γσ := {(λ, λσ) : λ∗
+2 < λ < λ∗}.
+We let (uλ, vλ) denote the minimal solution (P)λ,σλ for λ∗
+2 < λ < λ∗. One easily sees that for each x ∈Ω
+that uλ(x), vλ(x) are increasing in λ and hence we deﬁne
+(1.13)
+u∗(x) := lim
+λրλ∗uλ(x) and v∗(x) := lim
+λրλ∗vλ(x),
+and we call (u∗, v∗) the extremal solution associated with (λ∗, γ∗) ∈Υ. Under some very minor growth
+assumptions on F and G one can show that (u∗, v∗) is a weak solution of (P)λ∗,γ∗. For the rest of this
+article we refer to (u∗, v∗) as (u, v). For the case of local Laplacian operator, Cowan and the author in [14]
+proved that the extremal solution of (H)λ,γ when Ωis a convex domain is regular provided 1 ≤n ≤3 for
+general nonlinearities f, g ∈C1(R) that satisfying (1.8). This can be seen as a counterpart of the Nedev’s
+result for elliptic gradient systems. For radial solutions, it is also shown in [14] that stable solutions are
+regular in dimensions 1 ≤n < 10 for general nonlinearities. This is a counterpart of the regularity result of
+Cabr´e-Capella [6] and Villegas [43] for elliptic gradient systems. For the local Gelfand system, regularity of
+the extremal solutions is given by Cowan in [13] and by Dupaigne et al. in [17] when n < 10.
+Here are our main results. The following theorem deals with regularity of the extremal solution of nonlocal
+Gelfand, Lane-Emden and MEMS systems.
+Theorem 1.1. Suppose that Ωis a bounded smooth domain in Rn. Let (λ∗, γ∗) ∈Υ and L is given by (1.5)
+where the ellipticity condition (1.7) holds and 0 < s < 1. Then, the associated extremal solution of (G)λ∗,γ∗,
+(E)λ∗,γ∗and (M)λ∗,γ∗is bounded when
+n < 10s,
+(1.14)
+n < 2s +
+4s
+p −1[p +
+p
+p(p −1)],
+(1.15)
+n < 2s +
+4s
+p + 1[p +
+p
+p(p + 1)],
+(1.16)
+respectively.
+The following theorem is a counterpart of the Nedev regularity result for nonlocal system (H)λ,γ.
+Theorem 1.2. Suppose that Ωis a bounded smooth convex domain in Rn. Assume that f and g satisfy
+condition (1.8) and f ′(0), g′(0) > 0 when f ′(·), g′(·) are convex and
+(1.17)
+lim inf
+s→∞
+[f ′′(s)]2
+f ′′′(s)f ′(s) > 0 and
+lim inf
+s→∞
+[g′′(s)]2
+g′′′(s)g′(s) > 0,
+4
+holds. Let (λ∗, γ∗) ∈Υ and L = (−∆)s for 0 < s < 1. Then, the associated extremal solution (u, v) of
+(H)λ∗,γ∗is bounded where n < 4s.
+In order to prove the above results, we ﬁrst establish integral estimates for minimal solutions of systems
+with a general nonlocal operator L given by (1.1) when J is a nonnegative measurable even jump kernel.
+Then, we apply nonlocal Sobolev embedding arguments to conclude boundedness of the extremal solutions.
+Note that when λ = γ the systems (G)λ,γ, (E)λ,γ and (M)λ,γ turn into scalar equations.
+Here is how this article is structured. In Section 2, we provide regularity theory for nonlocal operators. In
+Section 3, we establish various stability inequalities for minimal solutions of systems with a general nonlocal
+operator of the form (1.1) with a nonnegative measurable even jump kernel.
+In Section 4, we provide
+some technical integral estimates for stable solutions of systems introduced in the above. In Section 5, we
+apply the integral estimates to establish regularity of extremal solutions for nonlocal Gelfand, Lane-Emden
+and MEMS systems with exponential and power nonlinearities. In addition, we provide regularity of the
+extremal solution for the gradient system (H)λ,γ with general nonlinearities and also for particular power
+nonlinearities.
+2. Preliminaries
+In this section, we provide regularity results not only to the fractional Laplacian, but also to more general
+integro-diﬀerential equations. We omit the proofs in this section and refer interested readers to corresponding
+references. Let us start with the following classical regularity result concerning embeddings for the Riesz
+potential, see the book of Stein [42].
+Theorem 2.1. Suppose that 0 < s < 1, n > 2s and f and u satisfy
+u = (−∆)−sf
+in Rn,
+in the sense that u is the Riesz potential of order 2s of f. Let u, f ∈Lp(Rn) when 1 ≤p < ∞.
+(i) For p = 1, there exists a positive constant C such that
+||u||Lq(Rn) ≤C||f||L1(Rn) for q =
+n
+n −2s.
+(ii) For 1 < p < n
+2s, there exists a positive constant C such that
+||u||Lq(Rn) ≤C||f||Lp(Rn) for q =
+np
+n −2ps.
+(iii) For
+n
+2s < p < ∞, there exists a positive constant C such that
+[u]Cβ(Rn) ≤C||f||Lp(Rn) for β = 2s −n
+p ,
+where [·]Cβ(Rn) denotes the Cβ seminorm.
+Here the constant C depending only on n, s and p.
+The above theorem is applied by Ros-Oton and Serra in [36] to establish the following regularity theory
+for the fractional Laplacian. See also [37] for the boundary regularity results.
+Proposition 2.1. Suppose that 0 < s < 1, n > 2s and f ∈C(¯Ω) where Ω⊂Rn is a bounded C1,1 domain.
+Let u be the solution of
+ (−∆)su
+=
+f
+in Ω,
+u
+=
+0
+in Rn \ Ω.
+(i) For 1 ≤r <
+n
+n−2s, there exists a positive constant C such that
+||u||Lr(Ω) ≤C||f||L1(Ω) for r <
+n
+n −2s.
+(ii) For 1 < p < n
+2s, there exists a positive constant C such that
+||u||Lq(Ω) ≤C||f||Lp(Ω) for q =
+np
+n −2ps.
+5
+(iii) For
+n
+2s < p < ∞, there exists a positive constant C such that
+||u||Cβ(Ω) ≤C||f||Lp(Ω) for β = min
+
+s, 2s −n
+p
+
+.
+Here the constant C depending only on n, s, p, r and Ω.
+For the case of n ≤2s, the fact that 0 < s < 1 implies that n = 1 and s ≥1
+2. Note that in this case
+the Green function G(x, y) is explicitly known. Therefore, G(·, y) ∈L∞(Ω) for s > 1
+2 and in Lp(Ω) for all
+p < ∞when s = 1
+2. We summarize this as ||u||L∞(Ω) ≤C||f||L1(Ω) when n < 2s. In addition, for the case
+of n = 2s, we conclude that ||u||Lp(Ω) ≤C||f||L1(Ω) for all p < ∞and ||u||L∞(Ω) ≤C||f||Lp(Ω) for p > 1.
+In what follows we provide a counterpart of the above regularity result for general integro-diﬀerential
+operators given by (1.5). These operators are inﬁnitessimal generators of stable and symmetric L´evy processes
+and they are uniquely determined by a ﬁnite measure on the unit sphere Sn−1, often referred as the spectral
+measure of the process.
+When this measure is absolutely continuous, symmetric stable processes have
+generators of the form (1.5) where 0 < s < 1 and a is any nonnegative function L1(Sn−1) satisfying a(θ) =
+a(−θ) for θ ∈Sn−1. The regularity theory for general operators of the form (1.5) has been recently developed
+by Fern´andez-Real and Ros-Oton in [25]. In order to prove this result, authors apply results of [27] to study
+the fundamental solution associated to the operator L in view of the one of the fractional Laplacian.
+Proposition 2.2. Let Ω⊂Rn be any bounded domain, 0 < s < 1 and f ∈L2(Ω). Let u be any weak
+solution of
+ Lu
+=
+f
+in Ω,
+u
+=
+0
+in Rn \ Ω,
+where the operator L is given by (1.5) and the ellipticity condition (1.7) holds. Assume that f ∈Lr(Ω) for
+some r.
+(i) For 1 < r < n
+2s, there exists a positive constant C such that
+||u||Lq(Ω) ≤C||f||Lr(Ω) for q =
+nr
+n −2rs.
+(ii) For r = n
+2s, there exists a positive constant C such that
+||u||Lq(Ω) ≤C||f||Lr(Ω) for q < ∞.
+(iii) For
+n
+2s < r < ∞, there exists a positive constant C such that
+||u||L∞(Ω) ≤C||f||Lr(Ω).
+Here the constant C depending only on n, s, r, Ωand ellipticity constants.
+We end this section with this point that (u, v) is a weak solution of (P)λ,γ for u, v ∈L1(Ω) if F(u, v)δs ∈
+L1(Ω) and G(u, v)δs ∈L1(Ω) where δ(x) = dist(x, Ω) and
+Z
+Ω
+uLζ =
+Z
+Ω
+λF(u, v)ζ and
+Z
+Ω
+vLη =
+Z
+Ω
+γG(u, v)η,
+when ζ, η and ζ, η are bounded in Ωand ζ, η ≡0 on ∂Ω. Any bounded weak solution is a classical solution,
+in the sense that it is regular in the interior of Ω, continuous up to the boundary, and (P)λ,γ holds pointwise.
+Note that for the case of local operators, that is s = 1, the above notion of weak solution is consistent with
+the one introduced by Brezis et al. in [3, 4].
+3. Stability inequalities
+In this section, we provide stability inequalities for minimal solutions of system (P)λ,γ for various nonlin-
+earities F and G. We start with the following technical lemma in regards to nonlocal operator L with even
+symmetric kernel J.
+6
+Lemma 3.1. Assume that an operator L is given by (1.6) with a measurable symmetric kernel J(x, z) =
+J(x −z) that is even. Then,
+L(f(x)g(x)) = f(x)L(g(x)) + g(x)L(f(x)) −
+Z
+Rn [f(x) −f(z)] [g(x) −g(z)] J(x −z)dz,
+Z
+Rn g(x)L(f(x))dx = 1
+2
+Z
+Rn
+Z
+Rn [f(x) −f(z)] [g(x) −g(z)] J(x −z)dxdz,
+where f, g ∈C1(Rn) and the integrals are ﬁnite.
+Proof. The proof is elementary and we omit it here.
+□
+We now establish a stability inequality for minimal solutions of system (P)λ,γ. Note that for the case of
+local operators this inequality is established by the author and Cowan in [14] and in [22].
+Proposition 3.1. Let (uλ, vλ) be a minimal solution of system (P)λ,γ such that uλ, vλ are increasing in λ.
+Assume that J is a measurable even kernel and FvGu ≥0. Then,
+Z
+Ω
+Fuζ2 + Gvη2 + 2
+p
+FvGuζηdx
+(3.1)
+≤
+1
+2
+Z
+Rn
+Z
+Rn
+ 1
+λ[ζ(x) −ζ(z)]2 + 1
+γ [η(x) −η(z)]2
+
+J(x −z)dzdx,
+for test functions ζ, η so that ζ, η = 0 in Rn \ Ω.
+Proof. Since uλ, vλ are increasing in λ, diﬀerentiating (P)λ,γ with respect to λ we get
+L(∂λuλ)
+=
+F + λFu∂λuλ + λFv∂λvλ,
+L(∂λvλ)
+=
+σG + γGu∂λuλ + γGv∂λvλ,
+where uλ, vλ > 0. Multiply both sides with 1
+λ
+ζ2
+∂λuλ and 1
+γ
+η2
+∂λvλ to get
+1
+λL(∂λuλ) ζ2
+∂λuλ
++ 1
+γ L(∂λvλ) η2
+∂λvλ
+=
+1
+λF
+ζ2
+∂λuλ
++ Fuζ2 + Fv∂λvλ
+ζ2
+∂λuλ
++σ
+γ G ζ2
+∂λvλ
++ Gvη2 + Gu∂λuλ
+η2
+∂λvλ
+.
+Note that the following lower-bound holds for the left-hand side of the above equality
+RHS
+≥
+Fuζ2 + Gvη2 + Fv∂λvλ
+ζ2
+∂λuλ
++ Gu∂λuλ
+η2
+∂λvλ
+≥Fuζ2 + Gvη2 + 2
+p
+FvGuζη.
+Integrating the above we end up with
+(3.2)
+Z
+Ω
+Fuζ2 + Gvη2 + 2
+p
+FvGuζηdx ≤
+Z
+Rn
+1
+λL(∂λuλ) ζ2
+∂λuλ
++ 1
+γ L(∂λvλ) η2
+∂λvλ
+dx.
+Applying Lemma 3.1, we have
+Z
+Rn L(∂λuλ(x)) ζ2(x)
+∂λuλ(x)dx
+=
+1
+2
+Z
+Rn
+Z
+Rn[∂λuλ(x) −∂λuλ(z)]
+ ζ2(x)
+∂λuλ(x) −
+ζ2(z)
+∂λuλ(z)
+
+J(x −z)dxdz.
+Note that for a, b, c, d ∈R when ab < 0 we have
+(a + b)
+c2
+a + d2
+b
+
+≤(c −d)2.
+Since each ∂λuλ does not change sign, we have ∂λuλ(x)∂λuλ(z) > 0. Setting a = ∂λuλ(x), b = −∂λuλ(z),
+c = ζ(x) and d = ζ(z) in the above inequality and from the fact that ab = −∂λuλ(x)∂λuλ(z) < 0, we
+conclude
+[∂λuλ(x) −∂λuλ(z)]
+ ζ2(x)
+∂λuλ(x) −
+ζ2(z)
+∂λuλ(z)
+
+≤[ζ(x) −ζ(z)]2.
+7
+Therefore,
+Z
+Rn L(∂λuλ(x)) ζ2(x)
+∂λuλ(x)dx ≤1
+2
+Z
+Rn
+Z
+Rn[ζ(x) −ζ(z)]2J(z −x)dzdx.
+This together with (3.2) complete the proof.
+□
+Following ideas provided in the above, we provide stability inequalities for minimal solutions of Gelfand,
+Lane-Emden and MEMS systems with exponential and power-type nonlinearities.
+Corollary 3.1. Let (u, v) be the extremal solution of system (G)λ,γ, (E)λ,γ and (M)λ,γ. Then,
+p
+λγ
+Z
+Ω
+e
+u+v
+2 ζ2dx
+≤
+1
+2
+Z
+Rn
+Z
+Rn |ζ(x) −ζ(z)|2J(x −z)dzdx,
+(3.3)
+p
+p
+λγ
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 ζ2dx
+≤
+1
+2
+Z
+Rn
+Z
+Rn |ζ(x) −ζ(z)|2J(x −z)dzdx,
+(3.4)
+p
+p
+λγ
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 ζ2dx
+≤
+1
+2
+Z
+Rn
+Z
+Rn |ζ(x) −ζ(z)|2J(x −z)dzdx,
+(3.5)
+for test functions ζ so that ζ = 0 in Rn \ Ω.
+Corollary 3.2. Let (u, v) be the extremal solution of system (H)λ,γ when f ′g′ ≥0. Then,
+Z
+Ω
+f ′′gζ2 + fg′′η2 + 2f ′g′ζηdx
+(3.6)
+≤
+1
+2
+Z
+Rn
+Z
+Rn
+ 1
+λ|ζ(x) −ζ(z)|2 + 1
+γ |η(x) −η(z)|2
+
+J(x −z)dzdx,
+for test functions ζ, η so that ζ, η = 0 in Rn \ Ω.
+4. Integral estimates for stable solutions
+In this section, we establish some technical integral estimates for stable solutions of systems. Most of
+the ideas and methods applied in this section are inspired by the ones developed in the literature, see for
+example [17, 20, 21, 23, 24]. We start with the Gelfand system.
+Lemma 4.1. Suppose that (u, v) is a solution of (G)λ,γ when the associated stability inequality (3.3) holds.
+Then, there exists a positive constant Cλ,γ,|Ω| = C(λ, γ, |Ω|) such that
+Z
+Ω
+eu+vdx ≤Cλ,γ,|Ω|.
+Proof. Multiply the second equation of (G)λ,γ with eu −1 and integrate to get
+λ
+Z
+Ω
+(eu −1)evdx =
+Z
+Ω
+Lu(eu −1)dx.
+From Lemma 3.1, we get
+Z
+Ω
+Lu(eu −1)dx = 1
+2
+Z
+Rn
+Z
+Rn [u(x) −u(z)]
+h
+eu(x) −eu(z)i
+J(x −z)dxdz.
+Note that for α, β ∈R, one can see that
+e
+β
+2 −e
+α
+2
+
+2
+≤1
+4(eβ −eα)(β −α).
+Applying the above inequality for α = u(z) and β = u(x), we obtain
+e
+u(x)
+2
+−e
+u(z)
+2
+
+2
+≤1
+4(eu(x) −eu(z))(u(x) −u(z)).
+From the above, we conclude
+λ
+Z
+Ω
+eu+vdx ≥λ
+Z
+Ω
+(eu −1)evdx ≥2
+Z
+Rn
+Z
+Rn
+e
+u(x)
+2
+−e
+u(z)
+2
+
+2
+J(x −z)dxdz.
+8
+Test the stability inequality, Corollary 3.1, on ζ = e
+u
+2 −1 to get
+p
+λγ
+Z
+Ω
+e
+u+v
+2 (e
+u
+2 −1)2dx ≤1
+2
+Z
+Rn
+Z
+Rn
+e
+u(x)
+2
+−e
+u(z)
+2
+
+2
+J(x −z)dzdx.
+Combining above inequalities, we conclude
+(4.1)
+p
+λγ
+Z
+Ω
+e
+u+v
+2 (e
+u
+2 −1)2dx ≤1
+4λ
+Z
+Ω
+eu+vdx.
+Applying the Young’s inequality eu/2 ≤eu
+4 + 1, we conclude
+Z
+Ω
+e
+u+v
+2 e
+u
+2 dx ≤1
+4
+Z
+Ω
+e
+u+v
+2 eudx +
+Z
+Ω
+e
+u+v
+2 dx.
+From this and expanding the left-hand side of (4.19), we obtain
+λ
+Z
+Ω
+eu+vdx + 8
+p
+λγ
+Z
+Ω
+e
+u+v
+2 dx
+≥
+2
+p
+λγ
+Z
+Ω
+e
+u+v
+2 eudx,
+γ
+Z
+Ω
+eu+vdx + 8
+p
+λγ
+Z
+Ω
+e
+u+v
+2 dx
+≥
+2
+p
+λγ
+Z
+Ω
+e
+u+v
+2 evdx.
+Multiplying these inequalities and applying the Cauchy-Schwarz inequality, i.e.
+Z
+Ω
+e
+u+v
+2 eudx
+Z
+Ω
+e
+u+v
+2 evdx ≥
+Z
+Ω
+eu+vdx
+2
+,
+we complete the proof.
+□
+We now provide a counterpart of the above estimate for stable solutions of (E)λ,γ.
+Lemma 4.2. Suppose that (u, v) is a solution of (E)λ,γ when the associated stability inequality (3.4) holds.
+Then, there exists a positive constant Cλ,γ,|Ω| = C(λ, γ, |Ω|) such that
+(4.2)
+Z
+Ω
+(1 + u)p(1 + v)pdx ≤Cλ,γ,|Ω|.
+Proof. Multiply the second equation of (E)λ,γ with (1 + u)p −1 and integrate to get
+λ
+Z
+Ω
+[(1 + u)p −1](1 + v)pdx =
+Z
+Ω
+Lu[(1 + u)p −1]dx.
+From Lemma 3.1, we get
+Z
+Ω
+Lu[(1 + u)p −1]dx = 1
+2
+Z
+Rn
+Z
+Rn [u(x) −u(z)] [(1 + u(x))p −(1 + u(z))p] J(x −z)dxdz.
+Note that for α, β ∈R, one can see that
+[(1 + α)p −(1 + β)p](α −β) ≥
+4p
+(p + 1)2
+(1 + α)
+p+1
+2
+−(1 + β)
+p+1
+2
+
+2
+.
+Applying the above inequality for α = u(x) and β = u(z), we obtain
+[(1 + u(x))p −(1 + u(z))p][u(x) −u(z)] ≥
+4p
+(p + 1)2
+(1 + u(x))
+p+1
+2
+−(1 + u(z))
+p+1
+2
+
+2
+.
+From the above, we conclude
+λ
+Z
+Ω
+(1 + u)p(1 + v)pdx ≥
+4p
+(p + 1)2
+1
+2
+Z
+Rn
+Z
+Rn
+(1 + u(x))
+p+1
+2
+−(1 + u(z))
+p+1
+2
+
+2
+J(x −z)dxdz.
+Test the stability inequality, Corollary 3.1, on ζ = (1 + u)
+p+1
+2
+−1 to get
+p
+λγp
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 [(1 + u)
+p+1
+2
+−1]2dx
+≤
+1
+2
+Z
+Rn
+Z
+Rn
+(1 + u(x))
+p+1
+2
+−(1 + u(z))
+p+1
+2
+
+2
+J(x −z)dzdx.
+9
+Combining above inequalities, we conclude
+(4.3)
+p
+λγp
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 [(1 + u)
+p+1
+2
+−1]2dx ≤(p + 1)2
+4p
+λ
+Z
+Ω
+(1 + u)p(1 + v)pdx.
+Expanding the left-hand side of the inequality and rearranging we get
+p
+λγp(1 −ǫ)
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 (1 + u)p+1dx
+(4.4)
+≤(p + 1)2
+4p
+λ
+Z
+Ω
+(1 + u)p(1 + v)pdx +
+√λγp
+ǫ
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 dx,
+where we have used the inequality a ≤ǫ
+2a2 + 1
+2ǫ for any ǫ > 0. Similarly,
+p
+λγp(1 −ǫ)
+Z
+Ω
+(1 + v)
+p−1
+2 (1 + u)
+p−1
+2 (1 + v)p+1dx
+(4.5)
+≤(p + 1)2
+4p
+γ
+Z
+Ω
+(1 + u)p(1 + v)pdx +
+√λγp
+ǫ
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 dx.
+Note that from the Cauchy-Schwarz inequality we get
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 (1 + u)p+1dx
+Z
+Ω
+(1 + v)
+p−1
+2 (1 + u)
+p−1
+2 (1 + v)p+1dx ≥
+Z
+Ω
+(1 + u)p(1 + v)pdx
+2
+.
+From this and multiplying both sides of the above (4.8) and (4.9) we conclude
+λγ
+"
+p2(1 −ǫ)2 −
+(p + 1)2
+4p
+2# Z
+Ω
+(1 + u)p(1 + v)pdx
+2
+≤Cǫ,λ,γ
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 dx
+2
+,
+for small ǫ > 0. Note that p2 −
+
+(p+1)2
+4p
+2
+> 0 when p > 1. Therefore, taking small enough ǫ > 0 and
+applying the H¨older’s inequality, we complete the proof.
+□
+Here is a counterpart of the above estimate for stable solutions of (M)λ,γ.
+Lemma 4.3. Suppose that (u, v) is a solution of (M)λ,γ when the associated stability inequality (3.5) holds.
+Then, there exists a positive constant Cλ,γ,|Ω| = C(λ, γ, |Ω|) such that
+(4.6)
+Z
+Ω
+(1 −u)−p(1 −v)−pdx ≤Cλ,γ,|Ω|.
+Proof. The proof is similar to the one provide in Lemma 4.2. Multiply the second equation of (M)λ,γ with
+(1 −u)−p −1 and integrate to get
+λ
+Z
+Ω
+[(1 −u)−p −1](1 −v)−pdx =
+Z
+Ω
+Lu[(1 −u)−p −1]dx.
+From Lemma 3.1, we get
+Z
+Ω
+Lu[(1 −u)−p −1]dx = 1
+2
+Z
+Rn
+Z
+Rn [u(x) −u(z)]
+
+(1 −u(x))−p −(1 −u(z))−p
+J(x −z)dxdz.
+Note that for α, β ∈R, one can see that
+[(1 −α)−p −(1 −β)−p](α −β) ≥
+4p
+(p −1)2
+(1 −α)
+1−p
+2
+−(1 −β)
+1−p
+2
+
+2
+.
+Applying the above inequality for α = u(x) and β = u(z), we obtain
+[(1 −u(x))−p −(1 −u(z))−p][u(x) −u(z)] ≥
+4p
+(p −1)2
+(1 −u(x))
+−p+1
+2
+−(1 −u(z))
+−p+1
+2
+
+2
+.
+From the above, we conclude
+λ
+Z
+Ω
+(1 −u)−p(1 −v)−pdx ≥
+4p
+(p −1)2
+1
+2
+Z
+Rn
+Z
+Rn
+(1 −u(x))
+−p+1
+2
+−(1 −u(z))
+−p+1
+2
+
+2
+J(x −z)dxdz.
+10
+Test the stability inequality, Corollary 3.1, on ζ = (1 −u)
+−p+1
+2
+−1 to get
+p
+λγp
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 [(1 −u)
+1−p
+2
+−1]2dx
+≤
+1
+2
+Z
+Rn
+Z
+Rn
+(1 −u(x))
+−p+1
+2
+−(1 −u(z))
+−p+1
+2
+
+2
+J(x −z)dzdx.
+Combining above inequalities, we conclude
+(4.7)
+p
+λγp
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 [(1 −u)
+1−p
+2
+−1]2dx ≤(p −1)2
+4p
+λ
+Z
+Ω
+(1 −u)−p(1 −v)−pdx.
+Expanding the left-hand side of the inequality and rearranging we get
+p
+λγp(1 −ǫ)
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 (1 −u)−p+1dx
+(4.8)
+≤(p −1)2
+4p
+λ
+Z
+Ω
+(1 −u)−p(1 −v)−pdx +
+√λγp
+ǫ
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)
+p+1
+2 dx,
+where we have used the inequality a ≤ǫ
+2a2 + 1
+2ǫ for any ǫ > 0. Similarly,
+p
+λγp(1 −ǫ)
+Z
+Ω
+(1 −v)−p+1
+2 (1 −u)−p+1
+2 (1 −v)−p+1dx
+(4.9)
+≤(p −1)2
+4p
+γ
+Z
+Ω
+(1 −u)−p(1 −v)−pdx +
+√λγp
+ǫ
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 dx.
+Note that from the Cauchy-Schwarz inequality we get
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 (1 −u)−p+1dx
+Z
+Ω
+(1 −v)−p+1
+2 (1 −u)−p+1
+2 (1 −v)−p+1dx
+≥
+Z
+Ω
+(1 −u)−p(1 −v)−pdx
+2
+.
+From this and multiplying both sides of the above (4.8) and (4.9) we conclude
+λγ
+"
+p2(1 −ǫ)2 −
+(p −1)2
+4p
+2# Z
+Ω
+(1 −u)−p(1 −v)−pdx
+2
+≤Cǫ,λ,γ
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 dx
+2
+,
+for small ǫ > 0. Note that p2 −( (p−1)2
+4p
+)2 > 0 when p > 0. Therefore, taking small enough ǫ > 0 and applying
+the H¨older’s inequality when p > 1, we complete the proof.
+□
+In the next lemmata, we provide integral Lq(Ω) estimates for Gelfand, Lane-Emden and MEMS systems.
+We start with the Gelfand system and establish a relation between
+R
+Ωe
+2t+1
+2
+ue
+v
+2 dx and
+R
+Ωe
+2t+1
+2
+ve
+u
+2 dx for
+some constant t > 1
+2.
+Lemma 4.4. Under the same assumptions as Lemma 4.1, set
+X :=
+Z
+Ω
+e
+2t+1
+2
+ue
+v
+2 dx, Y :=
+Z
+Ω
+e
+2t+1
+2
+ve
+u
+2 dx, Z :=
+Z
+Ω
+eudx, W :=
+Z
+Ω
+evdx,
+where t > 1
+2. Then,
+√λγX ≤( t
+4 + ǫ)λX
+2t−1
+2t Y
+1
+2t + Cǫ,λ,γ,|Ω|Z,
+√λγY ≤( t
+4 + ǫ)γY
+2t−1
+2t X
+1
+2t + Cǫ,λ,γ,|Ω|W,
+(4.10)
+where Cǫ,λ,γ,|Ω| is a positive constant.
+Proof. Multiply the second equation of (G)λ,γ with etu −1 when t > 1
+2 is a constant. Integrating implies
+that
+λ
+Z
+Ω
+(etu −1)evdx =
+Z
+Ω
+Lu(etu −1)dx.
+11
+From Lemma 3.1, we get
+Z
+Ω
+Lu(etu −1)dx = 1
+2
+Z
+Rn
+Z
+Rn [u(x) −u(z)]
+h
+etu(x) −etu(z)i
+J(x −z)dxdz.
+Note that for α, β ∈R, one can see that
+e
+β
+2 −e
+α
+2
+
+2
+≤1
+4(eβ −eα)(β −α).
+Applying the above inequality for α = tu(z) and β = tu(x), we obtain
+e
+tu(x)
+2
+−e
+tu(z)
+2
+
+2
+≤t
+4(etu(x) −etu(z))(u(x) −u(z)).
+From the above, we conclude
+λ
+Z
+Ω
+(etu −1)evdx ≥2
+t
+Z
+Rn
+Z
+Rn
+e
+tu(x)
+2
+−e
+tu(z)
+2
+
+2
+J(x −z)dxdz.
+Test the stability inequality, Corollary 3.1, on ζ = e
+tu
+2 −1 to get
+p
+λγ
+Z
+Ω
+e
+u+v
+2 (e
+tu
+2 −1)2dx ≤1
+2
+Z
+Rn
+Z
+Rn
+e
+tu(x)
+2
+−e
+tu(z)
+2
+
+2
+J(x −z)dzdx.
+Combining above inequalities, we conclude
+(4.11)
+p
+λγ
+Z
+Ω
+e
+u+v
+2 (e
+tu
+2 −1)2dx ≤t
+4λ
+Z
+Ω
+(etu −1)evdx.
+On the other hand, from the Young inequality we have
+(4.12)
+Z
+Ω
+e
+t+1
+2 ue
+v
+2 dx ≤ǫ
+2
+s
+λ
+γ
+Z
+Ω
+etuevdx + 1
+2ǫ
+rγ
+λ
+Z
+Ω
+eudx,
+where ǫ is a positive constant. In addition, from the H¨older inequality we get
+(4.13)
+Z
+Ω
+etuevdx ≤
+Z
+Ω
+e
+2t+1
+2
+ue
+v
+2 dx
+ 2t−1
+2t Z
+Ω
+e
+2t+1
+2
+ve
+u
+2 dx
+ 1
+2t
+.
+Now, expanding both sides of (4.11) we have
+(4.14)
+p
+λγ
+Z
+Ω
+e
+2t+1
+2
+ue
+v
+2 dx ≤t
+4λ
+Z
+Ω
+etuevdx + 2
+p
+λγ
+Z
+Ω
+e
+t+1
+2 ue
+v
+2 dx.
+Combining (4.12), (4.13) and (4.14) proves the ﬁrst inequality in (4.10). With similar arguments one can
+show the second inequality.
+□
+We now consider the Lane-Emden system and establish a relation between
+R
+Ω(1 + u)
+p+1
+2
++t(1 + v)
+p−1
+2 dx
+and
+R
+Ω(1 + v)
+p+1
+2
++t(1 + u)
+p−1
+2 dx for some constant t > 1.
+Lemma 4.5. Under the same assumptions as Lemma 4.2, set
+X :=
+Z
+Ω
+(1 + u)
+p−1
+2
++t+1(1 + v)
+p−1
+2 dx,
+Y :=
+Z
+Ω
+(1 + v)
+p−1
+2
++t+1(1 + u)
+p−1
+2 dx,
+Z :=
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 dx,
+for t > 1. Then, for some constant 0 < ǫ < 1 we get
+√λγp(1 −ǫ)X ≤(t+1)2
+4t
+λX
+2t−p+1
+2(t+1) Y
+p+1
+2(t+1) + Cǫ,λ,γ,|Ω|Z,
+√λγp(1 −ǫ)Y ≤(t+1)2
+4t
+γY
+2t−p+1
+2(t+1) X
+p+1
+2(t+1) + Cǫ,λ,γ,|Ω|Z,
+(4.15)
+where Cǫ,λ,γ,|Ω| is a positive constant.
+12
+Proof. Let t > 1 be a constant. Multiply the second equation of (E)λ,γ with (1 + u)t −1 and integrate to
+get
+λ
+Z
+Ω
+[(1 + u)t −1](1 + v)pdx =
+Z
+Ω
+Lu[(1 + u)t −1]dx.
+From Lemma 3.1, we get
+Z
+Ω
+Lu[(1 + u)t −1]dx = 1
+2
+Z
+Rn
+Z
+Rn [u(x) −u(z)]
+
+(1 + u(x))t −(1 + u(z))t
+J(x −z)dxdz.
+Note that for α, β ∈R, one can see that
+[(1 + α)t −(1 + β)t](α −β) ≥
+4t
+(t + 1)2
+(1 + α)
+t+1
+2 −(1 + β)
+t+1
+2
+
+2
+.
+Applying the above inequality for α = u(x) and β = u(z), we obtain
+[(1 + u(x))t −(1 + u(z))t][u(x) −u(z)] ≥
+4t
+(t + 1)2
+(1 + u(x))
+t+1
+2 −(1 + u(z))
+t+1
+2
+
+2
+.
+From the above, we conclude
+λ
+Z
+Ω
+(1 + u)t(1 + v)pdx ≥
+4t
+(t + 1)2
+1
+2
+Z
+Rn
+Z
+Rn
+(1 + u(x))
+t+1
+2 −(1 + u(z))
+t+1
+2
+
+2
+J(x −z)dxdz.
+Test the stability inequality, Corollary 3.1, on ζ = (1 + u)
+t+1
+2 −1 to get
+p
+λγp
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 [(1 + u)
+t+1
+2 −1]2dx
+≤
+1
+2
+Z
+Rn
+Z
+Rn
+(1 + u(x))
+t+1
+2 −(1 + u(z))
+t+1
+2
+
+2
+J(x −z)dzdx,
+Combining above inequalities, we conclude
+(4.16)
+p
+λγp
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 [(1 + u)
+t+1
+2 −1]2dx ≤(t + 1)2
+4t
+λ
+Z
+Ω
+(1 + u)t(1 + v)pdx.
+Expanding the left-hand side of the inequality and rearranging we get
+p
+λγp(1 −ǫ)
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 (1 + u)t+1dx
+(4.17)
+≤(t + 1)2
+4t
+λ
+Z
+Ω
+(1 + u)t(1 + v)pdx +
+√λγp
+ǫ
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 dx,
+where we have used the inequality a ≤ǫ
+2a2 + 1
+2ǫ for any ǫ > 0. From the H¨older’s inequality we get
+Z
+Ω
+(1 + u)t(1 + v)pdx
+≤
+Z
+Ω
+(1 + u)
+p−1
+2 (1 + v)
+p−1
+2 (1 + u)t+1dx
+ 1
+β Z
+Ω
+(1 + v)
+p−1
+2 (1 + u)
+p−1
+2 (1 + v)t+1dx
+1−1
+β
+,
+where β =
+2(t+1)
+2t−p+1. This and (4.20) completes the proof of the ﬁrst estimate in (4.15). Similarly, one can
+show the second estimate.
+□
+We now consider the MEMS system with singular power nonlinearities and establish a relation between
+R
+Ω(1 −u)
+1−p
+2
+−t(1 −v)−p+1
+2 dx and
+R
+Ω(1 −v)
+1−p
+2
+−t(1 −u)−p+1
+2 dx for some constant t > 1.
+Lemma 4.6. Under the same assumptions as Lemma 4.3, set
+X :=
+Z
+Ω
+(1 −u)−p+1
+2
+−t+1(1 −v)−p+1
+2 dx,
+Y :=
+Z
+Ω
+(1 −v)−p+1
+2
+−t+1(1 −u)−p+1
+2 dx,
+Z :=
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 ,
+13
+for t > 1. Then, for some constant 0 < ǫ < 1 we get
+√λγp(1 −ǫ)X ≤(t−1)2
+4t
+λX
+2t−p−1
+2(t−1) Y
+p−1
+2(t−1) + Cǫ,λ,γ,|Ω|Z,
+√λγp(1 −ǫ)Y ≤(t−1)2
+4t
+γY
+2t−p−1
+2(t−1) X
+p−1
+2(t−1) + Cǫ,λ,γ,|Ω|Z,
+(4.18)
+where Cǫ,λ,γ,|Ω| is a positive constant.
+Proof. Let t > 1 be a constant. Multiply the second equation of (M)λ,γ with (1 −u)−t −1 and integrate to
+get
+λ
+Z
+Ω
+[(1 −u)−t −1](1 −v)pdx =
+Z
+Ω
+Lu[(1 −u)−t −1]dx.
+From Lemma 3.1, we get
+Z
+Ω
+Lu[(1 −u)−t −1]dx = 1
+2
+Z
+Rn
+Z
+Rn [u(x) −u(z)]
+
+(1 −u(x))−t −(1 −u(z))−t
+J(x −z)dxdz.
+Note that for α, β ∈R, one can see that
+[(1 −α)−t −(1 −β)−t](α −β) ≥
+4t
+(t −1)2
+(1 −α)
+−t+1
+2
+−(1 −β)
+−t+1
+2
+
+2
+.
+Applying the above inequality for α = u(x) and β = u(z), we obtain
+[(1 −u(x))−t −(1 −u(z))−t][u(x) −u(z)] ≥
+4t
+(t −1)2
+(1 −u(x))
+−t+1
+2
+−(1 −u(z))
+−t+1
+2
+
+2
+.
+From the above, we conclude
+λ
+Z
+Ω
+(1 −u)−t(1 −v)−pdx ≥
+4t
+(t −1)2
+1
+2
+Z
+Rn
+Z
+Rn
+(1 −u(x))
+−t+1
+2
+−(1 −u(z))
+−t+1
+2
+
+2
+J(x −z)dxdz.
+Test the stability inequality, Corollary 3.1, on ζ = (1 −u)
+−t+1
+2
+−1 to get
+p
+λγp
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 [(1 −u)
+−t+1
+2
+−1]2dx
+≤
+1
+2
+Z
+Rn
+Z
+Rn
+(1 −u(x))
+−t+1
+2
+−(1 −u(z))
+−t+1
+2
+
+2
+J(x −z)dzdx.
+Combining above inequalities, we conclude
+(4.19)
+p
+λγp
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 [(1 −u)
+−t+1
+2
+−1]2dx ≤(t −1)2
+4t
+λ
+Z
+Ω
+(1 −u)−t(1 −v)−pdx.
+Expanding the left-hand side of the inequality and rearranging we get
+p
+λγp(1 −ǫ)
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 (1 −u)−t+1dx
+(4.20)
+≤(t −1)2
+4t
+λ
+Z
+Ω
+(1 −u)−t(1 −v)−pdx +
+√λγp
+ǫ
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 dx,
+where we have used the inequality a ≤ǫ
+2a2 + 1
+2ǫ for any ǫ > 0 and a ∈R. From the H¨older’s inequality we
+get
+Z
+Ω
+(1 −u)−t(1 −v)−pdx
+≤
+Z
+Ω
+(1 −u)−p+1
+2 (1 −v)−p+1
+2 (1 −u)−t+1dx
+ 1
+β Z
+Ω
+(1 −v)−p+1
+2 (1 −u)−p+1
+2 (1 −v)−t+1dx
+1−1
+β
+,
+where β =
+2(t−1)
+2t−p−1. This and (4.20) completes the proof of the ﬁrst estimate in (4.15). Similarly, one can
+show the second estimate.
+□
+14
+In regards to the gradient system with superlinear nonlinearities satisfying (1.8) we establish an integral
+estimate that yields L2(Ω) of the function f ′(u)g′(v). We then use this to conclude estimates on the nonlin-
+earities of the gradient system. Our methods and ideas in the proof are inspired by the ones developed in
+[14] and originally by Nedev in [35].
+Lemma 4.7. Suppose that f and g both satisfy condition (1.8) and a := f ′(0) > 0 and b := g′(0) > 0.
+Assume that f ′, g′ are convex and (1.17) holds. Let (λ∗, γ∗) ∈Υ and (u, v) denote the extremal solution
+associated with (H)λ∗,γ∗. Then, there exists a positive constant C < ∞such that
+Z
+Ω
+f ′(u)g′(v)(f ′(u) −a)(g′(v) −b) ≤C.
+Proof. We obtain uniform estimates for any minimal solution (u, v) of (H)λ,γ on the ray Γσ and then one
+sends λ ր λ∗to obtain the same estimate for (u∗, v∗). Let (u, v) denote a smooth minimal solution of (H)λ,γ
+on the ray Γσ and put ζ := f ′(u) −a and η := g′(v) −b into (3.6) to obtain
+Z
+Ω
+
+f ′′(u)g(v)(f ′(u) −a)2 + f(u)g′′(v)(g′(v) −b)2 + 2f ′(u)g′(v)(f ′(u) −a)(g′(v) −b)
+
+dx
+≤
+1
+2
+Z
+Rn
+Z
+Rn
+ 1
+λ|f ′(u(x)) −f ′(u(z))|2 + 1
+γ |g′(v(x)) −g′(v(z))|2
+
+J(x −z)dzdx.
+Note that for all α, β ∈R, one can see that
+|f ′(β) −f ′(α)|2 =
+
+Z β
+α
+f ′′(s)ds
+
+2
+≤
+Z β
+α
+|f ′′(s)|2ds(β −α) = (h1(β) −h1(α))(β −α),
+when h1(s) := R s
+0 |f ′′(w)|2dw. Similar inequality holds for the function g that is
+|g′(β) −g′(α)|2 ≤(h2(β) −h2(α))(β −α),
+when h2(s) :=
+R s
+0 |g′′(w)|2dw.
+Set β = u(x) and α = u(z) and β = v(x) and α = v(z) in the above
+inequalities to conclude
+1
+2
+Z
+Rn
+Z
+Rn
+ 1
+λ|f ′(u(x)) −f ′(u(z))|2 + 1
+γ |g′(v(x)) −g′(v(z))|2
+
+J(x −z)dzdx
+≤
+1
+2
+Z
+Rn
+Z
+Rn
+1
+λ[h1(u(x)) −h1(u(z))][u(x) −u(z)]J(x −z)dzdx
++1
+2
+Z
+Rn
+Z
+Rn
+1
+γ [h2(v(x)) −h2(v(z))][v(x) −v(z)]J(x −z)dzdx.
+From the equation of system and Lemma 3.1, we get
+1
+2
+Z
+Rn
+Z
+Rn
+ 1
+λ|f ′(u(x)) −f ′(u(z))|2 + 1
+γ |g′(v(x)) −g′(v(z))|2
+
+J(x −z)dzdx
+≤
+Z
+Ω
+
+h1(u) 1
+λL(u) + h2(v) 1
+γ L(v)
+
+dx
+=
+Z
+Ω
+[h1(u)f ′(u)g(v)dx + h2(v)f(u)g′(v)] dx.
+From this and we conclude that
+Z
+Ω
+
+f ′′(u)g(v)(f ′(u) −a)2 + f(u)g′′(v)(g′(v) −b)2 + 2f ′(u)g′(v)(f ′(u) −a)(g′(v) −b)
+
+dx
+(4.21)
+≤
+Z
+Ω
+[h1(u)f ′(u)g(v)dx + h2(v)f(u)g′(v)] dx.
+Given the assumptions, there is some M > 1 large enough and 0 < δ < 1 that for all u ≥M we have
+h1(u) ≤δf ′′(u)(f ′(u) −a) for all u ≥M. Then, we have
+Z
+Ω
+h1(u)g(v)f ′(u) =
+Z
+u≥M
++
+Z
+u<M
+≤δ
+Z
+f ′′(u)g(v)(f ′(u) −a)2 +
+Z
+u<M
+Z
+h1(u)g(v)f ′(u).
+15
+We now estimate the last integral in the above. Let k ≥1 denote a natural number. Then,
+Z
+u<M
+h1(u)g(v)f ′(u) =
+Z
+u<M,v<kM
++
+Z
+u<M,v≥kM
+= C(k, M) +
+Z
+u<M,v≥kM
+h1(u)g(v)f ′(u).
+Note that this integral is bounded above by
+sup
+u<M
+h1(u)
+(f ′(u) −a) sup
+v>kM
+g(v)
+(g′(v) −b)g′(v)
+Z
+(f ′(u) −a)(g′(v) −b)f ′(u)g′(v).
+From the above estimates, we conclude that for suﬃciently large M and for all 1 ≤k there is some positive
+constant C(k, M) and 0 < δ < 1 that
+Z
+Ω
+h1(u)g(v)f ′(u)
+≤
+δ
+Z
+f ′′(u)g(v)(f ′(u) −a)2 + C(k, M)
+(4.22)
++ sup
+u<M
+h1(u)
+(f ′(u) −a) sup
+v>kM
+g(v)
+(g′(v) −b)g′(v)
+Z
+(f ′(u) −a)(g′(v) −b)f ′(u)g′(v).
+Applying the same argument, one can show that for suﬃciently large M and for all 1 ≤k there is some
+positive constant D(k, M) and 0 < ǫ < 1 that
+Z
+Ω
+h2(v)g′(v)f(u)
+≤
+ǫ
+Z
+f(u)g′′(v)(g′(v) −b)2 + D(k, M)
+(4.23)
++ sup
+v<M
+h2(v)
+(g′(v) −b) sup
+u>kM
+f(u)
+(f ′(u) −a)f ′(u)
+Z
+(f ′(u) −a)(g′(v) −b)f ′(u)g′(v).
+Note that f ′′(u), g′′(v) →∞when u, v →∞. This implies that
+lim
+k→∞sup
+u>kM
+f(u)
+(f ′(u) −a)f ′(u) = 0 and
+lim
+k→∞sup
+v>kM
+g(v)
+(g′(v) −b)g′(v) = 0.
+Now set k to be suﬃciently large and substitute (4.22) and (4.23) in (4.21) to complete the proof. Note that
+see that all the integrals in (4.21) are bounded independent of λ and γ.
+□
+5. Regularity of the extremal solution; Proof of Theorem 1.1-1.2
+In this section, we apply the integral estimates established in the latter section to prove regularity results
+for extremal solutions of systems mentioned in the introduction earlier.
+Proof of Theorem 1.1. We shall provide the proof for the case of n > 2s, since otherwise is straightfor-
+ward. Let (u, v) be the smooth minimal solution of (G)λ,γ for λ∗
+2 < λ < λ∗and γ∗
+2 < γ < γ∗. From Lemma
+4.1 we conclude that
+(5.1)
+Z
+Ω
+eu+vdx ≤Cλ,γ,|Ω|.
+From this and Lemma 4.4, we conclude that for t > 1
+2
+(5.2)
+λγ
+"
+1 −
+ t
+4 + ǫ
+2#
+XY ≤Cǫ,λ,γ,|Ω|
+
+1 + X
+2t−1
+2t Y
+1
+2t + Y
+2t−1
+2t X
+1
+2t
+
+.
+Therefore, for every t < 4 either X or Y must be bounded where X and Y are given by
+(5.3)
+X :=
+Z
+Ω
+e
+2t+1
+2
+ue
+v
+2 dx and Y :=
+Z
+Ω
+e
+2t+1
+2
+ve
+u
+2 dx.
+Without loss of generality, assume that λ ≤γ implies that u ≤v and therefore eu is bounded in Lq(Ω) for
+q = t + 1 < 5. Therefore, in light of Proposition 2.2 we have u ∈L∞(Ω) for
+n
+2s < 5 that is n < 10s.
+Now, let (u, v) be the smooth minimal solution of (E)λ,γ for λ∗
+2 < λ < λ∗and γ∗
+2 < γ < γ∗. From Lemma
+4.2 we conclude that
+(5.4)
+Z
+Ω
+(1 + u)p(1 + v)pdx ≤Cλ,γ,|Ω|.
+16
+From this and Lemma 4.5, we conclude that
+(5.5)
+λγ
+"
+p2(1 −ǫ)2 −
+(t + 1)2
+4t
+2#
+XY ≤Cǫ,λ,γ,|Ω|
+
+1 + X
+2t−p+1
+2(t+1) Y
+p+1
+2(t+1) + Y
+2t−p+1
+2(t+1) X
+p+1
+2(t+1)
+
+.
+Therefore, for every 1 ≤t < 2p + 2
+p
+p(p −1) −1 either X or Y must be bounded where X and Y are given
+by
+(5.6)
+X :=
+Z
+Ω
+(1 + u)
+p−1
+2
++t+1(1 + v)
+p−1
+2 dx and Y :=
+Z
+Ω
+(1 + v)
+p−1
+2
++t+1(1 + u)
+p−1
+2 dx.
+Without loss of generality, assume that λ ≤γ implies that u ≤v and therefore (1 + u) is bounded in Lq(Ω)
+for q = p + t. We now rewrite the system (E)λ,γ for the extremal solution (u, v) that is
+ Lu
+=
+λ∗cv(x)v + λ∗
+in Ω,
+Lv
+=
+γ∗cu(x)u + γ∗
+in Ω,
+when 0 ≤cv(x) =
+(1+v)p−1
+v
+≤pvp−1 and 0 ≤cu(x) =
+(1+u)p−1
+u
+≤pup−1 where convexity argument is
+applied. From the regularity theory, Proposition 2.2, we conclude that v ∈L∞(Ω) provided cu(x) ∈Lr(Ω)
+when r > n
+2s. This implies that
+n
+2s < p+t
+p−1 for 1 ≤t < 2p + 2
+p
+p(p −1) −1. This completes the proof for the
+case of Lane-Emden system (E)λ,γ. The proof for the case of (M)λ,γ is very similar and replies on applying
+Lemma 4.3 and Lemma 4.6.
+✷
+Remark 5.1. Even though the above theorem is optimal as s →1, it is not optimal for smaller values of
+0 < s < 1.
+In this regard, consider the case of λ = γ and the Gelfand system turns into (−∆)su = λeu in the entire
+space Rn. It is known that the explicit singular solution u∗(x) = log
+1
+|x|2s is stable solution of the scalar
+Gelfand equation if and only if
+Γ( n
+2 )Γ(1 + s)
+Γ( n−2s
+2
+)
+≤Γ2( n+2s
+4
+)
+Γ2( n−2s
+4
+),
+for the constant
+λ = 22s Γ( n
+2 )Γ(1 + s)
+Γ( n−2s
+2
+)
+.
+This implies that the extremal solution of the fractional Gelfand equation should be regular for
+Γ( n
+2 )Γ(1 + s)
+Γ( n−2s
+2
+)
+> Γ2( n+2s
+4
+)
+Γ2( n−2s
+4
+).
+In particular, the extremal solution should be bounded when n ≤7 for 0 < s < 1. We refer interested to
+[36, 39] for more details. Now, consider the case of Lane-Emden equation (−∆)su = λup in the entire space
+Rn. It is also known that the explicit singular solution us(x) = A|x|−
+2s
+p−1 where the constant A is given by
+Ap−1 =
+Γ( n
+2 −
+s
+p−1)Γ(s +
+s
+p−1)
+Γ(
+s
+p−1)Γ( n−2s
+2
+−
+s
+p−1) ,
+is a stable solution of the scalar Lane-Emden equation if and only if
+p
+Γ( n
+2 −
+s
+p−1)Γ(s +
+s
+p−1)
+Γ(
+s
+p−1)Γ( n−2s
+2
+−
+s
+p−1) ≤Γ2( n+2s
+4
+)
+Γ2( n−2s
+4
+).
+This yields that the extremal solution of the above equation should be regular for
+p
+Γ( n
+2 −
+s
+p−1)Γ(s +
+s
+p−1)
+Γ(
+s
+p−1)Γ( n−2s
+2
+−
+s
+p−1) > Γ2( n+2s
+4
+)
+Γ2( n−2s
+4
+).
+As s →1, the above inequality is consistent with the dimensions given in (1.15). For more information, we
+refer interested readers to Wei and the author in [24] and Davila et al. in [16]. Given above, proof of the
+optimal dimension for regularity of extremal solutions remains an open problem.
+17
+We now provide a proof for Theorem 1.2 that deals with a regularity result for the gradient system (H)λ,γ
+with general nonlinearities f and g. Note that for the case of local scalar equations such results are provided
+by Nedev in [35] for n = 3 and Cabr´e in [5] for n = 4. For the case of scalar equation with the fractional
+Laplacian operator, Ros-Oton and Serra in [36] established regularity results for dimensions n < 4s when
+0 < s < 1. For the case of local gradient systems, that is when s = 1, such a regularity result is established
+by the author and Cowan in [14] in dimensions n ≤3.
+Proof of Theorem 1.2.
+We suppose that (λ∗, γ∗) ∈Υ and (u, v) is the associated extremal solution of
+(G)λ∗,γ∗. Set σ = γ∗
+λ∗. From Lemma 4.7, we conclude that f ′(u)g′(v) ∈L2(Ω). Note that this and the
+convexity of g show that
+(5.7)
+Z
+Ω
+f ′(u)2g(v)2
+(v + 1)2
+≤C.
+Note that (−∆)su ∈L1 and (−∆)sv ∈L1 and hence we have u, v ∈Lp for any p <
+n
+n−2s. We now use the
+domain decomposition method as in [14, 35]. Set
+Ω1
+:=
+
+x : f ′(u)2g(v)2
+(v + 1)2
+≥f ′(u)2−αg(v)2−α
+
+,
+Ω2
+:=
+Ω\Ω1 =
+n
+x : f ′(u)g(v) ≤(v + 1)
+2
+α
+o
+,
+where α is a positive constant and will be ﬁxed later. First note that
+(5.8)
+Z
+Ω1
+(f ′(u)g(v))2−α ≤
+Z
+Ω
+f ′(u)2g(v)2
+(v + 1)2
+≤C.
+Similarly we have
+(5.9)
+Z
+Ω2
+(f ′(u)g(v))p ≤
+Z
+Ω
+(v + 1)
+2p
+α .
+We shall consider the case of n > 2s, and n ≤2s is straightforward as discussed in Section 2. Taking
+α = 4(n−2s)
+3n−4s
+and using the Lp-bound on v for p <
+n
+n−2s shows that f ′(u)g(v) ∈Lp(Ω) for p <
+2n
+3n−4s. By
+a symmetry argument we also have f(u)g′(v) ∈Lp(Ω) for p <
+2n
+3n−4s. Therefore, (−∆)su, (−∆)sv ∈Lp(Ω)
+when p <
+2n
+3n−4s. From elliptic estimates we conclude that u, v ∈Lp(Ω) when p <
+2n
+3n−8s for n > 8
+3s and
+when p < ∞for n = 8
+3s and when p ≤∞for n < 8
+3s. This completes the proof when 2s ≤n < 8
+3s.
+Now, set α =
+3n−8s
+2(n−2s).
+From the above estimate u, v ∈Lp(Ω) when p <
+2n
+3n−8s for n >
+8
+3s on v
+and domain decomposition arguments, we get f(u)g′(v), f ′(u)g(v) ∈Lp(Ω) for p <
+n
+2(n−2s).
+Therefore,
+(−∆)su, (−∆)sv ∈Lp(Ω) with the latter bounds for p. From elliptic estimates we get u, v ∈Lp(Ω) when
+p <
+n
+2(n−3s) for n > 3s and when p < ∞for n = 3s and when p ≤∞for n < 3s. We perform the above
+arguments once more to arrive at u, v ∈Lp(Ω) when p <
+2n
+5n−16s for n > 16
+5 s and when p < ∞for n = 16
+5 s
+and when p ≤∞for n < 16
+5 s. This completes the proof for 8
+3s ≤n < 16
+5 s containing n = 3s.
+Now, suppose that u, v ∈Lp(Ω) for p < p∗. Then, notice that
+Z
+Ω2
+(f ′(u)g(v))p ≤
+Z
+Ω
+(v + 1)
+2p
+α ≤C when p < αp∗
+2 .
+Set α =
+4
+p∗+2.
+Then, from the above we conclude that f ′(u)g(v) ∈Lp(Ω) for p <
+2p∗
+p∗+2 and similarly
+f(u)g′(v) ∈Lp(Ω) for p <
+2p∗
+p∗+2. Applying the fact that (−∆)su, (−∆)sv ∈Lp(Ω) for the same range of p.
+From elliptic estimates we conclude that
+u, v ∈Lp(Ω) when p <
+2p∗n
+p∗(n −4s) + 2n.
+Applying the above elliptic estimates arguments, we conclude the boundedness of solutions when n < 4s.
+✷
+18
+We end this section with power polynomial nonlinearities for the gradient system (H)λ∗,γ∗and we provide
+regularity of the extremal solution. For the case of local systems, that is when s = 1, a similar result is given
+in [14]. Due to the technicality of the proof we omit it here.
+Theorem 5.1. Let f(u) = (1 + u)p and g(v) = (1 + v)q when p, q > 2. Assume that (λ∗, γ∗) ∈Υ. Then,
+the associated extremal solution of (H)λ∗,γ∗is bounded provided
+(5.10)
+n < 2s +
+4s
+p + q −2 max{T (p −1), T (q −1)},
+when T (t) := t +
+p
+t(t −1).
+Acknowledgment. The author would like to thank Professor Xavier Ros-Oton for online communications and
+comments in regards to Section 2. The author is grateful to Professor Xavier Cabr´e for bringing reference
+[40] to his attention and for the comments in regards to Section 1.
+References
+[1] R. Bass, Diﬀusions and elliptic operators, Probability and its Applications, Springer-Verlag, New York,
+(1998) 232 pp.
+[2] J. Bertoin, L´evy Processes, Cambridge University Press, Cambridge (1996).
+[3] H. Brezis, T. Cazenave, Y. Martel and A. Ramiandrisoa, Blow up for ut−∆u = g(u) revisited, Advances
+in Diﬀerential Equations, 1 (1996) pp. 73-90.
+[4] H. Brezis and L. Vazquez, Blow-up solutions of some nonlinear elliptic problems, Rev. Mat. Univ.
+Complut. Madrid, 10 (1997) pp. 443-469.
+[5] X. Cabr´e, Regularity of minimizers of semilinear elliptic problems up to dimension four, Comm. Pure
+Appl. Math., 63 (2010) pp. 1362-1380.
+[6] X. Cabr´e and A. Capella, Regularity of radial minimizers and extremal solutions of semilinear elliptic
+equations, Journal of Functional Analysis, 238 (2006) 709–733.
+[7] X. Cabr´e, A. Figalli, X. Ros-Oton and J. Serra, Stable solutions to semilinear elliptic equations are
+smooth up to dimension 9, Preprint, arXiv:1907.09403 (2019).
+[8] X. Cabr´e and Y. Sire, Nonlinear equations for fractional Laplacians, I: Regularity, maximum principles,
+and Hamiltonian estimates, Ann. Inst. H. Poincar´e Anal. Non Lin´eaire, 31 (2014) pp. 23-53.
+[9] X. Cabr´e and X. Ros-Oton, Regularity of stable solutions up to dimension 7 in domains of double
+revolution, Comm. Partial Diﬀerential Equations, 38 (2013) pp. 135-154.
+[10] L. Caﬀarelli and L. Silvestre, An extension problem related to the fractional Laplacian, Comm. Partial
+Diﬀ. Equ., 32 (2007) pp. 1245-1260.
+[11] A. Capella, J. Davila, L. Dupaigne and Y. Sire, Regularity of radial extremal solutions for some non
+local semilinear equations, Comm. Partial Diﬀ. Equ., 36 (2011) pp. 1353-1384.
+[12] W. Chen, C. Li and B. Ou, Classiﬁcation of solutions to an integral equation, Comm. Pure Appl. Math.,
+59 (2006) pp. 330-343.
+[13] C. Cowan, Regularity of the extremal solutions in a Gelfand system problem, Advanced Nonlinear Stud-
+ies, 11 (2011) pp. 695-700.
+[14] C. Cowan and M. Fazly, Regularity of the extremal solutions associated to elliptic systems, Journal of
+Diﬀerential Equations, 257 (2014) pp. 4087-4107.
+[15] M. G. Crandall and P. H. Rabinowitz, Some continuation and variation methods for positive solutions
+of nonlinear elliptic eigenvalue problems, Arch. Rat. Mech. Anal., 58 (1975) pp. 207-218.
+[16] J. Davila, L. Dupaigne and J. Wei, On the fractional Lane-Emden equation, Trans. Amer. Math. Soc.,
+369 (2017) pp. 6087-6104.
+[17] L. Dupaigne, A. Farina and B. Sirakov, Regularity of the extremal solutions for the Liouville system
+Geometric partial diﬀerential equations, CRM Series, 15, Ed. Norm., Pisa., (2013) pp. 139-144.
+[18] P. Esposito, N. Ghoussoub and Y. Guo, Compactness along the branch of semi-stable and unstable
+solutions for an elliptic problem with a singular nonlinearity, Comm. Pure Appl. Math., 60 (2007) pp.
+1731-1768.
+19
+[19] P. Esposito, N. Ghoussoub and Y. Guo, Mathematical Analysis of Partial Diﬀerential Equations Mod-
+eling Electrostatic MEMS, Research Monograph, Courant Lecture Notes, Vol. 20 (2010) 318 pp.
+[20] A. Farina, On the classiﬁcation of solutions of the Lane-Emden equation on unbounded domains of Rn,
+J. Math. Pures Appl., 87 (2007) pp. 537-561.
+[21] A. Farina, Stable solutions of −∆u = eu on Rn, C. R. Math. Acad. Sci. Paris, 345 (2007) pp. 63-66.
+[22] M. Fazly, Rigidity results for stable solutions of symmetric systems, Proceedings of the American Math-
+ematical Society, 143 (2015) pp. 5307-5321.
+[23] M. Fazly and N. Ghoussoub, De Giorgi type results for elliptic systems, Calc. Var. Partial Diﬀerential
+Equations, 47 (2013) pp. 809-823.
+[24] M. Fazly and J. Wei, On ﬁnite Morse index solutions of higher order fractional Lane-Emden equations,
+American Journal of Mathematics, 139 (2017) pp. 433-460.
+[25] X. Fern´andez-Real and X. Ros-Oton, Boundary regularity for the fractional heat equation, Rev. Real
+Acad. Cienc. Ser. A Math, 110 (2016) pp. 49-64.
+[26] N. Ghoussoub and Y. Guo, On the partial diﬀerential equations of electro MEMS devices: stationary
+case, SIAM J. Math. Anal., 38 (2007) pp. 1423-1449.
+[27] P. Glowacki, W. Hebisch, Pointwise estimates for densities of stable semigroups of measures, Studia
+Math., 104 (1992) pp. 243-258.
+[28] D. D. Joseph and T. S. Lundgren, Quasilinear Dirichlet problems driven by positive sources, Arch.
+Rational Mech. Anal., 49 (1973) pp. 241-269.
+[29] Ph. Laurencot and C. Walker, Some singular equations modeling MEMS, Bulletin of the American
+Mathematical Society, 54 (2017) pp. 437-479.
+[30] Y. Y. Li, Remark on some conformally invariant integral equations: the method of moving spheres, J.
+Eur. Math. Soc. (JEMS), 6 (2004) pp. 153-180.
+[31] J. Liouville, Sur l’´equation aux diﬀ´erences partielles d2 log λ
+dudv
+±
+λ
+2a2 =0, J. Math. Pures Appl., 18 (1853)
+pp. 71-72.
+[32] F. Mignot and J. P. Puel, Solution radiale singuli´ere −∆u = eu, C. R. Acad. Sci. Paris, 307 (1988) pp.
+379-382.
+[33] M. Montenegro, Minimal solutions for a class of elliptic systems, Bull. London Math. Soc., 37 (2005)
+pp. 405-416.
+[34] K. Nagasaki and T. Suzuki, Spectral and related properties about the Emden-Fowler equation −∆u = λeu
+on circular domains, Mathematische Annalen, 299 (1994) pp. 1-15.
+[35] G. Nedev, Regularity of the extremal solution of semilinear elliptic equations, C. R. Acad. Sci. Paris . I
+Math., 330 (2000) pp. 997-1002.
+[36] X. Ros-Oton and J. Serra, The extremal solution for the fractional Laplacian, Calc. Var. Partial Diﬀer-
+ential Equations, 50 (2014) pp. 723-750.
+[37] X. Ros-Oton and J. Serra, The Dirichlet problem for the fractional Laplacian: Regularity up to the
+boundary, J. Math. Pures Appl., 101 (2014) pp. 275 - 302.
+[38] X. Ros-Oton and J. Serra, Regularity theory for general stable operators, Journal Diﬀerential Equations,
+260 (2016) pp. 8675-8715.
+[39] X. Ros-Oton, Regularity for the fractional Gelfand problem up to dimension 7, J. Math. Anal. Appl.,
+419 (2014) pp. 10-19.
+[40] T. Sanz-Perela, Regularity of radial stable solutions to semilinear elliptic equations for the fractional
+Laplacian, Commun. Pure Appl. Anal., 17 (2018) pp. 2547-2575.
+[41] L. Silvestre, H¨older estimates for solutions of integro-diﬀerential equations like the fractional Laplace,
+Indiana University Mathematics Journal, 55 (2006) pp. 1155-1174.
+[42] E. Stein, Singular integrals and diﬀerentiability properties of functions, Princeton Mathematical Series,
+vol. 30. Princeton University Press, Princeton (1970).
+[43] S. Villegas, Boundedness of extremal solutions in dimension 4, Advances Math., 235 (2013) pp. 126-133.
+Department of Mathematics, The University of Texas at San Antonio, San Antonio, TX 78249, USA
+E-mail address: mostafa.fazly@utsa.edu
+20

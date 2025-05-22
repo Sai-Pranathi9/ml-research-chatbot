@@ -1,0 +1,3 @@
+Scanned Research Note on Regression Ridge and Lasso regression add regularization to reduce
+
+overfitfing. Multivariate regression models multiple outcomes simultaneously.

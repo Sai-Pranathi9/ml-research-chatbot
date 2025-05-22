@@ -1,0 +1,4 @@
+Scanned Research Note on Classification Accuracy, Precision, Recall, and F1-score are standard
+evaluation metrics. Classification assigns labels to inputs based on learned decision
+
+boundaries.

@@ -1,0 +1,4 @@
+Scanned Research Note on CNN Variants like ResNet and MobileNet improve performance with
+architectural tweaks. CNNs are powerful for image recognition tasks due to their ability to
+
+lear spatial hierarchies.

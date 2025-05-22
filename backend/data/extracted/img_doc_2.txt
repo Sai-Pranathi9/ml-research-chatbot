@@ -1,0 +1,3 @@
+Scanned Research Note on Regression Linear regression fits a straight line to the data,
+
+minimizing squared errors. Multivariate regression models multiple outcomes simultaneously.

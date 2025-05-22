@@ -1,0 +1,4 @@
+Scanned Research Note on Classification Support Vector Machines (SVM) and Decision Trees are
+classic classifiers. Accuracy, Precision, Recall, and F1-score are standard evaluation
+
+metrics.

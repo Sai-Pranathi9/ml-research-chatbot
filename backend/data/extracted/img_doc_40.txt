@@ -1,0 +1,4 @@
+Scanned Research Note on CNN Variants like ResNet and MobileNet improve performance with
+architectural tweaks. Convolutional layers extract features, while pooling reduces spatial
+
+dimensions.

@@ -1,0 +1,1870 @@
+1
+Statistical Anomaly Detection via Composite
+Hypothesis Testing for Markov Models∗
+Jing Zhang†, Student Member, IEEE, and Ioannis Ch. Paschalidis‡, Fellow, IEEE
+Abstract
+Under Markovian assumptions, we leverage a Central Limit Theorem (CLT) for the empirical measure in the test
+statistic of the composite hypothesis Hoeffding test so as to establish weak convergence results for the test statistic,
+and, thereby, derive a new estimator for the threshold needed by the test. We ﬁrst show the advantages of our estimator
+over an existing estimator by conducting extensive numerical experiments. We ﬁnd that our estimator controls better
+for false alarms while maintaining satisfactory detection probabilities. We then apply the Hoeffding test with our
+threshold estimator to detecting anomalies in two distinct applications domains: one in communication networks and
+the other in transportation networks. The former application seeks to enhance cyber security and the latter aims at
+building smarter transportation systems in cities.
+Index Terms
+Hoeffding test, weak convergence, false alarm rate, Markov chains, network anomaly detection, cyber security,
+non-typical trafﬁc jams, smart cities.
+I. INTRODUCTION
+For a given system, Statistical Anomaly Detection (SAD) involves learning from data the normal behavior of
+the system and identifying/reporting time instances corresponding to atypical system behavior. SAD has vast
+applications. For instance, motivated by the importance of enhancing cyber security, recent literature has seen
+applications in communication networks; see, e.g., [1], [2], [3], [4]. The behavior of the system is typically
+represented as a time series of real vectors and, in its most general version, anomaly detection is done through
+some Composite Hypothesis Test (CHT).
+Speciﬁcally, a CHT aims to test the hypothesis that a given sequence of observations is drawn from a known
+Probability Law (PL) (i.e., probability distribution) deﬁned on a ﬁnite alphabet [5]. Among numerous such tests,
+the one proposed by Hoeffding [6] has been well known for decades. When implementing the Hoeffding test in the
+* Submitted to IEEE Transactions on Signal Processing. Research partially supported by the NSF under grants CNS-1645681, CCF-1527292,
+and IIS-1237022, by the ARO under grants W911NF-11-1-0227 and W911NF-12-1-0390, and by a grant from the Boston Area Research
+Initiative (BARI).
+† Division of Systems Engineering, Boston University, Boston, MA 02446, email: jzh@bu.edu.
+‡ Division of Systems Engineering, Dept. of Electrical and Computer Engineering, and Dept. of Biomedical Engineering, Boston University.
+8 St. Mary’s St., Boston, MA 02215, email: yannisp@bu.edu, url: http://sites.bu.edu/paschalidis.
+August 22, 2017
+DRAFT
+arXiv:1702.08435v3  [cs.SY]  18 Aug 2017
+2
+context of SAD, one must set appropriately a threshold η so as to ensure a low false alarm rate while maintaining
+a reasonably high detection rate. In the existing literature, this threshold is typically estimated by using Sanov’s
+theorem [7] – a large deviations result. Note that such an estimator (let us denote it by ηsv) is valid only in the
+asymptotic sense. In practice, however, only a ﬁnite number of observations are available, and it can be observed
+in simulations that ηsv is not accurate enough, especially for relatively small sample sizes.
+Our contributions in this paper include:
+1) Under Markovian assumptions, we leverage a Central Limit Theorem (CLT) for a selected empirical measure
+related to the test statistic of the Hoeffding test, so as to establish weak convergence results for the test
+statistic, and derive a threshold estimator ηwc therefrom, thus, extending the work of [5] which tackles the
+problem under independent and identically distributed (i.i.d.) assumptions.
+2) We propose algorithms to calculate the threshold estimator ηwc obtained above for the ordinary and a robust
+version of the Hoeffding test, respectively. We assess the advantages of our estimator over earlier work through
+numerical experiments.
+3) We apply the Hoeffding test with our threshold estimator to two types of systems for the purpose of anomaly
+detection: (i) a communication network with ﬂow data simulated by the software package SADIT [8]; and
+(ii) a real transportation network with jam data reported by Waze, a smartphone GPS navigation application.
+To the best of our knowledge, the latter is a novel application of anomaly detection.
+A preliminary conference version of this work appeared in [9]. The present paper includes detailed technical
+arguments, derives results for the robust version of the Hoeffding test, expands the numerical comparisons with
+earlier work, and develops the trafﬁc jam anomaly detection application.
+The rest of this paper is organized as follows. In Sec. II we review related work. We formulate the threshold
+estimation problem in Sec. III and derive theoretical results in Sec. IV. Sec. V contains experimental results.
+Concluding remarks are in Sec. VI and a number of proofs appear in the Appendix.
+Notational conventions: All vectors are column vectors. For economy of space, we write x = (x1, . . . , xdim(x))
+to denote the column vector x, where dim(x) is its dimension. We use prime to denote the transpose of a matrix
+or vector. Denote by N+ the set of all nonnegative integers. ∥x∥denotes the ℓ2-norm of a vector x, ⌊x⌋the integer
+part of a positive number x, |A| the cardinality of a set A, log the natural logarithm, P(A) the probability of an
+event A, E[X] the expectation of a random variable X, and Cov(X1, X2) the covariance between two random
+variables X1 and X2. We use N(0, Σ) to denote a Gaussian distribution with zero mean and covariance matrix
+Σ. X1 ≃X2 indicates that the two random variables X1 and X2 have approximately the same distribution. 1{·}
+denotes the indicator function and
+d
+−−−−→
+n→∞(resp.,
+w.p.1
+−−−−→
+n→∞) denotes convergence in distribution (resp., with probability
+one) as n approaches inﬁnity.
+II. RELATED WORK
+Modeling network trafﬁc as stationary in time, [1] applies two methods: one assumes the trafﬁc to be an i.i.d.
+sequence and the other assumes observations of system activity follow a ﬁnite-state Markov chain. Both methods are
+extended in [4] to the case where system activity is time-varying. When implementing the Hoeffding test, however,
+August 22, 2017
+DRAFT
+3
+both [1] and [4] use the large deviations estimator ηsv to calculate the detection threshold in a ﬁnite sample-size
+setting, thus controlling the false alarm rate not well enough.
+To derive a more accurate threshold estimator, [5], [10] use a procedure commonly used by statisticians: deriving
+results based on Weak Convergence (WC) of the test statistic in order to approximate the error probabilities of the
+Hoeffding test. Under i.i.d. assumptions, [5] (see also [10], [11]) proposes an alternative estimator for η (let us
+denote it by ηwc), which is typically more accurate than ηsv, especially when not that many samples are available.
+There has also been work on obtaining a tighter approximation of η by reﬁning Sanov’s theorem [12]. However,
+such reﬁnements of large deviation results are typically faced with computational difﬁculty; for instance, as noted
+in [10], using the results of [12] requires the computation of a surface integral.
+Several alternative anomaly detection approaches have been proposed, using for instance change detection
+methods [13]. We refer the reader for a comprehensive review of alternative methods to [13] and [1].
+III. PROBLEM FORMULATION
+To model the statistical properties of a general system, we introduce a few more notational conventions and some
+deﬁnitions. Let Ξ = {ξi; i = 1, . . . , N} be a ﬁnite alphabet containing N symbols ξ1, . . . , ξN, and Y = {Yl; l =
+0, 1, 2, . . .} a time series of observations. Deﬁne the null hypothesis H as: Y is drawn according to a Markov chain
+with state set Ξ and transition matrix Q = [qij]N
+i, j=1. To further characterize the stochastic properties of Y, we
+deﬁne the empirical Probability Law (PL) by
+Γn(θij) = 1
+n
+n
+X
+l=1
+1{Zl = θij},
+(1)
+where Zl = (Yl−1, Yl), l = 1, . . . , n, θij = (ξi, ξj) ∈Ξ × Ξ, i, j = 1, . . . , N. Denote the transformed
+alphabet Θ = {θij; i, j = 1, . . . , N} = {˜θk; k = 1, . . . , N 2} and note Θ = Ξ × Ξ with ˜θ1 = θ11, . . . , ˜θN =
+θ1N, . . . , ˜θ(N−1)N+1 = θN1, . . . , ˜θN2 = θNN. Let also the set of PLs on Θ be P(Θ).
+The transformed observations Z = {Zl; l = 1, 2, . . .} form a Markov chain evolving on Θ; denote its transition
+matrix by P = [pij]N2
+i, j=1 and the stationary distribution by
+π = (πij; i, j = 1, . . . , N) = (˜πk; k = 1, . . . , N 2),
+(2)
+where πij denotes the probability of seeing θij, and ˜π1 = π11, . . . , ˜πN = π1N, . . . , ˜π(N−1)N+1 = πN1, . . . , ˜πN 2 =
+πNN. We have [7]
+p(θij |θkl ) = 1{i = l}qij,
+k, l, i, j = 1, . . . , N,
+(3)
+which enables us to obtain P directly from Q; see Remark 2 for an example. We can now restate the null hypothesis
+H as: the Markov chain Z = {Zl; l = 1, 2, . . .} is drawn from PL π.
+To quantify the distance between the empirical PL Γn and the actual PL π, one considers the relative entropy
+(or divergence) between Γn and π:
+D(Γn∥π) =
+N
+X
+i=1
+N
+X
+j=1
+Γn(θij) log Γn(θij)/
+  PN
+t=1 Γn(θit)
+
+πij/
+  PN
+t=1 πit
+
+,
+(4)
+August 22, 2017
+DRAFT
+4
+and the empirical measure:
+Un = √n(Γn −π),
+(5)
+where π is deﬁned in (2) and Γn is the vector
+Γn = (Γn(θ11), . . . , Γn(θ1N), . . . , Γn(θN1), . . . , Γn(θNN)).
+Let now Hn be the output of a test that decides to accept or to reject the null hypothesis H based on the ﬁrst n
+observations in the sequence Z. Under Markovian assumptions (Assumption 1 in Sec. IV), the Hoeffding test [7]
+is given by
+Hn rejects H if and only if D(Γn∥π) > η,
+(6)
+where D(Γn∥π) (cf. (4)) is the test statistic and η is a threshold.
+It is known that the Hoeffding test (6) satisﬁes asymptotic Newman-Pearson optimality [1], [4], in the sense that
+it maximizes the exponential decay rate of the misdetection probability over all tests with a false positive probability
+with exponential decay rate larger than η. Thus, an appropriate threshold η should enable the test to have a small
+false positive rate while maintaining a satisfactorily high detection rate.
+The theoretical false positive rate [5] of the test (6) is given by
+β = PH(D(Γn∥π) > η),
+(7)
+where the subscript H indicates that the probability is taken under the null hypothesis.
+Given a tolerable (target) β, by conducting an ROC analysis for the Hoeffding test using labeled training data,
+we could “tune” η such that the corresponding discrete test1 [14] has a small false alarm rate and a high detection
+rate. In particular, we could select an η corresponding to a point close to the northwest corner of the ROC graph.
+However, such tuning is too expensive and depends heavily on the quality and quantity of the training data. We can
+also, in principle, obtain the corresponding η in (7) by directly simulating the samples of the test statistic D(Γn∥π),
+thus deriving an empirical Cumulative Distribution Function (CDF) and using its (1−β)-quantile. However, we will
+note in Remark 5 that this is also computationally too expensive when applied through a so-called “windowing”
+technique for purposes of anomaly detection. Thus, we seek to estimate η without directly simulating the statistic.
+To that end, existing work involves using Sanov’s theorem [7] to derive an estimator for η. Speciﬁcally, for large
+enough n, by replacing the right hand side in (7) by an exponential we can obtain a minimal η that sufﬁces to
+bring the false positive rate below β [1], [4]. Such an η is given by
+ηsv
+n,β ≈−(1/n) log(β),
+(8)
+where we use the n, β subscript to denote the dependence of this estimator on β and n and the label sv indicates
+that it is obtained from Sanov’s theorem. We note that the estimator (8) does not contain any direct distributional
+information of the statistic D(Γn∥π); this might be one of the causes leading to inaccurate estimation of ηn,β,
+especially when the sample size n is relatively small in practice. To see this more clearly, one can consider an
+1A discrete test corresponds to a ﬁxed speciﬁc value for η in (6).
+August 22, 2017
+DRAFT
+5
+extreme scenario where N = 4, β = 10−1000, and n = 50 (this is a reasonably small value; comparable to
+N 2 = 16). Then by (8), ηsv
+n,β would be way bigger than necessary, tending to yield a test with zero false alarm rate
+but also zero detection rate for a typical test set. The issue arises because we use an asymptotic large deviations
+result for a relatively modest value of n. Our primary goal in this paper is to derive an alternative threshold estimator,
+which would hopefully be more accurate than ηsv
+n,β for modest values of n, in terms of a certain metric that we
+will introduce in Sec. V.
+IV. THEORETICAL RESULTS
+We introduce the following assumption.
+Assumption 1 Z = {Zl; l = 1, 2, . . .} is an aperiodic, irreducible, and positive recurrent Markov chain ([15])
+evolving on Θ with transition matrix P, stationary distribution π, and with the same π as its initial distribution.
+Remark 1 Since Θ is a ﬁnite set, under Assumption 1 Z is uniformly ergodic [15]. Assuming π as the initial
+distribution is done for notational simplicity; our results apply for any feasible initial distribution. Note also that,
+under Assumption 1, π must have full support over Θ; i.e., each entry in π is strictly positive.
+Lemma 1 Suppose Assumption 1 holds. Then
+πij
+PN
+t=1 πit
+=
+πij
+PN
+t=1 πti
+= qij,
+i, j = 1, . . . , N.
+(9)
+Proof: See Appendix A.
+Remark 2 Under Assumption 1, Remark 1 and Lemma 1 imply that all entries of Q are strictly positive, indicating
+that any two states of the original chain Y are connected. This is a stringent condition; yet, in practice, if some
+πij in (9) is zero, we can replace it with a small ε > 0, and then normalize the modiﬁed vector π, thus ensuring
+that Assumption 1 is satisﬁed.
+Another reason why we set the zero entries in π to ε > 0 is for convenience of computing the original transition
+matrix Q, hence P, via (9) and (3). If we simply eliminate the corresponding states in Z, then it is possible that the
+number of the remaining states is not the square of some integer N; this would prevent us from easily recovering
+P from π. Consider the following example: Assuming
+Q =
+
+
+0.1
+0.2
+0.7
+0
+0.2
+0.8
+0.6
+0.15
+0.25
+
+,
+August 22, 2017
+DRAFT
+6
+then by (3) we have
+P =
+
+
+0.1
+0.2
+0.7
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.2
+0.8
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.6
+0.15
+0.25
+0.1
+0.2
+0.7
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.2
+0.8
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.6
+0.15
+0.25
+0.1
+0.2
+0.7
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.2
+0.8
+0
+0
+0
+0
+0
+0
+0
+0
+0
+0.6
+0.15
+0.25
+
+
+,
+and, by direct calculation, we obtain π = (0.03, 0.07, 0.23, 0, 0.05, 0.14, 0.3, 0.07, 0.11). Note that only 8 entries
+in π are non-zero and 8 is not the square of some integer N. Thus, if we eliminate the state corresponding to the
+zero entry in π, it will be hard to recover Q, hence P.
+A. Weak Convergence of Empirical Measure
+Let us ﬁrst establish CLT results for one-dimensional empirical measures
+Un,k = √n(Γn(˜θk) −˜πk),
+k = 1, . . . , N 2.
+(10)
+For k ∈{1, . . . , N 2} deﬁne
+fk(Z) = 1{Z = ˜θk}.
+(11)
+Lemma 2 Suppose Assumption 1 holds. Then a Central Limit Theorem (CLT) holds for Un,k; that is, Un,k
+d
+−−−−→
+n→∞
+N(0, σ2
+k) with σ2
+k = Cov(fk(Z1), fk(Z1)) + 2 P∞
+m=1 Cov(fk(Z1), fk(Z1+m)) < ∞.
+Proof: See Appendix B.
+Now we state the CLT [16, Thm. 3.1] for the multidimensional empirical measure Un = (Un,k; k = 1, . . . , N 2)
+as Lemma 3. Several different proofs for this result are available in [16] and the references therein. For completeness,
+we provide a proof that leverages the results from [15], in terms of extending Lemma 2.
+Lemma 3 ([16]) Suppose Assumption 1 holds. Then a multidimensional CLT holds for Un; that is,
+Un
+d
+−−−−→
+n→∞N(0, Λ),
+(12)
+with Λ = [Λij]N2
+i, j=1 being an N 2 × N 2 covariance matrix given by
+Λij = ˜πi(Iij −˜πj) +
+∞
+X
+m=1
+[˜πi(Pm
+ij −˜πj) + ˜πj(Pm
+ji −˜πi)],
+(13)
+where Iij denotes the (i, j)-th entry of the identity matrix, and Pm
+ij (resp., Pm
+ji) is the (i, j)-th (resp., (j, i)-th)
+entry of the matrix Pm (the m-th power of P), i, j = 1, . . . , N 2.
+Proof: See Appendix C.
+August 22, 2017
+DRAFT
+7
+B. Weak Convergence of Test Statistic
+In this section, to derive weak convergence results for the test statistic D(ν∥π), we will leverage a method
+commonly-used by statisticians in terms of combining a Taylor’s series expansion for the test statistic and the CLT
+result for the empirical measure [11]. Recently, under i.i.d. assumptions, such a weak convergence analysis for
+certain test statistics has been conducted in [10], [5].
+To this end, for ν ∈P(Θ) we consider
+h(ν) = D(ν∥π) =
+N
+X
+i=1
+N
+X
+j=1
+νij log
+νij
+PN
+t=1 νit
+πij
+PN
+t=1 πit
+.
+(14)
+Let U ∼N(0, Λ) with Λ given by (13). Now, we are in a position to derive weak convergence results for our test
+statistic D(ν∥π).
+Theorem 1 Suppose Assumption 1 holds. Then we have the following weak convergence results:
+D(Γn∥π)
+d
+−−−−→
+n→∞
+1
+2nU′∇2h(π)U,
+(15)
+D(Γn∥π)
+d
+−−−−→
+n→∞
+1
+2n
+N2
+X
+k=1
+ρkχ2
+1k,
+(16)
+where ∇2h(π) is the Hessian of h(ν) evaluated at ν = π, ρk, k = 1, . . . , N 2, are the eigenvalues of the matrix
+∇2h(π)Λ, and χ2
+1k, k = 1, . . . , N 2, are N 2 independent χ2 random variables with one degree of freedom.
+Proof: Let us ﬁrst compute the gradient of h(ν). Expanding the logarithm and after some algebra which leads
+to cancellations of gradient terms with respect to νij in PN
+t=1 νit, for all i, j = 1, . . . , N, we obtain
+∂h(ν)
+∂νij
+= log νij −log
+ N
+X
+t=1
+νit
+
+−log πij + log
+ N
+X
+t=1
+πit
+
+,
+(17)
+which implies
+∇h(π) = 0.
+(18)
+Further, from (17), we compute the Hessian ∇2h(ν) by
+∂2h(ν)
+∂νij∂νkl
+=
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+0, if k ̸= i,
+1
+νij
+−
+1
+PN
+t=1 νit
+, if k = i and l = j,
+−
+1
+PN
+t=1 νit
+, if k = i and l ̸= j.
+(19)
+Evaluating all the terms in (19) at ν = π yields ∇2h(π), which will play a crucial role in approximating D(Γn∥π).
+It is seen that ∇2h(ν) is continuous in a neighborhood of π, and we can utilize the second-order Taylor’s series
+expansion of h(ν) centered at π to express D(Γn∥π) = h(Γn) −h(π). Speciﬁcally, by (18) and (5) we have
+2nD (Γn ∥π ) = 2n (h (Γn) −h (π))
+= n (Γn −π)′ ∇2h(˜Γn) (Γn −π)
+= U′
+n∇2h(˜Γn)Un,
+(20)
+August 22, 2017
+DRAFT
+8
+where ˜Γn = ξnΓn + (1 −ξn) π is determined with some ξn ∈[0, 1]. From the ergodicity of the chain Z it follows
+Γn
+w.p.1
+−−−−→
+n→∞π, leading to ˜Γn
+w.p.1
+−−−−→
+n→∞π. By the continuity of ∇2h(ν) we obtain
+∇2h(˜Γn)
+w.p.1
+−−−−→
+n→∞∇2h(π).
+(21)
+Applying Slutsky’s theorem [17], by (12), (20), and (21) we attain
+D(Γn∥π) = 1
+2nU′
+n∇2h(˜Γn)Un
+d
+−−−−→
+n→∞
+1
+2nU′∇2h(π)U.
+Finally, by means of a linear transformation [18] on the quadratic form U′∇2h(π)U, we derive the following
+alternative asymptotic result:
+D(Γn∥π) = 1
+2nU′
+n∇2h(˜Γn)Un
+d
+−−−−→
+n→∞
+1
+2n
+N2
+X
+k=1
+ρkχ2
+1k,
+where ρk, k = 1, . . . , N 2, are the eigenvalues of the matrix ∇2h(π)Λ, and χ2
+1k, k = 1, . . . , N 2, are N 2 independent
+χ2 random variables with one degree of freedom.
+C. Threshold Approximation
+We use an empirical Cumulative Distribution Function (CDF) to approximate the actual CDF of D(Γn∥π). In
+particular, it is seen from (15) that D(Γn∥π) ≃(1/(2n))U′∇2h(π)U for large n. Thus, to derive an empirical
+CDF of D(Γn∥π), we can generate a set of Gaussian sample vectors independently according to N(0, Λ) and
+then plug each such sample vector into the right-hand side of (15) (i.e., replace U), thus, obtaining a set of sample
+scalars, as a reliable proxy for samples of D(Γn∥π).
+Once we obtain an empirical CDF of D(Γn∥π), say, denoted Fem(·; n), then, by (7), we can estimate ηn,β as
+ηwc
+n,β ≈F −1
+em (1 −β; n),
+(22)
+where F −1
+em (·; n) is the inverse of Fem(·; n). Note that, the ηwc
+n,β derived by (22) depends on the entries of the PL π.
+In practice, if π is not directly available, we can replace it by the empirical PL evaluated over a long past sample
+path. For such cases, we summarize the procedures of estimating the threshold based on our weak convergence
+analysis as Alg. 1, where ˆπ is a good estimate for π. We note that the length n0 of the past sample path should
+be sufﬁciently large (e.g., n0 ≥500N 2) so as to guarantee the validity of taking π to be ˆπ. In addition, the small
+positive number ε (e.g., ε ≤10−6) introduced in Step 1 is to avoid division by zero, thus ensuring the numerical
+stability of the algorithm. If, on the other hand, the actual PL π is known, then we can still apply Alg. 1 by
+replacing the ˆπ therein with π.
+Similar to (22), we can derive another weak convergence based threshold estimator ¯ηwc
+n,β from (16). However, an
+easy way of calculating ¯ηwc
+n,β (also summarized in Alg. 1) still cannot avoid simulations; it is hard to conclude any
+advantage of ¯ηwc
+n,β over ηwc
+n,β. As a matter of fact, calculating the eigenvalues of ∇2h(π)Λ makes the calculation
+of ¯ηwc
+n,β numerically not as stable, compared to the calculation of ηwc
+n,β via Alg. 1. Other methods for numerically
+obtaining ¯ηwc
+n,β can be found, e.g., in [19] and the references therein. Another fact we should point out is that, in [20,
+p. 30], a slightly different statistic is considered and therefore an even simpler asymptotic distribution can be derived
+correspondingly. Moreover, some other papers, e.g., [21], [22], also considered similar but different statistics.
+August 22, 2017
+DRAFT
+9
+We will illustrate by extensive experiments that our weak convergence analysis can empirically produce more
+accurate estimation of the threshold than Sanov’s theorem for moderate values of n; the price we have to pay,
+however, is a relatively long but still acceptable computation time.
+Algorithm 1 Threshold estimation for the ordinary Hoeffding test under Markovian assumptions based on weak
+convergence analysis.
+Input: The sample size n, the target false positive rate β, the alphabet Θ = {˜θk; k = 1, . . . , N 2}, a sample path
+of the chain Z, denoted Z(0) = {Z
+(0)
+1 , . . . , Z(0)
+n0 }, where n0 is the length, and the Boolean parameter χ2
+enab.
+1: Estimate ˜πk by
+ˆ˜πk = max
+ 1
+n0
+n0
+X
+i=1
+1
+
+Z
+(0)
+i
+= ˜θk
+	
+, ε
+
+, k = 1, . . . , N 2,
+where ε > 0 is a small number.
+2: Estimate π as ˆπ = (ˆ˜πk/ˆs; k = 1, . . . , N 2), where ˆs = PN2
+j=1 ˆ˜πj is a normalizing constant.
+3: Estimate ∇2h(π) as ∇2h(ˆπ), by plugging ˆπ into (19) (i.e., using ˆπ to replace ν).
+4: Estimate P as ˆP, via (cf. (3) and Lemma 1)
+ˆp(θij|θkl) = 1{i = l}ˆqij,
+k, l, i, j = 1, . . . , N,
+where ˆqij = ˆπij/(PN
+t=1 ˆπit).
+5: Estimate Λ as ˆΛ, using (by (13) in Lemma 3)
+ˆΛij = ˆ˜πi(Iij −ˆ˜πj) +
+m0
+X
+m=1
+h
+ˆ˜πi(ˆPm
+ij −ˆ˜πj) + ˆ˜πj(ˆPm
+ji −ˆ˜πi)
+i
+,
+where m0 is a sufﬁciently large integer.
+6: Update ˆΛ by setting ( ˆΛ + ˆΛ′)/2 to ˆΛ.
+7: if χ2
+enab = FALSE then
+8:
+Generate T Gaussian sample vectors ˆU(t), t = 1, . . . , T, according to N(0, ˆΛ).
+9:
+Estimate T samples of D(Γn∥π) as (1/(2n)) ˆU(t)′∇2h(ˆπ) ˆU(t), t = 1, . . . , T (cf. (15)).
+10:
+Based on the T samples obtained in the last step, estimate an empirical CDF of D(Γn∥π), denoted Fem(·; n).
+11:
+Obtain an estimated value for ηn,β by calculating ηwc
+n,β via (22).
+12: else if χ2
+enab = TRUE then
+13:
+Calculate the eigenvalues ˆρk, k = 1, . . . , N 2, of the matrix ∇2h(ˆπ) ˆΛ.
+14:
+Generate T samples of (1/(2n)) PN 2
+k=1 ˆρkχ2
+1k (cf. (16)).
+15:
+Based on the T samples obtained in the last step, estimate an empirical CDF of D(Γn∥π), denoted ¯Fem(·; n).
+16:
+Obtain an estimated value for ηn,β by calculating ¯ηwc
+n,β via (22) with Fem(·; n) replaced by ¯Fem(·; n).
+17: end if
+August 22, 2017
+DRAFT
+10
+Remark 3 In Alg. 1, due to acceptable numerical errors, the originally estimated ˆΛ (Step 5) could be neither
+symmetric nor positive semi-deﬁnite. Symmetry is imposed by Step 6. Further, to ensure positive semi-deﬁniteness
+we can diagonalize ˆΛ as
+ˆΛ = O−1diag(λ1, . . . , λN2)O,
+(23)
+where O is an orthogonal matrix and diag(λ) a diagonal matrix with the elements of λ in the main diagonal. Due
+to numerical errors we might encounter cases where some λi are either negative or too small; we can replace them
+with small positive numbers and recalculate the right-hand side of (23), thus obtaining an updated positive-deﬁnite
+ˆΛ. For implementation details, the reader is referred to [23].
+D. A Robust Hoeffding Test
+Many actual systems exhibit time-varying behavior. In this section, we extend our methodology to accommodate
+such systems and use a set of PLs (instead of a single PL π) to model past system activity.
+Let the null hypothesis H be deﬁned as: Z = {Zl; l = 1, 2, . . .} is drawn according to the set of PLs Π =
+{π(1), . . . , π(L)} ⊂P(Θ), i.e., Z is drawn from one of the PLs in Π but we do not know from which one.
+Consider a robust version of the Hoeffding test [4], [5], [24] under Markovian assumptions:
+Hn rejects H if and only if
+inf
+π∈Π D(Γn∥π) > η.
+(24)
+Essentially, the test selects the most likely PL from Π and uses that to make a decision as in (6). Asymptotic
+Newman-Pearson optimality of this test is shown in [4].
+For l = 1, . . . , L, let P(l) denote the transition matrix corresponding to π(l) and, similar to (2), we write
+π
+(l) = (π
+(l)
+ij ; i, j = 1, . . . , N) = (˜π
+(l)
+k ; k = 1, . . . , N 2).
+Assume Z is drawn from PL π(l) which satisﬁes Assumption 1. Let U(l)
+n = √n(Γn −π(l)). By Lemma 3, we have
+U
+(l)
+n
+d
+−−−−→
+n→∞N(0, Λ
+(l)),
+(25)
+where Λ(l) =
+
+Λ
+(l)
+ij
+N2
+i, j=1 is given by
+Λ
+(l)
+ij
+= ˜π
+(l)
+i (Iij −˜π
+(l)
+j )
++
+∞
+X
+m=1
+[˜π
+(l)
+i (P
+(l)m
+ij
+−˜π
+(l)
+j ) + ˜π
+(l)
+j (P
+(l)m
+ji
+−˜π
+(l)
+i )],
+with P
+(l)m
+ij
+being the (i, j)-th entry of the matrix P(l)m (the m-th power of P(l)). Let U(l) ∼N(0, Λ(l)). Using
+(15) we obtain
+D(Γn∥π
+(l)) ≃1
+2nU
+(l)′∇2h(π
+(l))U
+(l),
+which leads to an approximation for the inﬁmum term in (24):
+inf
+π∈Π D(Γn∥π) ≃
+inf
+l∈{1,...,L}
+1
+2nU
+(l)′∇2h(π
+(l))U
+(l).
+(26)
+August 22, 2017
+DRAFT
+11
+By the right-hand side of (26), we can generate Gaussian samples to compute a reliable proxy for the samples of
+infπ∈Π D(Γn∥π), thereby, obtaining an empirical CDF, denoted F rob
+em (·; n), of infπ∈Π D(Γn∥π). Thus, given a
+target false positive rate β, similar to (22), we can estimate the threshold ηn,β as
+ηwc
+n,β ≈(F rob
+em )−1(1 −β; n),
+(27)
+where (F rob
+em )−1(·; n) denotes the inverse of F rob
+em (·; n). Similar to (16), we can also derive a χ2-type asymptotic
+approximation to the distribution of infπ∈Π D(Γn∥π), thus obtaining another WC-based threshold estimator ¯ηwc
+n,β;
+for economy of space, we omit the details. For the cases where the PLs are not directly available, we summarize
+the calculation of ηwc
+n,β for the robust Hoeffding test as Alg. 2.
+Algorithm 2 Threshold estimation for the robust Hoeffding test under Markovian assumptions based on weak
+convergence analysis.
+Input: The sample size n, the target false positive rate β, the alphabet Θ = {˜θk; k = 1, . . . , N 2}, and a sample
+path of each PL π(l), denoted Z(l0) = {Z
+(l0)
+1
+, . . . , Z(l0)
+n0 }, where n0 is the length, l = 1, . . . , L.
+1: for l = 1, . . . , L do
+2:
+Estimate ˜π
+(l)
+k , k = 1, . . . , N 2, by
+ˆ˜π
+(l)
+k = max
+ 1
+n0
+n0
+X
+i=1
+1{Z
+(l0)
+i
+= ˜θk}, ε
+
+,
+where ε > 0 is a small number.
+3:
+Estimate π(l) as ˆπ(l) = (ˆ˜π
+(l)
+k /ˆs(l); k = 1, . . . , N 2), where ˆs(l) = PN2
+j=1 ˆ˜π
+(l)
+j
+is normalizing constant.
+4:
+Estimate ∇2h(π(l)) as ∇2h(ˆπ(l)), by plugging ˆπ(l) into (19) (i.e., using ˆπ(l) to replace ν).
+5:
+Estimate P(l) as ˆP(l), via (cf. (3) and Lemma 1)
+ˆp
+(l)(θij|θkl) = 1{i = l}ˆq
+(l)
+ij ,
+k, l, i, j = 1, . . . , N,
+where ˆq
+(l)
+ij = ˆπ
+(l)
+ij /(PN
+t=1 ˆπ
+(l)
+it ).
+6:
+Estimate Λ(l) as ˆΛ(l), using (by (13) in Lemma 3)
+ˆΛ
+(l)
+ij =ˆ˜π
+(l)
+i (Iij −ˆ˜π
+(l)
+j ) +
+m0
+X
+m=1
+h
+ˆ˜π
+(l)
+i (ˆP
+(l)m
+ij
+−ˆ˜π
+(l)
+j )
++ ˆ˜π
+(l)
+j (ˆP
+(l)m
+ji
+−ˆ˜π
+(l)
+i )
+i
+,
+where m0 is a sufﬁciently large integer.
+7:
+Update ˆΛ(l) by setting ( ˆΛ(l) + ˆΛ(l)′)/2 to ˆΛ(l).
+8:
+Generate T Gaussian sample vectors ˆU(lt), t = 1, . . . , T, according to N(0, ˆΛ(l)).
+9: end for
+10: Estimate T samples of infπ∈Π D(Γn∥π) as infl∈{1,...,L}(1/2n) ˆU(lt)′∇2h(π(l)) ˆU(lt), t = 1, . . . , T (cf. (26)).
+11: Based on the T samples obtained in the last step, estimate an empirical CDF of infπ∈Π D(Γn∥π), denoted
+F rob
+em (·; n).
+12: Obtain an estimated value for ηn,β by calculating ηwc
+n,β via (27).
+August 22, 2017
+DRAFT
+12
+10
+15
+20
+25
+n (sample size)
+0.0
+0.5
+1.0
+1.5
+η (threshold)
+η∗
+n, β(N)
+ηwc
+n, β(N)
+¯ηwc
+n, β(N)
+ηsv
+n, β(N)
+(a) N = 2.
+30
+40
+50
+60
+70
+80
+90
+100
+n (sample size)
+0.0
+0.2
+0.4
+0.6
+0.8
+η (threshold)
+η∗
+n, β(N)
+ηwc
+n, β(N)
+¯ηwc
+n, β(N)
+ηsv
+n, β(N)
+(b) N = 4.
+80
+100
+120
+140
+160
+180
+200
+220
+n (sample size)
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+0.6
+η (threshold)
+η∗
+n, β(N)
+ηwc
+n, β(N)
+¯ηwc
+n, β(N)
+ηsv
+n, β(N)
+(c) N = 6.
+150
+200
+250
+300
+350
+n (sample size)
+0.0
+0.1
+0.2
+0.3
+0.4
+0.5
+η (threshold)
+η∗
+n, β(N)
+ηwc
+n, β(N)
+¯ηwc
+n, β(N)
+ηsv
+n, β(N)
+(d) N = 8.
+Fig. 1: Threshold versus sample size; scenarios corresponding to β = 0.001, N = 2, 4, 6, 8.
+V. EXPERIMENTAL RESULTS
+In this section, we assess the accuracy of our threshold estimator and the performance of the anomaly detection
+procedure. We start with a numerical evaluation of the threshold’s accuracy and then perform anomaly detection in
+two application settings using simulated and actual data.
+A. Numerical Results for Threshold Approximation
+In this subsection, for simplicity we consider the ordinary (and not the robust) Hoeffding test. We have developed
+a software package TAM [23] to perform the experiments. We will use Θ = {1, 2, . . . , N 2} to indicate the states
+and assume the stationary distribution π to also be the initial distribution.
+In the following numerical examples, we ﬁrst randomly create a valid (i.e., such that Assumption 1 holds) N ×N
+transition matrix Q, giving rise to an N 2 × N 2 transition matrix P, and then generate T test sample paths of the
+chain Z, each with length n, denoted Z(t) = {Z
+(t)
+1 , . . . , Z(t)
+n }, t = 1, . . . , T. We use these samples to derive empirical
+CDF’s. To simulate the case where the PL π is not directly available, we generate one more independent reference
+sample path Z(0) = {Z
+(0)
+1 , . . . , Z(0)
+n0 } of length n0 ≫|Θ| = N 2, thus enabling us to obtain a good estimate of π.
+Note that we do not rely on the test sample paths to estimate the PL π. The ground truth π is computed by taking
+any row of Pm0 for some sufﬁciently large m0.
+Having the ground truth PL π at hand, with the test sample paths Z(t) = {Z
+(t)
+1 , . . . , Z(t)
+n }, t = 1, . . . , T, we can
+compute T samples of the scalar random variable D(Γn∥π), by (4). Using these samples, we obtain an empirical
+CDF of D(Γn∥π), denoted F(·; n), which can be treated as a dependable proxy of the actual one. The threshold
+given by (22) with Fem(·; n) replaced by F(·; n) is then taken as a reliable proxy of ηn,β. We denote this proxy
+by η∗
+n,β. To emphasize the dependence on N, we write ηn,β (resp., η∗
+n,β) as ηn,β(N) (resp., η∗
+n,β(N)). Next, using
+the reference sample path Z(0) and applying Alg. 1, we obtain ηwc
+n,β(N) and ¯ηwc
+n,β(N).
+Let the target false positive rate be β = 0.001. Consider four different scenarios where N is 2, 4, 6, and 8,
+respectively. Set ε = 10−10, T = 1000, m0 = 1000, and n0 = 1000N 2. Here we note that, in all our experiments,
+August 22, 2017
+DRAFT
+13
+an estimate ˆπ for π with ∥ˆπ −π∥≤10−6 can be obtained by executing Alg. 1 with parameters n0 ≥500N 2 and
+ε ≤10−8. In Figs. 1a through 1d, the red line plots η∗
+n,β(N), the blue line ηwc
+n,β(N), the magenta line ¯ηwc
+n,β(N),
+and the green line ηsv
+n,β(N) (cf. (8)), all as a function of the sample size n. Setting sample sizes n reasonably small
+(n should at least be comparable to N 2), it can be seen that ηwc
+n,β(N) and ¯ηwc
+n,β(N) are more accurate than ηsv
+n,β,
+except for the case N = 2 where all estimators perform approximately equally well. In particular, as N increases,
+the estimation errors of ηwc
+n,β(N) and ¯ηwc
+n,β(N) are consistently close to zero, while the approximation error of ηsv
+n,β
+increases signiﬁcantly. Moreover, for the scenarios N = 6, 8, ηwc
+n,β(N) and ¯ηwc
+n,β(N) are very close.
+10
+15
+20
+25
+n
+0.0
+0.2
+0.4
+0.6
+0.8
+d(ˆη, η∗; n, β, N, K)
+β = 0. 001, N = 2, K = 200
+ˆη = ηsv
+ˆη = ηwc
+ˆη = ¯ηwc
+(a)
+30
+40
+50
+60
+70
+80
+90
+100
+n
+0.00
+0.02
+0.04
+0.06
+0.08
+d(ˆη, η∗; n, β, N, K)
+β = 0. 001, N = 4, K = 200
+ˆη = ηsv
+ˆη = ηwc
+ˆη = ¯ηwc
+(b)
+80
+100
+120
+140
+160
+180
+200
+220
+n
+0.00
+0.02
+0.04
+0.06
+0.08
+0.10
+d(ˆη, η∗; n, β, N, K)
+β = 0. 001, N = 6, K = 200
+ˆη = ηsv
+ˆη = ηwc
+ˆη = ¯ηwc
+(c)
+150
+200
+250
+300
+350
+n
+0.00
+0.02
+0.04
+0.06
+0.08
+0.10
+d(ˆη, η∗; n, β, N, K)
+β = 0. 001, N = 8, K = 200
+ˆη = ηsv
+ˆη = ηwc
+ˆη = ¯ηwc
+(d)
+Fig. 2: Evaluation of average squared estimation errors for different types of threshold estimators.
+Remark 4 In Figs. 1a-1d, the red line representing the “actual” value η∗
+n,β is not smooth; this is because each time
+when varying the sample size n, we regenerate all the sample paths Z(t) = {Z
+(t)
+1 , . . . , Z(t)
+n }, t = 1, . . . , T from
+scratch. On the other hand, the blue (resp., magenta) line corresponding to ηwc
+n,β (resp., ¯ηwc
+n,β) is smooth because we
+only need to generate the T Gaussian (resp., χ2-type) sample vectors once. In our experiments, most of the running
+time is spent generating the sample paths Z(t) and calculating η∗
+n,β therefrom. In practice, we will neither generate
+such samples nor calculate η∗
+n,β, and only need to focus on obtaining ηwc
+n,β or ¯ηwc
+n,β, which is computationally not
+expensive.
+Remark 5 Theoretically speaking, we could use the “actual” threshold η∗
+n,β as obtained above, but it is of little
+practical value; the reason is that in statistical anomaly detection applications, we are typically faced with a long
+series of observations and want to use a so-called windowing technique (see Sec. V-C), which divides the observations
+into a sequence of detection windows with the same time length. The sample sizes n in different windows may
+not necessarily be equal, leading to different threshold settings when sliding the windows. If we use the simulated
+“actual” threshold, then, when varying the detection windows, we will need to regenerate the corresponding samples
+(for threshold estimation purposes) from scratch, which is computationally too expensive, especially when there are
+many detection windows. In contrast, to compute our estimator ηwc
+n,β (resp., ¯ηwc
+n,β), we only need to generate one
+August 22, 2017
+DRAFT
+14
+set of Gaussian (resp., χ2-type) sample vectors (cf. Remark 4), which can be shared by all the detection windows,
+thus, saving a lot of computation time. To see this more clearly, let us denote by τ1 the average running time for
+generating a set of samples with T (T = 1000 is empirically a good choice) Gaussian (resp., χ2-type) vectors
+according to (15) (resp., (16)), and τ2 the average running time for calculating a threshold via (22) given the
+corresponding sample vectors required to derive the empirical CDF. Clearly, we have τ1 ≫τ2 > 0. Assume we
+have W detection windows. Then, if we directly simulate the statistic so as to estimate the threshold for each and
+every detection window, the total running time would be c1Wτ1 + c2Wτ2 = (c1τ1 + c2τ2)W, where c1, c2 > 0 are
+two scaling constants satisfying c1τ1 ≫c2τ2. On the other hand, by simulating Gaussian (resp., χ2-type) samples,
+the total running time required to estimate all the thresholds for the W detection windows would be c3τ1 +c4τ2W,
+where c3, c4 > 0 are two scaling constants satisfying c4 ≈c2, leading to 0 < c4τ2 ≪c1τ1 + c2τ2. Thus, for large
+W we have c3τ1 + c4τ2W ≪(c1τ1 + c2τ2)W.
+To further investigate the performance of different classes of threshold estimators, we now take the randomness
+of the transition matrix P into account and deﬁne a simulation-based metric d (ˆη, η∗; n, β, N, K) to quantify the
+average squared empirical estimation error, speciﬁed as follows:
+d (ˆη, η∗; n, β, N, K) = 1
+K
+K
+X
+k=1
+
+ˆη
+(k)
+n,β (N) −η
+∗(k)
+n,β (N)
+2
+.
+(28)
+Recall that N is a parameter representing the number of states in the original chain Y. We denote by ˆη the
+threshold estimator class (could be ηsv, ηwc, or ¯ηwc), and by η∗a proxy of the actual threshold class (derived by
+directly simulating the samples of the test statistic). Denote by K the number of independent repetitions of the
+calculation for (ˆη
+(k)
+n,β(N) −η
+∗(k)
+n,β (N))2, where ˆη
+(k)
+n,β(N) (resp., η
+∗(k)
+n,β (N)) denotes the class ˆη (resp., η∗) instantiated
+under parameters n, β, N, and k ∈{1, . . . , K}.
+Setting β = 0.001, K = 200, N ∈{2, 4, 6, 8}, and n ∈
+
+¯n = 2N 2 + i ×
+
+0.2N 2 + 1
+
+: ¯n < 6N 2 + 5, i ∈N+
+	
+,
+we evaluate d (ˆη, η∗; n, β, N, K). The results are shown in Fig. 2. Several observations can be made from Figs.
+2a-2d: (i) Except for the case N = 2, both ηwc and ¯ηwc outperform ηsv, that is, d (ηwc, η∗; n, β, N, K) <
+d (ηsv, η∗; n, β, N, K) and d (¯ηwc, η∗; n, β, N, K) < d (ηsv, η∗; n, β, N, K). (ii) For the cases N = 6, 8, ηwc and ¯ηwc
+perform almost equally well, with both d (ηwc, η∗; n, β, N, K) and d (¯ηwc, η∗; n, β, N, K) being very close to zero
+and, for the cases N = 2, 4, ηwc outperforms ¯ηwc, i.e., d (ηwc, η∗; n, β, N, K) < d (¯ηwc, η∗; n, β, N, K). (iii) Only
+for the case N = 2, ηsv performs the best among the three estimators and, ηwc performs approximately equally
+well with ηsv in this case. More extensive comparison results can be derived using TAM [23]. We may empirically
+conclude that, ηwc performs consistently the best among the three for almost all scenarios that we have considered
+and, on the other hand, ηsv performs unsatisfactorily when N > 2, and ¯ηwc is numerically not as stable as ηwc,
+especially for the cases where N ≤4.
+B. ROC Analysis for the Hoeffding Test with Different Threshold Estimators
+In this subsection, for simplicity and economy of space, we again only consider the ordinary (and not the robust)
+Hoeffding test. We note here that similar results can be derived for the robust Hoeffding test. The numerical
+experiments are conducted using the software package ROM [25].
+August 22, 2017
+DRAFT
+15
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+FPR
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+TPR
+N = 4, n = 50
+HTSV
+HTWC-1
+HTWC-2
+(a)
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+FPR
+0.0
+0.2
+0.4
+0.6
+0.8
+1.0
+TPR
+N = 6, n = 100
+HTSV
+HTWC-1
+HTWC-2
+(b)
+Fig. 3: Results from ROC analysis of the ordinary Hoeffding test.
+TABLE I: ROC points vs. target FPR (N = 4, n = 50).
+target FPR β
+HTWC-1
+HTWC-2
+HTSV
+FPR
+TPR
+FPR
+TPR
+FPR
+TPR
+0.001
+0.002
+0.885
+0.0
+0.816
+0.402
+0.999
+0.01
+0.011
+0.965
+0.002
+0.888
+0.752
+1.0
+0.02
+0.018
+0.983
+0.003
+0.943
+0.844
+1.0
+0.03
+0.025
+0.99
+0.01
+0.96
+0.898
+1.0
+0.04
+0.038
+0.99
+0.018
+0.971
+0.927
+1.0
+0.05
+0.047
+0.991
+0.029
+0.981
+0.945
+1.0
+Let Θ = {1, 2, . . . , N 2} containing N 2 states. For a given sample size n and a given target false positive rate
+(FPR) β, the three thresholds ηwc
+n,β, ¯ηwc
+n,β, and ηsv
+n,β, respectively, give rise to three different discrete tests (denote
+them by “HTWC-1,” “HTWC-2,” and “HTSV,” respectively). To compare their performances, we will conduct the
+Receiver Operating Characteristic (ROC) [14] analysis (detection rate vs. false alarm rate) using simulated data.
+Similar to what we have done in Sec. V-A, we ﬁrst randomly create a valid N × N transition matrix Q, hence
+an N 2 × N 2 transition matrix P, and then generate T sample paths of the chain Z, each with length n, denoted
+Z(t) = {Z
+(t)
+1 , . . . , Z(t)
+n }, t = 1, . . . , T. From P we derive the PL π. Next, to simulate anomalies, we create another
+valid N × N transition matrix ¯Q, hence an N 2 × N 2 transition matrix ¯P, and generate T sample paths of the
+corresponding chain ¯Z, each with length n, denoted ¯Z(t) = { ¯Z
+(t)
+1 , . . . , ¯Z(t)
+n }, t = 1, . . . , T. Label each sample path of
+TABLE II: ROC points vs. target FPR (N = 6, n = 100).
+target FPR β
+HTWC-1
+HTWC-2
+HTSV
+FPR
+TPR
+FPR
+TPR
+FPR
+TPR
+0.001
+0.001
+1.0
+0.0
+1.0
+0.997
+1.0
+0.01
+0.008
+1.0
+0.003
+1.0
+1.0
+1.0
+0.02
+0.017
+1.0
+0.005
+1.0
+1.0
+1.0
+0.03
+0.028
+1.0
+0.017
+1.0
+1.0
+1.0
+0.04
+0.037
+1.0
+0.017
+1.0
+1.0
+1.0
+0.05
+0.055
+1.0
+0.019
+1.0
+1.0
+1.0
+August 22, 2017
+DRAFT
+16
+¯Z (resp., Z) with length n as “positive” (resp., “negative”). Then, {Z(t) : t ∈{1, . . . , T}}∪{¯Z(t) : t ∈{1, . . . , T}}
+will be our test set, which contains T negative (Z(t)) and T positive (¯Z(t)) sample paths.
+Now, by executing Alg. 1 without estimating π (since the ground truth is available), we obtain ηwc
+n,β and ¯ηwc
+n,β.
+Also, by (8) we obtain ηsv
+n,β. For each sample path in the test set, we compute D(Γn∥π) by (4). Next, using
+ηwc
+n,β (resp., ¯ηwc
+n,β, ηsv
+n,β), we can apply HTWC-1 (resp., HTWC-2, HTSV) to detect each sample path as positive
+or negative. Then, we integrate these reports with the ground truth labels so as to calculate the true positive rate
+(TPR) and FPR, thereby, obtaining a point of the ROC space.
+In our experiments, we take T = 1000. Fig. 3a (resp., 3b) shows the ROC graphs of HTWC-1, HTWC-2, and
+HTSV for a scenario corresponding to N = 4, n = 50 (resp., N = 6, n = 100); different points on the graph are
+obtained by β taking values from a predesignated ﬁnite set {0.001} ∪{0.01, 0.02, . . . , 0.19}. It is seen from Fig.
+3a (or Fig. 3b) that all TPR values are very close to 1, which is good, but for most cases (each case corresponds
+to a speciﬁc “small” target FPR β) HTWC-1 and HTWC-2 have much closer FPR values to the target FPR value
+than HTSV, meaning HTWC-1 and HTWC-2 are able to control for false alarms better than HTSV. To see this
+more clearly, we show a few speciﬁc values of the (TPR, FPR) pair in Tables I and II. It is worth noting that in the
+N = 6 scenario, HTSV is almost a random guess for all the target FPR cases that are considered. More extensive
+experiments show that, as N increases, the performance of HTSV gets worse and worse; in particular, when N ≥6,
+HTSV is very likely merely a random guess yielding an ROC point close to (1, 1). During our experiments, another
+observation is that, for each ﬁxed N and β, when n increases, all HTWC-1, HTWC-2, and HTSV perform better
+and better; this is because with larger sample sizes, all the three estimators ηwc
+n,β, ¯ηwc
+n,β, and ηsv
+n,β approximate the
+actual ηn,β better. We therefore conclude that HTWC-1 (or HTWC-2) typically outperforms HTSV in the sense
+that the former has a better capability of controlling the false alarm rate (i.e., FPR) while maintaining a satisfactory
+detection rate (i.e., TPR).
+Remark 6 A natural concern about the ROC analysis above might be the setting of the target FPR (β) values;
+one may ask: How about always setting β to a “very small” value, say, 10−10, 10−100, or even 10−1000? We have
+actually already discussed this partly in Sec. III. Setting a too small β would typically lead to an unsatisfactory
+detection rate (TPR). In addition, note that ηwc
+n,β (or ¯ηwc
+n,β) is numerically obtained from an empirical CDF, say, G(x),
+of some scalar random variable; we have G(x) nondecreasing, and limx→+∞G (x) = 1, implying that ﬁnding an
+“accurate” x such that G(x) = 1 −β would be hard for a too small β ∈(0, 1). An empirically “good” choice of β
+is 0.001 (see Tabs. I and II), which is what we use in our applications. Because HTWC-1 and HTWC-2 perform
+almost equally well in our experiments, but HTWC-1 is more stable and less computationally demanding, we will
+only apply HTWC-1 in the following.
+C. Simulation Results for Network Anomaly Detection
+In this subsection we test our approach in a communication network trafﬁc anomaly detection application. We
+will use the term trafﬁc and ﬂow interchangeably. We perform the simulations using the software package SADIT
+August 22, 2017
+DRAFT
+17
+Fig. 4: Simulation setting (from [4]).
+0
+1000
+2000
+3000
+4000
+5000
+6000
+7000
+time (s)
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+divergence
+(a) Sanov
+0
+1000
+2000
+3000
+4000
+5000
+6000
+7000
+time (s)
+0.00
+0.05
+0.10
+0.15
+0.20
+0.25
+0.30
+divergence
+(b) WC
+Fig. 5: Detection results for Scenario V-C-1 with wd = 50 s, ws = 200 s, k = 2, n1 = 1, n2 = 2, n3 = 2; (a)
+threshold is estimated by use of Sanov’s theorem; (b) threshold is estimated by use of the weak convergence result.
+[8], which, based on the fs-simulator [26], is capable of efﬁciently generating ﬂow-level network trafﬁc datasets
+with annotated anomalies.
+As shown in Fig. 4, the simulated network consists of an internal network involving eight normal users (CT1-
+CT8), a server (SRV) that stores sensitive information, and three Internet nodes (INT1-INT3) that connect to the
+internal network via a gateway (GATEWAY).
+As in [4, Sec. III.A], to characterize the statistical properties of the ﬂow data, we use as features the ﬂow duration
+and size (bits). We also cluster the source/destination IP addresses and use as features for each ﬂow the assigned
+cluster ID and the distance of the ﬂow’s IP from the cluster center. For each feature, we quantize its values into
+discrete symbols so as to obtain a ﬁnite alphabet Ξ, hence Θ, for our model. Based on the time stamps (the start
+times) of the ﬂows, we divide the ﬂow data into a series of detection windows, each of which contains a set of
+ﬂow observations (see [4] for details).
+To implement our anomaly detection approach, we ﬁrst estimate a PL π (resp., a PL set Π) from the stationary
+(resp., time-varying) normal trafﬁc. Note that, for either case, the reference data should be anomaly-free ideally.
+However, in our experiments, for the stationary case we use as reference trafﬁc the entire ﬂow sequence with
+anomalies injected at some time interval; this makes sense because the size of a typical detection window is much
+smaller than that of the whole ﬂow sequence and the fraction of anomalies is indeed very small, leading to an
+estimation for the PL with acceptable accuracy. On the other hand, for the time-varying case we generate the
+reference trafﬁc without anomalies and the test trafﬁc with anomalies separately, sharing all the parameter settings
+in the statistical model used in SADIT except the ones for introducing anomalies. Note that, estimating a PL for
+August 22, 2017
+DRAFT
+18
+the stationary trafﬁc is relatively easy, while, for the time-varying trafﬁc, we need to make an effort to estimate
+several different PLs corresponding to certain periods of the day. We apply the two-step procedure proposed in [4];
+that is, we ﬁrst generate a relatively large PL set and then reﬁne the candidate PLs therein by solving a weighted
+set cover problem. Note also that, if we already know the periodic system activity pattern, then we can directly
+estimate the PL set period by period; see another anomaly detection application in Sec. V-D for example.
+Now, having the reference PL (resp., PL set) at hand, we persistently monitor the test trafﬁc and report an
+anomaly instantly as long as the relative entropy D(Γn∥π) (resp., infπ∈Π D(Γn∥π)) exceeds the threshold ηwc
+n,β
+for the current detection window, where n is the number of ﬂow samples within the window. It is worth pointing
+out that, for the current application, we will not seek to identify which ﬂows belonging to an abnormal detection
+window contribute mostly to causing the anomaly, but, in some other applications, e.g., the one in Sec. V-D, we
+will do so.
+In the following, we consider two scenarios – one for stationary trafﬁc and the other for time-varying trafﬁc.
+1) Stationary Network Trafﬁc – Scenario V-C-1: We mimic anomalies caused by a large ﬁle download [3, Sec.
+IV.A.2]. The simulation time is 7000 s. A user increases its mean ﬂow size to 10 times the usual value between
+1000 s and 1500 s. The interval between the starting points of two consecutive time windows is taken as wd = 50
+s, the window-size is set to ws = 200 s, and the target false positive rate is set to β = 0.001. The number of user
+clusters is k = 2 and the quantization level for ﬂow duration, ﬂow size, and distance to cluster center is set to
+n1 = 1, n2 = 2, and n3 = 2, respectively. Thus, the original chain has N = 2 × 1 × 2 × 2 = 8 states, and we have
+N 2 = 64 states in the transformed chain.
+The detection results are shown in Figs. 5a and 5b, both of which depict the relative entropy (divergence) metric
+deﬁned in (4). The green dashed line in Fig. 5a is the threshold estimated using Sanov’s theorem (i.e., ηsv
+n,β given
+by (8), where n is the sample size in each speciﬁc detection window). The green dashed line in Fig. 5b is the
+threshold given by our estimator (i.e., ηwc
+n,β computed by Alg. 1). The interval during which the divergence curve is
+above the threshold line (the red segment) corresponds to the time instances reported as abnormal. Fig. 5a shows
+that, if ηsv
+n,β is used as the threshold, then the Hoeffding test reports too many false alarms, and, Fig. 5b shows that,
+if, instead, we use ηwc
+n,β as the threshold, then the Hoeffding test does not report any false alarm while successfully
+identifying the true anomalies between 1000 s and 1500 s.
+2) Time-Varying Network Trafﬁc – Scenario V-C-2: Consider the case where the network in Fig. 4 is simulated
+with a day-night trafﬁc pattern in which the ﬂow size follows a log-normal distribution. We use precisely the same
+scenario as that in [4, Sec. IV.B.2]. The ground truth anomaly (consider an anomaly where node CT2 increases its
+mean ﬂow size by 30%) is injected beginning at 59 h and lasting for 80 minutes.
+Using the two-step procedure proposed in [4, Sec. III.C], we ﬁrst obtain 32 rough PL candidates. Then, using the
+PL reﬁnement algorithm given in [4, Sec. III.D] equipped with the cross-entropy threshold parameter λ = 0.028,
+which is determined by applying Alg. 2, we ﬁnally obtain 6 PLs, being active during morning, afternoon, evening,
+mid-night, dawn, and the transition time around sunrise, respectively. Note that, since we have obtained the PL set
+in a different way, in the following, when applying Alg. 2 for each detection window, we can skip the ﬁrst two
+steps (lines 2 and 3). In the subsequent detection procedure, the chief difference between our method and the one
+August 22, 2017
+DRAFT
+19
+0
+20
+40
+60
+80
+100
+120
+140
+160
+time (h)
+0.00
+0.02
+0.04
+0.06
+0.08
+0.10
+0.12
+0.14
+0.16
+divergence
+Fig. 6: Detection result for Scenario V-C-2 with wd = 1000 s, ws = 1000 s, k = 1, n1 = 1, n2 = 4, n3 = 1.
+used in [4] is that we no longer set the threshold universally as a constant; instead, we calculate the threshold ηwc
+n,β
+for each detection window using Alg. 2. Set k = 1, n1 = 1, n2 = 4, and n3 = 1. Thus, the original chain has
+N = 1 × 1 × 4 × 1 = 4 states, and we have N 2 = 16 states in the transformed chain for this case. Take wd = 1000
+s, ws = 1000 s, and β = 0.001. We see from Fig. 6 that the anomaly is successfully detected, without any false
+alarms.
+D. Anomaly Detection for Waze Jams
+1) Dataset Description: The Waze datasets under investigation are kindly provided to us by the Department of
+Innovation and Technology (DoIT) in the City of Boston. The datasets include three parts: the jam data J1 (trafﬁc
+slowdown information generated by Waze based on users’ location and speed; note that each jam consists of a set
+of points), the corresponding point data J2 (latitudes and longitudes of the points within jams), and the alert data
+J3 (trafﬁc incidents reported by active users; we will call such a user a “Wazer”). For each part, we only list the
+features that we have used in our algorithms. In particular, each entry (jam) in J1 has the following ﬁelds: uuid
+(unique jam ID), start time, end time, speed (current average speed on jammed segments in meters per second),
+delay (delay caused by the jam compared to free ﬂow speed, in seconds), and length (jam length in meters). The
+information for each entry in J2 includes a jam uuid and the locations (latitudes and longitudes) of the points
+within the jam. The ﬁelds of each entry in J3 include: uuid (unique system ID; this is different from the jam ID
+in J1), location (latitude and longitude per report), type (event type; e.g., accident, weather hazard, road closed,
+etc.), start time, and end time. It is seen that, by combing J1 and J2, we can denote each jam in J1 as
+(i, uuid[i], loc[i], speed[i], delay[i], length[i], startTime[i]),
+where i is the index, uuid is the unique jam ID, “loc” (resp., “startTime”) is the abbreviation for location (resp.,
+start time). Because we are only interested in detecting the abnormal jams in real-time, we will not use the jam
+end times.
+2) Anomaly Description: Typically we can observe lots of jams in certain areas during rush hour, e.g., the
+AM/PM peaks, and most of them are “normal” except those with extremely atypical features (delay, length, etc.).
+On the other hand, if a jam was observed outside of rush hours or typical areas, then it would likely be “abnormal.”
+3) Description of the Experiments: Treating Waze jams as a counterpart of the network ﬂows in Sec. V-C, we
+implement the robust Hoeffding test on the quantized jam data in the following experiments.
+Consider an area around the Boston University (BU) bridge, whose location is speciﬁed by latitude and longitude
+(42.351848, −71.110730) (see the green marker in Fig. 7). Extract the jam data no farther than 3 kilometers from
+August 22, 2017
+DRAFT
+20
+Fig. 7: Location cluster centers and detected abnormal jams for a circle area around Boston University.
+BU (within the circle in Fig. 7). Note that it is possible for Waze to report several jams at the same time. To assign
+each jam a unique time stamp, we slightly perturb the start time of the jams that share the same time stamp in the
+raw data. Such slight adjustments would not alter the original data signiﬁcantly.
+Reference (resp., test) data are taken as jams reported on March 9, 2016 (resp., March 16, 2016). Both dates
+are Wednesdays, representing typical workdays. There are 3218 jams in the reference data, and 3882 jams in the
+test data. Note that we have historical data for a relatively long time period (compared to the test data within a
+detection window); including all the jams reported within the selected reference time period would not hurt the
+accuracy of the PLs (anomaly-free ideally) to be estimated.
+The features that we use for anomaly detection are location, speed, delay, and length. The time stamp of a jam
+is taken as its start time. To quantize the location, we need to deﬁne the distance between two jams. For any valid
+index i, denote the complete location data of jam i by
+c
+loc[i] = {(xi,1, yi,1), . . . , (xi,in, yi,in)},
+(29)
+where x’s and y’s denote the latitudes and longitudes, respectively, and in is the number of points in jam i (typically,
+in is greater than 4). Noting that most of the jams are approximately linear in shape, we simplify (29) by using
+the 4 vertices of the “smallest” rectangle that covers all the points in the jam and update (29) by
+loc[i] = {(xi,min, yi,min), (xi,min, yi,max),
+(xi,max, yi,min), (xi,max, yi,max)},
+(30)
+where xi,min = min{xi,1, . . . , xi,in}, xi,max = max{xi,1, . . . , xi,in}, yi,min = min{yi,1, . . . , yi,in}, and yi,max =
+max{yi,1, . . . , yi,in}. Note that loc[i] in (30) only contains 4 points. Denote the point-to-point distance (in meters)
+yielded by Vincenty’s formula [27] as dV (·, ·). Then, for any pair of jams, say, indexed i and j, we deﬁne the
+distance between them as
+min{dV (z1, z2); ∀z1 ∈loc[i], z2 ∈loc[j]}.
+Using the distance deﬁned above and setting the quantization level for “location” as 3, we apply the commonly
+used K-means clustering method [28], thus obtaining 3 cluster centers as depicted in Fig. 7 (note that, by (30) each
+cluster center is represented by 4 red markers).
+August 22, 2017
+DRAFT
+21
+TABLE III: Key features of the detected abnormal jams.
+index
+start time
+detected time
+latitude
+longitude
+delay (in seconds)
+length (in meters)
+alert type
+788
+12:25:0.302
+12:30:0.0
+42.361951
+-71.117963
+232.0
+3568.0
+heavy trafﬁc
+1502
+15:35:0.072
+15:40:0.0
+42.356275
+-71.119852
+585.0
+844.0
+heavy trafﬁc
+2412
+19:25:0.365
+19:30:0.0
+42.342549
+-71.085011
+643.0
+3568.0
+heavy trafﬁc
+3005
+21:25:0.238
+21:30:0.0
+42.349125
+-71.10778
+168.0
+1962.0
+weather hazard
+3094
+21:35:0.267
+21:40:0.0
+42.373336
+-71.097731
+509.0
+897.0
+road closed
+3126
+21:35:0.326
+21:40:0.0
+42.355048
+-71.110335
+528.0
+1293.0
+heavy trafﬁc
+0
+200
+400
+600
+800
+1000
+1200
+1400
+time (min)
+0
+2
+4
+6
+8
+divergence
+(a) delay
+0
+200
+400
+600
+800
+1000
+1200
+1400
+time (min)
+0
+2
+4
+6
+8
+10
+divergence
+(b) length
+Fig. 8: Initial detection results for Waze jams.
+In all our experiments, we take the quantization level to be 1 for “speed,” and set the target false alarm rate as
+β = 0.001. The window size is taken as ws = 10 minutes, and the distance between two consecutive windows is
+wd = 5 minutes. To estimate the PLs, we divide a whole day into 4 subintervals: 5:00-10:00 (AM), 10:00-15:00
+(MD), 15:00-19:00 (PM), and 19:00-5:00 (NT). So, for each scenario we end up with 4 PLs, corresponding to
+the AM peak, the middle day, the PM peak, and the night, respectively. To calculate the threshold ηwc
+n,β for each
+detection window, we use Alg. 2.
+4) Detection Results: First, let the quantization level for “delay” be 2 and for “length” be 1. The original sample
+path has N = 3 × 1 × 2 × 1 = 6 states. Thus, we have N 2 = 36 states in the transformed chain. We use
+relatively sparse quantization levels for “delay” and “length” to avoid unnecessary computational overhead in the
+quantization subroutine for the jam location data. After running our algorithm in the initial step, 910 out of 3882
+jams are reported within abnormal detection windows, which correspond to the red segments in Fig. 8a. We then
+perform a reﬁnement procedure by selecting jams in these windows with non-typical individual features as follows.
+For each selected feature, we calculate the sample mean µ and sample standard deviation σ using the reference
+data. We then label as anomalous any jam with feature value exceeding µ+3σ. We ﬁrst consider the delay feature.
+Using the 3σ-rule on delay, we obtain an anomaly list L1 containing 4 jams.
+Second, let the quantization level for “delay” be 1 and for “length” be 2. Then, again, the original sample path has
+N = 3 × 1 × 1 × 2 = 6 states, and we have N 2 = 36 states in the transformed chain. After rerunning the algorithm
+in the initial step, 590 out of 3882 jams are reported within abnormal detection windows, which correspond to
+the red segments in Fig. 8b, and, after reﬁning by use of the 3σ-rule on the feature “length”, we end up with an
+anomaly list L2 containing 2 jams.
+Finally, we take L = L1 ∪L2 as our ultimate anomaly list, which contains 6 jams in total. By checking the
+August 22, 2017
+DRAFT
+22
+time stamps and the alarm instances, we see that all of these 6 jams would be reported as abnormal by our method
+within 5 minutes from their start time; this is satisfactory in a real-time trafﬁc jam anomaly detection application.
+Note that we can tune wd and ws such that the detection becomes even faster while maintaining good accuracy
+in identifying anomalies. Speciﬁcally, smaller wd leads to faster detection while ws should be reasonably big (the
+number of jams in a window should at least be comparable to N 2). By comparing the locations and time stamps,
+we map the jams in the ﬁnal anomaly list to the alert data J3, and ﬁnd that one of them was reported by Wazers
+as “road closed,” another as “weather hazard,” and all the others as “jam heavy trafﬁc.” In addition, all of them
+occurred during non-peak hours. We list the key features of these abnormal jams in Tab. III, where the atypical
+values of the features “delay” and “length” have been highlighted in bold red. It is worth pointing out that jam 2412
+is reported as abnormal based on “delay,” but its length (highlighted in bold magenta) is also above the threshold
+for reﬁning the detection results based on “length.” Note also that the latitude and longitude in each row of Tab.
+III represent the closest location of the Wazer who reported the alert for the corresponding jam (extracted from the
+alert data J3); the shapes of the actual jams have been visualized as colored bold curves in Fig. 7. While in this
+application we do not have ground truth, it is reassuring that the jams we identify as anomalous have indeed been
+reported as non-typical by Wazers. Clearly, depending on how such a detection scheme will be used by a City’s
+transportation department, our approach provides ﬂexibility in setting thresholds to adjust the volume of reported
+anomalous jams. This volume will largely depend on the resources that City personnel have to further investigate
+anomalous jams (e.g., using cameras) and intervene.
+Remark 7 If we directly apply the 3σ-rule on the whole test data without implementing the Hoeffding test to
+obtain a potential anomaly list ﬁrst, then we would very likely end up with too many anomalies, which might
+include undesirable false alarms. Indeed, when we apply the 3σ-rule on the whole test data for “delay” (resp.,
+“length”), we obtain 38 (resp., 62) “anomalies,” which are much more than those in our ﬁnal anomaly list (6 only).
+Thus, including the well-validated Hoeffding test in our method ensures a good control of false alarms.
+VI. CONCLUSIONS AND FUTURE WORK
+We have established weak convergence results for the relative entropy in the Hoeffding test under Markovian
+assumptions, which enables us to obtain a tighter estimator (compared to the existing estimator based on Sanov’s
+theorem) for the threshold needed by the test. We have demonstrated good performance of our estimator by
+applying the Hoeffding test in extensive numerical experiments for the purpose of statistical anomaly detection. The
+application scenarios involve not only simulated communication networks, but also real transportation networks.
+Our work contributes to enhancing cyber security and helping build smarter cities.
+As for future work, it is of interest to establish theoretical comparison results concerning the tightness of the
+threshold estimators. The challenge in this direction arises from associating the ﬁnite sample-size setting with the
+asymptotic properties of the Central Limit Theorem and the large deviations results (Sanov’s theorem). It is also
+of interest to conduct rigorous analysis relating the computation time of the proposed estimation approach to its
+accuracy. Also, it is possible to consider additional applications.
+August 22, 2017
+DRAFT
+23
+APPENDIX A
+PROOF OF LEMMA 1
+Expanding the ﬁrst N entries of πP = π, we obtain q1i
+PN
+t=1 πt1 = π1i, i = 1, . . . , N. Summing up both sides
+of these equations, it follows
+ XN
+i=1 q1i
+ XN
+t=1 πt1
+
+=
+XN
+t=1 π1t.
+(A.1)
+Noticing PN
+i=1 q1i = 1, (A.1) implies PN
+t=1 πt1 = PN
+t=1 π1t, which, together with q11
+PN
+t=1 πt1 = π11, yields
+π11
+PN
+t=1 π1t
+=
+π11
+PN
+t=1 πt1
+= q11.
+Similarly, we can show (9) holds for all the other (i, j)’s.
+APPENDIX B
+PROOF OF LEMMA 2
+This can be established by applying [15, Corollary 1]. Noting fk(·) is an indicator function, thus Borel measurable
+and bounded, and the chain Z is uniformly ergodic, we see that, ∃B ∈(0, ∞) s.t. |fk(Z)| ≤B, ∀Z, implying that
+E[|fk(Z)|3] ≤B3 < ∞, and [15, (3)] holds with M(·) bounded, leading to E[M] < ∞, and γ(n) = tn for some
+t ∈(0, 1), indicating that P
+n (γ(n))1/.3 = P
+n tn/.3 = P
+n (t1/.3)
+n < ∞. Thus, all the conditions needed by [15,
+Corollary 1] are satisﬁed.
+APPENDIX C
+PROOF OF LEMMA 3
+We can directly extend Lemma 2 to the multidimensional case (see [29, Chap. 8]). In particular, under Assumption
+1, (12) holds with Λ given by
+Λ = Λ
+(0) +
+X∞
+m=1 Λ
+(m),
+(C.1)
+where Λ(0) and Λ(m) are speciﬁed, respectively, by
+Λ
+(0) =[Cov(fi(Z1), fj(Z1))]N2
+i, j=1,
+Λ
+(m) =[Cov(fi(Z1), fj(Z1+m))
++ Cov(fj(Z1), fi(Z1+m))]N2
+i, j=1,
+m = 1, 2, . . . .
+Let the subscript ij denote the (i, j) elements of the matrices Λ, Λ(0), Λ(m). By the Markovian properties, after
+some direct algebra, for i, j = 1, . . . , N 2 we obtain Λ
+(0)
+ij = ˜πi(Iij −˜πj) and
+Λ
+(m)
+ij
+= ˜πi(Pm
+ij −˜πj) + ˜πj(Pm
+ji −˜πi),
+m = 1, 2, . . . .
+ACKNOWLEDGMENTS
+We thank Jing Wang for his contributions and help in developing the software package SADIT [8]. We also
+thank the DoIT of the City of Boston, Chris Osgood, Alex Chen, and Connor McKay for supplying the Waze data.
+We thank Athanasios Tsiligkaridis for his help in deriving Tab. III in Sec. V-D. We ﬁnally thank the anonymous
+reviewers for useful comments on preliminary versions of this paper.
+August 22, 2017
+DRAFT
+24
+REFERENCES
+[1] I. C. Paschalidis and G. Smaragdakis, “Spatio-temporal network anomaly detection by assessing deviations of empirical measures,”
+IEEE/ACM Transactions on Networking (TON), vol. 17, no. 3, pp. 685–697, 2009.
+[2] S. Meyn, A. Surana, Y. Lin, and S. Narayanan, “Anomaly detection using projective Markov models in a distributed sensor network,” in
+Proceedings of the 48th IEEE Conference on Decision and Control, 2009 held jointly with the 2009 28th Chinese Control Conference.
+CDC/CCC 2009., Dec 2009, pp. 4662–4669.
+[3] J. Wang, D. Rossell, C. G. Cassandras, and I. C. Paschalidis, “Network anomaly detection: A survey and comparative analysis of stochastic
+and deterministic methods,” in IEEE 52nd Annual Conference on Decision and Control (CDC), Dec 2013, pp. 182–187.
+[4] J. Wang and I. Paschalidis, “Statistical trafﬁc anomaly detection in time-varying communication networks,” IEEE Transactions on Control
+of Network Systems, vol. 2, no. 2, pp. 100–111, 2015.
+[5] J. Unnikrishnan and D. Huang, “Weak convergence analysis of asymptotically optimal hypothesis tests,” IEEE Transactions on Information
+Theory, vol. 62, no. 7, pp. 4285–4299, 2016.
+[6] W. Hoeffding, “Asymptotically optimal tests for multinomial distributions,” The Annals of Mathematical Statistics, pp. 369–401, 1965.
+[7] A. Dembo and O. Zeitouni, Large deviations techniques and applications.
+Springer, 1998.
+[8] J. Wang, J. Zhang, and I. C. Paschalidis, “Systematic Anomaly Detection of Internet Trafﬁc (SADIT),” https://github.com/hbhzwj/SADIT,
+2014.
+[9] J. Zhang and I. C. Paschalidis, “An improved composite hypothesis test for markov models with applications in network anomaly detection,”
+in 2015 54th IEEE Conference on Decision and Control (CDC).
+IEEE, 2015, pp. 3810–3815.
+[10] J. Unnikrishnan, D. Huang, S. P. Meyn, A. Surana, and V. V. Veeravalli, “Universal and composite hypothesis testing via mismatched
+divergence,” IEEE Transactions on Information Theory, vol. 57, no. 3, pp. 1587–1603, 2011.
+[11] S. S. Wilks, “The large-sample distribution of the likelihood ratio for testing composite hypotheses,” The Annals of Mathematical Statistics,
+vol. 9, no. 1, pp. 60–62, 1938.
+[12] M. Iltis, “Sharp asymptotics of large deviations in Rd,” Journal of Theoretical Probability, vol. 8, no. 3, pp. 501–522, 1995.
+[13] M. Thottan and C. Ji, “Anomaly detection in ip networks,” IEEE Transactions on Signal Processing, vol. 51, no. 8, pp. 2191–2204, Aug
+2003.
+[14] T. Fawcett, “An introduction to ROC analysis,” Pattern recognition letters, vol. 27, no. 8, pp. 861–874, 2006.
+[15] G. L. Jones, “On the Markov chain central limit theorem,” Probability Surveys, vol. 1, pp. 299–320, 2004.
+[16] P. Billingsley, “Statistical methods in markov chains,” The Annals of Mathematical Statistics, pp. 12–40, 1961.
+[17] ——, Convergence of probability measures.
+John Wiley & Sons, 2013.
+[18] J. Imhof, “Computing the distribution of quadratic forms in normal variables,” Biometrika, vol. 48, no. 3/4, pp. 419–426, 1961.
+[19] H. Liu, Y. Tang, and H. H. Zhang, “A new chi-square approximation to the distribution of non-negative deﬁnite quadratic forms in
+non-central normal variables,” Computational Statistics & Data Analysis, vol. 53, no. 4, pp. 853–856, 2009.
+[20] P. Billingsley, Statistical inference for Markov processes.
+University of Chicago Press, 1961.
+[21] M. L. Men´endez, D. Morales, L. Pardo, and I. Vajda, “Testing in stationary models based on divergences of observed and theoretical
+frequencies,” Kybernetika, vol. 33, no. 5, pp. 465–475, 1997.
+[22] ——, “Inference about stationary distributions of markov chains based on divergences with observed frequencies,” Kybernetika, vol. 35,
+no. 3, pp. 265–280, 1999.
+[23] J. Zhang, “Threshold Approximation for Hoeffding’s Test under Markovian Assumption (TAM),” https://github.com/jingzbu/TAHTMA,
+2015.
+[24] C. Pandit and S. Meyn, “Worst-case large-deviation asymptotics with application to queueing and information theory,” Stochastic processes
+and their applications, vol. 116, no. 5, pp. 724–756, 2006.
+[25] J. Zhang, “ROC analysis for Hoeffding test under Markovian assumptions (ROM),” https://github.com/jingzbu/ROCHM, 2017.
+[26] J. Sommers, R. Bowden, B. Eriksson, P. Barford, M. Roughan, and N. Dufﬁeld, “Efﬁcient network-wide ﬂow record generation,” in
+INFOCOM, 2011 Proceedings IEEE.
+IEEE, 2011, pp. 2363–2371.
+[27] Wikipedia, “Vincenty’s formulae,” https://en.wikipedia.org/wiki/Vincenty%27s formulae.
+[28] ——, “k-means clustering,” https://en.wikipedia.org/wiki/K-means clustering.
+[29] C. Geyer, “Stat 5101 (Geyer) Course Notes,” http://www.stat.umn.edu/geyer/5101/notes/n2.pdf, 2001.
+August 22, 2017
+DRAFT

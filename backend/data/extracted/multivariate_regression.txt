@@ -1,0 +1,604 @@
+MDP based Decision Support for Earthquake
+Damaged Distribution System Restoration
+Onur Yigit Arpalı∗, Ugur Can Yilmaz†, Ebru Aydin Gol∗Burcu Guldur Erkal‡ and Murat Gol†
+∗Dept. of Computer Eng., METU,Ankara, Turkey
+Email: arpali.onur@metu.edu.tr , ebrugol@metu.edu.tr
+†Dept. of Electrical & Electronics Eng., METU,Ankara, Turkey
+Email: ugur.yilmaz@metu.edu.tr , mgol@metu.edu.tr
+‡Dept. of Civil Eng., Hacettepe University,Ankara, Turkey
+Email: burcuguldur@hacettepe.edu.tr
+Abstract—As the society becomes more dependent on the
+presence of electricity, the resilience of the power systems gains
+more importance. This paper develops a decision support method
+for distribution system operators to restore electricity after
+an earthquake to the maximum number of customers in the
+minimum expected duration. The proposed method employs
+Markov Decision Process (MDP) to determine the optimal
+restoration scheme. In order to determine the probability of the
+ﬁeld component damage due to the earthquake, the Probability
+of Failure (Pf ) of structures are calculated using the Peak
+Ground Acceleration (PGA) values recorded by observatories
+and earthquake research centers during the earthquake.
+Index Terms—Decision support , Disaster Management, Dis-
+tribution Systems, Markov Decision Process.
+I. INTRODUCTION
+Restoring electricity1 fast after an earthquake is extremely
+important, as the modern life relies on the presence of elec-
+tricity. After an earthquake, some of the ﬁeld instruments may
+get damaged. Considering that black-start of a system without
+any structural damage is a difﬁcult problem, restoration at a
+damaged system has many challenges. This paper proposes a
+decision support method for distribution systems with dam-
+aged instruments due to an earthquake. The proposed method
+uses the probability of exceeding the damage state of failure
+(Probability of Failure - Pf ) to determine the best restoration
+strategy. Central to the proposed method is the construction
+of a Markov Decision Process that encapsulates the system
+topology, electrical constraints and damage probabilities (Pf ).
+There are studies in the literature on the power system
+restoration and disaster management problems [1]–[9]. While
+[1] and [2] develop recovery plans for expected disasters, [3]
+and [4] presents planning strategies to improve the power
+system resilience. In [5], use of micro-grids in fast restoration
+of power systems is evaluated. While [6]–[9] present online
+disaster management methods based on ﬁeld sensor data, in
+those studies ﬁeld component damage due to the earthquake
+is neglected.
+1 c⃝2019 IEEE. Personal use of this material is permitted. Permission from
+IEEE must be obtained for all other uses, in any current or future media,
+including reprinting/republishing this material for advertising or promotional
+purposes, creating new collective works, for resale or redistribution to servers
+or lists, or reuse of any copyrighted component of this work in other works.
+Under review.
+This paper proposes an MDP based decision support method
+to restore a medium voltage (MV) distribution system after
+an earthquake. The method generates a restoration strategy
+that minimizes the average expected restoration time over
+the buses considering the real time data of the earthquake.
+The proposed decision support method does not require any
+additional infrastructure, such that basic SCADA data and Pf ,
+which is determined from observatories, are sufﬁcient to run
+the method.
+The framework of the proposed method was ﬁrst introduced
+in [10]. This paper enhances the model presented in [10]
+by considering electrical constraints, such that a power ﬂow
+algorithm runs along with the proposed method in order to
+check if voltages of the system remain within the accepted
+limits during the restoration actions. Moreover, Distributed
+Energy Resources (DERs) are also included in the problem
+solution. In [10], the objective was deﬁned as minimizing
+the total restoration time. However, it does not necessarily
+minimize the expected restoration time of the buses. This
+objective is achieved with the updated cost formulation. Note
+that, the proposed method is designed to run after the earth-
+quake occurs. The method utilizes real time earthquake data,
+and determines the restoration strategy considering the ﬁeld
+component damage probabilities.
+The paper is organized as follows. The background informa-
+tion is given in Section II and the proposed method is deﬁned
+in detail in Section III. Numerical validation is provided in
+Section IV, followed by conclusions in Section V.
+II. PRELIMINARIES
+A. Probability of Failure (Pf )
+Structures are constructed to resist the adverse effects of
+reoccurring natural events such as earthquakes. Current design
+speciﬁcations ensure the safety of a structure after a major
+event with a certain return period. However, some of the
+existing structures do not conform to the criteria speciﬁed by
+the current design speciﬁcations. The behavior of these critical
+structures during and after a major event could be estimated
+by conducting a fragility analysis.
+Fragility analysis is performed to estimate the seismic loss
+of built environments. The obtained fragility curves represent
+arXiv:1911.03317v2  [eess.SY]  11 Nov 2019
+the probability of exceeding a damage limit state for a given
+structure subjected to seismic excitation. For this research,
+the critical limit state is deﬁned as collapse, and the fragility
+curves obtained for the investigated structures, therefore, con-
+sist of peak ground acceleration (PGA) versus Pf values. Thus,
+by using the obtained fragility curves, it is possible to get
+the Pf values associated with each structure for particular
+excitation values (PGA). Note that PGA values are calculated
+using the earthquake data recorded by the observatories.
+B. Markov Decision Process (MDP)
+MDP is a mathematical framework that is used to make
+decisions in probabilistic environments. The policy synthesis
+problem for MDPs concerns the generation of a policy opti-
+mising the expected cost under the given constraints [11].
+A Markov Decision Process (MDP) is deﬁned by the tuple
+M = (S,A, p,c), where S is a set of states, A is a set of actions,
+p : S×A×S →[0,1] is a probabilistic action-conditioned state
+transition function, i.e., given a state s ∈S and action a ∈A,
+p(s
+′|s,a) is the probability of transitioning from s to s
+′ when
+action a is applied, and c : S →R+ is a state cost function.
+The set of actions that can be applied in a state s is denoted by
+A(s). A deterministic policy π gives the action to be applied
+in a state s π : S →A with π(s) ∈A(s). A value function
+vn
+π : S →R represents the expected cost obtained when policy π
+is followed for n steps and it is recursively deﬁned as follows:
+vn
+π(s) =
+(
+c(s)
+if n = 1
+c(s)+∑s′∈S p(s
+′|s,π(s))vn−1
+π
+(s
+′)
+otherwise
+(1)
+For a given state s0 ∈S, the optimal policy π∗is the policy
+minimizing the value function, π∗= argmin
+π
+vn
+π(s0).
+C. Power Flow Analysis
+Among the power ﬂow analysis methods, such as Newton-
+Raphson (NR), Gauss-Seidel (GS), fast decoupled load ﬂow
+(FDLF), forward-backward power ﬂow (FBPF) [12], [13],
+the proposed method utilizes FBPF method, because of the
+radial structure distribution networks and high R/X ratio of the
+distribution system power lines [14]. Implementation details of
+FBPF can be found in [13]. The paper assumes proper load
+and generation forecasts are provided, as the paper does not
+develop any forecast algorithm.
+This work assumes that DERs do not contribute to voltage
+control, such that they aim to supply only active power, which
+is a realistic assumption considering operating principles of
+renewable sources. Therefore, DERs are modeled as negative
+power demands in the FBPF algorithm. Note that, a DER will
+only contribute to voltage control if it operates at island mode.
+Considering that the system will be interrupted, to simplify
+the problem, the FBPF solves single-phase equivalent network,
+such that the system is assumed to be balanced. Once the
+system is restored, the loads may be unbalanced, however, as
+the medium voltage system is considered, the unbalance would
+be limited.
+III. PROPOSED METHOD
+In this section, the proposed MDP based restoration policy
+synthesis approach for the distribution system is explained.
+Throughout the section, the number of buses, branches, and
+DERs of the considered distribution system are represented by
+N, L, and M, respectively. The notation IK is used to denote
+the set of positive integers less than or equal to K, i.e., IK =
+{1,...,K}
+A. Model Construction
+In the proposed MDP model M = (S,A, p,c), each state s ∈S
+represents the current situation of all branches of the system.
+Thus, each state is a snapshot of the distribution system. A
+branch can be (1) damaged (D), or it has not been tried to
+energized yet, thus its health condition can be (2) unknown
+(U), or it can be energized (Ei), where the subscript i ∈{0}∪IL
+denotes the major source of its energy. The index is 0 when
+the source is the transmission grid, when i ∈IL, it is the index
+of the DER feeding the branch. Thus, the set of states S is:
+S = {s0,s1,...,sF} where si = [s1
+i ,s1
+i ,...,sL
+i ] and
+sk
+i ∈{U,D}∪{E0,E1,...,EM}.
+(2)
+The total number of states, F + 1, is upper bounded by
+(3+M)L according to (2). However, most of these states repre-
+sent infeasible system conﬁgurations, e.g. energized branches
+unconnected to a source, a DER supplying higher energy than
+its capacity, or meshed structures. Such states are never added
+to the model. Thus, in practice, the size of S is much less than
+the given bound. Initially, all circuit breakers are assumed to be
+open. Thus, the initial state of the system is s0 = [U,U,...,U].
+Example 3.1: A network with 5 branches is shown in Fig 1,
+where node 1 is connected to the transmission grid and node
+6 is connected to a DER. The corresponding MDP state is
+s2 = [E0,E0,U,U,E1] which indicates that the ﬁrst and second
+branches are energized from the transmission grid, the circuit
+breakers for the third and forth branches are open and their
+conditions are unknown to the system operator, and the ﬁfth
+branch is energized from the ﬁrst DER.
+1
+Energized Branch
+2
+3
+4
+5
+Branch 1
+Branch 2
+Branch 4
+Branch 5
+Branch 3
+6
+Unenergized Branch
+Fig. 1. Sample system with 5 branches
+B. Action Set Construction
+In a distribution network, a restoration action can be simul-
+taneously applied to a set of branches that satisfy topological
+and electrical constraints. In the MDP model, an action a ∈A is
+deﬁned as the set of branches to be energized simultaneously,
+A = {a|a ⊆IL}
+(3)
+and the constraints are integrated to the model trough the
+feasible action sets A(s) for each s ∈S.
+The restoration action can be applied to a branch i if is
+in unknown condition (breakers are open) and it is connected
+to an energized branch or a source. Let En ⊂IL denote the
+branches that are connected to a source and B(i) ⊂IL denote
+the indices of branches that are physically connected to branch
+i, i.e., share a common end. Thus the set of branches for which
+a restoration action can be applied in a state s = [s1,...,sL] is
+deﬁned as
+¯A(s) = {i | si = U and (i ∈En or
+(4)
+sj ∈{E0,E1,...,EM} for some j ∈B(i))}
+Given a state s, the restoration action can be simultaneously
+applied to branches from the set ¯A(s) ⊂IL that satisfy the
+topological and electrical constraints. These constraints are
+deﬁned with respect to the states that are one step reachable
+from s, and they are formalized following the deﬁnition of the
+state transition function in Sec. III-D.
+C. Transition Function Calculation
+In state s = [s1,s1,...sL], when action a ∈A(s) ⊆¯A(s) is ap-
+plied, the probability of transitioning to a state t = [t1,t1,...tL]
+satisfying (5) is given in (6). Essentially, by ¯A(s) (4) deﬁnition
+si = U for all i ∈a and the status of these branches change to
+D or Ek according to Pf (see Section II-A), where k denote
+the source for the energized branch that has a common end
+with i (C3). In addition, for a branch energized from a DER,
+if an energized path to the transmission grid emerges as a
+result of performing the restoration actions to the branches
+in a, the status of this branch changes to E0 (C1), as after
+a connection with the transmission grid is established, the
+capacity limitation of the DER will vanish. No other branch
+can change its status after a is applied (C2). The probability of
+transitioning to a state that does not satisfy (5) is 0 as those
+states are not one step reachable from s under the control
+action a.
+t = [t1,t1,...tL]
+where
+(5)
+ti =
+
+
+
+
+
+
+
+
+
+E0
+if si = Ek, for some k ∈IM and there is an
+energized path from i to the transmission grid in t(C1)
+si
+if C1 does not hold and i ̸∈a
+(C2)
+Ek or D if i ∈a and sj = Ek for some j ∈B(i)
+(C3)
+p(t|s,a) = ∏
+i∈a
+(
+Pf (i),
+if ti = D
+1−Pf (i),
+if ti = Ek,k ≥0
+(6)
+The set of states that can be reached from s when the control
+action a is applied is deﬁned with respect to p(· | s,a):
+Post(s,a) = {t ∈S | p(t | s,a) > 0}
+(7)
+Example 3.2: The set of branches for which a restoration
+action can be applied is A(s2) = {3,4} for the MDP state s2
+from Ex. 3.1. Post(s2,{3,4}) is shown in Fig. 2
+s2 = [E0,E0,U,U,E1]
+s3 = [E0,E0,E0,E0,E0]
+s5 = [E0,E0,D,E0,E0]
+s4 = [E0,E0,E0,D,E1]
+s6 = [E0,E0,D,D,E1]
+{3,4}
+Fig. 2. Post(s2,{3,4}) for s2 illustrated in Fig. 1
+D. Feasible Action Set Construction
+The subsets a of ¯A(s) (4) that satisfy the topological and
+electrical constraints are added to A(s). These constraints are
+formalized in this section.
+Distance constraint: The restoration action can be applied
+to two branches simultaneously if they are electrically distant
+enough such that the transients emerging after the closure of
+the circuit breakers do not cause signiﬁcant effects. In this
+work, if two branches do not share a common end, they are
+considered as electrically distant for simplicity.
+T1: no two branch in a share a common end, i.e, i ̸∈B(j)
+for any i, j ∈a.
+Loop constraint: Meshed structures should be avoided in the
+distribution system. Thus, a restoration action should not be
+performed if it creates a loop of energized branches connected
+to the same source.
+T2: no state t ∈Post(s,a) represents a loop of energized
+branches connected to the same source.
+DER (Distributed Energy Resources) constraints: A
+DER can only feed a limited number of buses due to its
+capacity. Consequently, a restoration action connecting a bus
+to a DER can not be applied if the total consumption of the
+buses connected to the DER exceeds its capacity. Here, the
+capacity of each DER and the load at each bus are assumed
+to be known. The generation at ith DER is denoted as PG,i
+and the load at ith bus is denoted as PL,i. Given a state
+s = [s1,...,sL] ∈S and index of a source k ≤M, ActBus(s,k)
+denotes the set of energized buses connected to the source k:
+ActBus(s,k) = {i ∈IN |s j = Ek for a branch j
+(8)
+connected to bus i}
+E1: for each t ∈Post(s,a) and DER k ∈IM, it holds that
+ 
+∑
+i∈ActBus(t,k)
+PL,i
+!
+≤PG,k
+(9)
+Remark 3.1: If there is an energized path between two
+DERs k,m ∈IM, then they are treated as one with capacity
+PG,k +PG,m. In addition, the capacity of the transmission grid
+is assumed to be inﬁnite; and thus, E1 is not checked for k = 0.
+Voltage limitation constraints: The voltage of a bus must
+be in permissible limits standardized between 0.95 pu and 1.05
+pu. To guarantee that the voltage constraints are not violated
+during the restoration, FBPF analysis is utilized during the
+system construction. An action a is marked as infeasible at
+state s if the voltage constraint for a bus is violated in a state
+t ∈Post(s,a). Given the system topology, and the set of buses
+energized from a source, the FBPF analysis gives the set of
+buses at which the voltage constraints are violated.
+E2: for each t ∈Post(s,a) and source k ∈{0}∪IM, it holds
+that
+|FBPF(ActBus(s,k))| = 0
+(10)
+Remark 3.2: For a state s, if no subset of ¯A(s) satisﬁes
+all of the constraints, but some subsets of ¯A(s) satisﬁes T1,
+T2, and E1 (thus only violate E2), then the permissible limits
+are relaxed and the FBPF analysis is re-run. Note that the
+relaxation of the voltage limits are limited with the power
+quality standards.
+The summarized construction method guarantees that all
+system properties and constraints are integrated to the MDP
+model through the admissible control sets A(s),s ∈S and
+the transition function. Essentially, the construction guarantees
+that the restoration actions from set a ∈A(s) can be applied
+simultaneously when the conﬁguration of the distribution
+system is s and the restoration actions a /∈A(s) violates a
+topological or electrical constraints of the system.
+The developed iterative MDP construction method is sum-
+marized in Fig. 3. Initially, the set of unexplored states
+is {[U,...,U]}, e.g., includes only the initial state. Then,
+iteratively, a state s is taken from this set, the set of branches
+¯A(s), that a restoration action can be applied, is computed as
+in (4). Next, the subsets a of ¯A(s) for which the constraints
+T1, T2, E1 and E2 are satisﬁed are added to A(s). If A(s)
+only includes the empty set, a = {}, the permissible limits
+for the FBPF analysis is relaxed and the constraint check
+is repeated. Otherwise, for each a ∈A(s), p(· | s,a) (6) and
+Post(s,a) (7) are computed, and the new states are added to
+the set of unexplored states. The iterative process continues
+until all of the reachable states are explored, which indicates
+that the model construction is completed.
+E. Cost Formulation
+In this work, the goal is to minimize the average restoration
+time for each branch. To achieve this task, the state cost is
+deﬁned as the number of unenergized buses:
+c(s) = N −
+
+L[
+k=0
+ActBus(s,k)
+
+(11)
+Thus, for a policy π the n-step cost (1) of a state s is the
+expected total number of unenergized buses over n-steps. For a
+state s, vn
+π(s)/N is the average expected time to energize a bus.
+Considering that N is constant, the optimal policy π⋆is the
+one that minimizes the average restoration time over the buses
+for the considered horizon n. Here, the number of branches
+L is used as the optimization horizon since the restoration
+process is always completed in L steps, e.g., single source
+radial branches.
+Example 3.3: For the system shown in Fig. 1, consider s1 =
+[E0,U,U,U,E1] and s7 shown in Fig. 4. Note that Post(s1,2) =
+{s2,s7}. The costs for the states from Figs. 2-4 are c(s1) =
+c(s7) = c(s9) = 2, c(s2) = c(s5) = c(s6) = c(s8) = 1, c(s3) =
+Fig. 3. MDP construction ﬂowchart
+s7 = [E0,D,U,U,E1]
+s9 = [E0,D,D,U,E1]
+s8 = [E0,D,E0,U,E1]
+{3}
+Fig. 4. Post(s7,{3}) for s7
+c(s4) = 0. Consider a policy with π(s1) = {2}, π(s2) = {3,4},
+and π(s7) = {3}. Assume that Pf (i) = 0.4 for each i ∈IL. The
+value function over two steps for s2 and s7 are v2
+π(s2) = 1.4
+and v2
+π(s7) = 3.4, and the value function over three steps for s1
+is v3
+π(s1) = 4.2. Given that the number of unenergized buses is
+2 at s1, the average expected time to energize these branches
+is 2.1 over a 3 step horizon.
+As illustrated in the example, the optimal solution for the
+ﬁnite horizon MDP policy synthesis problem gives the policy
+that minimize the average restoration time over the considered
+horizon thanks to the proposed state cost function (11). Thus,
+the optimal policy gives the control action towards the states
+with higher number of energized buses.
+IV. CASE STUDY
+The proposed method is applied to a sample system shown
+in Fig. 5. Bus 1 is connected to the transmission grid, bus 6
+and bus 10 are connected to DER-1 and DER-2, respectively.
+The power consumption at each bus is assumed to be the same,
+and the DER capacities are given as the number of buses that
+it can feed. The policy synthesis results for different DER
+capacities and different earthquake scenarios are presented in
+Table I. For each case, initially all circuit breakers are open
+and the branch statuses are unknown.
+The size of the MDP model highly depends on the DER
+conﬁguration as the number of the reachable states increases
+with the number of DERs and their capacities. The effect of
+DER capacity on the MDP model is shown by Cases 1 and 2
+TABLE I
+SYSTEM PROPERTIES OF THE SCENARIOS
+DER Capacities
+Average Time
+to Energize
+Number of
+States
+Pf value
+for branches
+Case 1
+DER1 = 1, DER2 = 1
+6.6
+449
+0.3
+Case 2
+DER1 = 4, DER2 = 4
+5.2
+1395
+0.3
+Case 3
+DER1 = 4, DER2 = 4
+2.77
+1395
+0.1
+Case 4
+DER1 = 4, DER2 = 4
+3.39
+1274
+various
+1
+2
+4
+3
+8
+5
+Branch-1
+Branch-2
+Branch-3
+Branch-7
+Branch-4
+Energized Branch
+Unenergized Branch
+6
+7
+9
+10
+11
+12
+Branch-5
+Branch-6
+Branch-8
+Branch-9
+Branch-10
+Branch-11
+Fig. 5. 12-bus test system
+given in Table I. In Case 1, the model has 449 states, while for
+Case 2 there exists 1274 states. For example in Case 1, when
+the system reaches state [E0,U,U,U,E1,U,U,U,U,U,E2], the
+restoration process can only continue from branch 1 as the
+DERs reached their capacity. On the other hand, in Case 2
+for the same state, restoration process can continue from three
+different branches thanks to the increase in the DER capacities.
+The advantage of the DER capacity increase is the reduced
+expected bus restoration time as observed in Table I, since a
+DER with higher capacity can supply more customers, which
+enables an extended islanded operation until the connection
+with the transmission grid is established.
+The inﬂuence of Pf can be observed when Case 2 and
+Case 3 are compared. Note that, as all the branches have the
+same Pf in those cases, the synthesized restoration strategy
+will be the same for both of them. However, the average
+expected restoration time is reduced as the Pf decreases. It
+can be concluded that the proposed cost formulation, therefore,
+provides the user an estimation over the damage status of the
+system via the average expected restoration time.
+In Case 4, the Pf of branch 4 is 0.7, and the rest of the Pf
+values are 0.1. The resulting restoration action sequences are
+shown below for cases 3 and 4. As seen, the method handles
+different Pf values and generates a strategy accordingly.
+Case3 :{1,5,11} →{2,4,10} →{3,6,8} →{7,9}
+Case4 :{1,5,11} →{2,6,10} →{3,8} →{4,9} →{7}
+In [10], the objective was deﬁned as minimizing the total
+restoration time. For Case 2, the average expected restoration
+time for the policy optimizing this objective is 5.52. Essen-
+tially, minimizing the restoration time make the policy choose
+the actions that likely end up in terminal states (A(s) = {/0})
+regardless of the energized buses. Thus, it does not necessarily
+minimize the average expected restoration time of the buses,
+which is achieved with the new cost formulation.
+The performance of the developed method is evaluated on
+the IEEE-34 bus system with different DER conﬁgurations (up
+to 2 DERs). The optimal policy is always synthesized within
+10 minutes when Pf (i) < 1 for each branch. However, the
+computation time reduces signiﬁcantly when some branches
+are known to be damaged, e.g. Pf (i) = 1.
+V. CONCLUSION
+An MDP based decision support method for earthquake
+affected distribution systems is developed in this paper. The
+proposed method employs Pf values, which are calculated via
+the real time data recorded during the earthquake in order
+to determine probability of failure of the ﬁeld components.
+The method minimizes the average expected restoration time
+of the buses, and provides a restoration strategy. During the
+modeling phase both the topological and electrical constraints
+are considered, which yields an admissible result.
+ACKNOWLEDGMENT
+This work is supported by Scientiﬁc and Technological
+Research Council of Turkey (TUBITAK) under project number
+118E183, and the European Union’s Horizon 2020 research
+and innovation program under the Marie Sklodowska-Curie
+grant agreement No 798482.
+REFERENCES
+[1] A. Arab, A. Khodaei, S. K. Khator, K. Ding, V. A. Emesih, and Z. Han,
+“Stochastic pre-hurricane restoration planning for electric power systems
+infrastructure,” IEEE Transactions on Smart Grid, vol. 6, no. 2, pp.
+1046–1054, 2015.
+[2] F. Qiu and P. Li, “An Integrated Approach for Power System Restoration
+Planning,” Proceedings of the IEEE, vol. 105, no. 7, pp. 1234–1252,
+2017.
+[3] W. Yuan, J. Wang, F. Qiu, C. Chen, C. Kang, and B. Zeng, “Robust
+Optimization-Based Resilient Distribution Network Planning Against
+Natural Disasters,” IEEE Transactions on Smart Grid, vol. 7, no. 6,
+pp. 2817–2826, 2016.
+[4] X. Wang, M. Shahidehpour, C. Jiang, and Z. Li, “Resilience Enhance-
+ment Strategies for Power Distribution Network Coupled with Urban
+Transportation System,” IEEE Transactions on Smart Grid, vol. 10,
+no. 4, pp. 4068–4079, 2019.
+[5] Z. Zhao and B.-T. Ooi, “Feasibility of fast restoration of power systems
+by micro-grids,” IET Generation, Transmission & Distribution, vol. 12,
+no. 1, pp. 126–132, 2018.
+[6] A. Golshani, W. Sun, Q. Zhou, Q. P. Zheng, and J. Tong, “Two-Stage
+Adaptive Restoration Decision Support System for a Self-Healing Power
+Grid,” IEEE Transactions on Industrial Informatics, vol. 13, no. 6, pp.
+2802–2812, 2017.
+[7] N. Ganganath, J. V. Wang, X. Xu, C. T. Cheng, and C. K. Tse, “Agglom-
+erative clustering-based network partitioning for parallel power system
+restoration,” IEEE Transactions on Industrial Informatics, vol. 14, no. 8,
+pp. 3325–3333, 2018.
+[8] L. H. Ferreira Neto, B. R. Pereira, and G. R. Da Costa, “Smart Service
+Restoration of Electric Power Systems,” IEEE Power and Energy Society
+General Meeting, vol. 2016-November, 2016.
+[9] M. Ostermann, P. Hinkel, D. Raoofsheibani, H. Wellssow, and C. Schei-
+der, “A minimum-regret-based optimization approach for power system
+restoration in EHV grids,” 2017 IEEE Power & Energy Society General
+Meeting, Chicago.IL, USA, pp. 5–9, 2017.
+[10] E. Aydin Gol, B. Guldur Erkal, and M. Gol, “A novel MDP based
+decision support framework to restore earthquake damaged distribution
+systems,” 2019 IEEE ISGT-Europe, Bucharest, Romania, pp. 1–5, 2019.
+[11] D. P. Bertsekas, Dynamic Programming and Optimal Control, Vol. II,
+3rd ed.
+Athena Scientiﬁc, 2007.
+[12] J. J. Grainger and W. D. J. Stevenson, Power System Analysis, 1994.
+[13] S. Ghosh and D. Das, “Method for load-ﬂow solution of radial dis-
+tribution networks,” IEE Proceedings: Generation, Transmission and
+Distribution, vol. 146, no. 6, pp. 641–646, 1999.
+[14] B. Muruganantham, R. Gnanadass, and N. P. Padhy, “Performance
+analysis and comparison of load ﬂow methods in a practical distribution
+system,” 2016 National Power Systems Conference, NPSC 2016, 2017.

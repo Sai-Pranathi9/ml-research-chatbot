@@ -1,0 +1,795 @@
+The Effect of Strong Magnetic Field on Heavy Quarkonia in a hot 
+Medium Using Nikiforov-Uvarov Method 
+M. Abu-shady1 and H. M. Fath-Allah2  
+Department of Mathematics and Computer Sciences, Faculty of Science, Menoufia 
+University, Egypt1 
+Higher Institute of Engineering and Technology, Menoufia, Egypt2 
+ 
+Abstract 
+Recent analyses show that it is possible to produce a strong magnetic field at a very 
+early stage of ultrarelativistic heavy ion collisions (URHIC), therefore, the effect of 
+homogeneity and constant strong magnetic field on the heavy meson spectrum 
+quarkonium is studied which the states are described as charmonium and 
+bottominum in a non-relativistic framework and by Debye screen potential. In 
+particular, a model that takes into account potential isotopes emerging at the level 
+of quark-static potential, as has been observed in recent studies. Investigation is 
+performed with and without regard to the non-isotope of fixed potential, in order to 
+better clarify its effects.  
+Keywords: The N-dimensional radial Schr ̈dinger equation, finite temperature, 
+strong magnetic field, Nikiforov Uvarov method.  
+. 
+ 
+1. Introduction 
+            The existence of quark–gluon plasma (QGP) was explored in the mid-
+seventies [1, 2].  Recently, the URHIC events can be studied by combining the 
+magnetic field effect as an extremely strong magnetic field, perpendicular to the 
+reaction plane, is predicted to occur very early in collision phase while the event is 
+off-central [3-7]. The magnetic field strength depends on the centrality and could 
+be between   
+  (≃     Gauss) at RHIC [8] to 10   
+ at LHC [1]. In extreme 
+situation, it is capable of achieving values of 50   
+    During the electrical weak 
+stage transition, an incredibly large magnetic field (∼    Gauss), was also 
+rendered in early universe by the Higgs field gradients [9].  
+The disorderly measurement of heavy quarkonium potentials is important to 
+research the dissociation of quakonia [10, 11-13]. Over the last two decades, the 
+dynamics the dissociation of quarkonium have been seen in a medium where, in 
+the beginning the resonance was assumed to be dissociated if the screening is 
+strong enough, i.e. the potential is too small to keep the pair appointed by   ̅ . 
+Dissociation is currently considered primarily to be due to the increase in the 
+resonance distance either due to an inelastic mechanism of spatially mediated 
+dispersion by a patron such as gluons, known as Landau damping [14] or because 
+of a process glue-dissociation in which involves hard thermal gluon in one-tone 
+color state [15]. When the medium has lower T than BE of the basic resonance, 
+process become dominant. Thus even at lower temperature, the quarkonium is 
+dissociated even at lower temperatures where the likelihood of color processing is 
+small [16]. In serval approach models, the effect of    on QCD thermo-dynamics 
+has been examined [17–38].  
+        There are a few of studies considered the effect of magnetic field on the static 
+characteristic of quarkonium [10, 39-45]. Heavy quarkonia has been one of the 
+study influence on the characteristics of nuclear matter under extreme conditions, 
+as  quarkonia form in URHICs field as at a very period of ∼1/2   (where    is 
+the mass of the charm or bottom quark), this is equivalent to the time scale at 
+which the magnetic field is produced. Quarkonium and heavy meson spectroscopy, 
+with an additional spin-spin interaction term were recently mechanically 
+investigate with vacuum quantum with harmonic oscillators and Cornell potential 
+[39, 42] in the presence of an external magnetic field. The effect of finite T and  
+   on the real part of the   ̅ potential in the form of the destructive thermal QCD 
+and the dissociation of heavy quarkonia due to the color screening have been 
+studied [46]. In Ref. [16], the real part of the potential is included in the SE in order 
+to determine the energy eigenvalues and energy eigenfunctions of the states of the 
+  ̅. 
+ The aim of the present work, we have analytically solved Schr ̈dinger equation 
+using NU method in which the finite temperature and magnetic field are included 
+in the potential interaction. For our best knowledge, the previous works are not 
+solved the present potential analytically. In addition, the effect of the number of 
+flavors is studied on the binding energy and the dissociation temperature of 
+quarkonium. 
+    This paper is organized as follows. In Sec. 2, we describe the NU method. In 
+Sec.3, the method is used to solve the N-dimensional SE. In Sec. 4, we discuss the 
+results, and summary and conclusion are given in Sec.5. 
+2. Theoretical Method   
+The NU method [47] used to solve the second-order differential equation in the 
+form is defined as follows 
+  (s)+  
+ ̅   
+       (s)+
+ ̌   
+    (s) = 0,                                                                           (1) 
+where  ̌    and    )  are max-second degree polynomials and  ̅(s) is the first 
+degree maximal polynomials. By using the transformation of    =  (r),  
+ (s) =  (s)  (s),                                                                                                  (2)                         
+        
+      
+                              
+as in Ref. [48], Eq. (1) can be written 
+ 
+   )   (s) +  (s)   (s) +    (s) = 0,                                                                      (3) 
+where, 
+   ) =  (s) 
+     
+     ,                                                                                                   (4) 
+where,  (s) are  the first degree polynomial [47] 
+and 
+   (s) =  ̅    + 2     ;         ́      0,                                                                     (5) 
+ then, the new eigenvalue equation becomes 
+    = -n       - 
+      
+ 
+      ,     n = 0,1,2,…                                                     (6) 
+           is an n degree polynomial which fulfils the form of the Rodrigues     
+      = 
+  
+   
+  
+    (          ),                                                                                   (7) 
+where    is a constant of  normalization and      is a function of weight that 
+follows the next equation  
+ 
+       = 
+    
+        ,         =    )      ,                                                              (8) 
+     
+       ̅   
+ 
+ √(
+       ̅   
+ 
+)
+ 
+  ̌            ,                                         (9) 
+and 
+         
+́
+                                                                                                       (10)  
+      is a first degree polynomial. The   in the square-root of Eq. (9) is possible to 
+determine whether the expression under the square root is square of expression. 
+This is possible if the discrimination is zero. 
+3. The solution of the Schrödinger radial equation in the presence of 
+a strong magnetic field. 
+As in Ref. [49], in the N-dimensional space, the Schrödinger equation for two 
+particles which interact with symmetrical potentials takes form  
+[
+  
+    +
+   
+  
+ 
+   -
+        
+  
+ +2  (E – V(r))] (r) = 0,                                                  (11) 
+where  , N and   are the angular momentum quantum number, the dimensional 
+number, and the reduced mass. The following radial SE is obtained by applying the 
+wave function   (r )=  
+   
+    (r) 
+[
+  
+     +2   (E – V(r)- 
+      
+     
+ 
+     
+ )] (r) = 0.                                                            (12) 
+In the present work, the potential takes the following form as in Ref. [50]. This 
+potential depends on the radial distance. The effect of magnetic field will be 
+appearing through the Debye mass. In addition, the anisotropy in the present 
+potential with respect to the direction of magnetic field is not breaks the 
+translational invariance of space, (see Ref. [46], for detail).  
+    
+V(r) = 
+   
+    ( 
+       
+ 
+ +   ) + 
+ 
+  
+ 
+   (1 -        ),                                                 (13) 
+where,  
+the string tension   = 0.18 Ge    in Ref. [16] 
+  = 
+    
+                 
+   
+ 
+                                                                                              (14) 
+where,  
+   is the number of colors,    (    GeV) is an infrared mass which is interpreted 
+as the ground state mass of the two gluons bound to by the basic string,     = 1.1 
+(GeV) ,    = 0.385 (GeV) as in Refs. [51-53] and the Debye mass [53] becomes 
+  
+  =     ́       
+  
+       ∑|   |
+ 
+ ∫
+ 
+  √       
+        
+     
+  √       
+    
+ 
+ 
+    ,                             (15) 
+where, 
+ the first term is the contribution from the gluon loops and dependent on 
+temperature and the magnetic field doesn't affect it. The second term is this term 
+strongly depends on the    and is not much sensitive to the T of the medium. In 
+the first term, where  ́ is the running strong coupling and is given by  
+ ́ = 4     ́ (T),                                                                                                       (16) 
+where, 
+  ́ (T) is the usual temperature-dependent running coupling. It is given by 
+  ́ (T) = 
+   
+(     
+      )    
+ 
+      .                                                                                   (17) 
+where, 
+   is the number of flavors,   is the renormalization scale is taken as 2   T and 
+      0.2 (GeV) as in Ref. [16]. 
+The second term is    =3.3 ,    is the quark flavor f = u and d,   is the magnetic 
+field,   is the inverse of temperature and quark mass massive    = 0.307 (GeV) as 
+in Ref. [54]. In Eq. (13),         is expanded up to second-order where    r   1 
+is considered as in [55]. Eq. (13) is written as follows 
+V(r) =       +      + 
+  
+                                                                                         (18)         
+where,     
+   = 
+  
+       ,                                                                                                       (19)           
+   = 
+  
+      
+  + 
+ 
+    ,                                                                                           (20) 
+   = 
+   
+                                                                                                                  (21) 
+By substituting the Eq. (18) into the Eq. (12), we get 
+[
+  
+     +2   (E -       -    r - 
+   
+  - 
+      
+     
+ 
+     
+ )] (r ) = 0,                                        (22)       
+Let us assume that   
+ 
+  and    is the characteristic meson radius. So we could 
+rewrite the Eq. (22) as in Ref. [56] 
+[
+  
+    + 
+   
+   
+ 
+   +
+   
+   (  
+  
+   
+  
+        
+      
+     
+ 
+   
+    )]      = 0,                      (23) 
+ The scheme is then based on  
+ 
+  extensions   ,        and power series around 
+    where    is a free parameter. Then, we have the scheme 
+ 
+  = 
+ 
+    = 
+ 
+       
+ 
+      
+ 
+   
+   
+   + 
+  
+  , 
+ 
+   = 
+ 
+       = 
+ 
+      
+ 
+       
+ 
+    
+    
+    
+    
+  , 
+                                                                                                                               (24)     
+Substituting Eqs. (24) into Eq. (23), we get  
+[
+  
+   + 
+   
+   
+ 
+   
+  
+   ( -   +     -     )]      = 0,                                                  (25) 
+where, 
+   =        
+    
+   
+    
+  ),                                                                                   (26) 
+  =    
+    
+   + 
+    
+      ,                                                                                       (27) 
+  =     
+    
+   +
+  
+   +
+      
+     
+ 
+   
+).                                                                                 (28) 
+By comparing Eq. (25) and Eq. (1), we obtain  ̅(s) = 4x  ,    )=   and  ̌    = 2( - 
+  +     -     ). Hence, Eq. (25) fulfils Eq. (1), therefore, the following NU 
+method as  in Sec. 2,  
+      √                                                                             (29) 
+The constant   is selected as it has a double zero under the square root, i.e. its 
+discriminate  = 4   8   (1+      ) = 0. Hence, 
+ =     
+ 
+√    (2      ).                                                                                (30) 
+Thus,  
+  = 4    2(    
+ 
+√    (2       )).                                                                 (31) 
+In the above equation, we select the positive sign to have a derivative  
+  = 2  
+   
+√                                                                                                              (32) 
+ using the Eq. (10), we get  
+  
+   
+          
+  
+√                                                                                        (33) 
+and Eq. (6), we obtain  
+      (  
+    
+√    )                                                                                (34) 
+From Eq. (6),     .  
+   
+          
+  
+√         (  
+    
+√    )                                                (35)       
+Let,    
+  
+√     then the equation becomes quadratic  
+            (            )= 0                                                      (36) 
+The Eq. (36) is solved, we get the spectrum of energy 
+  
+    
+   
+    
+   
+         
+         
+                          
+[       √      (    
+      
+    
+      
+ 
+    
+ 
+   
+) ]
+                                       (37) 
+4. Results and Discussion  
+          We note that Debye screening depends on eB and  T.  In Fig. (1), we find 
+   increases with the temperature linearly and the effect the    plays a role in 
+increasing the Debye mass with temperature. In the left panel, when     T and 
+       , the Debye mass increases with temperature. In right panel, when     T 
+and        , the Debye mass increases with temperature and we note that the 
+quark mass does not affect on the Debye mass. This conclusion is in an agreement 
+with Ref. [57]. 
+ 
+ 
+ 
+Fig. (1).  Left panel:  the Debye mass is plotted with T for different values the number of 
+flavors at a fixed value of B(        
+   and quark mass (               Right panel: the 
+Debye mass is plotted for the  different values of the number of flavors at a fixed value of 
+B          
+   and quark masses (                
+In Fig. (2), we note that    increases with T and increases the number of flavors. 
+In left panel, when     T ,          the Debye mass increases with increasing 
+temperature. In the right panel, when     T and          the Debye mass 
+increases with increases to temperature. Therefore, we noted that increasing 
+magnetic field up to 15   
+  is not affected on the behavior of the Debye mass. 
+Also, this conclusion is an agreement with Ref. [16].  
+ 
+ 
+ 
+ 
+Fig. (2).  Left panel: the screening Debye mass is plotted as a function of  T for  different the 
+number of flavors at a fixed value of B(        
+   and quark masses (                
+Right panel: the Debye screening mass with T for different values of the number of flavors at a 
+fixed value of B         
+   and quark masses (                
+In Fig. (3), in the left panel the    increases with increasing T and     with 
+       and quark masses massive (              .  We show that the    
+increases linearly both with T and the   . We took quark masses mass (   
+             In the right panel, we have plotted the Debye screening mass with 
+temperature and magnetic field B with       , we find that the quark mass does 
+not affect on the Debye mass. 
+ 
+ 
+ 
+Fig. (3).  In the left panel the Debye screening mass is plotted  with temperature and magnetic 
+field B at        and quark masses (              . In the right panel, the Debye 
+screening mass is plotted with temperature and magnetic field B at        and quark masses  
+(              . 
+In Fig.(4), we have plotted  the Debye screening mass with temperature and 
+magnetic field B with             and quark masses (              .  
+We show that the    increases linearly with both T and   . By increasing the 
+number of flavors, the Debye mass increases with temperature and magnetic field. 
+ 
+ 
+Fig. (4). The Debye screening mass is plotted with temperature and magnetic field B at 
+            and quark masses (              . 
+Also, in this section, we note the behavior of the real potential that plays a 
+fundamental role in the current work. The quark-antiquark interaction potential is 
+plotted a function of distance (r), where the T and    is included in the potential 
+through the   .  The Debye screening mass is parameterized according to Eq. (15) 
+in which   =3,      and g = 3.3 are taken.  
+In Fig. (5), in the left panel, we plotted the real part of the potential as a function of 
+r for different values of the magnetic field like         
+          
+ and 
+       
+     the fixed value of temperature      . We noted that when the 
+value of the    is increased the real-part is more screened. We noted that the 
+(       
+ ) has an effect on the linear term. However, a further increase of 
+magnetic field (       
+ ) and         
+   the potential becomes more 
+attractive than        
+    In the right panel, we have plotted the real part of the 
+potential as a function of different temperature values like T        ,T       and 
+T      for a fixed value of         
+ . We have seen that the potential is 
+screened by increasing the temperature. As a result, the real part of the potential 
+was found to be more screened to increase the value of both T and   . This 
+conclusion has been agreed with Ref. [16]. 
+ 
+ 
+Fig. (5).  Potential interaction is plotted as a distance function (r) for the different magnetic 
+field values. In the right panel, the potential interaction is plotted as a distance function (r) for 
+different potential temperature values. 
+In Fig. (6), we have plotted the real part of potential as a function of the 
+temperature and the magnetic field for the fixed value of r = 0.2 fm. To see the 
+change of the potential with the strong magnetic field for the temperature range T= 
+0.17- 0.3 GeV, we notice that potential is more attractive with a magnetic field 
+than temperature. This conclusion is in agreement with [58]. 
+                 Fig. (6). Effect the temperature and magnetic field on the potential. 
+ 
+ 
+4.1. Binding energy 
+By solving Schrodinger equation as discussed in Sec. 3. We need to mention that 
+the radial Schrödinger equation is numerically solved as in Refs. [46, 50]. We 
+obtain  the BEs of    ̅and   ̅. In following, we see the change of the binding 
+energy under the effect of temperature and magnetic field. 
+Charmonium binding energy is plotted as a function of T for three cases    
+    
+  ,       
+ and        
+ . In Fig. (7), we show the effect of the   , 
+temperature, and number of flavors on the BE of charmonium. We find that the 
+BEs decreases with increasing T and magnetic field decrease. Besides, we have 
+seen that the effect of temperature is more effective than the extremal magnetic 
+field. This conclusion is in an agreement with works [16, 50]. Also, the binding 
+energy decreases with increasing the number of flavors (  ) as shown in Fig. (7). 
+The effect is not considered in other works. 
+ 
+ 
+ 
+Fig. (7).  In the left panel, the Binding energy of charmonium  is plotted as a function of the T 
+in the thermal medium in the presence of the     for the different magnetic field values at    
+ . In the right panel, the Binding energy of charmonium  is plotted as a function of the T  in the 
+thermal medium in the presence of the     for the different magnetic field values at     . 
+ 
+ 
+In the lower panel, the Binding energy of charmonium is plotted as a function of  T  in the 
+thermal medium in the presence of the    for the  different magnetic field values at     . 
+In Fig.(8), we have plotted the binding energy of charmonium at temperature 
+T         ,T          and T      as a function of the magnetic field. We find 
+that BE decreases with the magnetic field increases. By increasing the temperature, 
+we notice the binding energy decreases. This conclusion is in agreement with 
+works [16, 58]. 
+ 
+Fig. (8). The binding energy of charmonium is plotted as a function of the magnetic field in the 
+thermal medium for different values of the temperature at     . 
+In Fig.(9), bottmonium binding energy is plotted as a function of T for three cases 
+       
+  ,       
+ and        
+ . By increasing the magnetic field, we 
+notice that the binding energy of 1S bottomonium decreases. In the upper left 
+panel, we took    = 0. Besides, the binding energy decreases when taking    = 2 
+in the upper right panel. Finally, we find that the BEs decrease with the increase of 
+   . At    = 3, as shown in the lower panel. As a result, we deduce that the 
+   plays a role in the decrease of the BE. This finding is in agreement with works 
+[16, 50]. A similar situation also observed for charmonium, except that the BE for 
+charmonium is higher than that for bottomonium. 
+ 
+ 
+ 
+Fig. (9). In the upper left panel, the Binding energy of bottomonium is plotted as a function of 
+the temperature in the thermal medium in the presence of magnetic field for the different  
+magnetic field values at     . In the upper right panel, the binding energy of bottomonium  (in 
+GeV) is plotted as a function of the temperature in the thermal medium in the presence of 
+magnetic field for the different magnetic field values at     . 
+ 
+ 
+In the lower panel, bottomonium Binding energy (in GeV) is plotted as a function of the 
+temperature in the thermal medium in the presence of magnetic field for the  different magnetic 
+field values at     . 
+ In Fig.(10), we have plotted the binding energy of bottomonium at temperature 
+T         ,T          and T      as a function of the   . Note that BE with 
+the    decreases. By increasing the temperature, we notice the binding energy 
+decreases. Also, we note that the binding energy tends to zero that depends on the 
+value of the temperature of the medium. This result is noted in Ref. [ 16,50]. 
+ 
+Fig. (10). The binding energy of bottomonium (in GeV) is plotted as a function of the magnetic 
+field in the thermal medium for different values of the temperature at    2. 
+4.2. Dissociation temperature for heavy quarkonia 
+The dissociation of the binding state of the two bodies in a thermal medium has 
+improved over the past two decades, as it was initially thought that the resonance 
+would separate when the scan became strong enough, i.e. the potential is too small 
+to carry    ̅ pair together. The dissociation is currently considered primarily to be 
+due to the increase in the resonance distance either due to an inelastic mechanism 
+of spatially mediated dispersion by a patron such as gluons, known as Landau 
+damping [14] or because of a process glue-dissociation in which involves hard 
+thermal gluon in one-tone color state [15]. When the medium has lower T than BE 
+of the basic resonance, process become dominant. Thus even at lower temperature, 
+the quarkonium is dissociated even at lower temperatures where the likelihood of 
+color processing is small. 
+ In the present study, we calculate the dissociation temperature at   ≃ , an 
+approximation that provides good accuracy in the calculation of the dissociation 
+temperature. In the current analysis, we also study influence of the    on the 
+dissociation temperature in the presence of hot media for charmonium and 
+bottomonium, using the calculated binding energies. 
+In Table (1), the dissociation temperature (  ) is the minimum when the magnetic 
+field at          
+ . When     , the charmonium is dissociated at 2.22    
+when        
+ . At the case,         
+  and         
+ , are dissociated 
+at 2.19    and 1.91   .When    = 2 charmonium is dissociated at 2.05    when 
+       
+ , in the case,         
+  and         
+ , are dissociated at 2.01 
+   and 1.77   . We notice that   , in this case is lower  compared to     . When 
+   = 3 charmonium is dissociated at 1.96    when        
+ , in the case, 
+        
+  and         
+  are dissociated at 1.93    and 1.7   .  
+In the Table (2), at      bottomonium is dissociated with 2.1    when    
+    
+ , in the case,         
+  and         
+ , are dissociated at 2.05    and 
+1.79   . When    = 2 bottomonium is dissociated at 1.94    when        
+ , in 
+the case,         
+  and         
+ , are dissociated at 1.9    and 1.65   . 
+We note that    is lower compared to     . When    = 3 bottomonium is 
+dissociated at 1.85    when        
+ , in the case,         
+  and    
+     
+ , are dissociated at 1.81    and 1.59   . This conclusion is agreed with Ref. 
+[16, 50]. In Ref. [50], In the SE, it is used to the real part of potential and they have 
+found that the real part of the potential is more screened and by increasing in the 
+screening of the real part of the potential leads to the decrease of BEs of Υ and J/Ψ. 
+Finally, they got the    for Υ and J/Ψ, which became slightly lower in the presence 
+of a weak magnetic field. At eB= 0.5  
+  they dissociated at slightly lower value 
+1.13   and 3.94  . In Ref. [16], the    influences the binding of J/ψ and   . it 
+reduces the binding of J/ψ but increases the binding of    . In the other hand, the 
+magnetic field raises the width of the resonances because the temperature is too 
+high. We eventually obtained the dissociation due to the Landau damping and 
+noted that the   had risen in the presence of a   . At eB = 6  
+   the J/ψ is 
+dissociated at 2   , and with eB = 4  π, the   is dissociated at 1.1   . As the 
+   increases further the    decreases.  
+Table. 1. Dissociation temperature (  ) for charmonium. 
+State 
+        
+  
+        
+  
+        
+  
+                
+2.22    
+2.19    
+1.91    
+      
+2.05    
+2.01    
+1.77    
+      
+1.96    
+1.93    
+1.7    
+ 
+ 
+Table. 2. Dissociation temperature (  ) for bottomonium. 
+State 
+        
+  
+        
+  
+        
+  
+                
+2.1    
+2.05    
+1.79    
+      
+1.94    
+1.9    
+1.65    
+      
+1.85    
+1.81    
+1.59    
+ 
+ 
+4.3. Dissociation of heavy quarkonia in a magnetic field   
+We calculate the dissociation of charmonium and bottomonium in the magnetic 
+field when   ≃ .  
+ 
+Table. 3. Dissociation of charmonium in the magnetic field.   
+ 
+  ̅ 
+      
+          
+         
+ 
+          
+  
+        
+  
+           
+  
+  
+By taking thermal medium at      , we note that the binding energy dissociated 
+as magnetic field increases           
+ . By decreasing the temperature of the 
+medium up to          , we note that the binding energy dissociated at    
+        
+ . The state of bottomonium is similar to that states of Table (4) but the 
+dissociation of bottomonium is more than of charmonium. This conclusion is 
+agreed with works such that [15, 59]. 
+ Table. 4. Dissociation of bottomonium in the magnetic field.   
+ 
+  ̅ 
+       
+          
+          
+ 
+           
+  
+          
+  
+        
+  
+ 
+5. Summary and conclusion 
+        In this paper, we find the dissociation of heavy quarks in hot QCD plasma in 
+the presence of a strong magnetic field using a generalized    that depends on T 
+and   . The SE is solved analytically using NU method, where the real potential 
+includes the influence of the finite T and   . 
+We consider the effect of the number of flavors, finite temperature, and magnetic 
+field on binding energy and dissociation temperature. We found that the    has a 
+basic role on decreasing binding energy. We have observed that the magnetic field 
+is largely affected by large-distance interaction, as a result of which the real part of 
+potential is more attractive. We report on the results for the values of the magnetic 
+field at        
+  ,       
+ and        
+ . We found the binding energy 
+decreases by increasing the magnetic field. Also,  we measure that the    is above 
+the critical temperature         GeV, and that the     of charmonium and 
+bottomonium is lower in a strong magnetic field. This occurs because of the BE 
+decreases by increasing the magnetic field. We note that the    decreases with an 
+increase in the     and decrease with magnetic field values. We note that the 
+dissociation temperature the of charmonium is greater than that of the 
+bottomonium since the mass of charmonium is smaller than the mass of the 
+bottomonium. This conclusion is agreed with results of Refs.  [16, 46, 50, 59]. 
+Data Availability: The data used to support the findings of this study are included 
+within the article and are cited at relevant places within the text as references.  
+Conflicts of Interest: The author declares that he has no conflicts of interest. 
+ 
+ 
+References 
+[1] J. C.  Collins and M. J.  Perry, Phys. Rev. Lett.1975,34, 1353. 
+[2]N. Cabibbo and G. Parisi, Phys. Lett. B1975, 59, 67–69.  
+[3] I. A. Shovkovy, Lect. Notes Phys. 871, 13 (2013). 
+[4] M. D:Elia, Lect. Notes Phys. 871, 181 (2013). 
+[5] K. Fukushima, Lect. Notes Phys. 871, 241 (2013). 
+[6] N. Muller, J. A. Bonnet, and C. S. Fisher, Phys. Rev. D 89, 094023 (2014). 
+[7] V. A. Miransky and I. A. Shovkovy, Phys. Rep. 576, 1-209 (2015). 
+[8] D. Kharzeev, L. McLerran, and H. Warringa, Nucl. Phys. A 803, 227 (2008). 
+[9] T. Vachaspati, Phys. Lett. B 265, 258 (1991). 
+[10] M. Abu-Shady, Int. J. Mod. Phys.Appl. 49, 1708 (2018). 
+[11] M. Abu-Shady, H. M. Fath-All, Int. J. Mod. Phys. 35, 2050110 (2020). 
+[12] M. Abu. Shady, and A. N. Ikot, Eur. Phys. J. Plus 134, 321 (2019). 
+[13] D. L. Yang and B. Muller, J. Phys. G 39, 015007 (2012). 
+[14] M. Laine, O. Philipsen, M. Tassler, P. Romatschke, J. High Energy Phys. 
+03(2007). 
+[15] N. Brambilla, M. A. Escobedo, J. Ghiglieri, A. Vairo, J. High Energy Phys. 
+1305 (2013). 
+[16] M. Hasan, B. K. Patra, P. Bagchi, Nucl. Phys. A 955, 121688 (2020). 
+[17] T. D. Cohen, D.A. McGady, E.S. Werbos, Phys. Rev. C 76, 055201 (2007). 
+[18] J. O. Andersen, Phys. Rev. D 86, 025020 (2012). 
+[19] J. O. Andersen, JHEP1210, 005 (2012). 
+[20] S. P. Klevansky, R.H. Lemmer, Phys. Rev. D 39, 3478 (1989). 
+[21] D. P. Menezes, M. Benghi Pinto, S. S. Avancini, C. Providencia,Phys. Rev. C 
+80, 065805 (2009). 
+[22] R. Gatto, M. Ruggieri, Phys. Rev. D 83, 034016 (2011). 
+[23] R. Gatto, M. Ruggieri, Phys. Rev. D 82, 054027 (2010). 
+[24] K. Kashiwa, Phys. Rev. D 83, 117901 (2011). 
+[25] J. O. Andersen, R. Khan, Phys. Rev. D 85, 065026 (2012). 
+[26] S. S. Avancini, D. P. Menezes, M. B. Pinto, and C.Providencia 
+arXiv:1202.5641 (2012). 
+[27] K. Fukushima and J. M. Pawlowski, arXiv:1203.4330 (2012). 
+[28] A. J. Mizher, M.N. Chernodub, E.S. Fraga, Phys. Rev. D 82, 105016 (2010). 
+[29] J. O. Andersen, A. Tranberg, JHEP 08,002 (2012). 
+[30] S. Kanemura, H.-T. Sato, H. Tochimura, Nucl. Phys. B 517, 567 (1998). 
+[31] K. G. Klimenko, Theor. Math. Phys. 90, 1 (1992). 
+[32] J. Alexandre, K. Farakos, G. Koutsoumbas, Phys. Rev. D 63,065015 (2001). 
+[33] D. D. Scherer, H. Gies, Phys. Rev. B 85, 195417 (2012). 
+[34] C. V. Johnson, A. Kundu, JHEP 12, 053 (2008). 
+[35] F. Preis, A. Rebhan, A. Schmitt, JHEP 1103, 033 (2011). 
+[36] A. J. Mizher, E. S. Fraga, M. Chernodub, PoS FACESQCD 020 (2010). 
+[37] E. S. Fraga, L. F. Palhares, Phys. Rev. D 86, 016008 (2012) 
+[38] K. Marasinghe and K. Tuchin, Phys. Rev. C 84, 044908 (2011). 
+ [39] J. Alford and M. Strickland, Phys. Rev. D 88, 105017 (2013). 
+[40] S. Cho, K. Hattori, S. H. Lee, K. Morita, and S. Ozaki, Phys. Rev. Lett.113, 
+172301(2014). 
+[41] X. Guo, S. Shi, N. Xu, Z. Xu and P. Zhuang, Phys. Lett. B 751, 215 (2015). 
+[42] C. Bonati, M. D’Elia and A. Rucci, Phys. Rev. D 92, 054014 (2015). 
+[43] R. Rougemont, R. Critelli and J. Noronha, Phys. Rev. D 91, 066001 (2015). 
+[44] D. Dudal and T. G. Mertens, Phys. Rev. D 91, 086002 (2015). 
+[45] A. V. Sadofyev and Y. Yin, arXiv:1510.06760. 
+ [46] M. Hasan, B. Chatterjee, B. K. Patra, Eur. Phys. J. C 77, 767 (2017). 
+[47] Af. Nikiforov Uvarov, "Special Functions of Mathematical Physics" 
+Birkhauser, Basel (1988). 
+[48] S. M. Kuchin and N. V. Maksimenko, Univ. J. Phys. Appl.7, 295 (2013). 
+[49] R. Kumar and F. Chand, Commun. Theor. Phys. 59, 528 (2013). 
+[50] M. Hasan, B. K. Patra, Phys. Rev. D 102, 036020 (2020). 
+[51] E. J. Ferrer, V. de la Incera and X. J. Wen, Phys. Rev. D 91, 054006 (2015). 
+[52] Yu. A. Simonov, Phys. At. Nucl. 58, 107 (1995). 
+[53] M. A. Andreichikov, V. D. Orlovsky and Yu. A. Simonov, Phys. Rev. Lett. 
+110, 162002 (2013). 
+ [54] J. Beringer, Particle Data Group, Review of Particle Physics, Phys. Rev. D 
+86, 010001 (2012). 
+[55] V. K. Agotiya, V. Chandra, M. Y.  Jamal and I. Nilima, Phys. Rev. D 94, 
+094006 (2016). 
+[56] A. Al-Jamel, Mod. Phys. Lett. A, Vol. 34, No. 37, 1950307 (2019). 
+[57] A. Bandyopadhyay, C. A. Islam, M. G. Mustafa, arxiv: 1602.06769V3 (2017). 
+[58] S. A. Khan, B. K. Patra, and M. Hasan, arxiv: 2004.08868V1 (2020). 
+[59] P. Bagchi, N. Dutta, B. Chatterjee, S. P. Adhya, arxiv: 1805.04082V1 (2018). 

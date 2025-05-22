@@ -1,0 +1,4 @@
+Scanned Research Note on CNN Convolutional layers extract features, while pooling reduces
+spatial dimensions. CNNs are powerful for image recognition tasks due to their ability to
+
+lear spatial hierarchies.

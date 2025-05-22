@@ -1,0 +1,4 @@
+Scanned Research Note on Classification Classification assigns labels to inputs based on
+leamed decision boundaries. Support Vector Machines (SVM) and Decision Trees are classic
+
+classifiers.

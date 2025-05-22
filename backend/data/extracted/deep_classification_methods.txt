@@ -1,0 +1,1238 @@
+arXiv:1707.03197v1  [math.AP]  11 Jul 2017
+On some properties of weak solutions
+to elliptic equations with divergence-free drifts
+Nikolay Filonov and Timofey Shilkin
+Abstract. We discuss the local properties of weak solutions to the equation
+−∆u + b· ∇u = 0. The corresponding theory is well-known in the case b ∈Ln,
+where n is the dimension of the space. Our main interest is focused on the
+case b ∈L2. In this case the structure assumption div b = 0 turns out to be
+crucial.
+1. Introduction and Notation
+Assume n ≥2, Ω⊂Rn is a smooth bounded domain, b : Ω→Rn, f : Ω→R.
+In this paper we investigate the properties of weak solutions u : Ω→R to the
+following scalar equation
+(1.1)
+−∆u + b · ∇u = f
+in
+Ω.
+This equation describes the diﬀusion in a stationary incompressible ﬂow. If it is
+not stated otherwise, we always impose the following conditions
+b ∈L2(Ω),
+f ∈W −1
+2
+(Ω)
+(see the list of notation at the end of this section). We use the following
+Definition 1.1. Assume b ∈L2(Ω), f ∈W −1
+2
+(Ω). The function u ∈W 1
+2 (Ω) is
+called a weak solution to the equation (1.1) if the following integral identity holds:
+(1.2)
+Z
+Ω
+∇u · (∇η + bη) dx = ⟨f, η⟩,
+∀η ∈C∞
+0 (Ω).
+Together with the equation (1.1) one can consider the formally conjugate (up
+to the sign of the drift) equation
+(1.3)
+−∆u + div(bu) = f
+in
+Ω.
+1991 Mathematics Subject Classiﬁcation. 35B65.
+Key words and phrases. elliptic equations, weak solutions, regularity.
+Both authors are supported by RFBR grant 17-01-00099-a.
+The research of the second author leading to these results has received funding from the
+People Programme (Marie Curie Actions) of the European Union’s Seventh Framework Pro-
+gramme FP7/2007-2013/ under REA grant agreement n 319012 and from the Funds for Inter-
+national Co-operation under Polish Ministry of Science and Higher Education grant agreement
+n 2853/7.PR/2013/2.
+The author also thanks the Technische Universit¨at of Darmstadt for its
+hospitality.
+1
+2
+NIKOLAY FILONOV AND TIMOFEY SHILKIN
+Definition 1.2. Assume b ∈L2(Ω), f ∈W −1
+2
+(Ω). The function u ∈W 1
+2 (Ω) is
+called a weak solution to the equation (1.3) if
+(1.4)
+Z
+Ω
+(∇u −bu) · ∇η dx = ⟨f, η⟩,
+∀η ∈C∞
+0 (Ω).
+The advantage of the equation (1.3) is that it allows one to deﬁne weak solutions
+for a drift b belonging to a weaker class than L2(Ω). Namely, Deﬁnition 1.2 makes
+sense for u ∈W 1
+2 (Ω) if
+(1.5)
+b ∈Ls(Ω)
+where
+s =
+
+2n
+n+2,
+n ≥3,
+1 + ε, ε > 0,
+n = 2.
+Nevertheless, it is clear that for a divergence-free drift b ∈L2(Ω) the Deﬁnitions
+1.1 and 1.2 coincide.
+Together with the equation (1.1) we discuss boundary value problems with
+Dirichlet boundary conditions:
+(1.6)
+(
+−∆u + b · ∇u = f
+in
+Ω,
+u|∂Ω= ϕ.
+For weak solutions the boundary condition is understood in the sense of traces.
+Assume f is “good enough” and b ∈L2(Ω), div b = 0. Our main observation is that
+the regularity of solution u inside Ωcan depend on the behaviour of its boundary
+values.
+If the function ϕ is bounded, then the solution u is also bounded (see
+Theorem 3.4 below). If the function ϕ is unbounded on ∂Ω, then the solution u can
+become inﬁnite in internal points of Ω(see Example 3.6 below). So, we distinguish
+between two cases: the case of general boundary data ϕ ∈W 1/2
+2
+(∂Ω), and the case
+of bounded boundary data
+(1.7)
+ϕ ∈L∞(∂Ω) ∩W 1/2
+2
+(∂Ω).
+Discussing the properties of weak solutions to the problem (1.6) we also distinguish
+between another two cases: in Section 2 we consider suﬃciently regular drifts,
+namely, b ∈Ln(Ω), and in Section 3 we focus on the case of drifts b from L2(Ω)
+satisfying div b = 0. Section 4 is devoted to possible ways of relaxation of the condi-
+tion b ∈Ln(Ω) in the framework of the regularity theory. In Appendix for reader’s
+convenience some proofs (most of which are either known or straightforward) are
+gathered.
+Together with the elliptic equation (1.1) it is possible to consider its parabolic
+analogue
+(1.8)
+∂tu −∆u + b · ∇u = f
+in
+Ω× (0, T ),
+but it should be a subject of a separate survey. We address the interested readers
+to the related papers [Z], [LZ], [NU], [Sem], [SSSZ], [SV], [SVZ] and references
+there.
+In the paper we explore the following notation. For any a, b ∈Rn we denote by
+a · b its scalar product in Rn. We denote by Lp(Ω) and W k
+p (Ω) the usual Lebesgue
+and Sobolev spaces. The space
+◦
+W 1
+p(Ω) is the closure of C∞
+0 (Ω) in W 1
+p (Ω) norm.
+The negative Sobolev space W −1
+p
+(Ω), p ∈(1, +∞), is the set of all distributions
+which are bounded functionals on
+◦
+W 1
+p′(Ω) with p′ :=
+p
+p−1. For any f ∈W −1
+p
+(Ω)
+ON SOME PROPERTIES OF WEAK SOLUTIONS
+3
+and w ∈
+◦
+W 1
+p′(Ω) we denote by ⟨f, w⟩the value of the distribution f on the function
+w. We use the notation W 1/2
+2
+(∂Ω) for the Slobodetskii–Sobolev space. By C(¯Ω)
+and Cα(¯Ω), α ∈(0, 1) we denote the spaces of continuous and H¨older continuous
+functions on ¯Ω. The space C1+α(¯Ω) consists of functions u whose gradient ∇u is
+H¨older continuous. The index “loc” in notation of the functional spaces L∞,loc(Ω),
+Cα
+loc(Ω), C1+α
+loc (Ω) etc implies that the function belongs to the corresponding func-
+tional class over every compact set which is contained in Ω. The symbols ⇀and
+→stand for the weak and strong convergence respectively. We denote by BR(x0)
+the ball in Rn of radius R centered at x0 and write BR if x0 = 0. We write also B
+instead of B1.
+2. Regular drifts
+2.1. Local properties. For suﬃciently regular drifts we have the local H¨older
+continuity of a solution.
+Theorem 2.1. Assume
+(2.1)
+b ∈Ln(Ω)
+if
+n ≥3,
+Z
+Ω
+|b|2 ln(2 + |b|2) dx < ∞
+if
+n = 2.
+Let u ∈W 1
+2 (Ω) be a weak solution to (1.1) with f satisfying
+f ∈Lp(Ω),
+p > n
+2 .
+Then
+u ∈Cα
+loc(Ω)
+with
+
+α = 2 −n
+p ,
+p < n,
+∀α < 1,
+p ≥n.
+The local H¨older continuity of weak solutions in Theorem 2.1 with some α ∈
+(0, 1) is well-known, see [St, Theorem 7.1] or [NU, Corollary 2.3] in the case f ≡0.
+The H¨older continuity with arbitrary α ∈(0, 1) was proved in the case f ≡0, for
+example, in [F]. The extension of this result for non-zero right hand side is routine.
+If b possesses more integrability then the ﬁrst gradient of a weak solution is
+locally H¨older continuous.
+Theorem 2.2. Let b ∈Lp(Ω) with p > n, and u ∈W 1
+2 (Ω) be a weak solution
+to (1.1) with f ∈Lp(Ω). Then u ∈C1+α
+loc (Ω) with α = 1 −n
+p .
+For the proof see [LU, Chapter III, Theorem 15.1].
+2.2. Boundary value problem. We consider the second term
+R
+Ω
+∇u · b η dx
+in the equation (1.2) as a bilinear form in
+◦
+W 1
+2(Ω).
+It deﬁnes a linear operator
+T :
+◦
+W 1
+2(Ω) →
+◦
+W 1
+2(Ω) by the relation
+(2.2)
+Z
+Ω
+∇(T u) · ∇η dx =
+Z
+Ω
+∇u · b η dx,
+∀u, η ∈
+◦
+W 1
+2(Ω).
+The following result is well-known.
+Theorem 2.3. Let b satisfy (2.1). Then the operator T :
+◦
+W 1
+2(Ω) →
+◦
+W 1
+2(Ω)
+deﬁned by (2.2) is compact.
+4
+NIKOLAY FILONOV AND TIMOFEY SHILKIN
+Indeed, if n ≥3 then the estimate
+(2.3)
+
+Z
+Ω
+∇u · b η dx
+
+≤Cb∥∇u∥L2(Ω)∥∇η∥L2(Ω)
+∀u, η ∈
+◦
+W 1
+2(Ω)
+follows by the imbedding theorem and the H¨older inequality. In the case n = 2 such
+estimate can be found for example in [F, Lemma 4.3]. Next, the operator T can be
+approximated in the operator norm by compact linear operators Tε generated by
+the bilinear forms
+R
+Ω
+∇u · bε η dx where bε ∈C∞(¯Ω).
+Remark 2.4. The condition b ∈L2(Ω) in the case n = 2 is not suﬃcient. For
+example, one can take Ω= B1/3,
+b(x) =
+x
+|x|2 |ln |x||3/4 ,
+u(x) = η(x) = |ln |x||3/8 −(ln 3)3/8.
+Then
+R
+Ω
+∇u·b η dx = ∞, and therefore, the corresponding operator T is unbounded.
+Remark 2.5. The issue of boundedness and compactness of the operator T in
+the case of the whole space, Ω= Rn, is investigated in full generality in [MV], see
+Theorem 4.1 below. In this section we restrict ourselves by considering assumptions
+on b only in Lp–scale.
+Now, the problem (1.6) with ϕ ≡0 reduces to the equation u + T u = h in
+◦
+W 1
+2(Ω) with an appropriate right hand side h. The solvability of the last equation
+follows from the Fredholm theory. Roughly speaking, “the existence follows from
+the uniqueness”.
+The uniqueness in the case b ∈Ln(Ω), n ≥3, and div b = 0 is especially simple.
+In this situation
+Z
+Ω
+b · ∇u u dx = 0
+∀u ∈
+◦
+W 1
+2(Ω),
+and the uniqueness for the problem (1.6) follows.
+In the general case of drifts
+satisfying (2.1) without the condition div b = 0 the proof of the uniqueness is more
+sophisticated. It requires the maximum principle which can be found, for example,
+in [NU], see Corollary 2.2 and remarks at the end of Section 2 there.
+Theorem 2.6. Let b satisfy (2.1). Assume u ∈W 1
+2 (Ω) is a weak solution to
+the problem (1.6) with f ≡0 and ϕ ∈L∞(∂Ω) ∩W 1/2
+2
+(∂Ω). Then either u ≡const
+in Ωor the following estimate holds:
+essinf∂Ωϕ < u(x) < esssup∂Ωϕ,
+∀x ∈Ω.
+Corollary 2.7. Let b satisfy (2.1). Then a weak solution to the problem (1.6)
+is unique in the space W 1
+2 (Ω).
+Now, the solvability of the problem (1.6) is straightforward.
+Theorem 2.8. Let b satisfy (2.1).
+Then for any f ∈W −1
+2
+(Ω) and ϕ ∈
+W 1/2
+2
+(∂Ω) the problem (1.6) has the unique weak solution u ∈W 1
+2 (Ω), and
+∥u∥W 1
+2 (Ω) ≤C
+
+∥f∥W −1
+2
+(Ω) + ∥ϕ∥W 1/2
+2
+(∂Ω)
+
+.
+ON SOME PROPERTIES OF WEAK SOLUTIONS
+5
+Proof. For ϕ ≡0 Theorem 2.8 follows from Fredholm’s theory. In the general
+case the problem (1.6) can be reduced to the corresponding problem with homoge-
+neous boundary conditions for the function v := u −˜ϕ, where ˜ϕ is some extension
+of ϕ from ∂Ωto Ωwith the control of the norm ∥˜ϕ∥W 1
+2 (Ω) ≤c∥ϕ∥W 1/2
+2
+(∂Ω). The
+function v can be determined as a weak solution to the problem
+(2.4)
+(
+−∆v + b · ∇v = f + ∆˜ϕ −b · ∇˜ϕ
+in
+Ω,
+v|∂Ω= 0
+Under assumption (2.1) the right hand side belongs to W −1
+2
+(Ω) due to Theorem
+2.3.
+□
+Note that for n ≥3 the problems (1.6) and (2.4) are equivalent only in the
+case of “regular” drifts b ∈Ln(Ω). If b ∈L2(Ω) and additionally div b = 0, then
+b·∇˜ϕ ∈W −1
+n′ (Ω), n′ =
+n
+n−1, and the straightforward reduction of the problem (1.6)
+to the problem with homogeneous boundary data is not possible.
+Finally, to investigate in Section 3 the problem (1.6) with divergence-free drifts
+from L2(Ω) we need the following maximum estimate.
+Theorem 2.9. Let b satisfy (2.1). Assume ϕ satisﬁes (1.7) and let u ∈W 1
+2 (Ω)
+be a weak solution to (1.6) with some f ∈Lp(Ω), p > n/2. Then
+1) u ∈L∞(Ω) and
+(2.5)
+∥u∥L∞(Ω) ≤∥ϕ∥L∞(∂Ω) + C ∥f∥Lp(Ω).
+2) If div b = 0 then C = C(n, p, Ω) does not depend on b.
+We believe Theorem 2.9 is known though it is diﬃcult for us to identify the
+precise reference to the statement we need. So, we present its proof in Appendix.
+Remark 2.10. For n ≥3 consider the following example:
+Ω= B,
+u(x) = ln |x|,
+b(x) = (n −2) x
+|x|2 .
+The statements of Theorem 2.1, Theorem 2.6 and Corollary 2.7 are violated for
+these functions. On the other hand, −∆u + b · ∇u = 0, u ∈
+◦
+W 1
+2(Ω) and b ∈Lp(Ω)
+for any p < n. It means that for non-divergence free drifts the condition b ∈Ln(Ω)
+in (2.1) is sharp.
+Remark 2.11. For n = 2 the condition b ∈L2(Ω) is not suﬃcient.
+The
+statements of Theorem 2.1, Theorem 2.6 and Corollary 2.7 are violated for the
+functions
+u(x) = ln |ln |x|| ,
+b(x) = −
+x
+|x|2 ln |x|
+in a ball Ω= B1/e, nevertheless b ∈L2(Ω).
+Converesely, if in the case n = 2 we assume that b ∈L2(Ω) and div b = 0, then
+the estimate (2.3) is fulﬁlled (see [MV] or [F]), and all statements of this section
+(Theorems 2.1, 2.3, 2.6, 2.8 and 2.9) hold true, see [F] or [NU]. So, this case can
+be considered as the regular one. See also Remark 4.3 below.
+6
+NIKOLAY FILONOV AND TIMOFEY SHILKIN
+3. Non-regular divergence-free drifts
+In this section we always assume that div b = 0. It turns out that this assump-
+tion plays the crucial role in local boundedness of weak solutions if one considers
+drifts b ∈Lp(Ω) with p < n, n ≥3. Recall that the case n = 2, b ∈L2(Ω) and
+div b = 0 can be considered as a regular case, see Remark 2.11. Thus, below we
+restrict ourselves to the case n ≥3.
+3.1. Boundary value problem. We have the following approximation result.
+Theorem 3.1. Assume b ∈L2(Ω), div b = 0, f ∈W −1
+2
+(Ω), and let u ∈W 1
+2 (Ω)
+be a weak solution to (1.1). Assume also bk ∈Ln(Ω), div bk = 0 is an arbitrary
+sequence satisfying
+bk →b
+in
+L2(Ω),
+and let uk ∈W 1
+2 (Ω) be the unique weak solution to the problem
+(3.1)
+(
+−∆uk + bk · ∇uk = f,
+uk|∂Ω= ϕ,
+where ϕ = u|∂Ω. Then
+(3.2)
+uk →u
+in
+Lq(Ω)
+for any
+q <
+n
+n −2.
+Moreover, if ϕ ∈L∞(∂Ω) then
+(3.3)
+uk ⇀u
+in
+W 1
+2 (Ω).
+Finally, if ϕ ≡0 then the energy inequality holds:
+(3.4)
+Z
+Ω
+|∇u|2 dx ≤⟨f, u⟩.
+The convergence (3.2) is proved (in its parabolic version) for q = 1 in [Z,
+Proposition 2.4].
+Note that the proof in [Z] uses the uniform Gaussian upper
+bound of the Green functions of the operators ∂tu −∆u + bk · ∇u (sf. [A]). In
+Appendix we present an elementary proof of Theorem 3.1 based on the maximum
+estimate in Theorem 2.9 and duality arguments.
+Theorem 3.1 has several consequences. The ﬁrst of them is the uniqueness of
+weak solutions, see [Z] and [Zhi]:
+Theorem 3.2. Let b ∈L2(Ω), div b = 0. Then a weak solution to the problem
+(1.6) is unique in the class W 1
+2(Ω).
+Indeed, u is a Lq-limit of the approximating sequence uk, and such limit is
+unique. The alternative proof of the uniqueness (which is in a sense “direct”, i.e.
+it does not hang upon the approximation result of Theorem 3.1) for b ∈L2(Ω),
+div b = 0, can be found in [Zhi] (see also some development in [Su]). Note that
+in [Zhi] it was also shown that the uniqueness can break for weak solutions to the
+equation (1.3) if b satisfy (1.5) (actually a little better than (1.5)) and div b = 0,
+but b /∈L2(Ω).
+Another consequence of Theorem 3.1 is the existence of weak solution.
+Theorem 3.3. Let b ∈L2(Ω), div b = 0. Then for any f ∈W −1
+2
+(Ω) and any
+ϕ satisfying (1.7) there exists a weak solution to the problem (1.6).
+ON SOME PROPERTIES OF WEAK SOLUTIONS
+7
+Theorem 3.3 is proved in Appendix.
+Finally, Theorem 3.1 allows one to establish the global boundedness of weak
+solutions whenever the boundary data are bounded.
+Theorem 3.4. Let b ∈L2(Ω), div b = 0, f ∈Lp(Ω), p > n/2, and ϕ satisﬁes
+(1.7). Assume u ∈W 1
+2(Ω) is a weak solution to (1.6). Then u ∈L∞(Ω) and
+(3.5)
+∥u∥L∞(Ω) ≤∥ϕ∥L∞(∂Ω) + C ∥f∥Lp(Ω),
+where the constant C = C(n, p, Ω) is independent on b.
+Theorem 3.4 is proved in Appendix.
+3.2. Local properties. Note that any weak solution to (1.1) belonging to
+the class W 1
+2 (Ω) can be viewed as a weak solution to the problem (1.6) with some
+ϕ ∈W 1/2
+2
+(Ω).
+Theorem 3.5. Assume div b = 0 and
+b ∈Lp(B)
+where
+p = 2
+if
+n = 3
+and
+p > n
+2
+if
+n ≥4.
+Let u ∈W 1
+2 (B) be a weak solution to (1.1) in B with some f ∈Lq(B), q > n/2.
+Then u ∈L∞(B1/2) and
+∥u∥L∞(B1/2) ≤C
+
+∥u∥W 1
+2 (B) + ∥f∥Lq(B)
+
+where the constant C depends only on n, p, q and ∥b∥Lp(B).
+Theorem 3.5 was proved (in the parabolic version) in [Z].
+For the reader’s
+convenience we present the proof of this theorem in Appendix.
+Let us consider the following
+Example 3.6. Assume n ≥4 and put
+u(x) = ln r,
+b = (n −3)
+ 1
+r er −(n −3) z
+r2 ez
+
+,
+where r2 = x2
+1 + ... + x2
+n−1, z = xn, and er, ez are the basis vectors of the corre-
+sponding cylindrical coordinate system in Rn. Then u ∈
+◦
+W 1
+2(Ω), and
+−∆u + b · ∇u = 0.
+Next, div b = 0, b(x) = O(r−2) near the axis of symmetry, and hence
+b ∈Lp(B)
+for any
+p < n −1
+2
+.
+Clearly, the assumption b ∈L2(Ω) leads to the restriction n ≥6.
+So, for
+divergence-free drifts b ∈L2(Ω) we have the following picture. Assume u ∈W 1
+2 (Ω)
+is a weak solution to (1.6) with f ∈Lp(Ω), p > n/2. Theorem 3.4 means that
+ϕ ∈L∞(∂Ω) ∩W 1/2
+2
+(∂Ω)
+=⇒
+u ∈L∞(Ω)
+for any n ≥2.
+The Example 3.6 shows that for general ϕ we have
+ϕ ∈W 1/2
+2
+(∂Ω)
+=⇒
+
+
+
+if n ≤3 then u ∈L∞,loc(Ω),
+if n ≥6 then it is possible u ̸∈L∞,loc(Ω),
+if n = 4, 5 – open questions.
+Theorem 3.4 and Example 3.6 together establish an interesting phenomena:
+for drifts b ∈L2(Ω), div b = 0, the property of the elliptic operator in (1.1) to
+8
+NIKOLAY FILONOV AND TIMOFEY SHILKIN
+improve the “regularity” of weak solutions (in the sense that every weak solution
+is locally bounded) depends on the behavior of a weak solution on the boundary
+of the domain. If the values of ϕ := u|∂Ωon the boundary are bounded then this
+weak solution must be bounded as Theorem 3.4 says. On the other hand, if the
+function ϕ is unbounded on ∂Ωthen the weak solution can be unbounded even
+near internal points of the domain Ωas Example 3.6 shows. To our opinion such a
+behavior of solutions to an elliptic equation is unexpected. Allowing some abuse of
+language we can say that non-regularity of the drift can destroy the hypoellipticity
+of the operator.
+Theorem 3.4 impose some restrictions on the structure of the set of singular
+points of weak solutions. Namely, let us deﬁne a singular point of a weak solution
+as a point for which the weak solution is unbounded in any its neighborhood, and
+then deﬁne the singular set of a weak solution as the set of all its singular points.
+It is clear that the singular set is closed. Theorem 3.4 shows that if for some weak
+solution its singular set is non-empty then its 1-dimensional Hausdorﬀmeasure
+must be positive.
+Theorem 3.7. Let b ∈L2(Ω), div b = 0, and let u ∈W 1
+2 (Ω) be a weak solution
+to (1.1) with f ∈Lp(Ω), p > n/2. Denote by Σ ⊂¯Ωthe singular set of u and
+assume Σ ∩Ω̸= ∅. Then any point of the set Σ ∩Ωnever can be surrounded by
+any smooth closed (n −1)-dimensional surface S ⊂¯Ωsuch that u|S ∈L∞(S). In
+particular, this means that
+(3.6)
+H1(Σ) > 0,
+Σ ∩∂Ω̸= ∅,
+where H1 is one-dimensional Hausdorﬀmeasure in Rn.
+Proof. The ﬁrst assertion is clear. Let us prove (3.6). Assume Σ ∩Ω̸= ∅
+and x0 ∈Σ ∩Ω. Denote d := dist{x0, ∂Ω}. Let z0 ∈∂Ωbe a point such that
+|z0 −x0| = d and denote by [x0, z0] the straight line segment connecting x0 with z0.
+Let us take arbitrary δ > 0 and consider any countable covering of Σ by open balls
+{Bρi(yi)} such that ρi ≤δ. For any i denote ri := |x0 −yi|. If ri ≤d then denote
+zi := [x0, z0] ∩∂Bri(x0). By Theorem 3.4 for any r ≤d we have Σ ∩∂Br(x0) ̸= ∅.
+Therefore,
+[x0, z0] ⊂
+[
+ri≤d
+Bρi(zi).
+This inclusion means that
+H1(Σ) ≥H1 ([x0, z0]) = d > 0.
+□
+Theorem 3.7 in particular implies that no isolated singularity is possible. This
+exactly what Example 3.6 demonstrates: the singular set in this case is the axis of
+symmetry.
+Note that the divergence free condition brings signiﬁcant improvements into
+the local boundedness results. Without the condition div b = 0 one can prove local
+boundedness of weak solutions to (1.1) only for b ∈Ln(Ω) (n ≥3), while if div b = 0
+the local boundedness is valid for any b ∈Lp(Ω) with p > n
+2 . Note also that for
+the moment of writing of this paper we can say nothing about analogues of neither
+Theorem 3.5 nor Example 3.6 if p ∈[ n−1
+2 , n
+2 ]. We state this problem as an open
+question.
+ON SOME PROPERTIES OF WEAK SOLUTIONS
+9
+The ﬁnal issue we need to discuss is the problem of further regularity of solutions
+to the equation (1.1). The example of a bounded weak solution which is not locally
+continuous was constructed originally in [SSSZ] for n = 3 and b ∈L1(Ω), div b = 0
+(actually the method of [SSSZ] allowed to extend their example for b ∈Lp, p ∈
+[1, 2)). Later the ﬁrst author in [F] generalized this example for all n ≥3 and for
+all p ∈[1, n).
+Theorem 3.8. Assume n ≥3, p < n. Then there exist b ∈Lp(B) satisfying
+div b = 0 and a weak solution u to (1.1) with f ≡0 such that u ∈W 1
+2 (B) ∩L∞(B)
+but u ̸∈C( ¯B1/2).
+The latter result shows that if one is interested in the local continuity of weak
+solutions then the assumption b ∈Ln(Ω) can not be weakened in the Lebesgue
+scale and the structure condition div b = 0 does not help in this situation.
+It is not diﬃcult to construct also a weak solution to (1.1) which is continuous
+but not H¨older continuous.
+Example 3.9. Assume n ≥4 and take
+u(x) =
+1
+ln r ,
+b =
+n −3
+r
+−
+2
+r ln r
+
+er +
+(n −3)2
+r2
+−2(n −3)
+r2 ln r
+−
+2
+r2 ln2 r
+
+z ez.
+Here r2 = x2
+1 + ...+ x2
+n−1, z = xn, and er, ez are the basis vectors of the cylindrical
+coordinate system. Then u ∈W 1
+2 (B1/2) ∩C(B1/2), −∆u + b · ∇u = 0, div b = 0 in
+B1/2 and b ∈Lp(B1/2) for any p < n−1
+2 .
+Thus, for weak solutions of (1.1) with b ∈L2(Ω), div b = 0, in large space
+dimensions (at least for n ≥6) the following sequence of implications can break at
+any step:
+u ∈W 1
+2 (Ω)
+̸=⇒
+u ∈L∞,loc(Ω)
+̸=⇒
+u ∈Cloc(Ω)
+̸=⇒
+u ∈Cα
+loc(Ω).
+4. Beyond the Lp–scale
+Theorem 3.8 shows that in order to obtain the local continuity of weak solutions
+to (1.1) for drifts weaker than b ∈Ln(Ω) one needs to go beyond the Lebesgue scale.
+We start with the question of the boundedness of the operator T deﬁned by
+the formula (2.2). The necessary and suﬃcient condition on b is obtained in [MV]
+in the case Ω= Rn.
+Theorem 4.1. The inequality (2.3) holds true if and only if the drift b can be
+represented as a sum b = b0 + b1, where the function b0 is such that
+(4.1)
+Z
+Rn
+|b0|2|η|2 dx ≤C
+Z
+Rn
+|∇η|2 dx,
+∀η ∈C∞
+0 (Rn),
+b1 is divergence-free, div b1 = 0, and b1 ∈BMO−1(Rn). It means that b1(x) =
+div A(x), A(x) is a skew-symmetric matrix, Aij = −Aji, and Aij ∈BMO(Rn).
+Here BMO(Ω) is the space of functions f with bounded mean oscillation, i.e.
+sup
+x ∈Ω
+0 < r < ∞
+1
+rn
+Z
+Br(x)∩Ω
+|f(y) −(f)Br(x)∩Ω| dy < ∞,
+where
+(f)ω = 1
+|ω|
+Z
+ω
+f(y) dy.
+Clearly, each divergence-free vector b1 can be represented as b1 = div A with a
+skew-symmetric matrix A(x).
+10
+NIKOLAY FILONOV AND TIMOFEY SHILKIN
+This Theorem mentions that the behaviour of the bilinear form
+R
+Ω
+∇u · b η dx
+already distinguish between general drifts and divergence-free drifts. First, let us
+discuss general drifts. If b satisﬁes (2.1) then it satisﬁes the estimate (4.1) too. But
+we can not use the condition (4.1) instead (2.1) for the regularity theory, as the
+example of Remark 2.10 shows. Indeed, for functions satisfying
+(4.2)
+|b(x)| ≤
+C
+|x|
+the estimate (4.1) is fulﬁlled by the Hardy inequality.
+On the other hand, the case of the drift b having a one-point singularity (say, at
+the origin) with the asymptotics which includes homogeneous of degree −1 functions
+like (4.2), is also interesting. There are several papers, see [LZ], [Sem], [SSSZ] and
+[NU], dealing with diﬀerent classes of divergence-free drifts which cover (4.2). All
+these papers contain also the results for parabolic equation (1.8), but we discuss
+only (simpliﬁed) elliptic versions of them. We address the interested readers to the
+original papers.
+The approach of [SSSZ] seems to be the most general one.
+Assume b ∈
+BMO−1(Ω) and div b = 0. In this case we understand the equation −∆u+b·∇u = 0
+in the sense of the integral identity
+(4.3)
+Z
+Ω
+(∇u · ∇η + A∇u · ∇η) dx = 0
+∀η ∈C∞
+0 (Ω),
+where the skew-symmetric matrix A ∈BMO(Ω) is deﬁned via div A(x) = b(x).
+Theorem 4.2. Let b ∈BMO−1(Ω) and div b = 0. Then
+1) The maximum principle holds. If u ∈W 1
+2 (Ω) satisﬁes (4.3) and ϕ := u|∂Ω
+is bounded, then ∥u∥L∞(Ω) ≤∥ϕ∥L∞(∂Ω). In particular, the weak solution to (1.6)
+is unique.
+2) Any weak solution u to (1.1) is H¨older continuous, u ∈Cα
+loc(Ω) for some
+α > 0.
+For the proof see [NU] or [SSSZ]. The regularity theory developped in Section
+2 is slightly better as it guarantees that weak solutions are locally H¨older continuous
+with any exponent α < 1. Nevertheless, Theorem 4.2 means that divergence-free
+drifts from BMO−1 can be also considered as regular ones.
+Remark 4.3. Note that the case n = 2, b ∈L2(Ω), div b = 0, is the particular
+case of this situation. Indeed, such drifts can be represented as a vector-function
+with components b1 = ∂2h, b2 = −∂1h, where h is a scalar function h ∈W 1
+2 (Ω).
+By the imbedding theorem W 1
+2 (Ω) ⊂BMO(Ω) we have
+A(x) =
+
+0
+−h(x)
+h(x)
+0
+
+∈BMO(Ω).
+5. Appendix
+First we prove Theorem 2.9.
+Proof. We present the proof in the case n ≥3 only. The case n = 2 diﬀers
+from it by routine technical details.
+ON SOME PROPERTIES OF WEAK SOLUTIONS
+11
+1) The statement similar to our estimate (2.5) (for more general equations) can
+be found in [St]. In particular, in [St, Theorem 4.2] the following estimate for weak
+solutions to the problem
+(5.1)
+(
+−∆u + b · ∇u = f
+in
+Ω,
+u|∂Ω= 0,
+was proved:
+(5.2)
+∥u∥L∞(Ω) ≤C
+
+∥f∥Lp(Ω) + ∥u∥L2(Ω)
+
+.
+On the other hand,
+(5.3)
+∥u∥W 1
+2 (Ω) ≤C ∥f∥W −1
+2
+(Ω)
+due to Theorem 2.8. Hence we can exclude the weak norm of u from the right
+hand side of (5.2) and obtain the estimate (2.5) in the case ϕ ≡0. In general case
+we can split a weak solution u of the problem (1.6) as u = u1 + u2, where u1 is
+a weak solution of (5.1) and u2 is a weak solution to the problem (1.6) with the
+boundary data ϕ and zero right hand side. For u1 we have (5.3) and for u2 we have
+∥u2∥L∞(Ω) ≤∥ϕ∥L∞(∂Ω) by Theorem 2.6.
+2) As b ∈Ln(Ω) we can complete the integral identity (1.2) up to the test
+functions η ∈
+◦
+W 1
+2(Ω). Denote k0 := ∥ϕ∥L∞(∂Ω) and assume k ≥k0. Take in (1.2)
+η = (u −k)+, where we denote (u)+ := max{u, 0}. As k ≥k0 we have η ∈
+◦
+W 1
+2(Ω)
+and ∇η = χAk∇u where χAk is the characteristic function of the set
+Ak := { x ∈Ω: u(x) > k }.
+We obtain the identity
+Z
+Ak
+|∇u|2 dx +
+Z
+Ak
+b · (u −k)∇u dx =
+Z
+Ak
+f(u −k) dx.
+The second term vanishes
+Z
+Ak
+b · (u −k)∇u dx = 1
+2
+Z
+Ω
+b · ∇|(u −k)+|2 dx = 0,
+as div b = 0, and hence
+Z
+Ak
+|∇u|2 dx =
+Z
+Ak
+f(u −k) dx,
+∀k ≥k0.
+The rest of the proof goes as in the usual elliptic theory. Applying the imbedding
+theorem we obtain
+
+
+Z
+Ak
+|∇u|2 dx
+
+
+1
+2
+≤C(n)
+
+
+Z
+Ak
+|f|
+2n
+n+2 dx
+
+
+n+2
+2n
+,
+and using the H¨older inequality we get
+∥f∥L 2n
+n+2 (Ak) ≤|Ak|
+n+2
+2n −1
+p ∥f∥Lp(Ak).
+12
+NIKOLAY FILONOV AND TIMOFEY SHILKIN
+So we arrive at
+Z
+Ak
+|∇u|2 dx ≤C(n) ∥f∥2
+Lp(Ω) |Ak|1−2
+n +ε,
+∀k ≥k0,
+where ε := 2
+
+2
+n −1
+p
+
+> 0. This inequality yields the following estimate, see [LU,
+Chapter II, Lemma 5.3],
+esssupΩ(u −k0)+ ≤C(n, p, Ω) ∥f∥Lp(Ω).
+The estimate of essinfΩu can be obtained in a similar way if we replace u by −u.
+□
+In order to prove Theorem 3.1 we need some auxiliary results.
+Theorem 5.1. Assume n ≥3, b ∈C∞(¯Ω), div b = 0 in Ω, f ∈L1(Ω),
+and assume u ∈
+◦
+W 1
+2(Ω) is a weak solution of (1.6) with ϕ ≡0. Then for any
+q ∈
+
+1,
+n
+n−2
+
+the following estimate holds:
+(5.4)
+∥u∥Lq(Ω) ≤C(n, q, Ω) ∥f∥L1(Ω).
+Proof. Assume q ∈
+ 1,
+n
+n−2
+
+. By duality we have
+∥u∥Lq(Ω) =
+sup
+g∈Lq′ (Ω), ∥g∥Lq′ (Ω)≤1
+Z
+Ω
+ug dx,
+where q′ :=
+q
+q−1, q′ > n
+2 . For any g ∈Lq′(Ω) denote by wg ∈W 2
+q′(Ω) a solution to
+the problem
+(
+−∆wg −b · ∇wg = g
+in
+Ω,
+wg|∂Ω= 0.
+From Theorem 2.9 we conclude that for wg the following estimate holds:
+∥wg∥L∞(Ω) ≤C(n, q, Ω) ∥g∥Lq′(Ω).
+Integrating by parts we obtain
+Z
+Ω
+ug dx =
+Z
+Ω
+u(−∆wg −b · ∇wg) dx =
+Z
+Ω
+∇u · (∇wg + bwg) dx =
+Z
+Ω
+fwg dx.
+Then for any g ∈Lq′(Ω) such that ∥g∥Lq′(Ω) ≤1 we get
+Z
+Ω
+ug dx
+=
+Z
+Ω
+fwg dx ≤∥f∥L1(Ω)∥wg∥L∞(Ω) ≤C(n, q, Ω) ∥f∥L1(Ω).
+Hence we obtain (5.4).
+□
+Another auxiliary result we need is the following extension theorem.
+Theorem 5.2. Assume Ω⊂Rn is a bounded domain of class C1. Then there
+exists a bounded linear extension operator T : L∞(∂Ω) ∩W 1/2
+2
+(∂Ω) →L∞(Ω) ∩
+W 1
+2 (Ω) such that
+T ϕ|∂Ω= ϕ,
+∀ϕ ∈L∞(∂Ω) ∩W 1/2
+2
+(∂Ω),
+∥T ϕ∥W 1
+2 (Ω) ≤C(Ω) ∥ϕ∥W 1/2
+2
+(∂Ω),
+∥T ϕ∥L∞(Ω) ≤C(Ω) ∥ϕ∥L∞(∂Ω).
+ON SOME PROPERTIES OF WEAK SOLUTIONS
+13
+Proof. For the sake of completeness we brieﬂy recall the proof of Theorem
+5.2. After the localization and ﬂattening of the boundary it is suﬃcient to construct
+the extension operator from Rn−1 to Rn
++ := Rn−1 × (0, +∞). Then we can take the
+standard operator
+(T ϕ)(x′, xn) = η(xn)
+Z
+Rn−1
+ϕ(x′ −xnξ′)ψ(ξ′) dξ′,
+(x′, xn) ∈Rn
++,
+where x′ := (x1, . . . , xn−1) ∈Rn−1, η ∈C∞
+0 (R), η(0) = 1, ψ ∈C∞
+0 (Rn−1),
+R
+Rn−1
+ψ(ξ′) dξ′ = 1. This operator is bounded from W 1/2
+2
+(Rn−1) to W 1
+2 (Rn
++) and
+also from L∞(Rn−1) to L∞(Rn
++). More details can be found in [BIN].
+□
+Now we can give an elementary proof of Theorem 3.1.
+Proof. The function vk := uk −u ∈
+◦
+W 1
+2(Ω) is a weak solution to the problem
+(
+−∆vk + bk · ∇vk = fk
+in
+Ω,
+vk|∂Ω= 0,
+where
+fk := (b −bk) · ∇u,
+fk ∈L1(Ω),
+∥fk∥L1(Ω) →0.
+Assume q ∈
+
+1,
+n
+n−2
+
+. By Theorem 5.1 we have
+∥vk∥Lq(Ω) ≤C(n, Ω) ∥fk∥L1(Ω) →0,
+and hence (3.2) follows.
+Now assume additionally ϕ ∈L∞(∂Ω). Denote ˜ϕ := T ϕ where T is the exten-
+sion operator from Theorem 5.2. Taking in the integral identity (1.4) for uk and bk
+the test function η = uk −˜ϕ ∈
+◦
+W 1
+2(Ω) we obtain
+Z
+Ω
+|∇uk|2 dx −
+Z
+Ω
+ukbk · ∇(uk −˜ϕ) dx =
+Z
+Ω
+∇uk · ∇˜ϕ dx + ⟨f, uk −˜ϕ⟩.
+Using the condition div bk = 0 we get
+Z
+Ω
+ukbk · ∇(uk −˜ϕ) dx =
+Z
+Ω
+˜ϕbk · ∇(uk −˜ϕ) dx.
+Therefore,
+∥∇uk∥2
+L2(Ω) ≤
+
+∥˜ϕ∥L∞(Ω)∥bk∥L2(Ω) + ∥f∥W −1
+2
+(Ω)
+
+∥uk∥W 1
+2 (Ω) + ∥˜ϕ∥W 1
+2 (Ω)
+
++
++ ∥∇uk∥L2(Ω)∥∇˜ϕ∥L2(Ω).
+Applying Friedrichs’ and Young’s inequalities we obtain the estimate
+(5.5)
+∥uk∥W 1
+2 (Ω) ≤C,
+with a constant C independent on k. As the convergence (3.2) is already established,
+from (5.5) we derive (3.3).
+Finally, if ϕ ≡0 then we have the energy identities for uk
+Z
+Ω
+|∇uk|2 = ⟨f, uk⟩,
+and using the weak convergence (3.3) we arrive at (3.4).
+□
+14
+NIKOLAY FILONOV AND TIMOFEY SHILKIN
+Now we turn to the proof of Theorem 3.3.
+Proof. We take a sequence bk ∈C∞(¯Ω), div bk = 0, such that bk →b in
+L2(Ω).
+Let uk ∈W 1
+2 (Ω) be a weak solution to the problem (3.1).
+Repeating
+the arguments in the proof of Theorem 3.1, we obtain the estimate (5.5) with a
+constant C independent on k. Using this estimate we can extract a subsequence
+satisfying (3.3) for some u ∈W 1
+2 (Ω). The weak convergence (3.3) and the strong
+convergence bk →b in L2(Ω) allow us to pass to the limit in the integral identities
+(1.2) corresponding to uk and bk. Therefore, u is a weak solution to (1.6).
+□
+Now we present the proof of Theorem 3.4.
+Proof. Let bk be smooth divergence-free vector ﬁelds such that bk →b in
+L2(Ω). Denote by uk the weak solution to the problem (3.1). By Theorem 2.9
+(5.6)
+∥uk∥L∞(Ω) ≤∥ϕ∥L∞(∂Ω) + C ∥f∥Lp(Ω)
+with the constant C depending only on n, p and Ω. From Theorem 3.1 we have the
+convergence uk →u in L1(Ω) and hence we can extract a subsequence (for which
+we keep the same notation) such that
+uk →u
+a.e. in
+Ω.
+Passing to the limit in (5.6) we obtain (3.5).
+□
+Finally we give the proof of Theorem 3.5.
+Proof. To simplify the presentation we give the proof only in the case f ≡0.
+The extension of the result for non-zero right hand side can be done by standard
+methods, see [HL, Theorem 4.1] or [FSh]. First we derive the estimate
+(5.7)
+∥u∥L∞(B1/2) ≤C
+ 1 + ∥b∥Lp(B)
+µ ∥u∥L2p′(B),
+p′ :=
+p
+p −1
+(with some positive constants C and µ depending only on n and p) under additional
+assumption u ∈C∞(B). We explore Moser’s iteration technique, see [Mo]. Assume
+β ≥0 is arbitrary and let ζ ∈C∞
+0 (B) be a cut-oﬀfunction. Take a test function
+η = ζ2|u|βu in the identity (1.2). Denote w := |u|
+β+2
+2 . Then after integration by
+parts and some routine calculations we obtain the inequality
+(5.8)
+Z
+B
+|∇(ζw)|2 dx ≤C
+Z
+B
+|w|2 
+|∇ζ|2 + |b| |∇ζ|
+
+dx
+Applying the imbedding theorem and the H¨older inequality and choosing the test
+function ζ in an appropriate way we arrive at the inequality
+∥w∥L 2n
+n−2 (Br) ≤C
+
+1
+R −r + ∥b∥Lp(BR)
+
+∥w∥L2p′(BR),
+which holds for any 1
+2 ≤r < R ≤1. Note that
+2n
+n−2 > 2p′ as p > n
+2 if n ≥4 and
+p = 2 if n = 3. The latter inequality gives us the estimate
+(5.9)
+∥u∥L nγ
+n−2 (Br) ≤C
+2
+γ
+
+1
+R −r + ∥b∥Lp(BR)
+ 2
+γ
+∥u∥Lp′γ(BR)
+ON SOME PROPERTIES OF WEAK SOLUTIONS
+15
+with an arbitrary γ ≥2, γ := β + 2.
+Denote s0 = 2p′, sm := χsm−1, where
+χ := n(p−1)
+p(n−2), and denote also Rm = 1
+2 +
+1
+2m+1 . Taking in (5.9) r = Rm, R = Rm−1,
+γ = sm−1
+p′
+we obtain
+∥u∥Lsm(BRm) ≤
+
+C 2m+1 + C∥b∥Lp(B)
+
+1
+χm−1 ∥u∥Lsm−1(BRm−1)
+Iterating this inequality we arrive at (5.7).
+Now we need to get rid of the assumption u ∈C∞(B). Assume u ∈W 1
+2 (B)
+is an arbitrary weak solution to (1.1). Let ζ ∈C∞
+0 (B) be a cut-oﬀfunction such
+that ζ ≡1 on B5/6 and denote v := ζu. Then v is a weak solution to the boundary
+value problem
+(
+−∆v + b · ∇v = g
+in
+B
+v|∂B = 0
+where
+g := −u∆ζ −2∇u · ∇ζ + bu · ∇ζ.
+Note that g ≡0 and v ≡u on B5/6. As b ∈Lp(B) with p > n
+2 we have g ∈W −1
+2
+(B).
+Now we take a sequence bk ∈C∞( ¯B), div bk = 0, such that bk →b in Lp(B) and
+let vk be the weak solution to the problem
+(
+−∆vk + bk · ∇vk = g
+in
+B
+vk|∂B = 0
+From Theorem 3.1 we have vk ⇀v in W 1
+2 (B) and as p >
+n
+2 we can extract a
+subsequence (for which we keep the same notation) such that vk →v a.e. in B and
+vk →v in L2p′(B). As g ≡0 on B5/6 from the usual elliptic theory (see [LU]) we
+conclude that vk ∈C∞(B5/6). Applying (5.7) (with the obvious modiﬁcation in
+radius) we obtain the estimate
+∥vk∥L∞(B1/2) ≤C
+ 1 + ∥bk∥Lp(B)
+µ ∥vk∥L2p′(B3/4).
+Hence vk are equibounded on B1/2. Passing to the limit in the above inequality
+and taking into account that v = u on B5/6 we obtain
+∥u∥L∞(B1/2) ≤C
+ 1 + ∥b∥Lp(B)
+µ ∥u∥L2p′(B3/4).
+To conclude the proof we remark that for p > n
+2 from the imbedding theorem we
+have
+∥u∥L2p′(B) ≤C(n, p) ∥u∥W 1
+2 (B).
+□
+References
+[A] D. G. Aronson, Non-negative solutions of linear parabolic equations, Ann. Scuola Norm. Sup.
+Pisa, 22 (1968), pp. 607-694.
+[BIN] O. V. Besov, V. P. Il’in, S. M. Nikol’skii, Integral representations of functions and imbedding
+theorems, Moscow, 1975.
+[F] N. Filonov, On the regularity of solutions to the equation −∆u + b · ∇u = 0, Zap. Nauchn.
+Sem. of Steklov Inst. 410 (2013), 168-186; reprinted in J. Math. Sci. (N.Y.) 195 (2013), no.
+1, 98-108.
+[FSh] N. Filonov, T. Shilkin, On the local boundedness of weak solutions to elliptic equations with
+divergence-free drifts, Preprint 2714, Technische Universit¨at Darmstadt, 2017.
+[HL] Q. Han, F. H. Lin, Elliptic partial diﬀerential equations, Courant Lecture Notes in Mathe-
+matics, AMS, 1997.
+16
+NIKOLAY FILONOV AND TIMOFEY SHILKIN
+[LU] O. A. Ladyzhenskaya, N. N. Uraltseva, Linear and quasilinear equations of elliptic type,
+Academic Press, 1968.
+[LZ] V. Liskevich, Q. S. Zhang, Extra regularity for parabolic equations with drift terms,
+Manuscripta Math. 113 (2004), no. 2, 191-209.
+[M] V. G. Mazja, Sobolev Spaces, Springer, 1985.
+[MV] V. G. Mazja, I. E. Verbitskiy, Form boundedness of the general second-order diﬀerential
+operator, Comm. Pure Appl. Math. 59 (2006), 1286-1329.
+[Mo] J. Moser, A new proof of De Giorgi’s theorem concerning the regularity problem for elliptic
+diﬀerential equations, Comm. Pure and Appl. Math., 13 (1960), no. 3, pp. 457-468.
+[NU] A. I. Nazarov, N. N. Uraltseva, The Harnack inequality and related properties of solutions
+of elliptic and parabolic equations with divergence-free lower-order coeﬃcients, St. Petersburg
+Math. J. 23 (2012), no. 1, 93-115.
+[Sem] Y. A. Semenov, Regularity theorems for parabolic equations, J. Funct. Anal. 231 (2006),
+no. 2, 375-417.
+[SSSZ] G. Seregin, L. Silvestre, V. Sverak, A. Zlatos, On divergence-free drifts, J. Diﬀerential
+Equations 252 (2012), no. 1, 505-540.
+[SV] L. Silvestre, V. Vicol, H¨older continuity for a drift-diﬀusion equation with pressure, Ann.
+Inst. H. Poincare Anal. Non Lineaire 29 (2012), no. 4, 637-652.
+[SVZ] L. Silvestre, V. Vicol, A. Zlatos, On the loss of continuity for super-critical drift-diﬀusion
+equations, Arch. Ration. Mech. Anal. 207 (2013), no. 3, 845-877.
+[St] G. Stampacchia, Le probl`eme de Dirichlet pour les ´equations elliptiques du second ordre `a
+coeﬃcients discontinus. (French) Ann. Inst. Fourier (Grenoble) 15 (1965) fasc. 1, 189-258.
+[Su] M. D. Surnachev, On the uniqueness of a solution to a stationary convection-diﬀusion equa-
+tion with a generalized divergence-free drift, arXiv:1706.00389, 2017.
+[Z] Q. S. Zhang, A strong regularity result for parabolic equations, Commun. Math. Phys., 244
+(2004), no. 2, pp. 245-260.
+[Zhi] V. V. Zhikov, Remarks on the uniqueness of the solution of the Dirichlet problem for a
+second-order elliptic equation with lower order terms, Funct. Anal. Appl. 38 (2004), no. 3,
+173-183.
+V.A. Steklov Mathematical Institute, St.-Petersburg, Fontanka 27, 191023, Russia
+E-mail address: filonov@pdmi.ras.ru
+V.A. Steklov Mathematical Institute, St.-Petersburg, Fontanka 27, 191023, Russia
+E-mail address: shilkin@pdmi.ras.ru

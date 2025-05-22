@@ -1,0 +1,4058 @@
+Gradient discretization of two-phase poro-mechanical models with
+discontinuous pressures at matrix fracture interfaces
+Francesco Bonaldi∗1, Konstantin Brenner†1, Jérôme Droniou‡2, Roland Masson§1,
+Antoine Pasteau¶3, and Laurent Trenty‖3
+1Université Côte d’Azur, Inria, CNRS, Laboratoire J.A. Dieudonné, team Coﬀee, France
+2School of Mathematics, Monash University, Victoria 3800, Australia
+3Andra, Chatenay-Malabry, France
+Abstract
+We consider a two-phase Darcy ﬂow in a fractured and deformable porous medium for which the fractures are
+described as a network of planar surfaces leading to so-called hybrid-dimensional models. The fractures are assumed
+open and ﬁlled by the ﬂuids and small deformations with a linear elastic constitutive law are considered in the matrix.
+As opposed to [10], the phase pressures are not assumed continuous at matrix fracture interfaces, which raises new
+challenges in the convergence analysis related to the additional interfacial equations and unknowns for the ﬂow.
+As shown in [16, 2], unlike single-phase ﬂow, discontinuous pressure models for two-phase ﬂows provide a better
+accuracy than continuous pressure models even for highly permeable fractures. This is due to the fact that fractures
+fully ﬁlled by one phase can act as barriers for the other phase, resulting in a pressure discontinuity at the matrix
+fracture interface.
+The model is discretized using the gradient discretization method [22], which covers a large class of conforming
+and non conforming schemes.
+This framework allows for a generic convergence analysis of the coupled model
+using a combination of discrete functional tools. In this work, the gradient discretization of [10] is extended to
+the discontinuous pressure model and the convergence to a weak solution is proved. Numerical solutions provided
+by the continuous and discontinuous pressure models are compared on gas injection and suction test cases using a
+Two-Point Flux Approximation (TPFA) ﬁnite volume scheme for the ﬂows and P2 ﬁnite elements for the mechanics.
+MSC2010: 65M12, 76S05, 74B10
+Keywords: poro-mechanics, discrete fracture matrix models, two-phase Darcy ﬂows, discontinuous pressure model,
+Gradient Discretization Method, convergence analysis
+1
+Introduction
+Coupled ﬂow and geomechanics play an important role in many subsurface processes such as water management,
+geothermal energy, CO2 sequestration, oil and gas production or nuclear waste storage. This is particularly the case
+in the presence of fractures which have a strong impact both on the ﬂow and on the rock mechanical behavior. This
+work considers the so called hybrid-dimensional or Discrete Fracture Matrix (DFM) models representing the fractures
+as a network of co-dimension one surfaces coupled with the surrounding matrix domain. The reduced ﬂow model is
+then obtained by averaging both the unknowns and the equations in the fracture width and by imposing appropriate
+transmission conditions at both sides of the matrix fracture interfaces. The mechanical model is set on the matrix
+domain with appropriate boundary conditions on both sides of the fracture interfaces. This type of hybrid-dimensional
+models has been the object of intensive researches over the last twenty years due to the ubiquity of fractures in geology
+and their considerable impact on the ﬂow and transport of mass and energy in porous media, and on the mechanical
+behavior of rocks. For the derivation and analysis of such models, let us refer to [4, 27, 40, 44, 6, 13, 15, 46] for single-
+phase Darcy ﬂows, [9, 49, 45, 36, 14, 23, 16, 2] for two-phase Darcy ﬂows, and [41, 42, 38, 33, 34, 29, 39, 30, 52, 32]
+for poroelastic models.
+As in [10], this work focuses on a hybrid-dimensional two-phase Darcy ﬂow model coupled with a linear poroelastic
+deformation of the matrix. The fractures are assumed to remain open and fully ﬁlled by the ﬂuids, and their propagation
+∗Corresponding author, francesco.bonaldi@univ-cotedazur.fr
+†konstantin.brenner@univ-cotedazur.fr
+‡jerome.droniou@monash.edu
+§roland.masson@univ-cotedazur.fr
+¶Antoine.Pasteau@andra.fr
+‖Laurent.Trenty@andra.fr
+1
+arXiv:2011.05576v2  [math.NA]  14 Aug 2021
+over time is neglected. The Poiseuille law is used for the tangential velocity along the fracture network and extended
+to two-phase ﬂow based on generalized Darcy laws. As in [17], the concept of equivalent pressure, used to extend the
+poro-mechanical coupling to two-phase ﬂow, is based on the capillary energy density. This is a crucial choice to obtain
+the stability of the coupled model.
+In [10], the continuity of both phase pressures is used as a transmission condition at matrix fracture interfaces. This
+is a classical assumption in the case of highly permeable fractures such as open fractures. As shown e.g. in [28],
+this choice is fully justiﬁed for the case of single-phase ﬂows. On the other hand, in the case of two-phase ﬂow, this
+assumption can lead to inaccurate solutions at the matrix fracture interfaces [16, 2]. This is in particular the case
+when the fractures are fully ﬁlled by one phase and act as barriers for the other phase due to its very low relative
+permeability within the fractures, hence leading to a pressure discontinuity. Let us refer to [2] for striking examples
+including the desaturation by suction at the interface between the atmosphere and a low permeable and fractured
+storage rock.
+This potential inaccuracy of continuous pressure models motivates us to consider the extension of the analysis carried
+out in [10] to hybrid-dimensional discontinuous pressure ﬂow models [36, 23, 16, 2]. For such ﬂow models, the Darcy
+ﬂuxes between the matrix fracture interface and the fracture are modelled using a two-point ﬂux approximation
+combined with an upwind approximation of the mobilities [23, 16, 2]. Following [23], the model also includes a layer
+of damaged rock at matrix fracture interfaces. This additional accumulation term plays a major role in the numerical
+analysis of the model and also improves the nonlinear convergence at each time step of the simulation [23, 12]. It must
+be kept suﬃciently small to maintain the accuracy of the solution (see [23]). Following [10] and [23], this new hybrid-
+dimensional poro-mechanical model is discretized using the gradient discretization method [22]. This framework is
+based on abstract vector spaces of discrete unknowns combined with reconstruction operators. The gradient scheme
+is then obtained by substitution of the continuous operators by their discrete counterparts in the weak formulation
+of the coupled model. The main asset of this framework is to allow a generic convergence analysis based on general
+properties of the reconstruction operators that hold for a large class of conforming and non conforming discretizations.
+Let us point out that, with respect to [10], additional trace and jump operators need to be deﬁned in this framework,
+along with new deﬁnitions of coercivity, consistency, limit-conformity, and compactness. The two main ingredients to
+discretize the coupled model are the discretizations of the hybrid-dimensional discontinuous pressure two-phase Darcy
+ﬂow and the discretization of the mechanics. Let us brieﬂy mention, in both cases, a few families of discretizations
+typically satisfying the gradient discretization properties.
+For the discretization of the Darcy ﬂow, the gradient discretization framework covers the case of cell-centered ﬁnite
+volume schemes with Two-Point Flux Approximation on strongly admissible meshes [40, 6, 2], or some symmetric
+Multi-Point Flux Approximations [51, 50, 3] on tetrahedral or hexahedral meshes. It also accounts for the families
+of Mixed Hybrid Mimetic and Mixed or Mixed Hybrid Finite Element discretizations such as in [44, 15, 7, 32], and
+for vertex-based discretizations such as the Vertex Approximate Gradient scheme [15, 23, 16]. For the discretization
+of the elastic mechanical model, the gradient discretization framework covers conforming ﬁnite element methods such
+as in [33], the Crouzeix-Raviart discretization [35, 20], the Hybrid High Order discretization [19], and the Virtual
+Element Method [8].
+The main objective of this work is to introduce the gradient discretization of the hybrid-dimensional poro-mechanical
+model with discontinuous pressure at matrix fracture interfaces. Then, we prove the convergence of the discrete solution
+to a weak solution of the model. Compared with [10], new diﬃculties arise from the interfacial additional nonlinear
+ﬂux and accumulation terms including the damaged rock type. Assuming that the fracture normal transmissivity is
+ﬁxed in the interfacial two-point ﬂuxes, i.e. that its fracture aperture dependence is frozen, we are able to prove the
+convergence of the gradient scheme solution to a weak solution of the model. This assumption is rather mild since,
+in practice, the solution depends only weakly on this fracture normal transmissivity as long as it remains much larger
+than the matrix transmissivity. Concerning compactness estimates, the same techniques as in [10] are used: time
+translates, uniform-in-time L2-weak estimates, and a discrete version of the Ascoli-Arzelà theorem. In [10], where
+ﬁelds deﬁned in matrix and fracture are related, matrix and fracture contributions have to be separated by a cut-oﬀ
+argument (since the fracture width vanishes at tips). On the other hand, in this work, such a separation stems from
+the model itself, but the damaged rock layer has to be embedded in the time translates of the saturations, by using
+ad-hoc test functions combining the matrix and damaged layer rock types.
+As in [10], the proof additionally assumes that the matrix porosity remains bounded from below by a strictly positive
+constant, that the fracture aperture remains larger than a ﬁxed aperture vanishing only at the tips, and that the
+mobility functions are bounded from below by strictly positive constants.
+The assumptions on the porosity and
+fracture aperture cannot be avoided since the continuous model does not ensure these properties, which are needed to
+ensure its well-posedness. The assumption on the mobilities are classical to carry out the stability and convergence
+analysis of two-phase Darcy ﬂows with heterogeneous rock types (see [26, 14, 23]).
+The second objective of this work is to compare the discontinuous pressure poro-mechanical model investigated in
+this work to the continuous pressure poro-mechanical model presented in [10]. Two test cases are considered. As in
+2
+[10], the ﬁrst test case simulates the gas injection in a cross-shaped fracture network immersed in an initially water
+saturated porous medium. The second test case models the desaturation of a low permeable medium by suction at the
+interface with a ventilation tunnel. The data set of this second test case is based on the Callovo-Oxfordian argilite rock
+properties of the nuclear waste storage prototype facility of Andra. The geometry uses an axisymmetric DFM model
+based on a simpliﬁed version of the fracture network at the interface between the storage rock and the ventilation
+tunnel. In both cases the discretization is based on the Two-Point Flux Approximation ﬁnite volume scheme for the
+ﬂows and second-order ﬁnite elements for the mechanical deformation.
+The rest of the article is organized as follows. Section 2 introduces the continuous hybrid-dimensional coupled model
+with discontinuous pressures at matrix fracture interfaces. Section 3 describes the gradient discretization method for
+the coupled model including the deﬁnition of the reconstruction operators, the discrete variational formulation and
+the properties of the gradient discretization needed for the subsequent convergence analysis. Section 4 proceeds with
+the convergence analysis. The a priori estimates are established in Subsection 4.1, the compactness properties in
+Subsection 4.2 and the convergence to a weak solution is proved in Subsection 4.3. This convergence falls short, in
+general, from identifying the limit matrix–fracture nonlinear ﬂuxes; this issue is discussed in Subsection 4.4, in which
+an assumption is given on the limit fracture width under which the ﬂuxes can be fully identiﬁed. In Section 5, devoted
+to numerical experiments, the discontinuous pressure model is compared to the continuous pressure model presented
+in [10].
+2
+Continuous model
+We consider a bounded polytopal domain Ωof Rd, d P t2, 3u, partitioned into a fracture domain Γ and a matrix
+domain ΩzΓ. The network of fractures is deﬁned by
+Γ “
+ď
+iPI
+Γi
+where each fracture Γi Ă Ω, i P I is a planar polygonal simply connected open domain.
+Without restriction of
+generality, we will assume that the fractures may intersect exclusively at their boundaries (see Figure 1), that is, for
+any i, j P I, i ‰ j one has Γi X Γj “ H, but not necessarily Γi X Γj “ H.
+Figure 1. Example of a 2D domain Ωwith three intersecting fractures Γi, i “ 1, 2, 3.
+The two sides of a given fracture of Γ are denoted by ˘ in the matrix domain, with unit normal vectors n˘ oriented
+outward of the sides ˘. We denote by γa the trace operators on the sides a “ ˘ of Γ for functions in H1pΩzΓq, by
+γBΩthe trace operator for the same functions on BΩ, and by J¨K the normal trace jump operator on Γ for functions in
+HdivpΩzΓq, deﬁned by
+J¯uK “ ¯u` ¨ n` ` ¯u´ ¨ n´ for all ¯u P HdivpΩzΓq.
+We denote by ∇τ the tangential gradient and by divτ the tangential divergence on the fracture network Γ. The
+symmetric gradient operator ε is deﬁned such that εp¯vq “ 1
+2p∇¯v `tp∇¯vqq for a given vector ﬁeld ¯v P H1pΩzΓqd.
+Let us ﬁx a continuous function d0 : Γ Ñ p0, `8q with zero limits at BΓzpBΓ X BΩq (i.e. the tips of Γ) and strictly
+positive limits at BΓ X BΩ. The fracture aperture, denoted by ¯df and such that ¯df “ ´J¯uK for a displacement ﬁeld
+¯u P H1pΩzΓqd, will be assumed to satisfy the following open fracture condition
+¯dfpxq ě d0pxq for a.e. x P Γ.
+Let us introduce some relevant function spaces. First, we denote by H1
+d0pΓq the space made of functions vΓ in L2pΓq,
+such that d
+3{2
+0 ∇τvΓ belongs to L2pΓqd´1, and whose traces are continuous at fracture intersections BΓiXBΓj, pi, jq P IˆI
+(i ‰ j) and vanish on the boundary BΓ X BΩ. We then introduce the space
+U0 “ t¯v P pH1pΩzΓqqd | γBΩ¯v “ 0u
+(1)
+3
+Figure 2. Example of a 2D domain Ω
+with its fracture network Γ, the unit
+normal vectors n˘ to Γ, the phase pres-
+sures ¯pα
+m in the matrix and ¯pα
+f in the
+fracture network, the displacement vec-
+tor ﬁeld ¯u, the matrix Darcy velocities
+qα
+m and the fracture tangential Darcy
+velocities qα
+f integrated along the frac-
+ture width.
+Figure 3.
+Illustration of the ﬂux
+transmission condition between ma-
+trix and fracture, including a layer
+of damaged rock of thickness da,
+a “ ˘. It can be seen as an upwind
+two-point-like approximation of ¯Qα
+f,a.
+The arrows show the positive orien-
+tation of the normal ﬂuxes qα
+m ¨ na
+(inward with respect to the damaged
+layer) and
+¯Qα
+f,a (outward with re-
+spect to the damaged layer).
+for the displacement vector, and
+V 0 “ V 0
+m ˆ V 0
+f ,
+(2)
+where
+V 0
+m “ t¯v P H1pΩzΓq | γBΩ¯v “ 0u,
+for each matrix phase pressure, and
+V 0
+f “ H1
+d0pΓq,
+for each fracture phase pressure. For ¯v “ p¯vm, ¯vfq P V 0, let us denote by
+J¯vKa “ γa¯vm ´ ¯vf,
+the jump operator on the side a “ ˘ of the fractures.
+The matrix, fracture and damaged rock types are denoted by the indices rt “ m, rt “ f, and rt “ ˘, respectively,
+and the non-wetting and wetting phases by the superscripts α “ nw and α “ w, respectively. Finally, for any x P R,
+we set x` “ maxt0, xu and x´ “ ´p´xq`.
+The PDEs model reads: ﬁnd the phase pressures ¯pα
+ν , ν P tm, fu, α P tnw, wu, and the displacement vector ﬁeld ¯u,
+such that ¯pc,ν “ ¯pnw
+ν
+´ ¯pw
+ν , and for α P tnw, wu,
+$
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+&
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+%
+Bt
+`¯φmSα
+mp¯pc,mq
+˘
+` div pqα
+mq “ hα
+m
+on p0, Tq ˆ ΩzΓ,
+qα
+m “ ´ηα
+mpSα
+mp¯pc,mqqKm∇¯pα
+m
+on p0, Tq ˆ ΩzΓ,
+Bt
+´
+¯dfSα
+f p¯pc,fq
+¯
+` divτpqα
+f q ´ Qα
+f,` ´ Qα
+f,´ “ hα
+f
+on p0, Tq ˆ Γ,
+qα
+f “ ´ηα
+f pSα
+f p¯pc,fqqp 1
+12
+¯d3
+fq∇τ ¯pα
+f
+on p0, Tq ˆ Γ,
+´div
+´
+σp¯uq ´ b ¯pE
+mI
+¯
+“ f
+on p0, Tq ˆ ΩzΓ
+σp¯uq “ 2µ εp¯uq ` λ divp¯uq I
+on p0, Tq ˆ ΩzΓ,
+(3)
+4
+with the coupling conditions
+$
+’
+’
+’
+’
+’
+’
+’
+’
+&
+’
+’
+’
+’
+’
+’
+’
+’
+%
+Bt ¯φm “ b divBt¯u ` 1
+M Bt¯pE
+m
+on p0, Tq ˆ ΩzΓ,
+qα
+m ¨ na ´ Qα
+f,a “ ¯da ¯φaBtSα
+a pγa¯pc,mq
+on p0, Tq ˆ Γ, a “ ˘,
+¯Qα
+f,a “ ηapSα
+a pγa¯pc,mqqTfJ¯pαK`
+a ´ ηfpSα
+f p¯pc,fqqTfJ¯pαK´
+a
+on p0, Tq ˆ Γ, a “ ˘,
+pσp¯uq ´ b ¯pE
+mIqn˘ “ ´¯pE
+f n˘
+on p0, Tq ˆ Γ,
+¯df “ ´J¯uK
+on p0, Tq ˆ Γ,
+(4)
+the initial conditions
+¯pα
+ν |t“0 “ ¯pα
+0,ν,
+¯φm|t“0 “ ¯φ0
+m,
+and normal ﬂux conservation for qα
+f at fracture intersections not located at the boundary BΩ. Above, the equivalent
+pressure ¯pE
+ν , ν P tm, fu is deﬁned, following [17], by
+¯pE
+ν “
+ÿ
+αPtnw,wu
+¯pα
+ν Sα
+ν p¯pc,νq ´ Uνp¯pc,νq,
+where
+Urtp¯pcq “
+ż ¯pc
+0
+q pSnw
+rt q1 pqqdq
+(5)
+is the capillary energy density function for each rock type rt P tm, f, ˘u. As already noticed in [42, 38, 10], this is a
+key choice to obtain the energy estimates that are the starting point for the convergence analysis.
+We make the following main assumptions on the data:
+(H1) For each phase α P tnw, wu and rock type rt P tm, f, ˘u, the mobility function ηα
+rt is continuous, non-decreasing,
+and there exist 0 ă ηα
+rt,min ď ηα
+rt,max ă `8 such that ηα
+rt,min ď ηα
+rtpsq ď ηα
+rt,max for all s P r0, 1s.
+(H2) For each rock type rt P tm, f, ˘u, the non-wetting phase saturation function Snw
+rt
+is a non-decreasing Lipschitz
+continuous function with values in r0, 1s, and Sw
+rt “ 1 ´ Snw
+rt .
+(H3) For a “ ˘, the width ¯da and porosity ¯φa of the damaged rock are strictly positive constants.
+(H4) b P r0, 1s is the Biot coeﬃcient, M ą 0 is the Biot modulus, and λ ą 0, µ ą 0 are the Lamé coeﬃcients. These
+coeﬃcients are assumed to be constant for simplicity.
+(H5) The initial matrix porosity satisﬁes ¯φ0
+m P L8pΩq.
+(H6) The initial pressures are such that p¯pα
+0,m, ¯pα
+0,fq P V 0, pα
+0,m P L8pΩq and ¯pα
+0,f P L8pΓq, α P tnw, wu.
+(H7) The source terms satisfy f P L2pΩqd, hα
+m P L2pp0, Tq ˆ Ωq, and hα
+f P L2pp0, Tq ˆ Γq.
+(H8) The normal fracture transmissivity Tf P L8pΓq is uniformly bounded from below by a strictly positive constant.
+(H9) The matrix permeability tensor Km is symmetric and uniformly elliptic on Ω.
+Let us denote by C8
+c pr0, Tq ˆ ΩzΓq the space of smooth functions ¯v : r0, Ts ˆ pΩzΓq Ñ R vanishing on BΩand at
+t “ T, and whose derivatives of any order admit ﬁnite limits on each side of Γ. We will also use the boldface notation
+C8
+c pr0, Ts ˆ ΩzΓq for C8
+c pr0, Tq ˆ ΩzΓqd.
+Deﬁnition 2.1 (Weak solution of the model). A weak solution of the model is given by ¯pα “ p¯pα
+m, ¯pα
+f q P L2p0, T; V 0q,
+α P tnw, wu, and ¯u P L8p0, T; U0q, such that, for any α P tnw, wu, ¯d
+3{2
+f ∇τ ¯pα
+f P L2pp0, Tq ˆ Γqqd´1 and, for all
+5
+¯ϕα “ p ¯ϕα
+m, ¯ϕa
+fq P C8
+c pr0, Tq ˆ ΩzΓq ˆ C8
+c pr0, Tq ˆ Γq and all ¯v P C8
+c pr0, Ts ˆ ΩzΓq,
+ż T
+0
+ż
+Ω
+´
+´¯φmSα
+mp¯pc,mqBt ¯ϕα
+m ` ηα
+mpSα
+mp¯pc,mqqKm∇¯pα
+m ¨ ∇¯ϕα
+m
+¯
+dxdt
+`
+ż T
+0
+ż
+Γ
+´
+´ ¯dfSα
+f p¯pc,fqBt ¯ϕα
+f ` ηα
+f pSα
+f p¯pc,fqq
+¯d 3
+f
+12 ∇τ ¯pα
+f ¨ ∇τ ¯ϕα
+f
+¯
+dσpxqdt
+`
+ÿ
+a“˘
+ż T
+0
+ż
+Γ
+´
+¯Qα
+f,aJ ¯ϕαKa ´ ¯da ¯φaSα
+a pγa¯pc,mqBtγa ¯ϕα
+m
+¯
+dσpxqdt
+´
+ÿ
+a“˘
+ż
+Γ
+¯da ¯φaSα
+a pγa¯p0
+c,mqγa ¯ϕα
+mp0, ¨qdσpxq
+´
+ż
+Ω
+¯φ0
+mSα
+mp¯p0
+c,mq ¯ϕα
+mp0, ¨qdx ´
+ż
+Γ
+¯d0
+fSα
+f p¯p0
+c,fq ¯ϕα
+f p0, ¨qdσpxq
+“
+ż T
+0
+ż
+Ω
+hα
+m ¯ϕα
+mdxdt `
+ż T
+0
+ż
+Γ
+hα
+f ¯ϕα
+f dσpxqdt,
+(6a)
+ż T
+0
+ż
+Ω
+´
+σp¯uq : εp¯vq ´ b ¯pE
+mdivp¯vq
+¯
+dxdt `
+ż T
+0
+ż
+Γ
+¯pE
+f J¯vK dσpxqdt
+“
+ż T
+0
+ż
+Ω
+f ¨ ¯v dxdt,
+(6b)
+with
+¯Qα
+f,a “ Tf
+”
+ηapSα
+a pγa¯pc,mqqJ¯pαK`
+a ´ ηfpSα
+f p¯pc,fqqJ¯pαK´
+a
+ı
+,
+¯pc,ν “ ¯pnw
+ν
+´ ¯pw
+ν ,
+¯df “ ´J¯uK,
+¯φm ´ ¯φ0
+m “ b divp¯u ´ ¯u0q ` 1
+M p¯pE
+m ´ ¯pE,0
+m q,
+(6c)
+where ¯d0
+f “ ´J¯u0K and ¯u0 is the solution of (6b) without the time integral and using the initial equivalent pressures
+¯pE,0
+m
+and ¯pE,0
+f
+obtained from the initial pressures ¯pα
+0,m and ¯pα
+0,f, α P tnw, wu.
+Remark 2.2 (Regularity of the fracture aperture). Notice that, by the Sobolev–trace embeddings [1, Theorem 4.12],
+¯u P L8p0, T; U0q implies that ¯df “ ´J¯uK P L8p0, T; L4pΓqq. All the integrals above are thus well-deﬁned.
+3
+The gradient discretization method
+The gradient discretization (GD) for the Darcy discontinuous pressure model, introduced in [23], is deﬁned by a
+ﬁnite-dimensional vector space of discrete unknowns
+X0
+Dp “ X0
+Dm
+p ˆ X0
+Df
+p
+and
+• two discrete gradient linear operators on the matrix and fracture domains
+∇m
+Dp : X0
+Dm
+p Ñ L8pΩqd,
+∇f
+Dp : X0
+Df
+p Ñ L8pΓqd´1,
+• two function reconstruction linear operators on the matrix and fracture domains
+Πm
+Dp : X0
+Dm
+p Ñ L8pΩq,
+Πf
+Dp : X0
+Df
+p Ñ L8pΓq,
+• for a “ ˘, jump reconstruction linear operators J¨Ka
+Dp: X0
+Dp Ñ L8pΓq, and trace reconstruction linear operators
+Ta
+Dp: X0
+Dm
+p Ñ L8pΓq.
+The operators Πm
+Dp, Πf
+Dp, Ta
+Dp are assumed piecewise constant [22, Deﬁnition 2.12]. A consequence of the piecewise-
+constant property is the following: there is a basis peiqiPI of X0
+Dm
+p such that, if v “ ř
+iPI viei and if, for a mapping
+g : R Ñ R with gp0q “ 0, we deﬁne gpvq “ ř
+iPI gpviqei P X0
+Dm
+p by applying g component-wise, then Πm
+Dpgpvq “ gpΠm
+Dpvq
+and Ta
+Dpgpvq “ gpTa
+Dpvq. Note that the basis peiqiPI is usually canonical and chosen in the design of X0
+Dm
+p . The same
+6
+property holds for X0
+Df
+p and Πf
+Dp. The vector space X0
+Dp is endowed with the following quantity, assumed to deﬁne a
+norm:
+}v}Dp :“ }∇m
+Dpv}L2pΩqd ` }d
+3{2
+0 ∇f
+Dpv}L2pΓqd´1 `
+ÿ
+a“˘
+}JvKa
+Dp}L2pΓq.
+The gradient discretization for the mechanics is deﬁned by a ﬁnite-dimensional vector space of discrete unknowns X0
+Du
+and
+• a discrete symmetric gradient linear operator εDu : X0
+Du Ñ L2pΩ, SdpRqq where SdpRq is the vector space of real
+symmetric matrices of size d,
+• a displacement function reconstruction linear operator ΠDu : X0
+Du Ñ L2pΩqd,
+• a normal jump function reconstruction linear operator J¨KDu : X0
+Du Ñ L4pΓq.
+Let us deﬁne the divergence operator divDup¨q “ TracepεDup¨qq, the stress tensor operator
+σDupvq “ 2µεDupvq ` λ divDupvqI,
+and the fracture width df,Du “ ´JuKDu. It is assumed that the following quantity deﬁnes a norm on X0
+Du:
+}v}Du :“ }εDupvq}L2pΩ,SdpRqq.
+(7)
+A spatial GD can be extended into a space-time GD by complementing it with
+• a discretization 0 “ t0 ă t1 ă ¨ ¨ ¨ ă tN “ T of the time interval r0, Ts,
+• interpolators Iν
+Dp : V 0
+ν Ñ X0
+Dν
+p, ν P tm, fu, and Jm
+Dp : L2pΩq Ñ X0
+Dm
+p of initial conditions.
+For n P t0, . . . , Nu, we denote by δtn` 1
+2 “ tn`1 ´ tn the time steps, and by ∆t “ maxn“0,...,N δtn` 1
+2 the maximum
+time step.
+Spatial operators are extended into space-time operators as follows. Let ΨD be a spatial GDM operator deﬁned in
+X0
+D with D “ Du, Dm
+p or Df
+p, and let w “ pwnqN
+n“0 P pX0
+DqN`1. Then, its space-time extension is deﬁned by
+ΨDwp0, ¨q “ ΨDw0 and, @n P t0, . . . , N ´ 1u , @t P ptn, tn`1s, ΨDwpt, ¨q “ ΨDwn`1.
+For convenience, the same notation is kept for the spatial and space-time operators. Moreover, we deﬁne the discrete
+time derivative as follows: for f : r0, Ts Ñ L1pΩq piecewise constant on the time discretization, with fn “ f|ptn´1,tns
+and f0 “ fp0q, we set δtfptq “ fn`1´fn
+δtn` 1
+2
+for all t P ptn, tn`1s, n P t0, . . . , N ´ 1u.
+Notice that the space of piecewise constant X0
+D-valued functions f on the time discretization together with the initial
+value f0 “ fp0q can be identiﬁed with pX0
+DqN`1. The same deﬁnition of discrete derivative can thus be given for
+an element w P pX0
+DqN`1. Namely, δtw P pX0
+DqN is deﬁned by setting, for any n P t0, . . . , N ´ 1u and t P ptn, tn`1s,
+δtwptq “ pδtwqn`1 :“
+wn`1´wn
+δtn` 1
+2
+.
+If ΨD is a space-time GDM operator, by linearity the following commutativity
+property holds: ΨDδtwpt, ¨q “ δtpΨDwpt, ¨qq.
+The gradient scheme for (3) consists in writing the weak formulation (6a)–(6b) with continuous spaces and operators
+substituted by their discrete counterparts, after a formal integration by part: ﬁnd pα “ ppα
+m, pα
+f q P pX0
+DpqN`1,
+α P tnw, wu, and u P pX0
+DuqN`1, such that for all ϕα “ pϕα
+m, ϕα
+f q P pX0
+DpqN`1, v P pX0
+DuqN`1 and α P tnw, wu,
+ż T
+0
+ż
+Ω
+´
+δt
+´
+φDΠm
+Dpsα
+m
+¯
+Πm
+Dpϕα
+m ` ηα
+mpΠm
+Dpsα
+mqKm∇m
+Dppα
+m ¨ ∇m
+Dpϕα
+m
+¯
+dxdt
+`
+ż T
+0
+ż
+Γ
+δt
+´
+df,DuΠf
+Dpsα
+f
+¯
+Πf
+Dpϕα
+f dσpxqdt
+`
+ż T
+0
+ż
+Γ
+ηα
+f pΠf
+Dpsα
+f q
+d3
+f,Du
+12 ∇f
+Dppα
+f ¨ ∇f
+Dpϕα
+f dσpxqdt
+`
+ÿ
+a“˘
+ż T
+0
+ż
+Γ
+´
+Qα
+f,aJϕαKa
+Dp ` ¯da ¯φaδt
+´
+Ta
+Dpsα
+a
+¯
+Ta
+Dpϕα
+m
+¯
+dσpxqdt
+“
+ż T
+0
+ż
+Ω
+hα
+mΠm
+Dpϕα
+mdxdt `
+ż T
+0
+ż
+Γ
+hα
+f Πf
+Dpϕα
+f dσpxqdt,
+(8a)
+7
+ż T
+0
+ż
+Ω
+´
+σDupuq : εDupvq ´ b Πm
+DppE
+m divDupvq
+¯
+dxdt
+`
+ż T
+0
+ż
+Γ
+Πf
+DppE
+f JvKDudσpxqdt “
+ż T
+0
+ż
+Ω
+f ¨ ΠDuv dxdt,
+(8b)
+with the closure equations, for ν P tm, fu and a “ ˘,
+$
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+&
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+’
+%
+Qα
+f,a “ Tf
+”
+ηα
+a pTa
+Dpsα
+aqpJpαKa
+Dpq` ´ ηα
+f pΠf
+Dpsα
+f qpJpαKa
+Dpq´ı
+,
+pc,ν “ pnw
+ν
+´ pw
+ν ,
+sα
+ν “ Sα
+ν ppc,νq,
+sα
+a “ Sα
+a ppc,mq,
+pE
+ν “
+ÿ
+αPtnw,wu
+pα
+ν sα
+ν ´ Uνppc,νq,
+φD ´ Πm
+Dpφ0
+m “ b divDupu ´ u0q `
+1
+M Πm
+DpppE
+m ´ pE,0
+m q,
+df,Du “ ´JuKDu,
+σDupvq “ 2µεDupvq ` λ divDupvqI.
+(8c)
+The initial conditions are given by pα
+0,ν “ Iν
+Dp ¯pα
+0,ν (α P tnw, wu, ν P tm, fu), φ0
+m “ Jm
+Dp ¯φ0, and the initial displacement
+u0 is the solution in X0
+Du of (8b) without the time variable and with the equivalent pressures obtained from the initial
+pressures ppα
+0 qαPtnw,wu.
+3.1
+Properties of gradient discretizations
+Let pDl
+pqlPN and pDl
+uqlPN be sequences of GDs. We state here the assumptions on these sequences which ensure that
+the solutions to the corresponding schemes converge. Most of these assumptions are adaptation of classical GDM
+assumptions [22], except for the chain-rule and product rule used in Subsection 4.2 to obtain compactness properties;
+we note that all these assumptions hold for standard discretizations used in porous media ﬂows.
+Following [23], the spatial GD of the Darcy ﬂow
+Dp “
+´
+X0
+Dp, ∇ν
+Dp, Πν
+Dp, Ta
+Dp, J¨Ka
+Dp; ν P tm, fu, a “ ˘
+¯
+,
+is assumed to satisfy the following coercivity, consistency, limit-conformity and compactness properties.
+Coercivity of Dp. Let CDp ą 0 be deﬁned by
+CDp “
+max
+0‰v“pvm,vf qPX0
+Dp
+}Πm
+Dpvm}L2pΩq ` }Πf
+Dpvf}L2pΓq ` ř
+a“˘ }Ta
+Dpvm}L2pΓq
+}v}Dp
+.
+(9)
+Then, a sequence of spatial GDs pDl
+pqlPN is said to be coercive if there exists Cp ą 0 such that CDlp ď Cp for all l P N.
+Consistency of Dp. Let r ą 8 be given, and for all pwm, vmq P C8
+c pΩzΓq ˆ X0
+Dm
+p and all pwf, vfq P C8
+c pΓq ˆ X0
+Df
+p , let
+us deﬁne
+SDm
+p pwm, vmq “ }∇m
+Dpvm ´ ∇wm}L2pΩq ` }Πm
+Dpvm ´ wm}L2pΩq
+`
+ÿ
+a“˘
+´
+}Ta
+Dpvm ´ γawm}L2pΓq ` }Jpvm, 0qKa
+Dp ´ Jpwm, 0qKa}L2pΓq
+¯
+,
+SDf
+p pwf, vfq “ }∇f
+Dpvf ´ ∇τwf}LrpΓq ` }Πf
+Dpvf ´ wf}LrpΓq `
+ÿ
+a“˘
+}Jp0, vfqKa
+Dp ´ Jp0, wfqKa}L2pΓq,
+(10)
+and SDνppwνq “ minvνPX0
+Dνp SDνppwν, vνq, ν P tm, fu. Then, a sequence of spatial GDs pDl
+pqlPN is said to be consistent
+if for all wν P V 0
+ν one has limlÑ`8 SDν,l
+p pwνq “ 0, ν P tm, fu.
+Moreover, if pDl
+pqlPN is a sequence of space-time
+GDs, then it is said to be consistent if the underlying sequence of spatial GDs is consistent as above and if, for any
+ϕ “ pϕm, ϕfq P V 0 and ψ P L2pΩq, as l Ñ `8,
+∆tl Ñ 0 ,
+}Πm
+DlpIm
+Dlpϕm ´ ϕm}L2pΩq ` }Πf
+Dl
+pIf
+Dl
+pϕf ´ ϕf}L2pΓq`
+ÿ
+a“˘
+´
+}Ta
+DpIm
+Dl
+pϕm ´ γaϕm}L2pΓq
+¯
+Ñ 0,
+}Πm
+Dl
+pJm
+Dl
+pψ ´ ψ}L2pΩq Ñ 0.
+(11)
+8
+Remark 3.1 (Consistency). In [23], the consistency is only considered for r “ 2. We have here to adopt a slightly
+stronger assumption to deal with the coupling and non-linearity involving the fracture aperture df. Note that, under
+standard mesh regularity assumptions, this stronger consistency property is still satisﬁed for all classical GDs.
+Limit-conformity of Dp. For all q “ pqm, qfq P C8pΩzΓqd ˆ C8pΓqd´1, ϕa P C8pΓq, and v “ pvm, vfq P X0
+Dp, let
+us deﬁne
+WDppq, ϕa, vq “
+ż
+Ω
+´
+qm ¨ ∇m
+Dpvm ` Πm
+Dpvm divpqmq
+¯
+dx
+`
+ż
+Γ
+´
+qf ¨ ∇f
+Dpvf ` Πf
+Dpvf divτpqfq
+¯
+dσpxq
+´
+ÿ
+a“˘
+ż
+Γ
+Ta
+Dpvmqm ¨ nadσpxq
+`
+ÿ
+a“˘
+ż
+Γ
+ϕa
+´
+Ta
+Dpvm ´ Πf
+Dpvf ´ JvmKa
+Dp
+¯
+dσpxq,
+(12)
+and WDppq, ϕaq “ max0‰vPX0
+Dp
+1
+}v}Dp |WDppq, ϕa, vq|. Then, a sequence of spatial GDs pDl
+pqlPN is said to be limit-
+conforming if for all q P C8pΩzΓqd ˆ C8
+c pΓqd´1 and ϕa P C8pΓq one has limlÑ`8 WDlppq, ϕaq “ 0. Here C8
+c pΓqd´1
+denotes the space of functions whose restriction to each Γi is in C8pΓiqd´1 tangent to Γi, compactly supported away
+from the tips, and satisfying normal ﬂux conservation at fracture intersections not located at the boundary BΩ.
+(Local) compactness of Dp. A sequence of spatial GDs pDl
+pqlPN is said to be locally compact if for all sequences
+pvlqlPNP pX0
+DlpqlPN such that suplPN }vl}Dlp ă `8 and all compact sets Km Ă Ωand Kf Ă Γ, such that Kf is disjoint
+from the intersections pΓi X Γjqi­“j, the sequences pΠm
+DlpvlqlPN and pΠf
+DlpvlqlPN are relatively compact in L2pKmq and
+L2pKfq, respectively.
+Remark 3.2 (Local compactness through estimates of space translates). For Km, Kf as above, set
+TDlp,Km,Kf pξ, ηq “ maxv“pvm,vf qPX0
+Dlp
+zt0u
+1
+}v}Dlp
+´
+}Πm
+Dlpvmp¨ ` ξq ´ Πm
+Dlpvm}L2pKmq
+`
+ÿ
+iPI
+}Πf
+Dlpvfp¨ ` ηiq ´ Πf
+Dlpvf}L2pKf XΓiq
+`
+ÿ
+iPI
+ÿ
+a“˘
+}Ta
+Dlpvmp¨ ` ηiq ´ Ta
+Dlpvm}L2pKf XΓiq
+¯
+where ξ P Rd, η “ pηiqiPI with ηi tangent to Γi; for ξ and η small enough, this expression is well deﬁned since Km
+and Kf are compact in Ωand Γ, respectively. Following [22, Lemma 2.21], An equivalent formulation of the local
+compactness property is: for all Km, Kf as above,
+lim
+ξ,ηÑ0 sup
+lPN
+TDlp,Km,Kf pξ, ηq “ 0.
+Remark 3.3 (Usual compactness property for GDs). The standard compactness property for GD is not local but global,
+that is, on the entire domain not any of its compact subsets (see, e.g., [22, Deﬁnition 2.8] and also below for Du).
+Two reasons pushed us to consider here the weaker notion of local compactness: ﬁrstly, for standard GDs, the global
+compactness does not seem obvious to establish (or even true) in the fractures, because of the weight d0 in the norm
+}¨}Dp, which prevents us from estimating the translates of the reconstructed function by the gradient near the fracture
+tips; secondly, we will only use compactness on saturations, which are uniformly bounded by 1 and for which local
+and global compactness are therefore equivalent.
+In the following, for brevity we refer to the local compactness of pDl
+pqlPN simply as the compactness of this sequence
+of GDs.
+Bounds on reconstruction operators of pDl
+pqlPN.
+• Chain rule estimate. For any Lipschitz-continuous function F : R Ñ R, there is CF ě 0 such that, for all l P N, and
+any vm P X0
+Dm,l
+p
+,
+}∇m
+DlpFpvmq}L2pΩq ď CF }∇m
+Dlpvm}L2pΩq.
+• Product rule estimate. There exists CP ě 0 such that, for any l P N and any ul
+m, vl
+m P X0
+Dm,l
+p
+, it holds
+}∇m
+Dppul
+mvl
+mq}L2pΩq ď CP
+´
+|ul
+m|8}∇m
+Dpvl
+m}L2pΩq ` |vl
+m|8}∇m
+Dpul
+m}L2pΩq
+¯
+,
+where |wm|8 :“ maxiPIm |wi| whenever wm “ ř
+iPIm wiei with peiqiPIm the canonical basis of X0
+Dm,l
+p
+.
+9
+• Bound on the jump operator. For any l P N and any vl “ pvl
+m, vl
+fq P X0
+Dlp, there is C ě 0 such that
+}JvlKa}L8pΓq ď C
+´
+|vl
+m|8 ` |vl
+f|8
+¯
+,
+where |vf|8 :“ maxiPIf |vi| whenever vf “ ř
+iPIf viei with peiqiPIf the canonical basis of X0
+Df,l
+p .
+Coercivity of pDl
+uqlPN. Let CDu ą 0 be deﬁned by
+CDu “
+max
+0‰vPX0
+Dlu
+}ΠDluv}L2pΩq ` }JvKDlu}L4pΓq
+}v}Dlu
+.
+(13)
+Then, the sequence of spatial GDs pDl
+uqlPN is said to be coercive if there exists Cu ą 0 such that CDlu ď Cu for all
+l P N.
+Consistency of pDl
+uqlPN. For all w P U0, it holds limlÑ`8 SDlupwq “ 0 where
+SDlupwq “ min
+vPX0
+Dlu
+”
+}εDlupvq ´ εpwq}L2pΩ,SdpRqq ` }ΠDluv ´ w}L2pΩq `
+››JvKDlu ´ JwK
+››
+L4pΓq
+ı
+.
+(14)
+Limit-conformity of pDl
+uqlPN. Let C8
+Γ pΩzΓ, SdpRqq denote the vector space of smooth functions σ : ΩzΓ Ñ SdpRq
+whose derivatives of any order admit ﬁnite limits on each side of Γ, and such that σ`pxqn` ` σ´pxqn´ “ 0 and
+pσ`pxqn`qˆn` “ 0 for a.e. x P Γ. For all σ P C8
+Γ pΩzΓ, SdpRqq, it holds limlÑ`8 WDlupσq “ 0 where
+WDlupσq “
+max
+0‰vPX0
+Dlu
+1
+}v}Dlu
+„ż
+Ω
+´
+σ : εDlupvq ` ΠDluv ¨ divpσq
+¯
+dx ´
+ż
+Γ
+pσn`q ¨ n`JvKDludσpxq
+
+.
+Compactness of pDl
+uqlPN.
+For any sequence pvlqlPNP pX0
+DluqlPN such that suplPN }vl}Dlu ă `8, the sequences
+pΠDluvlqlPN and pJvlKDluqlPN are relatively compact in L2pΩqd and in LspΓq for all s ă 4, respectively.
+Remark 3.4 (Compactness through estimates of space translates). Similarly to Remark 3.2 (see also [22, Lemma 2.21]),
+the compactness of pDl
+uqlPN is equivalent to
+lim
+ξ,ηÑ0 sup
+lPN
+TDlu,spξ, ηq “ 0
+@s ă 4,
+where
+TDlu,spξ, ηq “
+max
+vPX0
+Dlu
+zt0u
+}ΠDluvp¨ ` ξq ´ ΠDluv}L2pΩq ` ř
+iPI
+››JvlKDlup¨ ` ηiq ´ JvlKDlu
+››
+LspΓiq
+}v}Dlu
+,
+with ξ P Rd, η “ pηiqiPI with ηi tangent to Γi, and the functions extended by 0 outside their respective domain Ωor
+Γ.
+4
+Convergence analysis
+The main theoretical result of this work is the following convergence theorem.
+Theorem 4.1. Let pDl
+pqlPN, pDl
+uqlPN, tptl
+nqNl
+n“0ulPN, be sequences of space time GDs assumed to satisfy the properties
+described in Section 3.1. Let φm,min ą 0 and assume that, for each l P N, the gradient scheme (8a)–(8b) has a solution
+pα
+l “ ppα
+m,l, pα
+f,lq P pX0
+DlpqNl`1, α P tnw, wu, ul P pX0
+DluqNl`1 such that
+(i) df,Dlupt, xq ě d0pxq for a.e. pt, xq P p0, Tq ˆ Γ,
+(ii) φDlpt, xq ě φm,min for a.e. pt, xq P p0, Tq ˆ Ω.
+10
+Then, there exist ¯pα “ p¯pα
+m, ¯pα
+f q P L2p0, T; V 0q, α P tnw, wu, ¯u P L8p0, T; U0q and ¯Qα
+f,a P L2p0, T; L2pΓqq satisfying
+the weak formulations (6a)-(6b) such that for α P tnw, wu and up to a subsequence
+Πm
+Dlppα
+m,l á ¯pα
+m
+weakly in L2p0, T; L2pΩqq,
+Πf
+Dlppα
+f,l á ¯pα
+f
+weakly in L2p0, T; L2pΓqq,
+ΠDluul á ¯u
+weakly-‹ in L8p0, T; L2pΩqdq,
+φDl á ¯φm
+weakly-‹ in L8p0, T; L2pΩqq,
+df,Dlu Ñ ¯df
+in L8p0, T; LppΓqq for 2 ď p ă 4,
+Πm
+DlpSα
+mppl
+c,mq Ñ Sα
+mp¯pc,mq
+in L2p0, T; L2pΩqq,
+Πf
+DlpSα
+f ppl
+c,fq Ñ Sα
+f p¯pc,fq
+in L2p0, T; L2pΓqq,
+Qα
+f,a á ¯Qα
+f,a
+weakly in L2p0, T; L2pΓqq.
+where ¯φm “ ¯φ0
+m ` b divp¯u ´ ¯u0q ` 1
+M p¯pE
+m ´ ¯pE,0
+m q, ¯df “ ´J¯uK, and ¯pc “ ¯pnw ´ ¯pw.
+We ﬁrst present in Subsections 4.1 and 4.2 a sequence of intermediate results that will be useful for the proof of
+Theorem 4.1 detailed in Subsection 4.3.
+Remark 4.2 (Limit interface ﬂuxes). The theorem states that the limit functions satisfy all but the ﬁrst closure
+equations in (6c). It does not, however, identify the limit interface ﬂuxes ¯Qα
+f,a, α P tnw, wu. This identiﬁcation
+requires the limit functions to satisfy an energy equality, which is known under some assumption on the limit fracture
+width ¯df. See the discussion in Subsection 4.4 for more details.
+4.1
+Energy estimates
+Using the phase pressures and velocity (time derivative of the displacement ﬁeld) as test functions, the following a
+priori estimates can be inferred.
+Lemma 4.3 (A priori estimates). Let pα “ ppα
+m, pα
+f q, u be a solution to problem (8) such that
+(i) df,Dupt, xq ě d0pxq for a.e. pt, xq P p0, Tq ˆ Γ,
+(ii) φDpt, xq ě φm,min for a.e. pt, xq P p0, Tq ˆ Ω, where φm,min ą 0 is a constant.
+Under hypotheses (H1)–(H9), there exists a real number C ą 0 depending on the data, the coercivity constants CDp,
+CDu, and φm,min, such that the following estimates hold:
+}∇m
+Dppα
+m}L2pp0,T qˆΩq ď C,
+}d
+3{2
+f,Du∇f
+Dppα
+f }L2pp0,T qˆΓq ď C,
+}JpαKa
+Dp}L2pp0,T qˆΓq ď C,
+}UapTa
+Dppc,mq}L8p0,T ;L1pΓqq ď C,
+}UmpΠm
+Dppc,mq}L8p0,T ;L1pΩqq ď C,
+}d0UfpΠf
+Dppc,fq}L8p0,T ;L1pΓqq ď C,
+}Πm
+DppE
+m}L8p0,T ;L2pΩqq ď C,
+}εDupuq}L8p0,T ;L2pΩ,SdpRqqq ď C,
+}df,Du}L8p0,T ;L4pΓqq ď C.
+(15)
+Remark 4.4 (Existence of the discrete solution). Since these a priori estimates are obtained assuming lower bounds
+on the fracture aperture and porosity, the existence of the discrete solution cannot be deduced from these estimates
+and will be assumed in the following convergence analysis. As noticed in the introduction, these assumptions on lower
+bounds of the fracture aperture and porosity are mandatory since the model itself does not account for possible contact
+of fracture walls nor a nonlinear behavior of pore volume contraction, and thus cannot yield such lower bounds. The
+analysis of a model with contact is a topic for future work.
+Proof. For a piecewise constant function v on r0, Ts with vptq “ vn`1 for all t P ptn, tn`1s, n P t0, . . . , N ´ 1u, and the
+initial value vp0q “ v0, we deﬁne the piecewise constant function ˆv such that ˆvptq “ vn for all t P ptn, tn`1s. We notice
+the following expression for the discrete derivative of the product of two such functions:
+δtpuvqptq “ ˆuptqδtvptq ` vptqδtuptq.
+(16)
+11
+In (8a), upon choosing ϕα “ pα we obtain T1 ` T2 ` T3 ` T4 ` ř
+a“˘pT a
+1 ` T a
+2 q “ T5 ` T6, with
+T1 “
+ż T
+0
+ż
+Ω
+δt
+´
+φDΠm
+Dpsα
+m
+¯
+Πm
+Dppα
+mdxdt,
+T2 “
+ż T
+0
+ż
+Ω
+ηα
+mpΠm
+Dpsα
+mqKm∇m
+Dppα
+m ¨ ∇m
+Dppα
+mdxdt,
+T3 “
+ż T
+0
+ż
+Γ
+δt
+´
+df,DuΠf
+Dpsα
+f
+¯
+Πf
+Dppα
+f dσpxqdt,
+T4 “
+ż T
+0
+ż
+Γ
+ηα
+f pΠf
+Dpsα
+f q
+d3
+f,Du
+12 ∇f
+Dppα
+f ¨ ∇f
+Dppα
+f dσpxqdt,
+T a
+1 “
+ż T
+0
+ż
+Γ
+¯da ¯φaδt
+´
+Ta
+Dpsα
+a
+¯
+Ta
+Dppα
+mdσpxqdt,
+T a
+2 “
+ż T
+0
+ż
+Γ
+ηα
+a,fTfpJpαKa
+Dpq2dσpxqdt,
+T5 “
+ż T
+0
+ż
+Ω
+hα
+mΠm
+Dppαdxdt,
+T6 “
+ż T
+0
+ż
+Γ
+hα
+f Πf
+Dppαdσpxqdt,
+(17)
+where ηα
+a,f “ ηα
+a pTa
+Dpsα
+aq if JpαKa
+Dp ě 0 and ηα
+a,f “ ηα
+f pΠf
+Dpsα
+f q otherwise. First, we focus on the matrix and fracture
+accumulation terms T1 and T3, respectively. Using (16) and the piecewise constant function reconstruction property
+of Πrt
+Dp, rt P tm, fu, we can write
+δtpφDSα
+mpΠm
+Dppc,mqq “ ˆφDδtSα
+mpΠm
+Dppc,mq ` Sα
+mpΠm
+Dppc,mqδtφD,
+δtpdf,DuSα
+f pΠf
+Dppc,fqq “ ˆdf,DuδtSα
+f pΠf
+Dppc,fq ` Sα
+f pΠf
+Dppc,fqδtdf,Du.
+Summing on α P tw, nwu, we obtain
+ÿ
+α
+pT1 ` T3q “
+ÿ
+α
+´ż T
+0
+ż
+Ω
+ˆφDΠm
+Dppα
+m δtSα
+mpΠm
+Dppc,mqdxdt `
+ż T
+0
+ż
+Ω
+Sα
+mpΠm
+Dppc,mqΠm
+Dppα
+m δtφDdxdt
+`
+ż T
+0
+ż
+Γ
+ˆdf,DuΠf
+Dppα
+f δtSα
+f pΠf
+Dppc,fqdσpxqdt `
+ż T
+0
+ż
+Γ
+Sα
+f pΠf
+Dppc,fqΠf
+Dppα
+f δtdf,Dudσpxqdt
+¯
+.
+Now, for rt P tm, fu,
+ÿ
+α
+Πrt
+Dppα
+rt δtSα
+rtpΠrt
+Dppc,rtq “ Πrt
+Dppc,rt δtSnw
+rt pΠrt
+Dppc,rtq ě δtUrtpΠrt
+Dppc,rtq.
+(18)
+Indeed, for n P t0, . . . , N ´ 1u, by the deﬁnition (5) of the capillary energy Urt and letting πn
+c,rt “ Πrt
+Dppn
+c,rt, we have
+πn`1
+c,rt pSnw
+rt pπn`1
+c,rt q ´ Snw
+rt pπn
+c,rtqq “ Urtpπn`1
+c,rt q ´ Urtpπn
+c,rtq `
+ż πn`1
+c,rt
+πn
+c,rt
+pSnw
+rt pqq ´ Snw
+rt pπn
+c,rtqqdq
+ě Urtpπn`1
+c,rt q ´ Urtpπn
+c,rtq,
+where the last inequality holds since Snw
+rt
+is a non-decreasing function. Thus, we obtain
+ÿ
+α
+pT1 ` T3q ě
+ż T
+0
+ż
+Ω
+ˆφDδtUmpΠm
+Dppc,mqdxdt `
+ż T
+0
+ż
+Γ
+ˆdf,DuδtUfpΠf
+Dppc,fqdσpxqdt
+`
+ÿ
+α
+´ż T
+0
+ż
+Ω
+Sα
+mpΠm
+Dppc,mqΠm
+Dppα
+mδtφDdxdt `
+ż T
+0
+ż
+Γ
+Sα
+f pΠf
+Dppc,fqΠf
+Dppα
+f δtdf,Dudσpxqdt
+¯
+.
+Applying again (16), we have
+ˆφDδtUmpΠm
+Dppc,mq “ δtpφDUmpΠm
+Dppc,mqq ´ UmpΠm
+Dppc,mqδtφD,
+ˆdf,DuδtUfpΠf
+Dppc,fq “ δtpdf,DuUfpΠf
+Dppc,fqq ´ UfpΠf
+Dppc,fqδtdf,Du.
+In the light of the closure equations (8c), this allows us to infer that
+ÿ
+α
+pT1 ` T3q ě
+ż T
+0
+ż
+Ω
+δtpφDUmpΠm
+Dppc,mqqdxdt `
+ż T
+0
+ż
+Γ
+δtpdf,DuUfpΠf
+Dppc,fqqdσpxqdt
+`
+ż T
+0
+ż
+Ω
+1
+2M δt
+´
+Πm
+DppE
+m
+¯2
+dxdt `
+ż T
+0
+ż
+Ω
+b Πm
+DppE
+m divDupδtuqdxdt
+´
+ż T
+0
+ż
+Γ
+Πf
+DppE
+f JδtuKDudσpxqdt,
+(19)
+12
+where we have used the fact that, for v piecewise constant on r0, Ts,
+vδtv ě δt
+ˆv2
+2
+˙
+.
+(20)
+Using, as in (18), the relation
+ÿ
+α
+Ta
+Dppα
+m δtSα
+a pTa
+Dppc,mq “ Ta
+Dppc,m δtSnw
+a pTa
+Dppc,mq ě δtUapTa
+Dppc,mq,
+we obtain
+ÿ
+α
+T a
+1 ě
+ż T
+0
+ż
+Γ
+¯da ¯φaδtpUapTa
+Dppc,mqqdσpxqdt.
+(21)
+Then, taking into account assumptions (H1)–(H9) and (i) in the lemma, there exists a real number C ą 0 depending
+only on the data such that
+ÿ
+α
+pT2 ` T4 `
+ÿ
+a“˘
+T a
+2 q ě C
+´ż T
+0
+ż
+Ω
+ÿ
+α
+|∇m
+Dppα
+m|2dxdt `
+ż T
+0
+ż
+Γ
+ÿ
+α
+|d
+3{2
+f,Du∇f
+Dppα
+f |2dσpxqdt
+`
+ż T
+0
+ż
+Γ
+ÿ
+α
+|JpαKa
+Dp|2dσpxqdt
+¯
+.
+(22)
+On the other hand, upon choosing v “ δtu in (8b), we get T7 ` T8 ` T9 “ T10, with
+T7 “
+ż T
+0
+ż
+Ω
+σDupuq : εDupδtuqdxdt,
+T8 “ ´
+ż T
+0
+ż
+Ω
+b Πm
+DppE
+m divDupδtuqdxdt
+T9 “
+ż T
+0
+ż
+Γ
+Πf
+DppE
+f JδtuKDudσpxqdt,
+T10 “
+ż T
+0
+ż
+Ω
+f ¨ ΠDupδtuqdxdt.
+(23)
+Using (20) and developing the deﬁnition of σDu, we see that
+T7 ě
+ż T
+0
+ż
+Ω
+δt
+´1
+2σDupuq : εDupuq
+¯
+dxdt,
+(24)
+so that, all in all, taking into account
+ÿ
+α
+´
+T1 ` T2 ` T3 ` T4 `
+ÿ
+a“˘
+pT a
+1 ` T a
+2 q
+¯
+` T7 ` T8 ` T9 “
+ÿ
+α
+pT5 ` T6q ` T10,
+and inequalities (19), (22) and (24), we obtain the following estimate for the solutions of (8): there is a real number
+C ą 0 depending on the data such that
+ż T
+0
+ż
+Ω
+δtpφDUmpΠm
+Dppc,mqq dxdt `
+ż T
+0
+ż
+Γ
+δtpdf,DuUfpΠf
+Dppc,fqq dσpxqdt
+`
+ÿ
+a“˘
+ż T
+0
+ż
+Γ
+δtUapTa
+Dppc,mq dσpxqdt
+`
+ż T
+0
+ż
+Ω
+δt
+ˆ1
+2σDupuq : εDupuq `
+1
+2M pΠm
+DppE
+mq2
+˙
+dxdt
+`
+ÿ
+α
+ż T
+0
+ż
+Ω
+|∇m
+Dppα
+m|2 dxdt `
+ÿ
+α
+ż T
+0
+ż
+Γ
+|d
+3{2
+f,Du∇f
+Dppα
+f |2 dσpxqdt
+`
+ÿ
+α
+ÿ
+a“˘
+ż T
+0
+ż
+Γ
+|JpαKa
+Dp|2dσpxqdt
+ď C
+˜ż T
+0
+ż
+Ω
+f ¨ δtΠDuu dxdt `
+ÿ
+α
+ż T
+0
+ż
+Ω
+hα
+mΠm
+Dppα
+m dxdt `
+ÿ
+α
+ż T
+0
+ż
+Γ
+hα
+f Πf
+Dppα
+f dσpxqdt
+¸
+.
+(25)
+Now, we have
+ż T
+0
+ż
+Ω
+f ¨ δtΠDuu dxdt “
+ż
+Ω
+f ¨ pΠDuupTq ´ f ¨ ΠDuup0qqdx
+ď CDu}f}L2pΩqp}εDupuqpTq}L2pΩ,SdpRqq ` }εDupuqp0q}L2pΩ,SdpRqqq,
+13
+ÿ
+α
+´ż T
+0
+ż
+Ω
+hα
+mΠm
+Dppα
+m dxdt `
+ż T
+0
+ż
+Γ
+hα
+f Πf
+Dppα
+f dσpxqdt
+¯
+ď CDp
+ÿ
+α
+´
+}hα
+m}L2pp0,T qˆΩq ` }hα
+f }L2pp0,T qˆΓq
+¯
+ˆ
+´
+}∇m
+Dppα
+m}L2p0,T ;L2pΩqq ` }d
+3{2
+f,Du∇f
+Dppα
+f }L2p0,T ;L2pΓqq `
+ÿ
+a“˘
+}JpαKa
+Dp}L2p0,T ;L2pΓqq
+¯
+,
+where we have used the coercivity properties of the two gradient discretizations along with the Cauchy–Schwarz
+inequality and d0 ď df,Du. Using Young’s inequality in the last two estimates as well as hypotheses (H1)–(H9) and (ii)
+in the lemma, and using telescopic sums on the terms involving δt, it is then possible to infer from (25) the existence
+of a real number C ą 0 depending on the data and on φm,min such that
+}UmpΠm
+Dppc,mqpTq}L1pΩq ` }d0UfpΠf
+Dppc,fqpTq}L1pΓq
+`
+ÿ
+a“˘
+}UapTa
+Dppc,mqpTq}L1pΓq ` }pΠm
+DppE
+mqpTq}2
+L2pΩq ` }εDupuqpTq}2
+L2pΩ,SdpRqq
+`
+ÿ
+α
+´
+}∇m
+Dppα
+m}2
+L2p0,T ;L2pΩqq ` }d
+3{2
+f,Du∇f
+Dppα
+f }2
+L2p0,T ;L2pΓqq `
+ÿ
+a“˘
+}JpαKa
+Dp}2
+L2p0,T ;L2pΓqq
+¯
+ď C
+´
+}f}2
+L2pΩq `
+ÿ
+α
+´
+}hα
+m}2
+L2pp0,T qˆΩq ` }hα
+f }2
+L2pp0,T qˆΓq
+¯
+` }UmpΠm
+Dppc,mqp0q}L1pΩq ` }df,Dup0qUfpΠf
+Dppc,fqp0q}L1pΓq
+`
+ÿ
+a“˘
+}UapTa
+Dppc,mqp0q}L1pΓq ` }pΠm
+DppE
+mqp0q}2
+L2pΩq ` }pΠf
+DppE
+f qp0q}2
+L2pΓq
+¯
+The above inequality,along with the fact that T can be replaced by any t P p0, Ts in the left-hand side, and in view
+of (11)–(36)–(37), yields the a priori estimates (15) on pα
+ν , pc,ν, pE
+m and u. The estimate on df,Du follows from its
+deﬁnition and from the deﬁnition (13) of CDu.
+4.2
+Compactness properties
+Throughout the analysis, we write a À b for a ď Cb with constant C depending only on the coercivity constants CDp,
+CDu of the considered GDs, and on the physical parameters.
+4.2.1
+Estimates on time translates
+Proposition 4.5. Let Dp, Du, ptnqN
+n“0 be given space time GDs and φm,min ą 0. It is assumed that the gradient
+scheme (8a)–(8b) has a solution pα “ ppα
+m, pα
+f q P pX0
+DpqN`1, α P tnw, wu, u P pX0
+DuqN`1 such that φDpt, xq ě φm,min
+for a.e. pt, xq P p0, Tq ˆ Ωand df,Dupt, xq ě d0pxq for a.e. pt, xq P p0, Tq ˆ Γ. Let τ, τ 1 P p0, Tq and, for s P p0, Ts,
+denote by ns the natural number such that s P ptns, tns`1s. For any ϕ “ pϕm, ϕfq P X0
+Dp, it holds
+ˇˇˇxrφDΠm
+Dpsα
+mspτq ´ rφDΠm
+Dpsα
+mspτ 1q, Πm
+DpϕmyL2pΩq
+` xrdf,DuΠf
+Dpsα
+f spτq ´ rdf,DuΠf
+Dpsα
+f spτ 1q, Πf
+DpϕfyL2pΓq
+`
+ÿ
+a“˘
+x ¯da ¯φa
+”
+Ta
+Dpsα
+apτq ´ Ta
+Dpsα
+apτ 1q
+ı
+, Ta
+DpϕmyL2pΓq
+ˇˇˇ
+À
+nτ1
+ÿ
+n“nτ `1
+δtn` 1
+2
+´
+ξp1q,α,n`1
+m
+}∇m
+Dpϕm}L2pΩq ` ξp1q,α,n`1
+f
+}∇f
+Dpϕf}L8pΓq
+` ξp2q,α,n`1
+m
+}Πm
+Dpϕm}L2pΩq ` ξp2q,α,n`1
+f
+}Πf
+Dpϕf}L2pΓq `
+ÿ
+a“˘
+ξp1q,α,n`1
+a
+}JϕKa
+Dp}L2pΓq
+¸
+,
+(26)
+with
+N´1
+ÿ
+n“0
+δtn` 1
+2
+”
+ÿ
+rt“m,f,˘
+´
+ξp1q,α,n`1
+rt
+¯2
+`
+ÿ
+rt“m,f
+´
+ξp2q,α,n`1
+rt
+¯2ı
+À 1,
+and
+ξp1q,α,n`1
+m
+“ }∇m
+Dppα,n`1
+m
+}L2pΩq,
+ξp1q,α,n`1
+f
+“ }pdn`1
+f,Duq
+3{2∇f
+Dppα,n`1
+f
+}L2pΓq}dn`1
+f,Du}
+3{2
+L4pΓq,
+14
+ξp2q,α,n`1
+m
+“
+›››
+1
+δtn` 1
+2
+ż tn`1
+tn
+hα
+mpt, ¨qdt
+›››
+L2pΩq,
+ξp2q,α,n`1
+f
+“
+›››
+1
+δtn` 1
+2
+ż tn`1
+tn
+hα
+f pt, ¨qdt
+›››
+L2pΓq,
+ξp1q,α,n`1
+a
+“ }Jpα,n`1Ka
+Dp}L2pΓq.
+Proof. For any ϕ P X0
+Dp, writing the diﬀerence of piecewise-constant functions at times τ and τ 1 as the sum of their
+jumps between these two times, one has
+ˇˇˇxrφDΠm
+Dpsα
+mspτq ´ rφDΠm
+Dpsα
+mspτ 1q, Πm
+DpϕmyL2pΩq
+` xrdf,DuΠf
+Dpsα
+f spτq ´ rdf,DuΠf
+Dpsα
+f spτ 1q, Πf
+DpϕfyL2pΓq
+`
+ÿ
+a“˘
+x ¯da ¯φa
+”
+Ta
+Dpsα
+apτq ´ Ta
+Dpsα
+apτ 1q
+ı
+, Ta
+DpϕmyL2pΓq
+ˇˇˇ
+ď
+nτ1
+ÿ
+n“nτ `1
+δtn` 1
+2
+ˇˇˇxδtrφDΠm
+Dpsα
+msptn`1q, Πm
+DpϕmyL2pΩq
+` xδtrdf,DuΠf
+Dpsα
+f sptn`1q, Πf
+DpϕfyL2pΓq `
+ÿ
+a“˘
+x ¯da ¯φaδtrTa
+Dpsα
+asptn`1q, Ta
+DpϕmyL2pΓq
+ˇˇˇ.
+(27)
+From the gradient scheme discrete variational equation (8a), we deduce that
+ˇˇˇxδtrφDΠm
+Dpsα
+msptn`1q, Πm
+DpϕmyL2pΩq ` xδtrdf,DuΠf
+Dpsα
+f sptn`1q, Πf
+DpϕfyL2pΓq
+`
+ÿ
+a“˘
+x ¯da ¯φaδtrTa
+Dpsα
+asptn`1q, Ta
+DpϕmyL2pΓq
+ˇˇˇ
+À }∇m
+Dppα,n`1
+m
+}L2pΩq }∇m
+Dpϕm}L2pΩq ` }pdn`1
+f,Duq
+3{2∇f
+Dppα,n`1
+f
+}L2pΓq }pdn`1
+f,Duq
+3{2∇f
+Dpϕf}L2pΓq
+`
+ÿ
+a“˘
+}Jpα,n`1Ka
+Dp}L2pΓq} JϕKa
+Dp}L2pΓq
+`
+›››
+1
+δtn` 1
+2
+ż tn`1
+tn
+hα
+mpt, ¨qdt
+›››
+L2pΩq }Πm
+Dpϕm}L2pΩq `
+›››
+1
+δtn` 1
+2
+ż tn`1
+tn
+hα
+f pt, ¨qdt
+›››
+L2pΓq }Πf
+Dpϕf}L2pΓq
+À ξp1q,α,n`1
+m
+}∇m
+Dpϕm}L2pΩq ` ξp1q,α,n`1
+f
+}∇f
+Dpϕf}L8pΓq
+` ξp2q,α,n`1
+m
+}Πm
+Dpϕm}L2pΩq ` ξp2q,α,n`1
+f
+}Πf
+Dpϕf}L2pΓq `
+ÿ
+a“˘
+ξp1q,α,n`1
+a
+}JϕKa
+Dp}L2pΓq,
+(28)
+where the term }pdn`1
+f,Duq
+3{2∇f
+Dpϕ}L2pΓq has been estimated using the generalized Hölder inequality with exponents
+p8, 8{3q, which satisfy 1
+8 ` 3
+8 “ 1
+2. The result follows from (27), (28), the a priori estimates of Lemma 4.3, and from
+the assumptions hα
+m P L2pp0, Tq ˆ Ωq, hα
+f P L2pp0, Tq ˆ Γq.
+Remark 4.6. Summing the estimate (26) on α P tnw, wu, and using the fact that the two-phase saturations add up to
+1 in each medium, we obtain the following time translate estimates on φD and df,Du:
+ˇˇˇxφDpτq ´ φDpτ 1q, Πm
+DpϕmyL2pΩq ` xdf,Dupτq ´ df,Dupτ 1q, Πf
+DpϕfyL2pΓq
+ˇˇˇ
+À
+ÿ
+αPtnw,wu
+nτ1
+ÿ
+n“nτ `1
+δtn` 1
+2
+´
+ξp1q,α,n`1
+m
+}∇m
+Dpϕm}L2pΩq ` ξp1q,α,n`1
+f
+}∇f
+Dpϕf}L8pΓq
+` ξp2q,α,n`1
+m
+}Πm
+Dpϕm}L2pΩq ` ξp2q,α,n`1
+f
+}Πf
+Dpϕf}L2pΓq `
+ÿ
+a“˘
+ξp1q,α,n`1
+a
+}JϕKa
+Dp}L2pΓq
+¸
+.
+(29)
+4.2.2
+Compactness properties of Πm
+Dpsα
+m and Ta
+Dpsα
+a
+Proposition 4.7. Let pDl
+pqlPN, pDl
+uqlPN, tptl
+nqNl
+n“0ulPN be sequences of space time GDs assumed to satisfy the coercivity
+and compactness properties, and such that limlÑ`8 ∆tl “ 0. Let φm,min ą 0 and assume that, for each l P N, the
+gradient scheme (8a)–(8b) has a solution pα
+l “ ppα
+m,l, pα
+f,lq P pX0
+Dl
+pqNl`1, α P tnw, wu, ul P pX0
+Dl
+uqNl`1 such that
+φDlpt, xq ě φm,min for a.e. pt, xq P p0, Tq ˆ Ωand df,Dl
+upt, xq ě d0pxq for a.e. pt, xq P p0, Tq ˆ Γ. Then, the sequences
+pΠm
+Dlpsα,l
+m qlPN and pTa
+Dlpsα,l
+a qlPN, with sα,l
+m “ Sα
+mppl
+c,mq and sα,l
+a
+“ Sα
+a ppl
+c,mq, are relatively compact in L2pp0, Tq ˆ Ωq and
+L2pp0, Tq ˆ Γq, respectively.
+15
+Proof. The superscript l P N will be dropped in the proof and all hidden constants in the following estimates are
+independent of l. Setting
+F αppq “ Sα
+mppq `
+ÿ
+a“˘
+Sα
+a ppq,
+it results from hypothesis (H2) that
+´
+Sα
+rtppq ´ Sα
+rtppq
+¯2
+ď
+´
+Sα
+rtppq ´ Sα
+rtppq
+¯´
+F αppq ´ F αpqq
+¯
+,
+for rt P tm, ˘u. Using that φDpt, xq ě φm,min for a.e. pt, xq P p0, TqˆΩand noting that Πm
+Dpsα
+m “ Sα
+mpΠm
+Dppc,mq P r0, 1s
+and Ta
+Dpsα
+a “ Sα
+a pTa
+Dppc,mq P r0, 1s, we obtain
+ż T
+0
+}Πm
+Dpsα
+mp¨ ` τ, ¨q ´ Πm
+Dpsα
+m}2
+L2pΩqdt `
+ÿ
+a“˘
+ż T
+0
+}Ta
+Dpsα
+ap¨ ` τ, ¨q ´ Ta
+Dpsα
+a}2
+L2pΓqdt
+À τ `
+ż T ´τ
+0
+ż
+Ω
+φD
+´
+Πm
+Dpsα
+mp¨ ` τ, ¨q ´ Πm
+Dpsα
+m
+¯´
+F αpΠm
+Dppc,mp¨ ` τ, ¨qq ´ F αpΠm
+Dppc,mq
+¯
+dxdt
+`
+ÿ
+a“˘
+ż T ´τ
+0
+ż
+Γ
+¯da ¯φa
+´
+Ta
+Dpsα
+ap¨ ` τ, ¨q ´ Ta
+Dpsα
+a
+¯´
+F αpTa
+Dppc,mp¨ ` τ, ¨qq ´ F αpTa
+Dppc,mq
+¯
+dxdt
+“ τ ` T1 ` T2,
+where
+T1 “
+ż T ´τ
+0
+ˇˇˇxrφDΠm
+Dpsα
+mspt ` τq ´ rφDΠm
+Dpsα
+msptq, Πm
+Dpζα
+mptqyL2pΩq
+`
+ÿ
+a“˘
+x ¯da ¯φa
+”
+Ta
+Dpsα
+apt ` τq ´ Ta
+Dpsα
+aptq
+ı
+, Ta
+Dpζα
+mptqyL2pΓq
+ˇˇˇdt,
+T2 “
+ż T ´τ
+0
+ˇˇˇxφDpt ` τq ´ φDptq, Πm
+Dpχα
+mptqyL2pΩq
+ˇˇˇdt,
+with ζα
+mptq “
+´
+F αppc,mpt ` τqq ´ F αppc,mptqq
+¯
+and χα
+mptq “ ζα
+mptq sα
+mpt ` τq. Let us set ζαptq “ pζα
+mptq, 0q P X0
+Dp. In
+view of the estimates (26) for ϕ “ ζαptq, we have
+T1 À
+ż T ´τ
+0
+npt`τq
+ÿ
+n“nt`1
+δtn` 1
+2
+´
+ξp1q,α,n`1
+m
+}∇m
+Dpζα
+mptq}L2pΩq ` ξp2q,α,n`1
+m
+}Πm
+Dpζα
+mptq}L2pΩq
+`
+ÿ
+a“˘
+ξp1q,α,n`1
+a
+}JζαptqKa
+Dp}L2pΓq
+¯
+dt
+À
+ż T ´τ
+0
+npt`τq
+ÿ
+n“nt`1
+δtn` 1
+2
+´
+pξp1q,α,n`1
+m
+q2 ` pξp2q,α,n`1
+m
+q2 `
+ÿ
+a“˘
+pξp1q,α,n`1
+a
+q2
+` }∇m
+Dpζα
+mptq}2
+L2pΩq ` }Πm
+Dpζα
+mptq}2
+L2pΩq `
+ÿ
+a“˘
+}JζαptqKa
+Dp}2
+L2pΓq
+¯
+dt.
+From Proposition 4.5, we have
+N´1
+ÿ
+n“0
+δtn` 1
+2
+´
+pξp1q,α,n`1
+m
+q2 ` pξp2q,α,n`1
+m
+q2 `
+ÿ
+a“˘
+pξp1q,α,n`1
+a
+q2¯
+À 1.
+Using the a priori estimates of Lemma 4.3, hα
+m P L2pp0, Tq ˆ Ωq, the Lipschitz property and boundedness of Sα
+m and
+Sα
+a , the chain rule estimate on the sequence of GDs pDl
+pqlPN, and the bound on the jump operator, we obtain that
+ż T ´τ
+0
+´
+}∇m
+Dpζα
+mptq}2
+L2pΩq ` }Πm
+Dpζα
+mptq}2
+L2pΩq `
+ÿ
+a“˘
+}JζαptqKa
+Dp}2
+L2pΓq
+¯
+dt À 1.
+We deduce from [5, Lemma 4.1] that T1 À τ ` ∆t. Similarly, using the time translate estimate (29) and the product
+rule estimate on the sequence of GDs pDl
+pqlPN, one shows that T2 À τ `∆t, which provides the time translates estimates
+on Πm
+Dpsα
+m in L2p0, T; L2pΩqq and on Ta
+Dpsα
+a in L2p0, T; L2pΓqq.
+Let us consider any compact sets Km Ă Ωand Kf Ă Γ. The space translates estimates for Πm
+Dpsα
+m in L2p0, T; L2pKmqq
+and for Ta
+Dpsα
+a in L2p0, T; L2pKfqq derive from the a priori estimates of Lemma 4.3, the Lipschitz properties of Sα
+m
+16
+and Sα
+a , and from the local compactness property of the sequence of spatial GDs pDl
+pqlPN (cf. Remark 3.2). Combined
+with the time translate estimates above, the Fréchet–Kolmogorov theorem implies that Πm
+Dpsα
+m is relatively compact in
+L2p0, T; L2pKmqq and that Ta
+Dpsα
+a is relatively compact in L2p0, T; L2pKfqq. Since Πm
+Dpsα
+m P r0, 1s and Ta
+Dpsα
+a P r0, 1s
+it results that Πm
+Dpsα
+m is relatively compact in L2p0, T; L2pΩqq and that Ta
+Dpsα
+a is relatively compact in L2p0, T; L2pΓqq.
+4.2.3
+Uniform-in-time L2-weak convergence of df,DuΠf
+Dpsα
+f and df,Du
+Proposition 4.8. Let pDl
+pqlPN, pDl
+uqlPN, tptl
+nqNl
+n“0ulPN be sequences of space time GDs assumed to satisfy the coercivity
+and consistency properties. Let φm,min ą 0 and assume that, for each l P N, the gradient scheme (8a)–(8b) has a
+solution pα
+l “ ppα
+m,l, pα
+f,lq P pX0
+DlpqNl`1, α P tnw, wu, ul P pX0
+DluqNl`1 such that
+(i) df,Dlupt, xq ě d0pxq for a.e. pt, xq P p0, Tq ˆ Γ,
+(ii) φDlpt, xq ě φm,min for a.e. pt, xq P p0, Tq ˆ Ω.
+Then, the sequences pdf,DluqlPN and pdf,DluΠf
+Dpsα,l
+f qlPN, with sα,l
+f
+“ Sα
+f ppl
+c,fq, converge up to a subsequence uniformly
+in time and weakly in L2pΓq, as per [22, Deﬁnition C.14].
+Proof. In the following, the superscript l P N is dropped when not required for the clarity of the proof, and the
+hidden constants are independent of l. Let ϕf P C8
+c pΓq and let ϕf P X0
+Df
+p the element that realizes the minimum of
+SDf
+p p ¯ϕf, ϕfq in (10). From Proposition 4.5 (with ϕm “ 0) we have
+ˇˇˇxrdf,DuΠf
+Dpsα
+f spτq ´ rdf,DuΠf
+Dpsα
+f spτ 1q, Πf
+DpϕfyL2pΓq
+ˇˇˇ
+À max
+ˆ
+}∇f
+Dpϕf}L8pΓq, }Πf
+Dpϕf}L2pΓq, max
+a“˘ }Jp0, ϕfqKa
+Dp}L2pΓq
+˙
+ˆ
+˜
+nτ1
+ÿ
+n“nτ `1
+δtn` 1
+2
+ˆ´
+ξp1q,α,n`1
+f
+¯2
+`
+´
+ξp2q,α,n`1
+f
+¯2˙¸ 1
+2
+ˆ
+˜
+nτ1
+ÿ
+n“nτ `1
+δtn` 1
+2
+¸ 1
+2
+À
+´
+|τ ´ τ 1|
+1
+2 ` ∆t
+1
+2
+¯
+.
+Notice that, since ∇f
+Dpϕf Ñ ∇τ ¯ϕf, Πf
+Dpϕf Ñ ¯ϕf and Jp0, ϕfqKa
+Dp Ñ Jp0, ¯ϕfqKa in their respective spaces, their norms
+are bounded, so that the maximum in the right-hand side above is well deﬁned. Using the estimate
+ˇˇˇxrdf,DuΠf
+Dpsα
+f spτq ´ rdf,DuΠf
+Dpsα
+f spτ 1q, ¯ϕf ´ Πf
+DpϕfyL2pΓq
+ˇˇˇ À }df,Du}L8p0,T ;L2pΓqq} ¯ϕf ´ Πf
+Dpϕf}L2pΓq.
+and the a priori estimates of Lemma 4.3 we deduce that
+ˇˇˇxrdf,DuΠf
+Dpsα
+f spτq ´ rdf,DuΠf
+Dpsα
+f spτ 1q, ¯ϕfyL2pΓq
+ˇˇˇ À ωp|τ ´ τ 1|q ` ∆t
+1
+2 ` ϖDp,
+with limhÑ0 ωphq “ 0 and ϖDp “ } ¯ϕf ´ Πf
+Dpϕf}L2pΓq a consistency error term such that limlÑ`8 ϖDlp “ 0. It follows
+from the discontinuous Ascoli-Arzelà theorem [22, Theorem C.11] that (up to a subsequence) the sequence df,DuΠf
+Dpsα
+f
+converges uniformly in time weakly in L2pΓq. Summing over α P tnw, wu, we also deduce the uniform-in-time L2pΓq-
+weak convergence of df,Du.
+4.2.4
+Strong convergence of df,Du, df,DuΠf
+Dpsα
+f , and Πf
+Dpsα
+f
+Proposition 4.9. Let pDl
+pqlPN, pDl
+uqlPN, tptl
+nqN l
+n“0ulPN be sequences of space time GDs assumed to satisfy the coercivity,
+consistency and compactness properties. Let φm,min ą 0 and assume that, for each l P N, the gradient scheme (8a)–(8b)
+has a solution pα
+l “ ppα
+m,l, pα
+f,lq P pX0
+DlpqNl`1, α P tnw, wu, ul P pX0
+DluqNl`1 such that
+(i) df,Dl
+upt, xq ě d0pxq for a.e. pt, xq P p0, Tq ˆ Γ,
+(ii) φDlpt, xq ě φm,min for a.e. pt, xq P p0, Tq ˆ Ω.
+Then, the sequence pdf,Dl
+uqlPN converges up to a subsequence in L8p0, T; LppΓqq for all 2 ď p ă 4, and the sequences
+pdf,DluΠf
+Dlpsα,l
+f qlPN and pΠf
+Dlpsα,l
+f qlPN, with sα,l
+f
+“ Sα
+f ppl
+c,fq converge, up to a subsequence, in L4p0, T; L2pΓqq.
+Proof. The proof is based on the same arguments employed in the proof of [10, Proposition 4.8].
+17
+4.3
+Convergence to a weak solution
+Proof of Theorem 4.1. The superscript l will be dropped in the proof, and all convergences are up to appropriate
+subsequences. From Lemma 4.3 and Proposition 4.9, there exist ¯df P L8p0, T; L4pΓqq and ¯sα
+f P L8pp0, Tq ˆ Γq such
+that
+df,Du Ñ ¯df
+in L8p0, T; LppΓqq, 2 ď p ă 4,
+Πf
+DpSα
+f ppc,fq Ñ ¯sα
+f
+in L4p0, T; L2pΓqq.
+(30)
+From Proposition 4.7, there exist ¯sα
+m P L8pp0, Tq ˆ Ωq and ¯sα
+a P L8pp0, Tq ˆ Γq such that
+Πm
+DpSα
+mppc,mq Ñ ¯sα
+m
+in L2p0, T; L2pΩqq,
+Ta
+DpSα
+a ppc,mq Ñ ¯sα
+a
+in L2p0, T; L2pΓqq.
+(31)
+The identiﬁcation of the limit [15, Proposition 3.1], resulting from the limit-conformity property, can easily be adapted
+to our deﬁnition of V 0, with weight d
+3{2
+0
+and the use in the deﬁnition of limit-conformity of fracture ﬂux functions that
+are compactly supported away from the tips. Using this lemma and the a priori estimates of Lemma 4.3, we obtain
+¯pα “ p¯pα
+m, ¯pα
+f q P L2p0, T; V 0q and gα
+f P L2p0, T; L2pΓqd´1q, such that the following weak limits hold
+Πm
+Dppα
+m á ¯pα
+m
+in L2p0, T; L2pΩqq weak,
+Πf
+Dppα
+f á ¯pα
+f
+in L2p0, T; L2pΓqq weak,
+Ta
+Dppα
+m á γa¯pα
+m
+in L2p0, T; L2pΓqq weak,
+∇m
+Dppα
+m á ∇¯pα
+m
+in L2p0, T; L2pΩqdq weak,
+JpαKa
+Dp á J¯pαKa
+in L2p0, T; L2pΓqq weak,
+d
+3{2
+0 ∇f
+Dppα
+f á d
+3{2
+0 ∇τ ¯pα
+f
+in L2p0, T; L2pΓqd´1q weak,
+d
+3{2
+f,Du∇f
+Dppα
+f á gα
+f
+in L2p0, T; L2pΓqd´1q weak.
+(32)
+Let ϕ P C0
+c pp0, Tq ˆ Γqd´1 whose support is contained in p0, Tq ˆ K, with K compact set not containing the tips of Γ.
+We have
+ż T
+0
+ż
+Γ
+d
+3{2
+f,Du∇f
+Dppα
+f ¨ ϕ dσpxqdt Ñ
+ż T
+0
+ż
+Γ
+gα
+f ¨ ϕ dσpxqdt.
+On the other hand, it results from (32) and the fact that d0 is bounded away from 0 on K (because d0 is continuous
+and does not vanish outside the tips of Γ) that ∇f
+Dppα
+f á ∇τ ¯pα
+f in L2p0, T; L2pKqd´1q. Combined with the convergence
+d
+3{2
+f,Duϕ Ñ p ¯dfq
+3{2ϕ in L8p0, T; L2pΓqd´1q given by (30), we infer that
+ż T
+0
+ż
+Γ
+d
+3{2
+f,Du∇f
+Dppα
+f ¨ ϕ dσpxqdt Ñ
+ż T
+0
+ż
+Γ
+p ¯dfq
+3{2∇τ ¯pα
+f ¨ ϕ dσpxqdt.
+This shows that gα
+f “ p ¯dfq
+3{2∇τ ¯pα
+f on p0, Tq ˆ Γ.
+Combining the strong convergence of Πm
+DpSα
+mppc,mq “ Sα
+mpΠm
+Dppc,mq, the weak convergence of Πm
+Dppc,m, it results from
+the Minty trick (see, e.g., [26, Lemma 2.6]) that ¯sα
+m “ Sα
+mp¯pc,mq with p¯pc,m, ¯pc,fq “ ¯pc “ p¯pnw
+m ´¯pw
+m, ¯pnw
+f ´¯pw
+f q “ ¯pnw´¯pw.
+Using the same arguments, we also have ¯sα
+f “ Sα
+f p¯pc,fq and ¯sα
+a “ Sα
+a pγa¯pc,mq.
+From the a priori estimates of Lemma 4.3 and the limit-conformity property of the sequence of GDs pDl
+uqlPN (see [10,
+Lemma A.3]), there exists ¯u P L8p0, T; U0q, such that
+ΠDuu á ¯u
+in L8p0, T; L2pΩqdq weak ‹,
+εDupuq á εp¯uq
+in L8p0, T; L2pΩ, SdpRqqq weak ‹,
+divDuu á divp¯uq
+in L8p0, T; L2pΩqq weak ‹,
+df,Du “ ´JuKDu á ´J¯uK
+in L8p0, T; L2pΓqq weak ‹,
+(33)
+from which we deduce that ¯df “ ´J¯uK and that σDupuq converges to σp¯uq in L8p0, T; L2pΩ, SdpRqqq weak ‹.
+From the a priori estimates and the closure equations (8c), there exist ¯φm P L8p0, T; L2pΩq and ¯pE
+m P L8p0, T; L2pΩq
+such that
+φD á ¯φm
+in L8p0, T; L2pΩqq weak ‹,
+Πm
+DppE
+m á ¯pE
+m
+in L8p0, T; L2pΩqq weak ‹.
+(34)
+Since 0 ď Urtppq “
+şp
+0 qpSnw
+rt q1pqqdq ď 2|p| for rt P tm, fu, it results from the a priori estimates of Lemma 4.3 that
+there exist ¯pE
+f P L2p0, T; L2pΓqq, ¯Uf P L2p0, T; L2pΓqq and ¯Um P L2p0, T; L2pΩqq such that
+Πf
+DppE
+f á ¯pE
+f
+in L2p0, T; L2pΓqq weak,
+Πf
+DpUfppc,fq á ¯Uf
+in L2p0, T; L2pΓqq weak,
+Πm
+DpUmppc,mq á ¯Um
+in L2p0, T; L2pΩqq weak.
+(35)
+18
+For rt P tnw, wu, it is shown in [23], following ideas from [21], that Urtppq “ BrtpSnw
+rt ppqq where s P r0, 1s ÞÑ Brtpsq P
+p´8, `8s is a convex lower semi-continuous function with ﬁnite limits at s “ 0 and s “ 1 (note that Brt is therefore
+continuous). Since Πm
+Dpsnw
+m converges strongly in L2pp0, Tq ˆ Ωq to Snw
+m p¯pc,mq, it converges a.e. in p0, Tq ˆ Ω. It results
+that BmpΠm
+Dpsnw
+m q converges a.e. in p0, Tq ˆ Ωto BmpSnw
+m p¯pc,mqq, and hence that ¯Um “ BmpSnw
+m p¯pc,mqq “ Ump¯pc,mq.
+Similarly, ¯Uf “ BfpSnw
+f p¯pc,fqq “ Ufp¯pc,fq. We deduce, using the strong convergences of the saturations and the weak
+convergences of the pressures, that
+¯pE
+m “
+ÿ
+αPtnw,wu
+¯pαSα
+mp¯pc,mq ´ Ump¯pc,mq
+and
+¯pE
+f “
+ÿ
+αPtnw,wu
+¯pαSα
+f p¯pc,fq ´ Ufp¯pc,fq.
+Using the estimate
+|Urtpp2q ´ Urtpp1q| “
+ˇˇˇˇ
+ż p2
+p1
+qpSnw
+rt q1pqqdq
+ˇˇˇˇ ď |p2 ´ p1| ` |p2Snw
+rt pp2q ´ p1Snw
+rt pp1q|,
+the Lipschitz property of Snw
+rt , ¯pα
+0 “ p¯pα
+0,m, ¯pα
+0,fq P V 0 X pL8pΩq ˆ L8pΓqq, α P tnw, wu, and the consistency of the
+sequence of GDs pDl
+pqlPN, we deduce that
+Πm
+DppE,0
+m
+Ñ ¯pE,0
+m
+in L2pΩq,
+Πf
+DppE,0
+f
+Ñ ¯pE,0
+f
+in L2pΓq.
+(36)
+Then, from [10, Proposition A.4] it holds that
+divDupu0q Ñ divp¯u0q
+in L2pΩq,
+Ju0KDu Ñ J¯u0K “ ´ ¯d0
+f
+in L2pΓq.
+(37)
+It results from (33), (34), (36), (37) and the deﬁnition of φD that
+¯φm “ ¯φ0
+m ` b divp¯u ´ ¯u0q ` 1
+M p¯pE
+m ´ ¯pE,0
+m q.
+Let us now prove that the functions ¯pα, α P tnw, wu, and ¯u satisfy the variational formulation (6a)–(6b) by passing
+to the limit in the gradient scheme (8).
+For θ P C8
+c pr0, Tqq and ψ “ pψm, ψfq P C8
+c pΩzΓqˆC8
+c pΓq let us set, with PDpψ “ pP m
+Dpψm, P f
+Dpψfq P X0
+Dp and P ν
+Dpψν
+realising the minimum of SDνppψνq,
+ϕ “ pϕ1, . . . , ϕNq P pX0
+DpqN with ϕi “ pϕi
+m, ϕi
+fq “ θpti´1qpPDpψq.
+Let us set ϕν “ pϕ1
+ν, . . . , ϕN
+ν q, ν P tm, fu. From the consistency properties of pDl
+pqlPN with given r ą 8, we deduce that
+Πm
+DpP m
+Dpψm Ñ ψm
+in L2pΩq,
+Πf
+DpP f
+Dpψf Ñ ψf
+in L2pΓq,
+Πm
+Dpϕm Ñ θψm
+in L8p0, T; L2pΩqq,
+Πf
+Dpϕf Ñ θψf
+in L8p0, T; L2pΓqq,
+∇m
+Dpϕm Ñ θ∇ψm
+in L8p0, T; L2pΩqdq,
+∇f
+Dpϕf Ñ θ∇τψf
+in L8p0, T; LrpΓqd´1q,
+Ta
+Dpϕm Ñ θγaψm
+in L8p0, T; L2pΓqq,
+JϕKa
+Dp Ñ θJψKa
+in L8p0, T; L2pΓqq.
+(38)
+Setting
+T1 “
+ż T
+0
+ż
+Ω
+δt
+´
+φDΠm
+Dpsα
+m
+¯
+Πm
+Dpϕm dxdt
+T2 “
+ż T
+0
+ż
+Ω
+ηα
+mpΠm
+Dpsα
+mqKm∇m
+Dppα
+m ¨ ∇m
+Dpϕm dxdt
+T3 “
+ż T
+0
+ż
+Γ
+δt
+´
+df,DuΠf
+Dpsα
+f
+¯
+Πf
+Dpϕf dσpxqdt
+T4 “
+ż T
+0
+ż
+Γ
+ηα
+f pΠf
+Dpsα
+f q
+d3
+f,Du
+12 ∇f
+Dppα
+f ¨ ∇f
+Dpϕf dσpxqdt
+T5 “
+ż T
+0
+ż
+Ω
+hα
+mΠm
+Dpϕm dxdt `
+ż T
+0
+ż
+Γ
+hα
+f Πf
+Dpϕf dσpxqdt,
+T a
+1 “
+ż T
+0
+ż
+Γ
+¯da ¯φaδt
+´
+Ta
+Dpsα
+a
+¯
+Ta
+Dpϕm dσpxqdt
+T a
+2 “
+ż T
+0
+ż
+Γ
+Qα
+f,aJϕKa
+Dp dσpxqdt,
+19
+the gradient scheme variational formulation (8a) states that
+T1 ` T2 ` T3 ` T4 `
+ÿ
+a“˘
+pT a
+1 ` T a
+2 q “ T5.
+For ω P C8
+c pr0, Tqq and a smooth function w : ΩzΓ Ñ Rd vanishing on BΩand admitting ﬁnite limits on each side of
+Γ, let us set
+v “ pv1, . . . , vNq P pX0
+DuqN with vi “ ωpti´1qpPDuwq
+where PDuw realises the minimum in the deﬁnition (14) of SDupwq. From the consistency properties of pDl
+uqlPN, we
+deduce that
+ΠDuv Ñ ωψ
+in L8p0, T; L2pΩqdq,
+εDupvq Ñ ωεpwq
+in L8p0, T; L2pΩ, SdpRqqq,
+JvKDu Ñ ωJwK
+in L8p0, T; L2pΓqq.
+(39)
+Setting
+T6 “
+ż T
+0
+ż
+Ω
+´
+σDupuq : εDupvq ´ bpΠm
+DppE
+mqdivDupvq
+¯
+dxdt,
+T7 “
+ż T
+0
+ż
+Γ
+pΠf
+DppE
+f qJvKDudσpxqdt,
+T8 “
+ż T
+0
+ż
+Ω
+f ¨ ΠDuv dxdt.
+the gradient scheme variational formulation (8b) states that
+T6 ` T7 “ T8.
+Using a discrete integration by part [22, Section D.1.7], we have T1 “ T11 ` T12 with
+T11 “ ´
+ż T
+0
+ż
+Ω
+φDpΠm
+Dpsα
+mqpΠm
+DpP m
+Dpψmqθ1ptq dxdt,
+T12 “ ´
+ż
+Ω
+pΠm
+DpJm
+Dp ¯φ0qpΠm
+DpSα
+mpIm
+Dp ¯pα
+m,0qqpΠm
+DpP m
+Dpψqθp0q dx.
+Using (38) and (34), and that Πm
+Dpsα
+m P r0, 1s converges to Sα
+mp¯pc,mq a.e. in p0, Tq ˆ Ω(this follows from (31)), it holds
+that
+T11 Ñ ´
+ż T
+0
+ż
+Ω
+¯φmSα
+mp¯pc,mqψmθ1ptq dxdt.
+Using (38), that Πm
+DpJm
+Dp ¯φ0 converges in L2pΩq to ¯φ0 and that Πm
+DpSα
+mpIm
+Dp ¯pα
+m,0q P r0, 1s converges a.e. in Ωto Sα
+mp¯pα
+m,0q,
+we deduce that
+T12 Ñ ´
+ż
+Ω
+¯φ0Sα
+mp¯pα
+m,0qψmθp0q dx.
+Writing T3 “ T31 ` T32 with
+T31 “ ´
+ż T
+0
+ż
+Γ
+df,DupΠf
+Dpsα
+f qpΠf
+DpP f
+Dpψfqθ1ptq dσpxqdt,
+T32 “
+ż
+Γ
+Ju0KDupΠf
+DpSα
+f pIf
+Dp ¯pα
+f,0qqpΠf
+DpP f
+Dpψfqθp0q dσpxq,
+we obtain, using similar arguments and (37), that
+T31 Ñ ´
+ż T
+0
+ż
+Γ
+¯dfSα
+f p¯pc,fqψfθ1ptq dσpxqdt,
+and
+T32 Ñ ´
+ż
+Γ
+¯d0
+fSα
+f p¯pα
+f,0qψfθp0q dσpxq.
+Writing T a
+1 “ T a
+11 ` T a
+12 with
+T a
+11 “ ´
+ż T
+0
+ż
+Γ
+¯da ¯φapTa
+Dpsα
+aqpTa
+DpP m
+Dpψmqθ1ptq dσpxqdt,
+T a
+12 “ ´
+ż
+Γ
+¯da ¯φapTa
+DpSα
+a pIm
+Dp ¯pα
+m,0qqpTa
+DpP m
+Dpψmqθp0q dσpxq,
+20
+we also obtain that
+T a
+11 Ñ ´
+ż T
+0
+ż
+Γ
+¯da ¯φaSα
+a pγa¯pc,mqγaψmθ1ptq dσpxqdt,
+and
+T a
+12 Ñ ´
+ż
+Γ
+¯da ¯φaSα
+a pγa¯pα
+m,0qγaψmθp0q dσpxq.
+Using that 0 ď ηα
+mpΠm
+Dpsα
+mq ď ηα
+m,max, the continuity of ηα
+m, the convergence of Πm
+Dpsα
+m a.e. in p0, Tq ˆ Ωto Sα
+mp¯pc,mq,
+(32) and (38), it holds that
+T2 Ñ
+ż T
+0
+ż
+Ω
+ηα
+mpSα
+mp¯pc,mqqKm∇¯pα
+m ¨ θ∇ψm dxdt
+The convergence
+T4 Ñ
+ż T
+0
+ż
+Γ
+ηα
+f pSα
+f p¯pc,fqq
+¯d 3
+f
+12 ∇τ ¯pα
+f ¨ θ∇τψfdσpxqdt
+is established using 0 ď ηα
+f pΠf
+Dpsα
+f q ď ηα
+f,max, the continuity of ηα
+f , the convergence of Πf
+Dpsα
+f a.e. in p0, Tq ˆ Γ to
+Sα
+f p¯pc,fq, combined with the weak convergence of d
+3{2
+f,Du∇f
+Dppα
+f to ¯d
+3{2
+f ∇τ ¯pα
+f in L2pp0, TqˆΓqd´1, the strong convergence
+of d
+3{2
+f,Du to ¯d
+3{2
+f
+in Lspp0, Tq ˆ Γq for all 2 ď s ă 8
+3 (resulting from (30)), and the strong convergence (38) of ∇f
+Dpϕf to
+θ∇τψf in L8p0, T; LrpΓqq with r ą 8.
+From (38) we readily obtain the convergence
+T5 Ñ
+ż T
+0
+ż
+Ω
+hα
+m θψm dxdt `
+ż T
+0
+ż
+Γ
+hα
+f θψf dσpxqdt.
+The convergence
+T a
+2 Ñ
+ż T
+0
+ż
+Γ
+¯Qα
+f,aθJψKadxdt,
+results from the weak convergence of Qα
+f,a to ¯Qα
+f,a in L2p0, T; L2pΓqq combined with the strong convergence of JϕKa
+Dp
+to θJψKa in L2p0, T; L2pΓqq.
+The following convergences of T6, T7, T8
+T6 Ñ
+ż T
+0
+ż
+Ω
+´
+σp¯uq : εpwqω ´ b¯pE
+mdivpwqω
+¯
+dxdt,
+T7 Ñ
+ż T
+0
+ż
+Γ
+¯pE
+f JwKω dσpxqdt,
+T8 Ñ
+ż T
+0
+ż
+Ω
+f ¨ wω dxdt
+classically result from the strong convergences (39) combined with the weak convergences (33).
+Using the above limits in T1 ` T2 ` T3 ` T4 ` ř
+a“˘pT a
+1 ` T a
+2 q “ T5 and T6 ` T7 “ T8 concludes the proof that ¯pα,
+α P tnw, wu, and ¯u satisfy the variational formulation (6a)–(6b).
+4.4
+Identiﬁcation of the limit interface ﬂuxes
+As mentioned in Remark 4.2, the proof above does not identify the limit ﬂuxes ¯Qα
+f,a of
+Qα
+f,a “ Tf
+”
+ηα
+a pSα
+a pTa
+Dppc,mqqpJpαKa
+Dpq` ´ ηα
+f pSα
+f pΠf
+Dppc,fqqpJpαKa
+Dpq´ı
+as Tf
+”
+ηapSα
+a pγa¯pc,mqqJ¯pαK`
+a ´ ηfpSα
+f p¯pc,fqqJ¯pαK´
+a
+ı
+.
+The reason is that although the saturations Sα
+a pTa
+Dppc,mq and
+Sα
+f pΠf
+Dppc,fq converge strongly, the pressure jumps JpαKa
+Dp only converge weakly, which challenges the identiﬁcation
+of the limits of their positive and negative parts (non-linear functions of the pressure jumps).
+The expression of Qα
+f,a is however monotonic in terms of the pressure jumps JpαKa
+Dp, a feature that was used in [23,
+Section 4.3] to identify the limit of these matrix–fracture ﬂuxes in absence of mechanical deformations. The argument
+used there relies on a Minty technique (see, e.g., [22, Section D.5]).
+A key ingredient to this argument relies on
+being able to establish a energy equality for the limit of the approximations, which is done using the limit functions
+21
+Figure 4.
+Example of admissible triangular
+mesh with three fracture edges in bold.
+The
+dot lines joining each cell center to the center
+of each of its edges are assumed orthogonal to
+the edge.
+The discrete unknowns of the dis-
+continuous pressure model are presented for the
+two-phase ﬂow and the mechanics. Note that
+the discontinuities of the pressures, of the satu-
+rations and of the displacement are captured at
+matrix fracture interfaces. Note also that addi-
+tional nodal unknowns are deﬁned at intersec-
+tions of at least three fractures.
+themselves as test functions in the weak equations (6a)–(6b) they satisfy and using ﬁne integrating-by-parts in time
+results from [21].
+The caveat here is that space of test functions for (6a), which is C8
+c pr0, Tq ˆ ΩzΓq ˆ C8
+c pr0, Tq ˆ Γq, is not obviously
+dense in the space of trial functions L2p0, T; V 0q, in which the limit pressures are found. Hence, it is not clear that
+we can indeed use these limit pressures as test functions in (6a). The density issue comes from the fact that we would
+need to ﬁnd smooth functions pϕα
+f,kqkě1 such that ¯d3{2
+f ∇τϕα
+f,k Ñ ¯d3{2
+f ∇τpα
+f in L2pp0, TqˆΓq; in other words, we would
+like smooth functions to be dense in the weighted space H1
+¯df pΓq.
+Such a density result has been established in [33], but under an additional assumption on the weight. Speciﬁcally:
+¯df is bounded in time, smooth in space away from the fracture tips,
+and, near the tips, ¯dfpt, x, yq « x
+1
+2 `ϵfpyq with ϵ ą 0
+(above, x is the distance to the tip, y is the coordinate parallel to the tip, and f is smooth). Under this assumption,
+the arguments of [23] can be reproduced and the limit ﬂuxes ¯Qα
+f,a can be shown to satisfy the ﬁrst equation in (6c).
+5
+Numerical experiments
+The objective of this numerical section is to compare the discontinuous pressure poro-mechanical model investigated
+in this work with the continuous pressure poro-mechanical model presented in [10]. Two test cases are considered.
+The ﬁrst one already described in [10] considers the injection of gas in a cross-shaped fracture network coupled with
+the matrix domain initially liquid saturated. The second test case models the desaturation by suction at the interface
+between a ventilation tunnel and a low-permeability fractured porous medium.
+For both test cases, the ﬂow part of system (3) is discretized in space by a Two-Point Flux Approximation (TPFA)
+cell-centered ﬁnite volume scheme with additional face unknowns at matrix fracture interfaces [2]. The mechanical
+part of (3) is discretized using second-order ﬁnite elements (P2) for the displacement ﬁeld in the matrix [18, 37],
+adding supplementary unknowns on the fracture faces to account for the discontinuities. The computational domain
+Ωis decomposed using admissible triangular meshes for the TPFA scheme (cf. [25, Section 3.1.2]) as illustrated in
+Figure 4.
+For the TPFA scheme, the GD operators Πm
+Dp and Πf
+Dp are respectively cell-wise and fracture face-wise constant. It
+results that the porosity and the fracture aperture deﬁned by the closure laws (8c) will be projected in the matrix and
+fracture accumulation terms (cf. ﬁrst two terms in (8a)) to cell-wise and face-wise constant spaces respectively. For
+simplicity, this face-wise constant projection of the fracture aperture is also used in the fracture conductivity.
+Let n P N‹ denote the time step index. The time stepping is adaptive, deﬁned as
+δtn` 1
+2 “ mintϱδtn´ 1
+2 , ∆tmaxu,
+where δt
+1
+2 “ 0.001 days is the initial time step, ∆tmax “ 10 days in the ﬁrst test case and 10 years in the second
+one, and ϱ “ 1.1. At each time step, the ﬂow unknowns are computed by a Newton-Raphson algorithm. At each
+Newton-Raphson iteration, the Jacobian matrix is computed analytically and the linear system is solved using a
+GMRes iterative solver. The time step is reduced by a factor 2 whenever the Newton-Raphson algorithm does not
+converge within 50 iterations, with the stopping criteria deﬁned by the relative residual norm lower than 10´5 or a
+maximum normalized variation of the primary unknowns lower than 10´4. On the other hand, given the matrix and
+fracture equivalent pressures pE
+m and pE
+f , the displacement ﬁeld u is computed using the direct solver MA48 (see [24]).
+The coupled nonlinear system is then solved at each time step using a Newton-Krylov acceleration [48] of the ﬁxed
+22
+point algorithm which, for a given displacement ﬁeld, solves the two-phase Darcy ﬂow problem, then computes the new
+displacement ﬁeld given the new equivalent pressures (see [11] for more details). The stopping criterion is ﬁxed to 10´5
+on the relative displacement ﬁeld increment. This Newton-Krylov algorithm is compared in [11] to the ﬁxed stress
+algorithm [43] extended to DFM models in [31]. It is shown to solve the robustness issue of ﬁxed stress algorithms
+w.r.t. to small initial time steps in the case of incompressible ﬂuids.
+For this section, we introduce the following notation for the total stress:
+σT “ σ0 ` σpuq ´ bpE
+mI,
+(40)
+where σ0 is a possible pre-stress state [47, Section 4.2.4].
+5.1
+Gas injection in a cross-shaped fracture network
+The data set of the continuous pressure model is the one described in [10]. We recall it brieﬂy here. We consider
+the square Ω“ p0, Lq2 lying in the xy-plane, with L “ 100 m, containing a cross-shaped fracture network Γ made up
+of four fractures, each one of length L
+8 intersecting at p L
+2 , L
+2 q and aligned with the coordinate axes. The matrix and
+fracture network have the following mobility laws: ηα
+mpsαq “ psαq2
+µα , ηα
+f psαq “ sα
+µα , α P tw, nwu, where µw “ 10´3 Pa¨s
+and µnw “ 1.851¨10´5 Pa¨s are the dynamic viscosities of the wetting and non-wetting phases, respectively. Notice that
+ηα
+m and ηα
+f do not satisfy the assumptions of our analysis, as they are not bounded below by a strictly positive number;
+nevertheless, the results of the numerical experiments are not aﬀected by this circumstance. The saturation–capillary
+pressure relation is Corey’s law:
+snw
+rt “ Snw
+rt ppcq “ max
+ˆ
+1 ´ exp
+ˆ
+´ pc
+Rrt
+˙
+, 0
+˙
+,
+rt P tm, fu,
+(41)
+with Rm “ 104 Pa and Rf “ 10 Pa. The matrix is homogeneous and isotropic, i.e. Km “ ΛmI, characterized by a
+permeability Λm “ 3¨10´15 m2, an initial porosity φ0
+m “ 0.2, eﬀective Lamé parameters λ “ 833 MPa, µ “ 1250 MPa,
+Biot’s coeﬃcient b “ 1 ´ Kdr
+Ks » 0.81, and Biot’s modulus M “ 18.4 GPa. The pre-stress state is assumed null: σ0 “ 0.
+The domain is assumed to be clamped all over its boundary, i.e. u “ 0 on p0, Tq ˆ BΩ; for the ﬂows, we impose a
+wetting saturation sw
+m “ 1 on the upper side of the boundary p0, Tq ˆ pp0, Lq ˆ tLuq, whereas the remaining part
+of the boundary is considered impervious (qα
+m ¨ n “ 0, α P tnw, wu). The system is subject to the initial conditions
+pnw
+0
+“ pw
+0 “ 105 Pa, which in turn results in an initial saturation snw
+0,rt “ 0, rt P tm, fu. The ﬁnal time is set to
+T “ 1000 days “ 8.64¨107 s. The system is excited by the following source term, representing injection of non-wetting
+ﬂuid at the center of the fracture network:
+hnw
+f pt, xq “
+gpxq
+ż
+Γ
+gpxq dσpxq
+Vpor
+5T ,
+pt, xq P p0, Tq ˆ Γ,
+where Vpor “
+ż
+Ω
+φ0
+mpxq dx is the initial porous volume and gpxq “ e´β|px´x0q{L|2, x0 “ p L
+2 , L
+2 q, with β “ 1000 and |¨|
+the Euclidean norm. The remaining source terms hw
+f and hα
+m, α P tw, nwu, are all set to zero.
+To deﬁne the discontinuous pressure model, we consider additionally the normal fracture transmissivity Tf “ 10´8 m.
+From Figure 5, it is clear that both the continuous and discontinuous pressure models provides roughly the same
+solutions. Nevertheless, the continuous pressure model provides a rather smoothed non-wetting phase saturation at
+matrix fracture interfaces while the discontinuous pressure model is more accurate as discussed in [2]. Also, Figure 6
+shows the axial total stresses σT
+x , σT
+y , and the shear total stress σT
+xy in the matrix at the ﬁnal time, for the discontinuous
+pressure model; from the mechanics viewpoint, in this case the diﬀerence between the two models is not so remarkable.
+As expected, stresses are concentrated in the neighborhood of fracture tips. To conclude this subsection, we give an
+insight into the performance of our method in Table 1, where
+• NbCells is the number of mesh cells,
+• N∆t is the number of successful time steps,
+• NChops is the number of time step chops,
+• NNewton is the total number of Newton-Raphson iterations,
+• NGMRes is the total number of GMRes iterations,
+• NNK is the total number of Newton-Krylov iterations,
+• CPU[s] is the total computational time in seconds.
+23
+Discontinuous pressure
+Continuous pressure
+NbCells
+14336
+14336
+N∆t
+187
+187
+NChops
+0
+0
+NNewton
+2525
+2294
+NGMRes
+47733
+32841
+NNK
+1711
+1618
+CPU[s]
+307.4
+246.7
+Table 1: Performance of the method for the plane problem, in terms of the number of mesh elements, the number
+of successful time steps, the number of time step chops, the total number of Newton-Raphson iterations, the total
+number of GMRes iterations, the total number of Newton-Krylov iterations, and the total computational time.
+Figure 5. Top: matrix non-wetting phase saturation at ﬁnal time obtained by the discontinuous pressure (left) and
+continuous pressure (right) models. Bottom left: mean non-wetting phase saturations in the matrix and in the fracture
+network as a function of time for both the continuous and discontinuous pressure models. Bottom right: mean fracture
+apertures (m) as a function of time for both the continuous and discontinuous pressure models.
+24
+T
+T
+T 
+Figure 6. Axial normal stresses σT
+x and σT
+y (Pa) and shear stress σT
+xy (Pa) at ﬁnal time for the discontinuous pressure
+model.
+5.2
+Desaturation by suction of a low-permeability fractured porous medium
+In this test case, we consider a hollow cylinder (Figure 7) made up of a low-permeability porous medium, containing
+an axisymmetric fracture network, subject to axisymmetric loads – uniform pressures exerted on the internal and
+external surfaces. Using cylindrical coordinates px, r, θq, the problem can therefore be reduced to a two-dimensional
+formulation on the diametral section of the medium, shown in Figure 8 along with the fracture network, and the
+displacement ﬁeld only consists of its axial and radial components:
+upx, r, θq “ uxpx, rqex ` urpx, rqerpθq,
+erpθq “ pcos θqey ` psin θqez,
+0 ď x ď L,
+Rint ď r ď Rext,
+0 ď θ ď 2π,
+where we have dropped time dependence for simplicity, and taken into account the system of cylindrical coordinates
+in Figure 7, denoting by ex the axial unit vector, by er “ erpθq the radial unit vector, and by eθ the orthoradial unit
+vector. The ﬁnal time for this simulation is set to T “ 200 years. The geometry is characterized by the following
+data set: length L “ 10 m, internal and external radii Rint “ 5 m, Rext “ 35 m; two consecutive fractures are
+spaced by 1.25 m. The matrix is characterized by the Lamé parameters λ “ 1.5 GPa, µ “ 2 GPa, by a permeability
+Λm “ 5 ¨ 10´20 m2, Biot’s coeﬃcient and modulus b “ 1 and M “ 1 GPa respectively, and by an initial porosity
+φm “ 0.15. The normal transmissibility of fractures is Tf “ 10´9 m and the initial fracture aperture is set to 10´2 m.
+The matrix relative permeabilities of the liquid and gas phases are deﬁned by the following Van Genuchten laws:
+kw
+r,mpswq “
+$
+’
+&
+’
+%
+0
+if
+sw ă Slr,
+1
+if
+sw ą 1 ´ Sgr,
+?
+¯sw
+´
+1 ´ p1 ´ p¯swq1{qqq¯2
+if
+Slr ď sw ď 1 ´ Sgr,
+(42)
+knw
+r,mpsnwq “
+$
+’
+&
+’
+%
+0
+if
+snw ă Sgr,
+1
+if
+snw ą 1 ´ Slr,
+?1 ´ ¯sw
+´
+1 ´ p¯swq1{q¯2q
+if
+Sgr ď snw ď 1 ´ Slr,
+(43)
+with
+¯sw “
+sw ´ Slr
+1 ´ Slr ´ Sgr
+,
+and the parameter q “ 0.328, the residual liquid and gas saturations Slr “ 0.40 and Sgr “ 0; in the fractures, we
+take kα
+r,fpsq “ s for both phases. The phase mobilities are then ηα
+mpsαq “ kα
+r,mpsαq{µα and ηα
+f psαq “ kα
+r,fpsαq{µα,
+α P tw, nwu both in the matrix and in the fractures, with the same viscosities as in the previous test case. Again, ηα
+m and
+ηα
+f are not bounded below by a strictly positive number, but this does not have an inﬂuence on the numerical results.
+The saturation–capillary pressure relation is again Corey’s law, as in (41), with Rm “ 2¨108 Pa and Rf “ 102 Pa.
+Moreover, the medium is supposed to be pre-stressed with the following pre-stress state:
+σ0 “ σ0
+x ex b ex ` σ0
+r er b er ` σ0
+θ eθ b eθ,
+σ0
+x “ 16 MPa, σ0
+r “ σ0
+θ “ 12 MPa.
+25
+Discontinuous pressure
+Continuous pressure
+NbCells
+28945
+28945
+N∆t
+169
+176
+NChops
+0
+1
+NNewton
+2509
+3758
+NGMRes
+104329
+122183
+NNK
+693
+721
+CPU[s]
+1174.5
+1413.6
+Table 2: Performance of the method for the axisymmetric problem, in terms of the number of mesh elements, the
+number of successful time steps, the number of time step chops, the total number of Newton-Raphson iterations, the
+total number of GMRes iterations, the total number of Newton-Krylov iterations, and the total computational time.
+Full saturation of the liquid phase is assumed at the initial state, both in the matrix and in the fracture network, with
+an initial uniform pressure pw
+0 “ pnw
+0
+“ 4 MPa.
+Concerning ﬂow boundary conditions, the porous medium is assumed impervious (vanishing ﬂuxes) on the lateral
+boundaries corresponding to x “ 0 and x “ L. On the inner surface r “ Rint, a given gas saturation is imposed:
+snw
+m
+“ 0.35 on the matrix side and snw
+f
+“ 1 ´ 10´8 at fracture nodes, and atmospheric pressure patm “ 105 Pa
+everywhere. On the outer surface r “ Rext, a liquid saturation sw
+m “ 1 and pressure pw “ 4 MPa are imposed.
+As for the mechanical boundary conditions, we impose a vanishing axial displacement ux on the lateral boundaries
+corresponding to x “ 0 and x “ L. Moreover, on the same boundaries, the tangential stress is set to zero. On the
+other hand, external surface loads g (uniform pressures) are applied on the inner and outer surfaces:
+g “
+#
+´σT
+Nn, σT
+N ą 0,
+if r “ Rext,
+´patmn, patm ą 0, if r “ Rint,
+where n “ er for r “ Rext and n “ ´er for r “ Rint. We consider σT
+N “ 10.95 MPa as the numerical value for the
+uniform pressure on the outer surface.
+As shown in Figures 9 and 10 strong capillary forces induce the desaturation of the matrix in the neighborhood of the
+inner surface combined with a high negative liquid pressure. As exhibited in Figures 11 and 12 this negative liquid
+pressure triggers the contraction of the pores as well as the spreading of the fracture sides. Figure 9 also displays
+a comparison between the matrix non-wetting saturations obtained with the discontinuous and continuous pressure
+models at ﬁnal time. It can be clearly seen that, unlike the continuous pressure model, the discontinuous pressure
+model is able to capture the barrier eﬀect induced on the liquid phase by the fractures almost fully ﬁlled by the gas
+phase. This is particularly remarkable at the intersection of the horizontal and oblique fractures. Figure 10 shows
+a comparison of matrix equivalent pressures at ﬁnal time obtained for the continuous and discontinuous pressure
+models; in the ﬁrst case, discontinuities at the matrix-fracture interface can be clearly detected. Figure 12 shows the
+time history of the average fracture aperture for the continuous and discontinuous pressure models, with signiﬁcant
+diﬀerences induced by the equivalent pressures pE
+m computed in the two models. Finally, in Figure 13 we display
+the radial, orthoradial, axial, and shear total stresses σT
+r , σT
+θ , σT
+x , and σT
+rx respectively in the matrix at the ﬁnal
+time for the discontinuous pressure model. Again, stresses are concentrated in the neighborhood of fracture tips, as
+expected. The arching eﬀect is clearly visible by comparison of the radial and orthoradial stresses in the neighborhood
+of the inner surface. As expected, the radial stresses are transmitted across the horizontal fracture as opposed to the
+orthoradial stresses. The comparison of the results given by the two models is shown in Figure 14, where a diﬀerent
+behavior in the orthoradial total stresses σT
+θ given by the two models along the vertical line x “ 5.5 (intersecting the
+horizontal fracture) can be detected.
+As in the previous subsection, we summarize also here the performance of our method in Table 2.
+6
+Conclusions
+This work extends the gradient discretization and convergence analysis carried out in [10] to the case of hybrid-
+dimensional poro-mechanical models with discontinuous phase pressures at matrix fracture interfaces. The model
+considers a linear elastic mechanical model with open fractures coupled with a two-phase Darcy ﬂow. The Poiseuille
+law is used for the tangential fracture conductivity and the dependence of the normal fracture transmissivity on the
+fracture aperture is frozen. The model accounts for a general network of planar fractures including immersed, non-
+immersed fractures and fracture intersections, and considers diﬀerent rock types in the matrix and fracture network
+domains as well as at the matrix fracture interfaces.
+26
+Figure 7. Hollow cylinder of length L and internal and external radii Rint and Rext, respectively. The diametral
+section is highlighted in gray, the fracture network is not shown for simplicity.
+Figure 8. Diametral section (not scaled) of the cylinder, with mechanical boundary conditions: zero normal displace-
+ment on the two sides x “ 0 et x “ L and uniform pressures σT
+N on the surface r “ Rext and patm on the surface
+r “ Rint. The fracture network is highlighted in red.
+Figure 9. Zoom on the matrix non-wetting phase saturations at ﬁnal time for the discontinuous (left) and continuous
+(right) pressure models.
+Figure 10. Zoom on the matrix equivalent pressure (Pa) at ﬁnal time for the discontinuous (left) and continuous
+(right) pressure models.
+27
+Figure 11. Zoom on the matrix porosity φm and on the fracture aperture df at ﬁnal time for the discontinuous (left)
+and continuous (right) pressure models.
+0.0085
+ 0.009
+0.0095
+  0.01
+0.0105
+ 0.011
+0.0115
+ 1000
+ 100000
+ 1x107
+ 1x109
+MEAN FRACTURE APERTURE
+TIME (s)
+df continuous
+df discontinuous
+Figure 12. Mean fracture aperture (m) as a function of time for both models.
+28
+Figure 13. Top: zoom on the radial and orthoradial total stresses σT
+r and σT
+θ (Pa) at ﬁnal time for the discontinuous
+pressure model. Bottom: zoom on the axial and shear total stresses σT
+x and σT
+rx (Pa) at ﬁnal time for the discontinuous
+pressure model.
+Figure 14. Proﬁle of the orthoradial total stress σT
+θ (Pa) at ﬁnal time along the line x “ 5.5 m as a function of the
+distance to the bottom boundary in m and for both models.
+29
+Two test cases were considered to compare the continuous pressure hybrid-dimensional poro-mechanical model inves-
+tigated in [10] to the discontinuous pressure model studied in this work. The ﬁrst test case simulates the gas injection
+in a cross-shaped fracture network immersed in a two-dimensional porous medium initially water saturated. The
+second test case is based on an axisymmetric DFM model and simulates the desaturation by suction at the interface
+between a ventilation tunnel and a Callovo-Oxfordian argilite fractured storage rock. In both cases, it is shown that
+the discontinuous pressure model provides a better accuracy at matrix fracture interfaces than the continuous pressure
+model and allows in particular to account for the barrier eﬀect induced on the liquid phase by the gas ﬁlled fractures.
+Acknowledgements We are grateful to Andra and to the Australian Research Council’s Discovery Projects (project
+DP170100605) funding scheme for partially supporting this work.
+References
+[1] R.A. Adams and J.F. Fournier. Sobolev spaces, volume 140 of Pure and Applied Mathematics. Elsevier/Academic
+Press, Amsterdam, second edition, 2003.
+[2] J. Aghili, K. Brenner, J. Hennicker, R. Masson, and L. Trenty. Two-phase discrete fracture matrix models with
+linear and nonlinear transmission conditions. GEM – International Journal on Geomathematics, 10, 2019.
+[3] R. Ahmed, M.G. Edwards, S. Lamine, B.A.H. Huisman, and M. Pal. Three-dimensional control-volume distributed
+multi-point ﬂux approximation coupled with a lower-dimensional surface fracture model. Journal of Computational
+Physics, 303:470–497, dec 2015.
+[4] C. Alboin, J. Jaﬀre, J. Roberts, and C. Serres. Modeling fractures as interfaces for ﬂow and transport in porous
+media. Fluid ﬂow and transport in porous media, 295:13–24, 2002.
+[5] O. Angelini, K. Brenner, and K. Hilhorst. A ﬁnite volume method on general meshes for a degenerate parabolic
+convection-reaction-diﬀusion equation. Numerische Mathematik, 123:219–257, 2013.
+[6] P. Angot, F. Boyer, and F. Hubert. Asymptotic and numerical modelling of ﬂows in fractured porous media.
+ESAIM: Mathematical Modelling and Numerical Analysis, 43(2):239–275, mar 2009.
+[7] P.F. Antonietti, L. Formaggia, A. Scotti, M. Verani, and N. Verzott. Mimetic ﬁnite diﬀerence approximation of
+ﬂows in fractured porous media. ESAIM: Mathematical Modelling and Numerical Analysis, 50:809–832, 2016.
+[8] L. Beirão Da Veiga, F. Brezzi, and L.D. Marini. Virtual elements for linear elasticity problems. SIAM Journal
+on Numerical Analysis, 51:794–812, 2013.
+[9] I. I. Bogdanov, V. V. Mourzenko, J.-F. Thovert, and P. M. Adler. Two-phase ﬂow through fractured porous
+media. Physical Review E, 68(2), aug 2003.
+[10] F. Bonaldi, K. Brenner, J. Droniou, and R. Masson. Gradient discretization of two-phase ﬂows coupled with
+mechanical deformation in fractured porous media. Preprint, April 2020.
+[11] F. Bonaldi, K. Brenner, J. Droniou, and R. Masson. Two-Phase Darcy Flows in Fractured and Deformable Porous
+Media, Convergence Analysis and Iterative Coupling. In Conference Proceedings, ECMOR XVII, volume 2020,
+pages 1–20. European Association of Geoscientists & Engineers, 2020.
+[12] K. Brenner, J. Droniou, R. Masson, and E.H. Quenjel. Total-velocity-based ﬁnite volume discretization of two-
+phase Darcy ﬂow in highly heterogeneous media with discontinuous capillary pressure. IMA Journal of Numerical
+Analysis, 2021. To appear.
+[13] K. Brenner, M. Groza, C. Guichard, G. Lebeau, and R. Masson. Gradient discretization of hybrid-dimensional
+Darcy ﬂows in fractured porous media. Numerische Mathematik, 134(3):569–609, 2016.
+[14] K. Brenner, M. Groza, C. Guichard, and R. Masson. Vertex Approximate Gradient Scheme for Hybrid Dimensional
+Two-Phase Darcy Flows in Fractured Porous Media. ESAIM: Mathematical Modelling and Numerical Analysis,
+49(2):303–330, 2015.
+[15] K. Brenner, J. Hennicker, R. Masson, and P. Samier. Gradient Discretization of Hybrid Dimensional Darcy Flows
+in Fractured Porous Media with discontinuous pressure at matrix fracture interfaces. IMA Journal of Numerical
+Analysis, 37:1551–1585, 2017.
+[16] K. Brenner, J. Hennicker, R. Masson, and P. Samier. Hybrid dimensional modelling of two-phase ﬂow through
+fractured with enhanced matrix fracture transmission conditions. Journal of Computational Physics, 357:100–124,
+2018.
+30
+[17] O. Coussy. Poromechanics. John Wiley & Sons, 2004.
+[18] F. Daïm, R. Eymard, D. Hilhorst, M. Mainguy, and R. Masson. A preconditioned conjugate gradient based
+algorithm for coupling geomechanical-reservoir simulations.
+Oil & Gas Science and Technology – Rev. IFP,
+57:515–523, 2002.
+[19] D. Di Pietro and A. Ern. A hybrid high-order locking-free method for linear elasticity on general meshes. Computer
+Methods in Applied Mechanics and Engineering, 283:1–21, 2015.
+[20] D. Di Pietro and S. Lemaire. An extension of the Crouzeix-Raviart space to general meshes with application to
+quasi-incompressible linear elasticity and Stokes ﬂow. Mathematics of Computation, 84:1–31, 2015.
+[21] J. Droniou and R. Eymard. Uniform-in-time convergence of numerical methods for non-linear degenerate parabolic
+equations. Numerische Mathematik, 132(4):721–766, 2016.
+[22] J. Droniou, R. Eymard, T. Gallouët, C. Guichard, and R. Herbin. The Gradient Discretisation Method, volume 82
+of Mathematics & Applications. Springer, 2018.
+[23] J. Droniou, J. Hennicker, and R. Masson.
+Numerical analysis of a two-phase ﬂow discrete fracture model.
+Numerische Mathematik, 141(1):21–62, 2019.
+[24] I.S. Duﬀand J.K. Reid. The design of MA48: a code for the direct solution of sparse unsymmetric linear systems
+of equations. ACM Transactions on Mathematical Software, 22:187–226, 1996.
+[25] R. Eymard, T. Gallouët, and R. Herbin.
+Finite volume methods.
+In P.G. Ciarlet and J.L. Lions, editors,
+Techniques of Scientiﬁc Computing, Part III, Handbook of Numerical Analysis, VII, pages 713–1020. North-
+Holland, Amsterdam, 2000.
+[26] R. Eymard, C. Guichard, R. Herbin, and R. Masson. Gradient schemes for two-phase ﬂow in heterogeneous
+porous media and Richards equation. ZAMM Z. Angew. Math. Mech., 94(7-8):560–585, 2014.
+[27] E. Flauraud, F. Nataf, I. Faille, and R. Masson.
+Domain decomposition for an asymptotic geological fault
+modeling. Comptes Rendus à l’académie des Sciences, Mécanique, 331:849–855, 2003.
+[28] M. Gander, J. Hennicker, and R. Masson. Modeling and Analysis of the Coupling in Discrete Fracture Matrix
+models. SIAM Journal on Numerical Analysis, 59:195–218, 2021.
+[29] T.T. Garipov, M. Karimi-Fard, and H.A. Tchelepi. Discrete fracture model for coupled ﬂow and geomechanics.
+Computational Geosciences, pages 149–160, 2016.
+[30] B. Giovanardi, L. Formaggia, A. Scotti, and P. Zunino. Unﬁtted fem for modelling the interaction of multiple
+fractures in a poroelastic medium. In E. Burman, M.G. Larson, and M.A. Olshanskii, editors, Geometrically
+Unﬁtted Finite Element Methods and Applications, pages 331–352. SPA Bordas, Cham, Switzerland: Springer
+International Publishing, 2017.
+[31] V. Girault, K. Kumar, and M.F. Wheeler. Convergence of iterative coupling of geomechanics with ﬂow in a
+fractured poroelastic medium. Computational Geosciences, 20:997–1011, 2016.
+[32] V. Girault, M. F. Wheeler, K. Kumar, and G. Singh. Mixed Formulation of a Linearized Lubrication Fracture
+Model in a Poro-elastic Medium, pages 171–219. Springer International Publishing, Cham, 2019.
+[33] V. Girault, M.F. Wheeler, B. Ganis, and M.E. Mear. A lubrication fracture model in a poro-elastic medium.
+Mathematical Models and Methods in Applied Sciences, 25:587–645, 2015.
+[34] K.K. Hanowski and O. Sander. The hydromechanical equilibrium state of poroelastic media with a static fracture:
+A dimension-reduced model with existence results in weighted Sobolev spaces and simulations with an XFEM
+discretization. Mathematical Models and Methods in Applied Sciences, 28(13):2511–2556, 2018.
+[35] P. Hansbo and M.G. Larson. Discontinuous Galerkin and the Crouzeix–Raviart element: Application to elasticity.
+ESAIM: Mathematical Modelling and Numerical Analysis, 37:63–72, 2003.
+[36] J. Jaﬀré, M. Mnejja, and J.E. Roberts.
+A discrete fracture model for two-phase ﬂow with matrix-fracture
+interaction. Procedia Computer Science, 4:967–973, 2011.
+[37] L. Jeannin, M. Mainguy, R. Masson, and S. Vidal-Gilbert. Accelerating the convergence of coupled geomechanical-
+reservoir simulations. International Journal For Numerical And Analytical Methods In Geomechanics, 31:1163–
+1181, 2007.
+[38] B. Jha and R. Juanes. Coupled Modeling of Multiphase Flow and Fault Poromechanics during geologic CO2
+storage. Energy Procedia, 63:3313–3329, 2014.
+31
+[39] L. Jin and M.D. Zoback. Fully coupled nonlinear ﬂuid ﬂow and poroelasticity in arbitrarily fractured porous media:
+A hybrid- dimensional computational model. Journal of Geophysical Research: Solid Earth, 22:7626–7658, 2017.
+[40] M. Karimi-Fard, L.J. Durlofsky, and K. Aziz. An eﬃcient discrete-fracture model applicable for general-purpose
+reservoir simulators. SPE Journal, 9(2):227–236, 2004.
+[41] A.R. Khoei, N. Hosseini, and T. Mohammadnejad. Numerical modeling of two-phase ﬂuid ﬂow in deformable
+fractured porous media using the extended ﬁnite element method and an equivalent continuum model. Advances
+in Water Resources, 94:510–528, 2016.
+[42] J. Kim, H. A. Tchelepi, and R. Juanes. Rigorous coupling of geomechanics and multiphase ﬂow with strong
+capillarity. Society of Petroleum Engineers, 2013.
+[43] J. Kim, H.A. Tchelepi, and R. Juanes. Stability and convergence of sequential methods for coupled ﬂow and
+geomechanics: Fixed-stress and ﬁxed-strain splits. Computer Methods in Applied Mechanics and Engineering,
+200:1591–1606, 2011.
+[44] V. Martin, J. Jaﬀré, and J. E. Roberts. Modeling fractures and barriers as interfaces for ﬂow in porous media.
+SIAM Journal on Scientiﬁc Computing, 26:1667–1691, 2005.
+[45] J.E.P. Monteagudo and A. Firoozabadi. Control-volume model for simulation of water injection in fractured
+media: incorporating matrix heterogeneity and reservoir wettability eﬀects. SPE Journal, 12(3):355–366, 2007.
+[46] J.M. Nordbotten, W.M Boon, A. Fumagalli, and E. Keilegavlen. Uniﬁed approach to discretization of ﬂow in
+fractured porous media. Computational Geosciences, 23:225–237, 2019.
+[47] E. Oñate. Structural Analysis with the Finite Element Method. Linear Statics, volume 1: Basis and Solids of
+Lecture Notes on Numerical Methods in Engineering and Sciences. Springer Netherlands, 2009.
+[48] M. Pernice and H.F. Walker.
+NITSOL: a Newton iterative solver for nonlinear systems.
+SIAM Journal on
+Scientiﬁc Computing, 19:302–318, 1998.
+[49] V. Reichenberger, H. Jakobs, P. Bastian, and R. Helmig. A mixed-dimensional ﬁnite volume method for two-phase
+ﬂow in fractured porous media. Advances in Water Resources, 29(7):1020–1036, jul 2006.
+[50] T.H. Sandve, I. Berre, and J.M. Nordbotten. An eﬃcient multi-point ﬂux approximation method for discrete
+fracture-matrix simulations. Journal of Computational Physics, 231:3784–3800, 2012.
+[51] X. Tunc, I. Faille, T. Gallouët, M.C. Cacas, and P. Havé. A model for conductive faults with non matching grids.
+Computational Geosciences, 16:277–296, 2012.
+[52] E. Ucar, E. Keilegavlen, I. Berre, and J.M. Nordbotten. A ﬁnite-volume discretization for deformation of fractured
+media. Computational Geosciences, 22:993–1007, 2018.
+32

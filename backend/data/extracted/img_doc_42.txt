@@ -1,0 +1,4 @@
+Scanned Research Note on Classification Classification assigns labels to inputs based on
+leamed decision boundaries. Accuracy, Precision, Recall, and F1-score are standard evaluation
+
+metrics.

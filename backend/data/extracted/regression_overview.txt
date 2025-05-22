@@ -1,0 +1,2396 @@
+arXiv:2006.11420v1  [math.AG]  19 Jun 2020
+From H¨older triangles to the whole plane
+Sergio Alvarez
+Abstract
+We show how to determine whether two given real polynomial functions of a single
+variable are Lipschitz equivalent by comparing the values and also the multiplicities of
+the given polynomial functions at their critical points. Then we show how to reduce the
+problem of R-semialgebraic Lipschitz classiﬁcation of β-quasihomogeneous polynomials
+of two real variables to the problem of Lipschitz classiﬁcation of real polynomial functions
+of a single variable, under some fairly general conditions.
+1
+Introduction
+In [4], Henry and Parusi´nski showed that the bi-Lipschitz classiﬁcation of complex analytic
+function germs admits continuous moduli. This fact had not been observed before and interest-
+ingly it contrasts with the fact that the bi-Lipschitz equivalence of complex analytic set germs
+does not admit moduli [7]. The moduli space of bi-Lipschitz equivalence is not yet completely
+understood but it is worth noting that recently Cˆamara and Ruas have made progress in the
+study of the moduli space of bi-Lipschitz equivalence of quasihomogeneous function germs, in
+the complex case [2].
+In [5], Henry and Parusi´nski showed that the bi-Lipschitz classiﬁcation of real analytic
+function germs admits continuous moduli. The particular case of weighted homogeneous poly-
+nomial functions of two real variables has been considered by Koike and Parusi´nski in [6]. Then,
+independently, in [1], Birbrair, Fernandes and Panazzolo described the bi-Lipschitz moduli in
+the “simplest possible case” (as they have called it): quasihomogeneous polynomial functions
+deﬁned on the H¨older triangle Tβ := {(x, y) ∈R2 : 0 ≤x, 0 ≤y ≤xβ}.
+In this paper, we consider the problem of classifying β-quasihomogeneous polynomials in
+two variables with real coeﬃcients modulo R-semialgebraic Lipschitz equivalence. Here and
+throughout the text, β always denotes a rational number > 1. (We deﬁne β-quasihomogeneous
+polynomials and R-semialgebraic Lipschitz equivalence in section 5.)
+Our main goal is to
+extend the results obtained in [1] for the classiﬁcation of germs of functions deﬁned on the
+H¨older triangle to germs of functions deﬁned on the whole plane.
+Following the strategy used in [1], we attack the problem by reducing it to the Lipschitz
+classiﬁcation of real polynomial functions of a single variable. The classiﬁcation of polynomial
+functions of a single variable is carried out in section 2. Here too, we follow the strategy used in
+[1], which consists in comparing the values and also the multiplicities of the given polynomial
+functions at their critical points.
+In order to accomplish the reduction to the single variable case, still following the strategy
+used in [1], we associate with each β-quasihomogeneous polynomial F(X, Y ) ∈R[X, Y ] a pair
+of polynomial functions f+, f−: R →R, called the height functions of F, which encode a great
+deal of information about the original polynomial. Then, we consider the following questions:
+1
+1. Suppose that two given β-quasihomogeneous polynomials F, G ∈R[X, Y ] of degree d ≥
+1 are R-semialgebraically Lipschitz equivalent.
+Is it possible to arrange their height
+functions in pairs of Lipschitz equivalent functions?
+2. Suppose that the height functions of two given β-quasihomogeneous polynomials F, G ∈
+R[X, Y ] of degree d ≥1 can be arranged in pairs of Lipschitz equivalent functions. Are
+F and G R-semialgebraically Lipschitz equivalent?
+We show that if the zero sets of the polynomials F and G have points both on the right
+half-plane and on the left half-plane then the answer to the ﬁrst question is yes (Corollary
+5). Also, we obtain some rather general conditions under which the answer to question 2 is
+aﬃrmative (Theorem 2). These are the main results of the paper.
+In [1], the questions stated above were both answered aﬃrmatively in the case where the
+equivalence is restricted to the H¨older triangle Tβ, assuming that the given β-quasihomogeneous
+polynomials vanish identically on ∂Tβ and do not vanish at the interior points of Tβ. Here, we
+generalize the methods devised by Lev Birbrair, Alexandre Fernandes, and Daniel Panazzolo.
+This generalization leads to the theory of β-transforms and inverse β-transforms presented in
+sections 4, 6, and 7. In sections 5 and 9, we apply the general theory to obtain our main results.
+2
+Lipschitz equivalence of polynomial functions of a sin-
+gle variable
+Two nonzero polynomial functions f, g : R →R are Lipschitz equivalent, written f ∼= g, if there
+exist a bi-Lipschitz homeomorphism φ : R →R and a constant c > 0 such that
+g ◦φ = cf.
+(1)
+In this section, we provide eﬀective criteria to determine whether any two nonzero polyno-
+mial functions f, g : R →R are Lipschitz equivalent. Clearly, two nonzero constant functions
+are Lipschitz equivalent if and only if they have the same sign; so we focus on nonconstant
+polynomial functions. In this case, φ is necessarily semialgebraic (see [1, Lemma 3.1]).
+Lemma 1. Let f, g : R →R be nonconstant polynomial functions. Suppose that f and g are
+Lipschitz equivalent, so that g ◦φ = cf, for some bi-Lipschitz function φ : R →R and some
+constant c > 0. We have:
+i. deg f = deg g
+ii. limt→+∞φ(t)/t = limt→−∞φ(t)/t
+iii. 0 < lim|t|→+∞|φ(t)/t| < ∞
+Proof. Let f(t) = Pd
+i=0 aiti and g(t) = Pe
+i=0 biti, where ad, be ̸= 0, and let
+l+ := lim
+t→+∞
+φ(t)
+t
+and
+l−:= lim
+t→−∞
+φ(t)
+t .
+These limits are both well-deﬁned in the extended real line because φ is semialgebraic. Also,
+since φ is bi-Lipschitz, they are nonzero real numbers.
+2
+Since lim|t|→+∞|φ(t)| = +∞, we have
+lim
+|t|→+∞
+g(φ(t))
+φ(t)e
+=
+lim
+|t|→+∞
+g(t)
+te
+= be.
+Then,
+c · lim
+t→+∞
+f(t)
+te
+= lim
+t→+∞
+g(φ(t))
+te
+= lim
+t→+∞
+g(φ(t))
+φ(t)e
+· lim
+t→+∞
+φ(t)
+t
+e
+= bele
++.
+Since bele
++ is a nonzero real number, it follows that d = e (which proves (i)) and also that
+c · ad = c · lim
+t→+∞f(t)/td = bdld
++.
+Similarly, we have:
+c · ad = c · lim
+t→−∞
+f(t)
+td
+= lim
+t→−∞
+g(φ(t))
+td
+= lim
+t→−∞
+g(φ(t))
+φ(t)d · lim
+t→−∞
+φ(t)
+t
+d
+= bdld
+−.
+Thus, ld
++ = c · ad/bd = ld
+−, which implies that |l+| = |l−|.
+On the other hand, since φ is
+monotonic and lim|t|→+∞|φ(t)| = +∞, either φ(t) and t have the same sign for large |t|, or φ(t)
+and t have opposite signs for large |t|. In any case, l+ and l−have the same sign, and therefore
+l+ = l−. This proves (ii) and ensures that the limit lim|t|→+∞φ(t)/t is a well-deﬁned nonzero
+real number. Hence, (iii) is also proved.
+■
+By Lemma 1, equality of degrees is a necessary condition for Lipschitz equivalence. Thus,
+the problem of classifying polynomial functions modulo Lipschitz equivalence is reduced to the
+classiﬁcation of nonconstant polynomial functions of the same degree.
+Lemma 2. Let f, g : R →R be two polynomial functions of the same degree d ≥1, and suppose
+that φ : R →R is a bijective function such that g ◦φ = cf, for some constant c > 0. The
+following conditions are equivalent:
+i. φ is bi-Lipschitz;
+ii. The multiplicity of f at t is equal to the multiplicity of g at φ(t), for all t ∈R;
+iii. φ is bi-analytic.
+Proof. (i) ⇒(ii):
+Pick any point t0 ∈R. Let k be the multiplicity of f at t0, and let l be the
+multiplicity of g at φ(t0). For any pair of functions u, v : R →R, we write u ∼v to indicate
+that there exist constants A, B > 0 such that A |v(t)| ≤|u(t)| ≤B |v(t)|, for t suﬃciently close
+to t0. Then, f(t) −f(t0) ∼(t −t0)k and g(s) −g(φ(t0)) ∼(s −φ(t0))l. Since g ◦φ = cf, this
+implies that (φ(t) −φ(t0))l ∼(t −t0)k. And since we are assumig that φ is bi-Lipschitz, it
+follows that (t −t0)l ∼(t −t0)k. Therefore, k = l.
+(ii) ⇒(iii):
+Pick any point t0 ∈R. Suppose that ˆf := cf has multiplicity k at t0. Then,
+there exist an increasing analytic diﬀeomorphism u : I →(−ǫ, ǫ), with t0 ∈I, and a constant
+ρ ∈R\{0}, such that u(t0) = 0 and ˆf ◦u−1(t) = a+ρtk, for |t| < ǫ; where a := ˆf(t0) = g◦φ(t0).
+Since we are assuming that condition (ii) holds, the multiplicity of g at the point φ(t0) is also
+k. Then, as before, there exist an increasing analytic diﬀeomorphism v : J →(−ǫ′, ǫ′), with
+φ(t0) ∈J, and a constant σ ∈R \ {0}, such that v(φ(t0)) = 0 and g ◦v−1(t) = a + σtk, for
+|t| < ǫ′.
+3
+Shrinking the interval I, if necessary, we can assume that φ(I) ⊆J. Hence, we can write
+ˆf ◦u−1(t) = g ◦v−1(¯φ(t)), where ¯φ := v ◦φ ◦u−1 : (−ǫ, ǫ) →(−ǫ′, ǫ′); and then it follows that
+¯φ(t) = νt, where ν = ±
+ ρ
+σ
+
+1
+k , depending on whether φ is increasing (positive sign) or decreasing
+(negative sign). In particular, this shows that ¯φ is analytic.
+Therefore, φ|I = v−1 ◦¯φ◦u is analytic; so φ is analytic at t0. Since the point t0 ∈R is arbitrary,
+it follows that φ is an analytic function. A similar argument, applied to φ−1, shows that φ−1 is
+also analytic.
+(iii) ⇒(i):
+Suppose that φ is bi-analytic. Then, in particular, φ is a homeomorphism, so φ is
+monotonic and lim|t|→+∞|φ(t)| = +∞. Also, since f, g are non-constant polynomial functions
+and g ◦φ = cf, φ is a semialgebraic function (see [1, Lemma 3.1]).
+Let f(t) = Pd
+i=0 aiti and g(t) = Pd
+i=0 biti, with ad, bd ̸= 0. Since g◦φ = cf and lim|t|→+∞|φ(t)| =
++∞, we have
+lim
+t→−∞
+φ(t)
+t
+d
+= lim
+t→+∞
+φ(t)
+t
+d
+= c · ad
+bd
+(2)
+Let l+ := limt→+∞φ(t)/t and l−:= limt→−∞φ(t)/t. Both of these limits are well-deﬁned in the
+extended real line because φ is semialgebraic. It follows from equation (2) that we actually
+have l+, l−∈R \ {0} and |l+| = |l−|. (Notice that to obtain this last equality from equation
+(2), we use the fact that d > 0.)
+By L’Hˆopital’s rule, limt→+∞φ′(t) = l+ and limt→−∞φ′(t) = l−. (The existence of these limits
+in the extended real line is guaranteed by the fact that φ′ is semialgebraic, so L’Hˆopital’s
+rule can be applied.) Thus, limt→+∞|φ′(t)| = limt→−∞|φ′(t)|; so that |φ′| can be continuously
+extended to a positive function deﬁned on the compact space R ∪{∞} ∼= S1. Hence, there
+exist constants A, B > 0 such that A ≤|φ′(t)| ≤B, for all t ∈R. Therefore, φ is bi-Lipschitz.
+■
+From the two lemmas above, it follows that if two polynomial functions f, g : R →R
+are Lipschitz equivalent, then they have the same degree and they have the same number of
+critical points. The ﬁrst assertion is immediate from Lemma 1. The second assertion follows
+from Lemma 2: if φ : R →R is a bi-Lipschitz homemorphism such that g ◦φ = cf, for some
+constant c > 0, then φ induces a 1-1 correpondence between the critical points of f and the
+critical points of g, because it preserves multiplicity.
+Propositions 1, 2, and 3 provide eﬀective criteria to determine whether any two noncon-
+stant polynomial functions f, g : R →R, of the same degree, are Lipschitz equivalent.
+In
+Proposition 1, we consider the case in which f and g have no critical points; in Proposition 2,
+the case in which both f and g have only one critical point; and in Proposition 3, the case in
+which f and g have the same number k ≥2 of critical points.
+Proposition 1. Let f, g : R →R be two polynomial functions of the same degree d ≥1. If f
+and g have no critical points, then f and g are Lipschitz equivalent.
+Proof. If f and g have no critical points, then they are both bi-analytic diﬀeomorphisms. Hence,
+f = g◦φ, where φ := g−1◦f is a bi-analytic diﬀeomorphism. By Lemma 2, φ is bi-Lipschitz.
+■
+Proposition 2. Let f, g : R →R be two polynomial functions of the same degree d ≥1.
+Suppose that f has only one critical point t0, with multiplicity k, and that g has only one
+critical point s0, with the same multiplicity k. Also, suppose that f(t0) and g(s0) have the same
+sign1(positive, negative or zero).
+1Clearly, this is a necessary condition for f and g to be Lipschitz equivalent.
+4
+i. If d is odd, then f and g are Lipschitz equivalent;
+ii. If d is even, then f and g are Lipschitz equivalent if and only if s0 and t0 are either both
+minimum points, or both maximum points of f and g, respectively.
+Proof. First, consider the case where d is odd. If a real polynomial function of a single variable,
+of odd degree, has only one critical point, then it is a homeomorphism.
+Thus, under the
+assumption that d is odd, f and g are homeomorphisms. Choose a constant c > 0 such that
+g(s0) = cf(t0), and deﬁne φ := g−1 ◦ˆf : R →R, where ˆf := cf. The function φ is a bijection
+satisfying (1), and the multiplicity of f at t is equal to the multiplicity of g at φ(t) for all t ∈R.
+By Lemma 2, φ is bi-Lipschitz.
+Now, suppose that d is even. If a real polynomial function of a single variable, of even
+degree, has only one critical point, then this critical point is a point of local extremum (and
+consequently it is a point of even multiplicity). If f and g are Lipschitz equivalent, then t0 and
+s0 are either both minimum points or both maximum points of f and g, respectively. Otherwise,
+we would have ˆf(R) ∩g(R) = { ˆf(t0)} = {g(s0)}, which is absurd, since equation (1) implies
+that ˆf(R) = g(R). Conversely, suppose that t0 and s0 are either both minimum points or both
+maximum points of f and g, respectively. Pick any constant c > 0 for which g(s0) = cf(t0),
+and deﬁne φ : R →R by
+φ|(−∞,t0] :=
+ g|(−∞,s0]
+−1 ◦ˆf|(−∞,t0],
+φ|[t0,+∞) :=
+ g|[s0,+∞)
+−1 ◦ˆf|[t0,+∞).
+Clearly, φ is a bijection satisfying (1), and the multiplicity of f at t is equal to the
+multiplicity of g at φ(t) for all t ∈R. Again, by Lemma 2, φ is bi-Lipschitz.
+■
+For the case in which f and g have the same number p ≥2 of critical points, we introduce
+an adapted version of the notion of multiplicity symbol deﬁned in [1].
+Let f : R →R be a polynomial function of degree d ≥1, having exactly p critical
+points, with p ≥2. Let t1 < . . . < tp be the critical points of f, with multiplicities µ1, . . . , µp,
+respectively. The multiplicity symbol of f is the ordered pair (a, µ) whose ﬁrst entry is the
+p-tuple a = (f(t1), . . . , f(tp)), and second entry is the p-tuple µ = (µ1, . . . , µp).
+Let g : R →R be another polynomial function of degree d ≥1, having exactly the
+same number p ≥2 of critical points. Let s1 < . . . < sp be the critical points of g, with
+multiplicities ν1, . . . , νp, respectively. The multiplicity symbol of g is the ordered pair (b, ν),
+where b = (g(s1), . . . , g(sp)) and ν = (ν1, . . . , νp).
+The multiplicity symbols (a, µ) and (b, ν) are said to be:
+i. directly similar, if there exists a constant c > 0 such that b = c · a, and ν = µ;
+ii. reversely similar, if there exists a constant c > 0 such that b = c · a, and ν = µ.
+For any p-tuple x = (x1, . . . , xp), x := (xp, . . . , x1) is the p-tuple x written in reverse order.
+The multiplicity symbols (a, µ) and (b, ν) are said to be similar if they are either directly
+similar or reversely similar.
+Proposition 3. Let f, g : R →R be two polynomial functions of the same degree d ≥1 having
+the same number p ≥2 of critical points. Then, f and g are Lipschitz equivalent if and only if
+their multiplicity symbols are similar.
+5
+Proof. First, suppose that f and g are Lipschitz equivalent. Then there exist a bi-Lipschitz
+function φ : R →R and a constant c > 0 such that g ◦φ = cf. Let t1, . . . , tp be the critical
+points of f, with multiplicities µ1, . . . , µp, and let s1, . . . , sp be the critical points of g, with
+multiplicities ν1, . . . , νp. (As we noted just after the proof of Lemma 2, Lipschitz equivalent
+polynomials have the same number of critical points.) Let (a, µ) be the multiplicity symbol of
+f and (b, ν) the multiplicity symbol of g.
+By Lemma 2, φ preserves multiplicities. Thus, if φ is increasing, then we have φ(ti) = si
+and µi = νi, for i = 1, . . . , p. Since g ◦φ = cf, it follows that also bi = g(si) = c · f(ti) = c · ai,
+for i = 1, . . . , p. Hence, if φ is increasing then the multiplicity symbols of f and g are directly
+similar. On the other hand, if φ is decreasing, then we have φ(tp+1−i) = si and µp+1−i = νi,
+for i = 1, . . . , p. Since g ◦φ = cf, it follows that also bi = g(si) = c · f(tp+1−i) = c · ap+1−i, for
+i = 1, . . . , p. Hence, if φ is decreasing then the multiplicity symbols of f and g are reversely
+similar. In any case, it follows that the multiplicity symbols of f and g are similar.
+Now we prove the converse. Suppose that the multiplicity symbols of f and g are similar.
+Replacing g with g ◦α, where α := −id : R →R (which is bi-Lipschitz), we can assume that
+the multiplicity symbols of f and g are directly similar.
+Let t1 < . . . < tp be the critical points of f, with multiplicities µ1, . . . , µp, respectively;
+and let s1 < . . . < sp be the critical points of g, with multiplicities ν1, . . . , νp, respectively.
+Since we are assuming that the multiplicity symbols of f and g are directly similar, there exists
+a constant c > 0 such that g(si) = cf(ti), for i = 1, . . . , p; and µi = νi, for i = 1, . . . , p.
+Let ˆf := cf and ci := g(si) = ˆf(ti). (Notice that ci ̸= ci+1, for 1
+≤
+i
+<
+k.) The
+functions ˆf|[ti,ti+1] : [ti, ti+1] →[ci, ci+1] and g|[si,si+1] : [si, si+1] →[ci, ci+1] are both monotonic
+and injective. The same is true for the functions ˆf|(−∞,t1] and g|(−∞,s1], and also for the functions
+ˆf|[tp,+∞) and g|[sp,+∞).
+Moreover, the functions ˆf|(−∞,t1] and g|(−∞,s1] are either both increasing or both decreasing
+because ˆf(t1) = g(s1), ˆf(t2) = g(s2), and µ1 = ν1. Since ˆf(t1) = g(s1) and
+ ˆf(t)
+ , |g(t)| →+∞,
+as |t| →+∞, this implies that ˆf((−∞, t1]) = g((−∞, s1]).
+Similarly, the functions ˆf|[tp,+∞) and g|[sp,+∞) are either both increasing or both de-
+creasing because ˆf(tp−1) = g(sp−1), ˆf(tp) = g(sp), and µp = νp. Since ˆf(tp) = g(sp), and
+ ˆf(t)
+ , |g(t)| →+∞, as |t| →+∞, this implies that ˆf([tp, +∞)) = g([sp, +∞)).
+Deﬁne φ : R →R by
+φ|(−∞,t1] :=
+ g|(−∞,s1]
+−1 ◦ˆf|(−∞,t1]
+φ|[ti,ti+1] :=
+ g|[si,si+1]
+−1 ◦ˆf|[ti,ti+1], for 1 ≤i < p
+φ|[tp,+∞) :=
+ g|[sp,+∞)
+−1 ◦ˆf|[tp,+∞)
+Clearly, φ is a bijection satisfying (1), and it takes ti to si, for i = 1, . . . , p. Since the
+multiplicity symbols of f and g are directly similar, it follows that the multiplicity of f at t is
+equal to the multiplicity of g at φ(t) for all t ∈R. By Lemma 2, φ is bi-Lipschitz.
+■
+3
+Transformation of paths by Lipschitz maps
+In this section, we state and prove some results that will be used in the sequel.
+6
+Lemma 3. Let Φ : (R2, 0) →(R2, 0) be a germ of semialgebraic Lipschitz map, let γ : [0, ǫ) →
+R2 be a continuous semialgebraic path such that γ(0) = 0, and let ˜γ(t) := Φ(γ(t)). If γ has
+ﬁnite initial velocity then ˜γ also has ﬁnite initial velocity, that is, if limt→0+ |γ(t)/t| < ∞then
+limt→0+ |˜γ(t)/t| < ∞.
+Proof. Since Φ is Lipschitz and Φ(0) = 0, there exists K > 0 such that |Φ(x, y)| ≤K |(x, y)|.
+Then,
+
+˜γ(t)
+t
+ =
+
+Φ(γ(t))
+t
+ ≤K
+
+γ(t)
+t
+ ,
+which implies that ˜γ′
++(0) is ﬁnite, given that γ′
++(0) is ﬁnite, by hypothesis.
+■
+Lemma 4. Let Φ : (R2, 0) →(R2, 0) be a germ of semialgebraic Lipschitz map. Let γ1, γ2 :
+[0, ǫ) →R2 be two continuous semialgebraic paths, with ﬁnite initial velocity, such that γ1(0) =
+γ2(0) = 0, and let ˜γi(t) := Φ(γi(t)), i = 1, 2. If γ′
+1+(0) = γ′
+2+(0), then ˜γ′
+1+(0) = ˜γ′
+2+(0).
+Proof. Since Φ is Lipschitz and Φ(0) = 0, there exists K > 0 such that |Φ(x, y)| ≤K |(x, y)|.
+Since |˜γ1(t) −˜γ2(t)| ≤K |γ1(t) −γ2(t)|, we have:
+
+˜γ1(t)
+t
+−˜γ2(t)
+t
+ ≤K
+
+γ1(t)
+t
+−γ2(t)
+t
+ ,
+for t > 0.
+Also, from limt→0+ γi(t)/t = γ′
+i+(0) and γ′
+1+(0) = γ′
+2+(0), we see that
+lim
+t→0+
+
+γ1(t)
+t
+−γ2(t)
+t
+ = 0,
+since both γ1 and γ2 have ﬁnite initial velocity.
+Then, by the Squeeze Theorem,
+lim
+t→0+
+
+˜γ1(t)
+t
+−˜γ2(t)
+t
+ = 0.
+By Lemma 3, both ˜γ1 and ˜γ2 have ﬁnite initial velocity, so it follows that ˜γ′
+1+(0) = ˜γ′
+2+(0).
+■
+Corollary 1. Let Φ : (R2, 0) →(R2, 0) be a germ of semialgebraic Lipschitz map, let γ1, γ2 :
+[0, ǫ) →R2 be two continuous semialgebraic paths, with ﬁnite initial velocity, such that γ1(0) =
+γ2(0) = 0, and let ˜γi(t) := Φ(γi(t)), i = 1, 2. If γ′
+2+(0) = c · γ′
+1+(0), with c > 0, then ˜γ′
+2+(0) =
+c · ˜γ′
+1+(0).
+Proof. Consider the path γ0(t) := γ1(ct), 0 ≤t < ǫ/c, and let ˜γ0(t) := Φ(γ0(t)). By Lemma
+4, since γ′
+0+(0) = cγ′
+1+(0) = γ′
+2+(0), we have ˜γ′
+0+(0) = ˜γ′
+2+(0). On the other hand, ˜γ0(t) =
+Φ(γ0(t)) = Φ(γ1(ct)) = ˜γ1(ct), so ˜γ′
+0+(0) = c˜γ′
+1+(0). Hence, ˜γ′
+2+(0) = c · ˜γ′
+1+(0).
+■
+Corollary 2. Let Φ : (R2, 0) →(R2, 0) be a germ of semialgebraic bi-Lipschitz map.
+Let
+γ1, γ2 : [0, ǫ) →R2 be two continuous semialgebraic paths, with ﬁnite initial velocity, such that
+γ1(0) = γ2(0) = 0, and let ˜γi(t) := Φ(γi(t)), i = 1, 2. The initial velocities of the paths γ1 and
+γ2 have the same direction if and only if the initial velocities of the paths ˜γ1 and ˜γ2 have the
+same direction.
+7
+4
+β-isomorphisms and the β-transform
+A germ of semialgebraic bi-Lipschitz map Φ = (Φ1, Φ2) : (R2, 0) →(R2, 0) is said to be a
+β-isomorphism of degree d ≥1 if the following conditions are satisﬁed:
+i. There exist β-quasihomogeneous polynomials F(X, Y ) and G(X, Y ) of degree d such that
+G ◦Φ = F.
+ii. limx→0+ Φ1(x, 0)/x ̸= 0 and limx→0−Φ1(x, 0)/x ̸= 0
+When there is no danger of confusion, we shall simply say β-isomorphism, omitting the reference
+to the degree d, which is always assumed to be ≥1.
+Remark 1. For any germ of semialgebraic bi-Lipschitz homeomorphism Φ : (R2, 0) →(R2, 0),
+the path Φ(x, 0), 0 ≤x < ǫ, has ﬁnite non-zero initial velocity.
+In fact, it is immediate from Lemma 3 that the path Φ(x, 0), 0 ≤x < ǫ, has ﬁnite initial
+velocity. On the other hand, there exists A > 0 such that Φ(x, 0) ≥A |x|, because Φ is bi-
+Lipschitz and Φ(0) = 0; so we have |Φ(x, 0)/x| ≥A, for x ̸= 0. Hence, limx→0+ Φ(x, 0)/x ̸= 0.
+Similarly, we can prove that the path Φ(−x, 0), 0 ≤x < ǫ, also has ﬁnite non-zero initial
+velocity.
+Remark 2. Let Φ : (R2, 0) →(R2, 0) be any germ of semialgebraic bi-Lipschitz map. It is
+immediate from Lemma 4 that for all t ∈R, we have:
+i. The initial velocity of the path Φ(x, txβ), 0 ≤x < ǫ, is equal to the initial velocity of the
+path Φ(x, 0), 0 ≤x < ǫ.
+ii. The initial velocity of the path Φ(−x, txβ), 0 ≤x < ǫ, is equal to the initial velocity of
+the path Φ(−x, 0), 0 ≤x < ǫ.
+Hence, for all t ∈R,
+lim
+x→0+
+Φ1(x, txβ)
+x
+= lim
+x→0+
+Φ1(x, 0)
+x
+and
+lim
+x→0+
+Φ1(−x, txβ)
+x
+= lim
+x→0+
+Φ1(−x, 0)
+x
+.
+(3)
+Also, for all t ∈R,
+lim
+x→0+
+Φ2(x, txβ)
+x
+= lim
+x→0+
+Φ2(x, 0)
+x
+and
+lim
+x→0+
+Φ2(−x, txβ)
+x
+= lim
+x→0+
+Φ2(−x, 0)
+x
+.
+(4)
+Proposition 4. Let Φ : (R2, 0) →(R2, 0) be a germ of semialgebraic bi-Lipschitz homeo-
+morphism. Suppose that there exist β-quasihomogeneous polynomials F(X, Y ) and G(X, Y ) of
+degree d ≥1 such that G ◦Φ = F. We have:
+i. If Φ is a β-isomorphism then, for each t ∈R, Φ2(x, t |x|β) = O(|x|β) as x →0.
+ii. If there exist t0, t1 ∈R such that
+Φ2(x, t0 |x|β) = O(|x|β) as x →0+
+and
+Φ2(x, t1 |x|β) = O(|x|β) as x →0−,
+then Φ is a β-isomorphism.
+8
+Proof. Suppose that Φ is a β-isomorphism. Let β = r/s, with r > s > 0, and gcd(r, s) = 1.
+Then we have
+G(X, Y ) =
+m
+X
+k=0
+ckXd−rkY sk,
+where the coeﬃcients ck are real numbers, cm ̸= 0, and m ≤⌊d/r⌋.
+By hypothesis, G(Φ(x, y)) = F(x, y). Thus, for any t ∈R and x ̸= 0 suﬃciently small,
+G(Φ(x, t |x|β)) = F(x, t |x|β) .
+Since the polynomials F and G are β-quasihomogeneous, this implies that
+G
+ 
+Φ1(x, t |x|β)
+|x|
+, Φ2(x, t |x|β)
+|x|β
+!
+= f(t),
+where
+f(t) =
+(
+F(1, t),
+if x > 0
+F(−1, t),
+if x < 0 .
+Hence, for each t ∈R and x ̸= 0 suﬃciently small, y = Φ2(x, t |x|β)/ |x|β is a zero of the
+nonconstant polynomial
+Ht,x(y) := G(˜x, y) −f(t) ∈R[y],
+where ˜x := Φ1(x, t |x|β)/ |x|. Applying Cauchy’s bound on the roots of a polynomial, we obtain
+
+Φ2(x, t |x|β)
+|x|β
+ ≤1 + max
+
+cm−1
+cm
+ |˜x|r , . . . ,
+
+c1
+cm
+ |˜x|r(m−1) ,
+
+c0˜xd −f(t)
+cm˜xd−rm
+
+
+.
+(5)
+Since Φ is a β-isomorphism, we have
+lim
+x→0+
+Φ1(x, 0)
+x
+̸= 0
+and
+lim
+x→0+
+Φ1(−x, 0)
+x
+̸= 0
+Then, by equation (3), we obtain
+lim
+x→0+
+Φ1(x, t |x|β)
+|x|
+̸= 0
+and
+lim
+x→0−
+Φ1(x, t |x|β)
+|x|
+̸= 0,
+for all t ∈R.
+(6)
+From (5) and (6), it follows that, for each t ∈R, Φ2(x, t |x|β)/ |x|β is bounded for x ̸= 0
+suﬃciently small. This proves (i).
+Now, suppose that for certain t0, t1 ∈R, Φ2(x, t0 |x|β)/ |x|β is bounded for x > 0 suﬃ-
+ciently small, and Φ2(x, t1 |x|β)/ |x|β is bounded for x < 0 suﬃciently small. Then
+lim
+x→0+
+Φ2(x, t0xβ)
+x
+= lim
+x→0+
+Φ2(x, t0xβ)
+xβ
+· xβ−1 = 0
+and
+lim
+x→0+
+Φ2(−x, t1xβ)
+x
+= lim
+x→0+
+Φ2(−x, t1xβ)
+xβ
+· xβ−1 = 0
+Thus, by (4),
+lim
+x→0+
+Φ2(x, 0)
+x
+= 0
+and
+lim
+x→0+
+Φ2(−x, 0)
+x
+= 0 .
+9
+On the other hand, by Remark 1, the paths Φ(x, 0), 0 ≤x < ǫ, and Φ(−x, 0), 0 ≤x < ǫ,
+both have (ﬁnite) non-zero initial velocity. Hence,
+lim
+x→0+
+Φ1(x, 0)
+x
+̸= 0
+and
+lim
+x→0+
+Φ1(−x, 0)
+x
+̸= 0 .
+Therefore, Φ is a β-isomorphism.
+■
+Proposition 5. If Φ : (R2, 0) →(R2, 0) is a β-isomorphism then the initial velocities of the
+paths Φ(x, 0), 0 ≤x < ǫ, and Φ(−x, 0), 0 ≤x < ǫ, are horizontal 2 and have opposite directions.
+Proof. Let Φ be a β-isomorphism. By Proposition 4, we have Φ2(x, 0) = O(|x|β) as x →0.
+Then, limx→0+ Φ2(x, 0)/x = limx→0+ Φ2(−x, 0)/x = 0. Since the paths Φ(x, 0), 0 ≤x < ǫ,
+and Φ(−x, 0), 0 ≤x < ǫ, both have nonzero ﬁnite initial velocity (Remark 1), it follows that
+both of them have horizontal initial velocity. By Corollary 2, the initial velocities of the paths
+Φ(x, 0), 0 ≤x < ǫ, and Φ(−x, 0), 0 ≤x < ǫ, do not have the same direction. Since they are
+both horizontal, they have opposite directions.
+■
+It follows from Proposition 5 that each β-isomorphism Φ : (R2, 0) →(R2, 0) satisﬁes one
+of the following conditions:
+(A) limx→0+ Φ1(x, 0)/x > 0 and limx→0−Φ1(x, 0)/x > 0
+(B) limx→0+ Φ1(x, 0)/x < 0 and limx→0−Φ1(x, 0)/x < 0
+A β-isomorphism Φ is said to be direct if it satisﬁes (A), and it is said to be reverse if it
+satisﬁes (B).
+Proposition 6. Let Φ : (R2, 0) →(R2, 0) be a germ of semialgebraic bi-Lipschitz homeomor-
+phism. Suppose that there exist β-quasihomogeneous polynomials F(X, Y ) and G(X, Y ) of the
+same degree d ≥1 such that G ◦Φ = F. The following assertions are equivalent:
+i. Φ is a β-isomorphism
+ii. For any continuous semialgebraic path γ : [0, ǫ) →R2, if the initial velocity of γ is
+horizontal, then the initial velocity of ˜γ := Φ ◦γ is horizontal.
+Proof. First, we prove that (i) ⇒(ii). Suppose that Φ is a β-isomorphism.
+Take any continuous semialgebraic path γ : [0, ǫ) →R2 whose initial velocity is horizontal.
+Since the initial velocities of the paths α+, α−: [0, ǫ) →R2, given by α+(t) = (t, 0) and
+α−(t) = (−t, 0), are both horizontal and have opposite directions, the initial velocity of γ has
+either the same direction as the initial velocity of α+, or the same direction as the initial velocity
+of α−.
+By Corollary 2, this implies that the initial velocity of ˜γ := Φ ◦γ has either the same
+direction as the initial velocity of ˜α+ := Φ ◦α+, or the same direction as the initial velocity
+of ˜α−:= Φ ◦α−. In any case, the initial velocity of ˜γ is horizontal: by Proposition 5, the
+initial velocities of ˜α+ and ˜α−are both horizontal (and have opposite directions) because Φ is
+a β-isomorphism.
+Now, we prove that (ii) ⇒(i). Assume that condition (ii) is satisﬁed. We show that
+limx→0+ Φ1(x, 0)/x ̸= 0 and limx→0−Φ1(x, 0)/x ̸= 0.
+2We say that a vector (v1, v2) ∈R2 is horizontal if v1 ̸= 0 and v2 = 0.
+10
+Since the initial velocity of the path α+ is horizontal, it follows from our assumption that
+the initial velocity of the path ˜α+ = Φ ◦α+ is horizontal. Hence, limx→0+ Φ1(x, 0)/x ̸= 0.
+Similarly, since the initial velocity of the path α−is horizontal, it follows from our assumption
+that the initial velocity of the path ˜α−= Φ◦α−is horizontal. Hence, limx→0+ Φ1(−x, 0)/x ̸= 0.
+And since limx→0−Φ1(x, 0)/x = −limx→0+ Φ1(−x, 0)/x, we have limx→0−Φ1(x, 0)/x ̸= 0.
+■
+Let Φ and Ψ be β-isomorphisms of degree d. We say that Ψ is composable with Φ if there
+exist β-quasihomogeneous polynomials F(X, Y ), G(X, Y ), H(X, Y ) of the degree d such that
+H ◦Ψ = G and G ◦Φ = F.
+Proposition 7. Let Φ, Ψ : (R2, 0) →(R2, 0) be β-isomorphisms of degree d. If Ψ is composable
+with Φ, then Ψ ◦Φ is a β-isomorphism of degree d.
+Proof. Suppose that Ψ is composable with Φ. Then, there exist β-quasihomogeneous polyno-
+mials F(X, Y ), G(X, Y ), H(X, Y ) of the same degree d ≥1 such that H ◦Ψ = G and G◦Φ = F,
+so H ◦(Ψ◦Φ) = F. Now, take any continuous semialgebraic path γ : [0, ǫ) →R2 with horizontal
+initial velocity. Since Φ is a β-isomorphism, the initial velocity of the (continuous, semialge-
+braic) path ˜γ := Φ ◦γ is horizontal; and since Ψ is a β-isomorphism, the initial velocity of the
+(continuous, semialgebraic) path (Ψ ◦Φ) ◦γ = Ψ ◦˜γ is horizontal. By Proposition 6, Ψ ◦Φ is
+a β-isomorphism of degree d.
+■
+Proposition 8. The germ of the identity map I : (R2, 0) →(R2, 0) is a β-isomorphism of
+degree d, for each d ≥1.
+Proof. Fix any d ≥1.
+Clearly, there exist β-quasihomogeneous polynomials F(X, Y ) and
+G(X, Y ) of degree d such that G◦I = F: take any β-quasihomogeneous polynomial F(X, Y ) of
+degree d (for example, F(X, Y ) = Xd) and set G = F. Also, for any continuous semialgebraic
+path γ : [0, ǫ) →R2 whose initial velocity is horizontal, the initial velocity of ˜γ := Φ ◦γ is
+horizontal, because ˜γ = γ. By Proposition 6, I is β-isomorphism of degree d.
+■
+Proposition 9. Let Φ : (R2, 0) →(R2, 0) be a germ of semialgebraic bi-Lipschitz map. If Φ is
+a β-isomorphism of degree d then Φ−1 is a β-isomorphism of degree d.
+Proof. Since Φ is a β-isomorphism of degree d, there exist β-quasihomogeneous polynomials
+F(X, Y ), G(X, Y ) of degree d such that G ◦Φ = F. Hence, there exist β-quasihomogeneous
+polynomials ˜F(X, Y ), ˜G(X, Y ) of degree d such that ˜G ◦Φ−1 = ˜F: for example, take ˜G = F
+and ˜F = G. Now, we show that for any continuous semialgebraic path ˜γ : [0, ǫ) →R2 whose
+initial velocity is horizontal, the initial velocity of γ := Φ−1 ◦˜γ is horizontal. Fix one such path
+˜γ : [0, ǫ) →R2. Let α+, α−: [0, ǫ) →R2 be the (continuous semialgebraic) paths deﬁned by
+α+(t) = (t, 0) and α−(t) = (−t, 0). Since Φ is a β-isomorphism, the initial velocities of the
+paths ˜α+ := Φ ◦α+ and ˜α−:= Φ ◦α−are both horizontal and have opposite directions. So, the
+initial velocity of ˜γ (which is horizontal) has either the same direction as the initial velocity
+of ˜α+ or the same direction as the initial velocity of ˜α−. Since Φ is bi-Lipschitz, it follows
+that the initial velocity of γ = Φ−1 ◦˜γ has either the same direction as the initial velocity of
+α+ = Φ−1 ◦˜α+ or the same direction as the initial velocity of α−= Φ−1 ◦˜α−. In any case, the
+initial velocity of γ is horizontal. By Proposition 6, Φ−1 is β-isomorphism of degree d.
+■
+Remark 3. Every β-isomorphism is composable with its inverse.
+11
+Now, we proceed to the deﬁnition of the β-transform.
+Given a β-isomorphism Φ =
+(Φ1, Φ2) : (R2, 0) →(R2, 0), we deﬁne λ := (λ+, λ−) and φ := (φ+, φ−), where:
+λ+ := lim
+x→0+
+Φ1(x, 0)
+x
+,
+λ−:= lim
+x→0−
+Φ1(x, 0)
+x
+φ+(t) := |λ+|−β · lim
+x→0+
+Φ2(x, t |x|β)
+|x|β
+,
+φ−(t) := |λ−|−β · lim
+x→0−
+Φ2(x, t |x|β)
+|x|β
+We deﬁne the β-transform of Φ to be the ordered pair (λ, φ).
+From the deﬁnitions above, it follows that, for each t ∈R:
+Φ1(x, t |x|β) = λx + o(x)
+as x →0
+(7)
+Φ2(x, t |x|β) = |λ|β φ(t) |x|β + o(|x|β)
+as x →0
+(8)
+where
+(
+λ = λ+ and φ = φ+,
+if x > 0
+λ = λ−and φ = φ−,
+if x < 0 .
+Proposition 10. Let Φ = (Φ1, Φ2) and Ψ = (Ψ1, Ψ2) be β-isomorphisms of the same degree
+such that Ψ is composable with Φ, and let Z := Ψ ◦Φ. Let (λ, φ), (µ, ψ) be the β-transforms of
+Φ, Ψ, respectively. We have:
+i. Asympotic formula for Z1(x, 0).
+Z1(x, 0) = λµx + o(x) as x →0,
+(9)
+where
+(
+λ = λ+, µ = µ+,
+if x > 0
+λ = λ−, µ = µ−,
+if x < 0
+or
+(
+λ = λ+, µ = µ−,
+if x > 0
+λ = λ−, µ = µ+,
+if x < 0 ,
+according as Φ is direct or reverse, respectively.
+ii. Asympotic formula for Z2(x, t |x|β), with t ﬁxed.
+Z2(x, t |x|β) = |λµ|β ψ(φ(t)) |x|β + o(|x|β) as x →0,
+(10)
+where
+(
+λ = λ+, µ = µ+, φ = φ+, ψ = ψ+,
+if x > 0
+λ = λ−, µ = µ−, φ = φ−, ψ = ψ−,
+if x < 0
+or
+(
+λ = λ+, µ = µ−, φ = φ+, ψ = ψ−,
+if x > 0
+λ = λ−, µ = µ+, φ = φ−, ψ = ψ+,
+if x < 0 ,
+according as Φ is direct or reverse, respectively.
+Proof. By applying formula (7) successively to Φ and Ψ, we obtain:
+Z1(x, 0) = Ψ1(Φ(x, 0))
+= Ψ1(λx, |λ|β φ(0) |x|β) + o(x)
+= λµx + o(x)
+12
+Now, let t ∈R be ﬁxed. By deﬁnition,
+Z2(x, t |x|β) = Ψ2(˜x, Φ2(x, t |x|β)),
+where ˜x := Φ1(x, t |x|β).
+Applying (8) and (7) successively, we obtain:
+Φ2(x, t |x|β) = |λ|β φ(t) |x|β + o(|x|β)
+= φ(t) |˜x|β + o(|x|β)
+Thus,
+Ψ2(˜x, Φ2(x, t |x|β)) = Ψ2(˜x, φ(t) |˜x|β) + o(|x|β)
+= |µ|β ψ(φ(t)) |˜x|β + o(|x|β)
+= |λµ|β ψ(φ(t)) |x|β + o(|x|β) .
+■
+Corollary 3. Let Φ = (Φ1, Φ2) and Ψ = (Ψ1, Ψ2) be β-isomorphisms, and let Z := Ψ ◦Φ. Let
+(λ, φ), (µ, ψ), and (ν, ζ) be the β-transforms of Φ, Ψ, and Z, respectively. We have:
+(ν, ζ) =
+(
+((λ+µ+, λ−µ−), (ψ+ ◦φ+, ψ−◦φ−)) ,
+if Φ is direct
+((λ+µ−, λ−µ+), (ψ−◦φ+, ψ+ ◦φ−)) ,
+if Φ is reverse
+Proof. Dividing both sides of (9) by x and then successively letting x →0+ and x →0−, we
+obtain:
+(
+ν+ = λ+µ+ and ν−= λ−µ−,
+if Φ is direct
+ν+ = λ+µ−and ν−= λ−µ+,
+if Φ is reverse
+Thus, equation (10) can be rewritten as
+Z2(x, t |x|β) = |ν|β ψ(φ(t)) |x|β + o(|x|β) as x →0,
+(11)
+where
+(
+ν = ν+, φ = φ+, ψ = ψ+,
+if x > 0
+ν = ν−, φ = φ−, ψ = ψ−,
+if x < 0
+or
+(
+ν = ν+, φ = φ+, ψ = ψ−,
+if x > 0
+ν = ν−, φ = φ−, ψ = ψ+,
+if x < 0 ,
+according as Φ is direct or reverse, respectively.
+Dividing both sides of (11) by |x|β and then successively letting x →0+ and x →0−, we
+obtain:
+(
+ζ+ = ψ+ ◦φ+ and ζ−= ψ−◦φ−,
+if Φ is direct
+ζ+ = ψ−◦φ+ and ζ−= ψ+ ◦φ−,
+if Φ is reverse
+■
+Corollary 4. Let Φ : (R2, 0) →(R2, 0) be a β-isomorphism, and let (λ, φ) be the β-transform
+of Φ. The β-transform of Φ−1 is given by:
+( (λ−1
++ , λ−1
+−), (φ−1
++ , φ−1
+−)
+
+,
+if Φ is direct
+ (λ−1
+−, λ−1
++ ), (φ−1
+−, φ−1
++ )
+
+,
+if Φ is reverse
+13
+Proposition 11. Let Φ : (R2, 0) →(R2, 0) be a β-isomorphism, and let (λ, φ) be the β-
+transform of Φ. We have:
+(a) λ+ and λ−are nonzero real numbers and they have the same sign.
+(b) φ+ and φ−are both bi-Lipschitz functions.
+Proof. By Remark 1, the paths Φ(x, 0), 0 ≤x < ǫ, and Φ(−x, 0), 0 ≤x < ǫ, both have ﬁnite
+nonzero initial velocities, so λ+ = limx→0+ Φ1(x, 0)/x and λ−= limx→0−Φ1(x, 0)/x are both
+nonzero real numbers. As pointed out just after the proof of Proposition 5, λ+ and λ−have
+the same sign.
+By (8), for any ﬁxed t and t′, we have:
+φ+(t) −φ+(t′) = |λ+|−β · Φ2(x, t |x|β) −Φ2(x, t′ |x|β)
+|x|β
++ o(|x|β)
+|x|β ,
+as x →0+
+and
+φ−(t) −φ−(t′) = |λ−|−β · Φ2(x, t |x|β) −Φ2(x, t′ |x|β)
+|x|β
++ o(|x|β)
+|x|β ,
+as x →0−.
+On the other hand, since Φ2 is Lipschitz, there exists K > 0 (independent of x, t, t′) such
+that
+Φ2(x, t |x|β) −Φ2(x, t′ |x|β)
+ ≤K |t −t′| |x|β .
+Thus,
+|φ+(t) −φ+(t′)| ≤|λ+|−β K |t −t′| + o(|x|β)
+|x|β
+as x →0+
+and
+|φ−(t) −φ−(t′)| ≤|λ−|−β K |t −t′| + o(|x|β)
+|x|β
+as x →0−.
+By successively letting x →0+ and x →0−, we obtain:
+|φ+(t) −φ+(t′)| ≤|λ+|−β K |t −t′|
+and
+|φ−(t) −φ−(t′)| ≤|λ−|−β K |t −t′| .
+Therefore, φ+ and φ−are both Lipschitz functions.
+Up to this point, our argument shows that, for any β-isomorphism Φ, the functions φ+
+and φ−are both Lipschitz. By Corollary 4, this implies that φ−1
++ and φ−1
+−are both Lipschitz
+too.
+■
+5
+R-semialgebraic Lipschitz equivalence and height func-
+tions
+Two real β-quasihomogeneous polynomials F(X, Y ) and G(X, Y ) of degree d ≥1 are said to
+be R-semialgebraically Lipschitz equivalent if there exists a germ of semialgebraic bi-Lipschitz
+homeomorphism Φ : (R2, 0) →(R2, 0) such that G ◦Φ = F.
+With each β-quasihomogeneous polynomial F(X, Y ), we associate two polynomial func-
+tions: the right height function f+ : R →R, given by f+(t) := F(1, t), and the the left height
+function f−: R →R, given by f−(t) := F(−1, t).
+14
+In this section, we show that if any two β-quasihomogeneous polynomials of a certain
+special type are R-semialgebraically Lipschitz equivalent, then their height functions can be
+arranged in pairs of Lipschitz equivalent functions (Corollary 5).
+Proposition 12. Let F(X, Y ) and G(X, Y ) be β-quasihomogeneous polynomials of degree d ≥
+1. Suppose that G ◦Φ = F, for a certain β-isomorphism Φ : (R2, 0) →(R2, 0). Let f+, f−be
+the height functions of F, g+, g−the height functions of G, and let (λ, φ) be the β-transform of
+Φ. We have:
+(
+g+ ◦φ+ = |λ+|−d f+
+and
+g−◦φ−= |λ−|−d f−,
+if Φ is direct
+g−◦φ+ = |λ+|−d f+
+and
+g+ ◦φ−= |λ−|−d f−,
+if Φ is reverse
+Proof. By hypothesis, G(Φ(x, y)) = F(x, y). Thus, for all t ∈R and x ̸= 0 suﬃciently small,
+G(Φ(x, t |x|β)) = F(x, t |x|β) .
+Since F is β-quasihomogeneous, this implies that
+G(Φ(x, t |x|β)) = |x|d f(t),
+where
+f =
+(
+f+,
+if x > 0
+f−,
+if x < 0 .
+Multiplying both sides of this equation by |x|−d, we obtain:
+G
+ 
+Φ1(x, t |x|β)
+|x|
+, Φ2(x, t |x|β)
+|x|β
+!
+= f(t)
+Letting x →0+, it follows that
+G
+ 
+λ+, lim
+x→0+
+Φ2(x, t |x|β)
+|x|β
+!
+= f+(t) .
+Hence,
+g(φ+(t)) = |λ+|−d f+(t),
+(12)
+where
+g =
+(
+g+,
+if λ+ > 0
+g−,
+if λ+ < 0 .
+Similarly, letting x →0−, it follows that
+G
+ 
+−λ−, lim
+x→0−
+Φ2(x, t |x|β)
+|x|β
+!
+= f−(t) .
+Hence,
+g(φ−(t)) = |λ−|−d f−(t),
+(13)
+where
+g =
+(
+g−,
+if λ−> 0
+g+,
+if λ−< 0 .
+Clearly, equations (12) and (13) yield the result.
+■
+15
+Theorem 1. Let F(X, Y ) and G(X, Y ) be β-quasihomogeneous polynomials of degree d ≥1.
+Suppose that F and G are R-semialgebraically Lipschitz equivalent, and let Φ : (R2, 0) →(R2, 0)
+be a germ of semialgebraic bi-Lipschitz homeomorphism such that G ◦Φ = F.
+If V (F)∩{x > 0} ̸= ∅and V (F)∩{x < 0} ̸= ∅, then Φ is a β-isomorphism. Moreover,
+we have:
+(
+g+ ◦φ+ = |λ+|−d f+
+and
+g−◦φ−= |λ−|−d f−,
+if Φ is direct
+g+ ◦φ−= |λ−|−d f−
+and
+g−◦φ+ = |λ+|−d f+,
+if Φ is reverse
+,
+where f+, f−are the height functions of F, g+, g−are the height functions of G, and (λ, φ) is
+the β-transform of Φ.
+Proof. Suppose that V (F) ∩{x > 0} ̸= ∅and V (F) ∩{x < 0} ̸= ∅.
+Since
+V (F) ∩{x > 0} =
+[
+t∈f−1
++ (0)
+
+(x, txβ) : x > 0
+	
+,
+the condition V (F) ∩{x > 0} ̸= ∅implies that f −1
++ (0) ̸= ∅.
+Take t0 ∈R such that f+(t0) = 0. In the notation used in the proof of Proposition 4, we
+have:
+
+Φ2(x, t0 |x|β)
+|x|β
+ ≤1 + max
+
+cm−1
+cm
+ |˜x|r , . . . ,
+
+c1
+cm
+ |˜x|r(m−1) ,
+
+c0
+cm
+ |˜x|rm
+
+,
+for x > 0 suﬃciently small. Since limx→0+
+Φ1(x, t0 |x|β)/x
+ < ∞(this is guaranteed by Remark
+1 along with equation (3)), it follows that Φ2(x, t0 |x|β)/ |x|β is bounded, for x > 0 suﬃciently
+small.
+Similarly, the assumption that V (F) ∩{x < 0} ̸= ∅ensures the existence of t1 ∈R such
+that f−(t1) = 0 and then , by adapting the argument above, we can prove that Φ2(x, t1 |x|β)/ |x|β
+is bounded, for x < 0 suﬃciently small. By Proposition 4, it follows that Φ is a β-isomorphism.
+Now, the ﬁnal statement is an immediate consequence of Proposition 12.
+■
+Corollary 5. Let F(X, Y ) and G(X, Y ) be β-quasihomogeneous polynomials of degree d ≥
+1.
+Suppose that V (F) ∩{x > 0} ̸= ∅and V (F) ∩{x < 0} ̸= ∅. If F and G are R-
+semialgebraically Lipschitz equivalent, then
+(
+f+ ∼= g+ and f−∼= g−,
+if Φ is direct
+f+ ∼= g−and f−∼= g+,
+if Φ is reverse .
+6
+The group of proto-transitions
+Let R∗be the multiplicative group of all nonzero real numbers, and let L be the group of all
+bi-Lipschitz Nash diﬀeomorphisms on R. Let H := {(λ1, λ2) ∈R∗× R∗: λ1λ2 > 0} (considered
+as a subgroup of the direct product R∗× R∗), and let K := L × L (direct product). Deﬁne a
+binary operation on H × K by setting:
+(µ, ψ) ◦(λ, φ) :=
+(
+((λ1µ1, λ2µ2), (ψ1 ◦φ1, ψ2 ◦φ2)) ,
+if λ > 0
+((λ1µ2, λ2µ1), (ψ2 ◦φ1, ψ1 ◦φ2)) ,
+if λ < 0
+for all (λ, φ) = ((λ1, λ2), (φ1, φ2)) and (µ, ψ) = ((µ1, µ2), (ψ1, ψ2)), where λ > 0 means that
+λ1 > 0 and λ2 > 0, and λ < 0 means that λ1 < 0 and λ2 < 0.
+16
+Proposition 13. (H × K, ◦) is a group. We call it the group of proto-transitions.
+Proof. Let (H × K, ·) be the direct product of H and K, so that
+(µ, ψ) · (λ, φ) = ((λ1µ1, λ2µ2), (ψ1 ◦φ1, ψ2 ◦φ2)) .
+We express the operation ◦in terms of the operation · , and then we use this expression
+to show that (H × K, ◦) is a group.
+Let ι : H × K →H × K be the identity map and
+τ : H × K →H × K be given by τ((λ1, λ2), (φ1, φ2)) = ((λ2, λ1), (φ2, φ1)).
+Deﬁne θ : H →Aut(H × K) by
+θ(λ) :=
+(
+ι,
+if λ > 0
+τ,
+if λ < 0
+Clearly, θ is a group homomorphism.
+Let π : H × K →H be the projection homomorphism. Then, α := θ ◦π : H × K →
+Aut(H × K) is a group homomorphism such that:
+i. α ◦ϕ = α for all ϕ ∈Im α
+ii. Im α is an abelian subgroup of Aut(H × K)
+Also, we have:
+(µ, ψ) ◦(λ, φ) = (α(λ, φ)(µ, ψ)) · (λ, φ).
+Hence, the result follows from the following lemma.
+Lemma 5. Let (G, ·) be a group and let α : G →Aut(G) be a group homomorphism satisfying
+the following conditions:
+i. α ◦ϕ = α for all ϕ ∈Im α
+ii. Im α is an abelian subgroup of Aut(G)
+Deﬁne a new operation ◦on G by setting g ◦h := (α(h)(g)) · h. Then, (G, ◦) is a group.
+Proof of Lemma 5. First, we prove that the new operation is associative. For all g1, g2, g3 ∈G,
+we have:
+(g1 ◦g2) ◦g3 = (α(g2)(g1) · g2) ◦g3
+= α(g3) (α(g2)(g1) · g2) · g3
+= α(g3) (α(g2)(g1)) · α(g3)(g2) · g3
+(14)
+On the other hand,
+g1 ◦(g2 ◦g3) = g1 ◦(α(g3)(g2) · g3)
+= α(α(g3)(g2) · g3)(g1) · α(g3)(g2) · g3
+= α(α(g3)(g2))(α(g3)(g1)) · α(g3)(g2) · g3
+(i)= α(g2)(α(g3)(g1)) · α(g3)(g2) · g3
+(ii)
+= α(g3)(α(g2)(g1)) · α(g3)(g2) · g3
+(15)
+17
+From (14) and (15), it follows that (g1 ◦g2) ◦g3 = g1 ◦(g2 ◦g3).
+Now we prove that the identity element 1 of the group (G, ·) is also an identity element
+of G with respect to the operation ◦. In fact, for all g ∈G, we have:
+1 ◦g = α(g)(1) · g = 1 · g = g
+g ◦1 = α(1)(g) · 1 = id(g) = g
+Finally, we prove that each element g ∈G has an inverse with respect to the operation ◦.
+First, notice that for all g, h ∈G,
+h ◦g = 1 ⇔α(g)(h) · g = 1 ⇔α(g)(h) = g−1 ⇔h = α(g)−1(g−1) ⇔h = α(g−1)(g−1) .
+Thus, h = α(g−1)(g−1) is a left inverse of g with respect to the operation ◦. Let us show that
+h is also a right inverse of g. In fact,
+g ◦α(g−1)(g−1) = α(α(g−1)(g−1))(g) · α(g−1)(g−1)
+(i)= α(g−1)(g) · α(g−1)(g−1)
+= α(g−1)(g · g−1) = α(g−1)(1) = 1 .
+Hence, h = α(g−1)(g−1) is the inverse of g with respect to the operation ◦.
+■
+Now, we deﬁne a family of actions of the group of proto-transitions on the set Cω × Cω,
+where Cω is the set of all real analytic functions on R.
+Proposition 14. For each d ≥1, the map ◦: (Cω × Cω) × (H × K) →Cω × Cω deﬁned by
+(g1, g2) ◦(λ, φ) :=
+
+
+
+
+|λ1|d g1 ◦φ1, |λ2|d g2 ◦φ2
+
+,
+if
+λ > 0
+
+|λ1|d g2 ◦φ1, |λ2|d g1 ◦φ2
+
+,
+if
+λ < 0
+is an action of the group of proto-transitions on Cω × Cω.
+Proof. First, we notice that the map
+• : (Cω × Cω) × (H × K) →Cω × Cω given by
+(g1, g2) • (λ, φ) := (|λ1|d g1 ◦φ1, |λ2|d g2 ◦φ2)
+is an action of the direct product (H × K, ·) on Cω × Cω. In fact, we have:
+((g1, g2) • (µ, ψ)) • (λ, φ) = (|µ1|d g1 ◦ψ1, |µ2|d g2 ◦ψ2) • (λ, φ)
+= (|λ1|d |µ1|d (g1 ◦ψ1) ◦φ1, |λ2|d |µ2|d (g2 ◦ψ2) ◦φ2)
+= (|λ1µ1|d g1 ◦(ψ1 ◦φ1), |λ2µ2|d g2 ◦(ψ2 ◦φ2))
+= (g1, g2) • ((µ, ψ) · (λ, φ))
+and
+(g1, g2) • ((idR, idR), (1, 1)) = (|1|d g1 ◦idR, |1|d g2 ◦idR) = (g1, g2)
+Now, we express the map ◦in terms of the action
+• , and then we use this expression to
+show that the map ◦is an action of the group of proto-transitions on Cω × Cω.
+Denote by Bij(Cω×Cω) the group of all bijections on Cω×Cω. Let I : Cω×Cω →Cω×Cω
+be the identity map and T : Cω × Cω →Cω × Cω be given by T(g1, g2) = (g2, g1). Deﬁne
+Θ : H →Bij(Cω × Cω) by
+Θ(λ) :=
+(
+I,
+if
+λ > 0
+T,
+if
+λ < 0 .
+Clearly, Θ is a group homomorphism. Let π : H × K →H be the projection homomorphism.
+Then A := Θ ◦π : (H × K, ◦) →Bij(Cω × Cω) is a group homomorphism such that:
+18
+I. A(µ, ψ)((g1, g2) • (λ, φ)) = (A(µ, ψ)(g1, g2)) • α(µ, ψ)(λ, φ), where α = θ ◦π : H × K →
+Aut(H × K, ·) is the group homomorphism deﬁned in the proof of Proposition 13.
+II. Im A is an abelian subgroup of Bij(Cω × Cω).
+Also, we have:
+(g1, g2) ◦(λ, φ) = (A(λ, φ)(g1, g2)) • (λ, φ).
+Hence, the result follows from the following lemma.
+Lemma 6. Let us use the notation of the Lemma 5. Also, let X be a set,
+• : X × (G, ·) →X
+a group action, and A : (G, ◦) →Bij(X) a group homomorphism satisfying the following
+conditions:
+I. A(h)(x • g) = (A(h)(x)) • α(h)(g) for all x ∈X and g, h ∈G.
+II. Im A is an abelian subgroup of Bij(X).
+Then, the map ◦: X × (G, ◦) →X deﬁned by
+x ◦g := (A(g)(x)) • g
+is a group action.
+Proof of Lemma 6. For all x ∈X and g, h ∈G, we have:
+(x ◦g) ◦h = (A(h)(x ◦g)) • h = (A(h)((A(g)(x)) • g)) • h
+(I)
+= ((A(h)(A(g)(x))) • α(h)(g)) • h = ((A(h) ◦A(g))(x)) • (α(h)(g) · h)
+(II)
+= ((A(g) ◦A(h))(x)) • (α(h)(g) · h) = (A(g ◦h)(x)) • (g ◦h)
+= x ◦(g ◦h)
+Also, for all x ∈X,
+x ◦1 = (A(1)(x)) • 1 = A(1)(x) = idX(x) = x.
+■
+7
+β-transitions and the inverse β-transform
+Denote by P the set of all real polynomial functions on R. A proto-transition (λ, φ) is said to
+be a β-transition if the following conditions are satisﬁed:
+i. There exist pairs of nonconstant polynomial functions (f1, f2), (g1, g2) ∈P × P such that
+(g1, g2) ◦(λ, φ) = (f1, f2)
+ii. |λ1|β · lim
+|t|→∞
+φ1(t)
+t
+= |λ2|β · lim
+|t|→∞
+φ2(t)
+t
+Remark 4. The limits in (ii) are well-deﬁned. In fact, for any homeomorphism φ : R →R, if
+there exist nonconstant polynomial functions f, g : R →R such that g ◦φ = f, then the limit
+lim|t|→+∞φ(t)/t exists and is ﬁnite.
+19
+Remark 5. The identity element ((1, 1), (idR, idR)) of the group of the proto-transitions is a β-
+transition, which we call the identity β-transition, and the inverse (with respect to the operation
+◦) of a β-transition is a β-transition.
+Given a β-transition (λ, φ), we deﬁne a map Φ : R2 →R2 by setting:
+• Φ(x, t |x|β) :=
+
+λ1x, |λ1|β φ1(t) |x|β
+,
+for x > 0, t ∈R
+• Φ(x, t |x|β) :=
+
+λ2x, |λ2|β φ2(t) |x|β
+,
+for x < 0, t ∈R
+• Φ(0, y) :=
+
+0, |λ1|β
+lim
+|t|→+∞
+φ1(t)
+t
+y
+
+=
+
+0, |λ2|β
+lim
+|t|→+∞
+φ2(t)
+t
+y
+
+,
+for all y ∈R
+The inverse β-transform of (λ, φ) is the germ Φ : (R2, 0) →(R2, 0) determined by the map Φ.
+Lemma 7. Let φ, ψ : R →R be functions for which the limits lim|t|→+∞φ(t)/t and lim|t|→+∞ψ(t)/t
+exist and are nonzero. Then,
+lim
+|t|→+∞
+ψ(φ(t))
+t
+=
+lim
+|t|→+∞
+ψ(t)
+t
+·
+lim
+|t|→+∞
+φ(t)
+t
+.
+Proof. Since lim|t|→+∞|φ(t)/t| > 0, we have lim|t|→+∞|φ(t)| = +∞. Then,
+lim
+|t|→+∞
+ψ(t)
+t
+=
+lim
+|t|→+∞
+ψ(φ(t))
+φ(t)
+.
+Hence,
+lim
+|t|→+∞
+ψ(φ(t))
+t
+=
+lim
+|t|→+∞
+ψ(t)
+t
+·
+lim
+|t|→+∞
+φ(t)
+t
+.
+■
+Proposition 15. Let (λ, φ) and (µ, ψ) be β-transitions, let Φ and Ψ be their respective inverse
+β-transforms, and let Z be the inverse β-transform of (µ, ψ) ◦(λ, φ). Then, Z = Ψ ◦Φ.
+Proof. For all x > 0, t ∈R,
+Ψ(Φ(x, t |x|β)) = Ψ
+
+λ1x, |λ1|β φ1(t) |x|β
+=
+
+
+
+
+λ1µ1x, |λ1µ1|β ψ1(φ1(t)) |x|β
+,
+if λ > 0
+
+λ1µ2x, |λ1µ2|β ψ2(φ1(t)) |x|β
+,
+if λ < 0
+= Z(x, t |x|β) .
+For all x < 0, t ∈R,
+Ψ(Φ(x, t |x|β)) = Ψ
+
+λ2x, |λ2|β φ2(t) |x|β
+=
+
+
+
+
+λ2µ2x, |λ2µ2|β ψ2(φ2(t)) |x|β
+,
+if λ > 0
+
+λ2µ1x, |λ2µ1|β ψ1(φ2(t)) |x|β
+,
+if λ < 0
+= Z(x, t |x|β) .
+20
+Now, we prove that Z(0, y) = Ψ(Φ(0, y)), for all y ∈R. For λ > 0, we have:
+Z(0, y) =
+
+0, |λ1µ1|β ·
+lim
+|t|→+∞
+ψ1 ◦φ1(t)
+t
+· y
+
+=
+
+0, |λ1µ1|β ·
+lim
+|t|→+∞
+ψ1(t)
+t
+·
+lim
+|t|→+∞
+φ1(t)
+t
+· y
+
+=
+
+0,
+
+|µ1|β
+lim
+|t|→+∞
+ψ1(t)
+t
+
+·
+
+|λ1|β
+lim
+|t|→+∞
+φ1(t)
+t
+
+· y
+
+= Ψ(Φ(0, y)).
+And for λ < 0, we have:
+Z(0, y) =
+
+0, |λ1µ2|β ·
+lim
+|t|→+∞
+ψ2 ◦φ1(t)
+t
+· y
+
+=
+
+0, |λ1µ2|β ·
+lim
+|t|→+∞
+ψ2(t)
+t
+·
+lim
+|t|→+∞
+φ1(t)
+t
+· y
+
+=
+
+0,
+
+|µ2|β
+lim
+|t|→+∞
+ψ2(t)
+t
+
+·
+
+|λ1|β
+lim
+|t|→+∞
+φ1(t)
+t
+
+· y
+
+= Ψ(Φ(0, y)).
+■
+Proposition 16. The inverse β-transform of the identity β-transition is the germ of the identity
+map I : (R2, 0) →(R2, 0).
+Proof. Immediate from the deﬁnition.
+■
+Corollary 6. Let (λ, φ) be a β-transition and Φ its inverse β-transform. Then, the inverse
+β-transform of (λ, φ)−1 is Φ−1.
+Now, we prove that the inverse β-transform of a β-transition is a germ of bi-Lipschitz
+map.
+Lemma 8. Let φ : R →R be a bi-Lipschitz function such that g ◦φ = f for some nonconstant
+polynomial functions f, g : R →R, and let λ be a nonzero real number.
+Then, the map
+Φ : H →R2, deﬁned on the right half-plane H := {(x, y) ∈R2 : x > 0} by
+Φ(x, txβ) := (λx, |λ|β φ(t)xβ)
+for all x > 0 and t ∈R, is Lipschitz on the strip Hδ := {(x, y) ∈R2 : 0 < x < δ}, for each
+δ > 0.
+Proof. Let δ > 0 be ﬁxed. We prove that Φ is Lipschitz on both the upper half-strip Hδ∩{y > 0}
+and the lower half-strip Hδ ∩{y < 0}. Let us see that this implies the result. Assuming this
+claim, and using the fact that Φ is continuous, we see that there exists a constant C > 0 such
+that
+|Φ(x1, y1) −Φ(x2, y2)| ≤C |(x1, y1) −(x2, y2)| ,
+(16)
+whenever (x1, y1) and (x2, y2) both belong to Hδ ∩{y ≥0} or to Hδ ∩{y ≤0}. We show that
+(16) still holds for (x1, y1) ∈Hδ ∩{y ≥0} and (x2, y2) ∈Hδ ∩{y ≤0}. Let (¯x, 0) be the point
+at which the line segment whose endpoints are (x1, y1) and (x2, y2) intersects the x-axis. By
+our assumptions, we have:
+|Φ(x1, y1) −Φ(¯x, 0)| ≤C |(x1, y1) −(¯x, 0)|
+21
+and
+|Φ(¯x, 0) −Φ(x2, y2)| ≤C |(¯x, 0) −(x2, y2)| .
+Hence,
+|Φ(x1, y1) −Φ(x2, y2)| ≤|Φ(x1, y1) −Φ(¯x, 0)| + |Φ(¯x, 0) −Φ(x2, y2)|
+≤C (|(x1, y1) −(¯x, 0)| + |(¯x, 0) −(x2, y2)|)
+= C |(x1, y1) −(x2, y2)| ,
+where the last equality holds because the point (¯x, 0) lies in the segment whose endpoints are
+(x1, y1) and (x2, y2). Therefore, our initial claim implies that Φ is Lipschitz on the strip Hδ.
+In order to establish our initial claim, we ﬁrst show that for each ﬁxed pair of points
+(x1, t1xβ
+1) and (x2, t2xβ
+2), either both on Hδ ∩{y > 0} or both on Hδ ∩{y < 0}, with x1 ̸= x2
+and t1 ̸= t2, there exist ω between x1 and x2, and τ between t1 and t2 such that
+φ(t2)xβ
+2 −φ(t1)xβ
+1 = (φ(τ) −τφ′(τ)) · βωβ−1 · (x2 −x1) + φ(t2) −φ(t1)
+t2 −t1
+· (t2xβ
+2 −t1xβ
+1)
+(17)
+In fact,
+φ(t2)xβ
+2 −φ(t1)xβ
+1 = (φ(t1) + q · (t2 −t1))xβ
+2 −φ(t1)xβ
+1, where q = φ(t2) −φ(t1)
+t2 −t1
+= φ(t1) · (xβ
+2 −xβ
+1) + q · (t2xβ
+2 −t1xβ
+2)
+= φ(t1) · (xβ
+2 −xβ
+1) + q · (t2xβ
+2 −t1xβ
+1) + q · t1 · (xβ
+1 −xβ
+2)
+= (φ(t1) −q · t1) · (xβ
+2 −xβ
+1) + q · (t2xβ
+2 −t1xβ
+1)
+= t2φ(t1) −t1φ(t2)
+t2 −t1
+· (xβ
+2 −xβ
+1) + φ(t2) −φ(t1)
+t2 −t1
+· (t2xβ
+2 −t1xβ
+1)
+(18)
+Since the points (x1, t1xβ
+1) and (x2, t2xβ
+2) are either both on Hδ ∩{y > 0} or both on
+Hδ ∩{y < 0}, the real numbers t1, t2 are either both positive or both negative. Thus, by
+Pompeiu’s Mean Value Theorem [3, p. 1 – 2], there exists a real number τ between t1 and t2
+such that
+t2φ(t1) −t1φ(t2)
+t2 −t1
+= φ(τ) −τφ′(τ).
+(19)
+Also, by Lagrange’s Mean Value Theorem, there exists a real number ω between x1 and
+x2 such that
+xβ
+2 −xβ
+1 = βωβ−1 · (x2 −x1).
+(20)
+Substituting (19) and (20) in (18), we obtain (17).
+Now, since φ is Lipschitz, there exists a constant C1 > 0 such that
+
+φ(t2) −φ(t1)
+t2 −t1
+ ≤C1,
+for t1 ̸= t2. On the other hand, since φ(t) −tφ′(t) is bounded (see next section), there exists a
+constant C2 > 0 such that
+(τφ′(τ) −φ(τ)) · βωβ−1 ≤C2,
+provided that 0 < x1, x2 < δ.
+Applying these bounds to (17), we obtain:
+φ(t2)xβ
+2 −φ(t1)xβ
+1
+ ≤C ·
+
+|x2 −x1| +
+t2xβ
+2 −t1xβ
+1
+
+
+,
+where C = max{C1, C2}, for any pair of points (x1, t1xβ
+1) and (x2, t2xβ
+2), either both on Hδ ∩
+{y > 0} or both on Hδ ∩{y < 0}, thereby proving our initial claim.
+■
+22
+Corollary 7. Let (λ, φ) be a β-transition, and let Φ : R2 →R2 be the map deﬁned by:
+• Φ(x, t |x|β) :=
+
+λ1x, |λ1|β φ1(t) |x|β
+,
+for x > 0, t ∈R
+• Φ(x, t |x|β) :=
+
+λ2x, |λ2|β φ2(t) |x|β
+,
+for x < 0, t ∈R
+• Φ(0, y) :=
+
+0, |λ1|β
+lim
+|t|→+∞
+φ1(t)
+t
+y
+
+=
+
+0, |λ2|β
+lim
+|t|→+∞
+φ2(t)
+t
+y
+
+,
+for all y ∈R
+Then, there exist δ > 0 such that Φ is Lipschitz on the strip {(x, y) ∈R2 : |x| < δ}.
+Proof. By Lemma 8, there exist C+ > 0 and δ+ > 0 such that Φ|Hδ+ : Hδ+ →R2 is C+-
+Lipschitz. Since Φ|Hδ+ is uniformly continuous and takes values in R2 (which is a complete
+metric space), it has a unique continuous extension eΦ to e
+Hδ+ := {(x, y) ∈R2 : 0 ≤x < δ+}.
+Let us show that eΦ = Φ| e
+Hδ+. Obviously, eΦ(x, y) = Φ(x, y) for all (x, y) ∈Hδ+. And for all
+y ∈R, we have:
+eΦ(0, y) = lim
+x→0+ Φ(x, y)
+= lim
+x→0+
+
+λ1x, |λ1|β · φ1(t)
+t
+· y
+
+,
+where t = y
+xβ
+=
+
+0, |λ1|β ·
+lim
+|t|→+∞
+φ1(t)
+t
+· y
+
+= Φ(0, y).
+Hence, Φ| e
+Hδ+ is the continuous extension of Φ|Hδ+ to e
+Hδ+. And since Φ|Hδ+ is C+-Lipschitz, it
+follows that Φ| e
+Hδ+ is C+-Lipschitz too.
+Similarly, we can prove that there exist C−> 0 and δ−> 0 such that Φ|−e
+Hδ−: −e
+Hδ−→R2
+is C−-Lipschitz.
+Therefore, Φ is C-Lipschitz on the strip {(x, y) ∈R2 : |x| < δ}, where
+C = max{C+, C−} and δ = min{δ+, δ−}.
+■
+Corollary 8. The inverse β-transform Φ : (R2, 0) →(R2, 0) of every β-transition (λ, φ) is a
+germ of semialgebraic bi-Lipschitz map.
+Proof. Since φ1 and φ2 are both semialgebraic functions, it is immediate from the deﬁnition of
+the inverse β-transform that Φ is a germ of semialgebraic map. And by Corollary 7, both Φ
+and Φ−1 (which is the inverse β-transform of (λ, φ)−1, by Corollary 6) are germs of Lipschitz
+maps. Hence the result.
+■
+Proposition 17. Let F, G ∈R[X, Y ] be β-quasihomogeneous polynomials of degree d ≥1,
+and let f+, f−be the height functions of F and g+, g−the height functions of G. Suppose that
+(g+, g−) ◦(λ, φ) = (f+, f−) for some β-transition (λ, φ). Then, G ◦Φ = F, where Φ is the
+inverse β-transform of (λ, φ).
+Proof. First, we show that
+G(λ1, |λ1|β φ1(t)) = F(1, t)
+and
+G(−λ2, |λ2|β φ2(t)) = F(−1, t).
+(21)
+We consider separately the cases λ > 0 and λ < 0.
+23
+If λ > 0, we have
+|λ1|d · g+ ◦φ1 = f+
+and
+|λ2|d · g−◦φ2 = f−.
+Equivalently,
+|λ1|d · G(1, φ1(t)) = F(1, t)
+and
+|λ2|d · G(−1, φ2(t)) = F(−1, t).
+Thus, using the fact that the polynomials F and G are β-quasihomogeneous of degree d, we
+obtain (21).
+If λ < 0, we have
+|λ1|d · g−◦φ1 = f+
+and
+|λ2|d · g+ ◦φ2 = f−.
+Equivalently,
+|λ1|d · G(−1, φ1(t)) = F(1, t)
+and
+|λ2|d · G(1, φ2(t)) = F(−1, t).
+Again, using the fact that the polynomials F and G are β-quasihomogeneous of degree d, we
+obtain (21).
+Now, by using once more the fact that the polynomials F and G are β-quasihomogeneous
+of degree d, we obtain from (21):
+G(λ1x, |λ1|β φ1(t) |x|β) = F(x, t |x|β)
+for x > 0, t ∈R
+and
+G(λ2x, |λ2|β φ2(t) |x|β) = F(x, t |x|β)
+for x < 0, t ∈R.
+In other words,
+G(Φ(x, y)) = F(x, y)
+for all (x, y) ∈R2, with x ̸= 0.
+Since Φ is continuous3, we have G(Φ(x, y)) = F(x, y) for all (x, y) ∈R2.
+■
+8
+The boundedness of φ(t) −tφ′(t)
+Let φ : R →R be a bi-Lipschitz function such that g ◦φ = f for some nonconstant polynomials
+f, g : R →R. We already know that φ is bi-analytic (Lemma 2). In this section, we prove that
+the function φ(t) −tφ′(t) is bounded.4
+Consider the function bφ : R∗∪{∞} →R deﬁned by
+bφ(t) :=
+(
+φ(t)/t,
+if t ∈R∗
+lim|t|→+∞φ(t)/t,
+if t = ∞
+By Lemma 1, bφ is a well-deﬁned continuous function. We prove that bφ is analytic at ∞. As a
+consequence, we obtain the boundedness of φ(t) −tφ′(t).
+3Clearly, Φ is continuous on the right half-plane {(x, y) ∈R2 : x > 0} and also on the left half-plane
+{(x, y) ∈R2 : x < 0}. By Corollary 7, Φ is Lipschitz (and therefore continuous) on a strip {(x, y) ∈R2 : |x| < δ}.
+Since the right half-plane, the left half-plane, and the strip around the y-axis form an open cover of the plane,
+it follows that Φ is continuous.
+4The approach taken here was suggested by Prof. Maria Michalska.
+24
+In order to do this, we consider the coordinate representation of bφ on the chart centered
+at ∞, which is the function ψ : R →R given by
+ψ(t) :=
+(
+tφ(t−1),
+if t ∈R \ {0}
+lim|t|→+∞φ(t)/t,
+if t = 0
+.
+Claim. ψ is analytic.
+Proof. Clearly, ψ is analytic at every point t ∈R \ {0}, so we focus on proving the analiticity
+of ψ at t = 0. Let P(X, Y ) := g(Y ) −f(X) and let P ∗(X, Y, Z) be the homogeneization of P.
+Also, let f(t) = Pd
+i=0 aiti and g(t) = Pd
+i=0 biti, where ad, bd ̸= 0 and d ≥1, so
+P(X, Y ) =
+d
+X
+i=0
+biY i −
+d
+X
+i=0
+aiXi
+and
+P ∗(X, Y, Z) =
+d
+X
+i=0
+biY iZd−i −
+d
+X
+i=0
+aiXiZd−i.
+Since g(φ(t)) = f(t), we have P(t, φ(t)) = 0 for all t ∈R. Equivalently, P ∗(t, φ(t), 1) = 0
+for all t ∈R. Since P ∗is homogeneous, it follows that P ∗(1, φ(t)/t, 1/t) = 0 for all t ∈R \ {0}.
+Equivalently,
+P ∗(1, tφ(t−1), t) = 0
+for all t ∈R \ {0}.
+Let eP(Y, Z) := P ∗(1, Y, Z). From the computations above, it follows that
+eP(ψ(t), t) = 0
+for all t ∈R.
+Now we prove that the equation eP(y, z) = 0 determines y as an analytic function of z in a
+neighborhood of (l, 0), where l := lim|t|→+∞φ(t)/t. This will give the desired conclusion.
+The partial derivatives of eP at (y, 0) are given by
+∂eP
+∂y (y, 0) = d · bd · yd−1
+and
+∂eP
+∂z (y, 0) = bd−1 · yd−1 −ad−1.
+Since eP(l, 0) = 0 and ∂eP
+∂y (l, 0) = d·bd·ld−1 ̸= 0 (by Lemma 1, we have l ̸= 0), there is an analytic
+function eψ : I →J from an open interval I containing 0 to an open interval J containing l
+such that
+eP(y, z) = 0 ⇔y = eψ(z),
+for all y ∈J, z ∈I.
+Since ψ is continuous and ψ(0) = l, there exists an open interval I0 ⊆I containing 0 such that
+ψ(t) ∈J for all t ∈I0. And since eP(ψ(t), t) = 0 for all t ∈I0, it follows that ψ(t) = eψ(t) for all
+t ∈I0. Hence, ψ is analytic at t = 0.
+■
+Finally, we can prove that the function φ(t) −tφ′(t) is bounded. From the deﬁnition of
+ψ, we see that
+φ(t)
+t
+= ψ(t−1)
+for all t ∈R \ {0}.
+Diﬀerentiating both sides of this equation, we get
+φ′(t) · t −φ(t)
+t2
+= −ψ′(t−1)
+t2
+for all t ∈R \ {0}.
+25
+Equivalently, we have
+φ(t) −tφ′(t) = ψ′(t−1)
+for all t ∈R \ {0}.
+Hence,
+lim
+|t|→+∞φ(t) −tφ′(t) = ψ′(0).
+Since the function φ(t)−tφ′(t) is continuous on R, the existence of this limit implies its bound-
+edness.
+9
+A characterization of β-transitions
+Let F, G ∈R[X, Y ] be β-quasihomogeneous polynomials of degree d ≥1, and let f+, f−be the
+height functions of F and g+, g−the height functions of G. Suppose that (g+, g−) ◦(λ, φ) =
+(f+, f−) for some proto-transition (λ, φ). We are interested in determining when (λ, φ) can be
+chosen among the β-transitions.
+Denote by eF the multiplicity of X as a factor of F (in R[X, Y ]), and by eG the multiplicity
+of X as a factor of G. Then F(X, Y ) = XeF · eF(X, Y ) and G(X, Y ) = XeG · eG(X, Y ), where
+X ∤eF(X, Y ) and X ∤eG(X, Y ).
+Claim 1. eF = eG
+Proof. Let β = r/s, where r > s > 0 and gcd(r, s) = 1. Since F and G are β-quasihomogeneous
+polynomials of degree d, we have:
+F(X, Y ) =
+m
+X
+k=0
+akXd−rkY sk
+and
+G(X, Y ) =
+n
+X
+k=0
+bkXd−rkY sk,
+where am ̸= 0, bn ̸= 0, and 0 ≤m, n ≤⌊d/r⌋. Then, eF = d −rm and eG = d −rn.
+We prove that m = n; by the equations above, this implies that eF = eG. Since f+(t) =
+Pm
+k=0 aktsk and f−(t) = Pm
+k=0(−1)d−rkaktsk, we have deg f+ = deg f−= sm; and since g+(t) =
+Pn
+k=0 bktsk and g−(t) = Pn
+k=0(−1)d−rkbktsk, we have deg g+ = deg g−= sn. Thus, since f+
+and f−are Lipschitz equivalent to g+ and g−in some order (by assumption, (g+, g−) ◦(λ, φ) =
+(f+, f−) for some proto-transition (λ, φ)), it follows that sm = sn. Therefore, m = n.
+■
+From now on, we drop the subscript and denote simply by e the multiplicity of X as a
+factor of either F or G.
+Claim 2. For all t > 0, we have:
+eF(tX, tβY ) = td−e eF(X, Y )
+and
+eG(tX, tβY ) = td−e eG(X, Y )
+Proof. Since F is a β-quasihomogeneous polynomial of degree d,
+F(tX, tβY ) = tdF(X, Y )
+= tdXe eF(X, Y ).
+On the other hand, since the multiplicity of X as a factor of F is equal to e,
+F(tX, tβY ) = (tX)e eF(tX, tβY )
+= teXe eF(tX, tβY ).
+26
+Hence,
+teXe eF(tX, tβY ) = tdXe eF(X, Y ).
+Therefore,
+eF(tX, tβY ) = td−e eF(X, Y ).
+Obviously, the deduction above with F replaced by G yields the other equation.
+■
+Let us brieﬂy consider the case where e = d. In this case, we have F = aXd and G = bXd,
+with a, b ̸= 0. The next proposition tells us how to determine whether any two such polynomials
+are R-semialgebraically Lipschitz equivalent.
+Proposition 18. Let F(X, Y ) = aXd and G(X, Y ) = bXd, where a, b ∈R \ {0} and d ≥1.
+i. If d is even, then F and G are R-semialgebraically Lipschitz equivalent if and only if a
+and b have the same sign.
+ii. If d is odd, then F and G are R-semialgebraically Lipschitz equivalent.
+Proof. (i) Suppose that d is even. If there exists a germ of semialgebraic bi-Lipschitz homeo-
+morphism Φ : (R2, 0) →(R2, 0) such that G ◦Φ = F then b · Φ1(x, y)d = axd in a neighborhood
+of the origin, which implies that a and b have the same sign, since d is even. Now, assuming
+that a and b have the same sign, we have G ◦Φ = F, Φ(x, y) =
+a
+b
+
+1
+d · x, y
+
+.
+(ii) If d is odd, then G ◦Φ = F, Φ(x, y) =
+  a
+b
+ 1
+d · x, y
+
+.
+■
+Since our goal is ultimately to determine whether any two given β-quasihomogeneous
+polynomials are R-semialgebraically Lipschitz equivalent, from now on we focus on the case
+where e < d.
+Claim 3. If e < d, then
+|λ1|
+dβ
+d−e ·
+lim
+|t|→+∞
+
+φ1(t)
+t
+ = |λ2|
+dβ
+d−e ·
+lim
+|t|→+∞
+
+φ2(t)
+t
+ .
+Proof. Throughout this proof, we assume that t > 0. First, we consider the case where λ > 0.
+In this case, we have
+|λ1|d · g+ ◦φ1 = f+
+and
+|λ2|d · g−◦φ2 = f−.
+Notice that
+|λ1|d · g+(φ1(t)) = f+(t) ⇒|λ1|d · G(1, φ1(t)) = F(1, t)
+⇒|λ1|d · eG(1, φ1(t)) = eF(1, t)
+⇒|λ1|d · eG
+
+t−1
+β , φ1(t)
+t
+
+= eF
+
+t−1
+β , 1
+
+.
+In the last implication, we used the fact that eF and eG are β-quasihomogeneous of the same
+degree (Claim 2). Letting t →+∞, we obtain:
+|λ1|d · eG
+
+0, lim
+|t|→+∞
+φ1(t)
+t
+
+= eF(0, 1)
+27
+Thus, by Claim 2,
+eG
+
+0, |λ1|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ1(t)
+t
+
+= eF(0, 1).
+(22)
+Similarly,
+|λ2|d · g−(φ2(t)) = f−(t) ⇒|λ2|d · G(−1, φ2(t)) = F(−1, t)
+⇒|λ2|d · eG(−1, φ2(t)) = eF(−1, t)
+⇒|λ2|d · eG
+
+−t−1
+β , φ2(t)
+t
+
+= eF
+
+−t−1
+β , 1
+
+.
+Letting t →+∞, we obtain:
+|λ2|d · eG
+
+0, lim
+|t|→+∞
+φ2(t)
+t
+
+= eF(0, 1)
+Thus, by Claim 2,
+eG
+
+0, |λ2|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ2(t)
+t
+
+= eF(0, 1).
+(23)
+From (22) and (23), we obtain:
+eG
+
+0, |λ1|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ1(t)
+t
+
+= eG
+
+0, |λ2|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ2(t)
+t
+
+.
+Since eG(X, Y ) = Pn
+k=0 bkXr(n−k)Y sk, it follows that
+bn ·
+
+|λ1|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ1(t)
+t
+sn
+= bn ·
+
+|λ2|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ2(t)
+t
+sn
+.
+Hence,
+|λ1|
+dβ
+d−e ·
+lim
+|t|→+∞
+
+φ1(t)
+t
+ = |λ2|
+dβ
+d−e ·
+lim
+|t|→+∞
+
+φ2(t)
+t
+ .
+Now, we consider the case where λ < 0. In this case, we have
+|λ1|d · g−◦φ1 = f+
+and
+|λ2|d · g+ ◦φ2 = f−.
+Notice that
+|λ1|d · g−(φ1(t)) = f+(t) ⇒|λ1|d · G(−1, φ1(t)) = F(1, t)
+⇒|λ1|d · (−1)e · eG(−1, φ1(t)) = eF(1, t)
+⇒|λ+|d · (−1)e · eG
+
+−t−1
+β , φ1(t)
+t
+
+= eF
+
+t−1
+β , 1
+
+.
+Letting t →+∞, we obtain:
+|λ1|d · (−1)e · eG
+
+0, lim
+|t|→+∞
+φ1(t)
+t
+
+= eF(0, 1)
+Thus, by Claim 2,
+eG
+
+0, |λ1|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ1(t)
+t
+
+= (−1)e · eF(0, 1).
+(24)
+28
+Similarly,
+|λ2|d · g+(φ2(t)) = f−(t) ⇒|λ2|d · G(1, φ2(t)) = F(−1, t)
+⇒|λ2|d · eG(1, φ2(t)) = (−1)e · eF(−1, t)
+⇒|λ2|d · eG
+
+−t−1
+β , φ2(t)
+t
+
+= (−1)e · eF
+
+−t−1
+β , 1
+
+.
+Letting t →+∞, we obtain:
+|λ2|d · eG
+
+0, lim
+|t|→+∞
+φ2(t)
+t
+
+= (−1)e · eF(0, 1)
+Thus, by Claim 2,
+eG
+
+0, |λ2|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ2(t)
+t
+
+= (−1)e · eF(0, 1).
+(25)
+From (24) and (25), we obtain:
+eG
+
+0, |λ1|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ1(t)
+t
+
+= eG
+
+0, |λ2|
+dβ
+d−e ·
+lim
+|t|→+∞
+φ2(t)
+t
+
+.
+Then, it follows that
+|λ1|
+dβ
+d−e ·
+lim
+|t|→+∞
+
+φ1(t)
+t
+ = |λ2|
+dβ
+d−e ·
+lim
+|t|→+∞
+
+φ2(t)
+t
+ .
+■
+Proposition 19. Let F, G ∈R[X, Y ] be β-quasihomogeneous polynomials of degree d ≥1,
+none of which being of the form cXd, and let f+, f−be the height functions of F and g+, g−
+the height functions of G. Suppose that (g+, g−) ◦(λ, φ) = (f+, f−) for some proto-transition
+(λ, φ). Then (λ, φ) is a β-transition if and only if the following conditions hold:
+i. φ1 and φ2 are coherent (i.e. they are either both increasing or both decreasing)
+ii. None of the polynomials F, G has X as a factor, or λ1 = λ2.
+Proof. First, suppose that (λ, φ) is a β-transition. Then, we have
+|λ1|β ·
+lim
+|t|→+∞
+φ1(t)
+t
+= |λ2|β ·
+lim
+|t|→+∞
+φ2(t)
+t
+.
+(26)
+Since |λ1| > 0 and |λ2| > 0, it follows that lim|t|→+∞φ1(t)/t and lim|t|→+∞φ2(t)/t have the
+same sign. And since φ1 and φ2 are monotonic, this implies that they are coherent. Hence,
+condition (i) is satisﬁed.
+Since (g+, g−) ◦(λ, φ) = (f+, f−), where (λ, φ) is a proto-transition, the multiplicity of X
+as a factor of F is equal to the multiplicity of X as a factor of G (Claim 1). Let us denote by e
+the multiplicity of X both as a factor of F and as a factor of G. Since none of the polynomials
+F, G is of the form cXd, we have e < d. So, by Claim 3,
+|λ1|
+dβ
+d−e
+lim
+|t|→+∞
+
+φ1(t)
+t
+ = |λ2|
+dβ
+d−e
+lim
+|t|→+∞
+
+φ2(t)
+t
+ .
+(27)
+29
+Since the limits lim|t|→+∞φ1(t)/t and lim|t|→+∞φ2(t)/t have the same sign, it follows that
+|λ1|
+dβ
+d−e
+lim
+|t|→+∞
+φ1(t)
+t
+= |λ2|
+dβ
+d−e
+lim
+|t|→+∞
+φ2(t)
+t
+.
+(28)
+Since the limits lim|t|→+∞φ1(t)/t and lim|t|→+∞φ2(t)/t are both nonzero (because φ1 and
+φ2 are bi-Lipschitz), it follows from equations (26) and (28) that
+|λ1|
+dβ
+d−e
+|λ1|β
+= |λ2|
+dβ
+d−e
+|λ2|β .
+(29)
+Equivalently,
+|λ1|
+eβ
+d−e = |λ2|
+eβ
+d−e .
+(30)
+Furthermore, this equality holds if and only if e = 0 or |λ1| = |λ2|. And since λ1 and λ2 have
+the same sign, this is equivalent to condition (ii). Since (30) actually holds, condition (ii) is
+satisﬁed.
+Now, in order to prove the converse, suppose that conditions (i) and (ii) hold. Since
+(g+, g−) ◦(λ, φ) = (f+, f−), where (λ, φ) is a proto-transition, (27) still holds for this part of
+the argument. Thus, condition (i) implies (28). On the other hand, as we have just proved,
+condition (ii) is equivalent to (29). Since we are assuming that condition (ii) is satisﬁed, (29)
+holds. From (28) and (29), we obtain (26). Therefore, (λ, φ) is a β-transition.
+■
+Corollary 9. Let F, G ∈R[X, Y ] be β-quasihomogeneous polynomials of degree d ≥1, none
+of which being of the form cXd, and let f+, f−be the height functions of F and g+, g−the
+height functions of G. Also, let β = r/s, where r > s > 0 and gcd(r, s) = 1. Suppose that
+(g+, g−) ◦(λ, φ) = (f+, f−) for some proto-transition (λ, φ). Then, we have:
+(a) If r is even or s is odd, then there exists a β-transition (˜λ, ˜φ) such that (g+, g−)◦(˜λ, ˜φ) =
+(f+, f−).
+(b) If s is even, then there exists ˜φ = (˜φ1, ˜φ2), with ˜φ1 and ˜φ2 coherent, such that (g+, g−) ◦
+(λ, ˜φ) = (f+, f−).
+Proof. Let F(X, Y ) = Pn
+k=0 akXd−rkY sk and G(X, Y ) = Pn
+k=0 bkXd−rkY sk, with an, bn ̸= 0,
+n ≥1. (In the proof of Claim 1 we showed that the upper limit of summation n is the same
+for F and G, provided that (g+, g−) ◦(λ, φ) = (f+, f−) for some proto-transition (λ, φ). Also,
+we have n ≥1 because none of the polynomials F, G is of the form cXd.) Now, we proceed to
+the proof of items (a) and (b).
+(a) Case 1. r is even
+In this case, we have f−(t) = (−1)d · f+(t) and g−(t) = (−1)d · g+(t). In fact,
+f−(t) =
+n
+X
+k=0
+ak · (−1)d−rk · tsk = (−1)d ·
+n
+X
+k=0
+aktsk = (−1)d · f+(t).
+The same reasoning, with f replaced by g, gives the other equation.
+By hypothesis, there exists a proto-transition (λ, φ) such that (g+, g−) ◦(λ, φ) = (f+, f−).
+We claim that (g+, g−) ◦(˜λ, ˜φ) = (f+, f−), where ˜λ = (λ1, λ1) and ˜φ = (φ1, φ1). In fact,
+if λ > 0 then |λ1|d · g+ ◦φ1 = f+ and hence
+|λ1|d · g−(φ1(t)) = (−1)d · |λ1|d · g+(φ1(t)) = (−1)d · f+(t) = f−(t),
+30
+so we also have |λ1|d · g−◦φ1 = f−. If λ < 0 then |λ1|d · g−◦φ1 = f+ and hence
+|λ1|d · g+(φ1(t)) = (−1)d · |λ1|d · g−(φ1(t)) = (−1)d · f+(t) = f−(t),
+so we also have |λ1|d · g+ ◦φ1 = f−. By Proposition 19, (˜λ, ˜φ) is a β-transform.
+Case 2. r and s are both odd
+In this case, we have f−(t) = (−1)d · f+(−t) and g−(t) = (−1)d · g+(−t). In fact,
+f−(t) =
+n
+X
+k=0
+(−1)d−rk · ak · tsk = (−1)d ·
+n
+X
+k=0
+(−1)kaktsk = (−1)d · f+(−t).
+The same reasoning, with f replaced by g, gives the other equation.
+By hypothesis, there exists a proto-transition (λ, φ) such that (g+, g−) ◦(λ, φ) = (f+, f−).
+We claim that (g+, g−)◦(˜λ, ˜φ) = (f+, f−), where ˜λ = (λ1, λ1) and ˜φ(t) = (φ1(t), −φ1(−t)).
+In fact, if λ > 0 then |λ1|d · g+ ◦φ1 = f+ and hence
+|λ1|d · g−(−φ1(−t)) = (−1)d · |λ1|d · g+(φ1(−t)) = (−1)d · f+(−t) = f−(t),
+so we also have |λ1|d · g−(−φ1(−t)) = f−(t). If λ < 0 then |λ1|d · g−◦φ1 = f+ and hence
+|λ1|d · g+(−φ1(−t)) = (−1)d · |λ1|d · g−(φ1(−t)) = (−1)d · f+(−t) = f−(t),
+so we also have |λ1|d · g+(−φ1(−t)) = f−(t). By Proposition 19, (˜λ, ˜φ) is a β-transform.
+(b) Suppose that s is even. Then, we have g+(−t) = g+(t) and g−(−t) = g−(t). In fact,
+g+(−t) =
+n
+X
+k=0
+bk(−t)sk =
+n
+X
+k=0
+bktsk = g+(t)
+and
+g−(−t) =
+n
+X
+k=0
+(−1)d−rk · bk(−t)sk =
+n
+X
+k=0
+(−1)d−rk · bktsk = g−(t).
+By hypothesis, there exist a proto-transition (λ, φ) such that (g+, g−) ◦(λ, φ) = (f+, f−).
+We claim that (g+, g−) ◦(λ, φ) = (f+, f−), where φ = (φ1, −φ2). In fact, if λ > 0 then
+|λ2|d · g−◦φ2 = f−and hence |λ2|d · g−◦(−φ2) = f−(because g−is an even function). If
+λ < 0 then |λ2|d · g+ ◦φ2 = f−and hence |λ2|d · g+ ◦(−φ2) = f−(because g+ is an even
+function).
+Finally, notice that φ1 is coherent with either φ2 or −φ2. If φ1 and φ2 are coherent, we
+take ˜φ = φ. If φ1 and −φ2 are coherent, we take ˜φ = φ.
+■
+Theorem 2. Let F, G be β-quasihomogeneous polynomials of degree d ≥1, none of which being
+of the form cXd, and let f+, f−be the height functions of F and g+, g−the height functions of G.
+Also, let β = r/s, where r > s > 0 and gcd(r, s) = 1. Suppose that (g+, g−) ◦(λ, φ) = (f+, f−)
+for some proto-transition (λ, φ). If any of the following conditions is satisﬁed then F and G
+are R-semialgebraically Lipschitz equivalent:
+(a) r is even or s is odd
+31
+(b) λ1 = λ2
+(c) None of the polynomials F, G has X as a factor.
+Proof. If r is even or s is odd then, by Corollary 9, there exists a β-transition (˜λ, ˜φ) such that
+(g+, g−) ◦(˜λ, ˜φ) = (f+, f−). Then G ◦Φ = F, where Φ is the inverse β-transform of (˜λ, ˜φ).
+Now, assume that either (b) or (c) holds. If s is odd, then condition (a) is satisﬁed, and
+therefore F and G are R-semialgebraically Lipschitz equivalent, as we have just proved. If s
+is even then, by Corollary 9, there exists ˜φ = (˜φ1, ˜φ2), with ˜φ1 and ˜φ2 coherent, such that
+(g+, g−) ◦(λ, ˜φ) = (f+, f−). Since we are assuming that either (b) or (c) holds, Proposition 19
+guarantees that (λ, ˜φ) is a β-transition. Hence, G ◦Φ = F, where Φ is the inverse β-transform
+of (λ, ˜φ).
+■
+Next, we present an example in which condition (b) of Theorem 2 is satisﬁed whereas
+conditions (a) and (c) are not.
+Example 1. Let F(X, Y ) = XY 4 + 8X4Y 2 + 16X7 and G(X, Y ) = XY 4 + 18X4Y 2 + 81X7.
+These polynomials are both β-quasihomogeneous of degree 7, with β = 3/2. In this example,
+r = 3 and s = 2, so condition (a) of Theorem 2 is not satisﬁed. Also, notice that X is a factor
+of both F and G, so condition (c) is not satisﬁed either. Let us show that condition (b) is
+satisﬁed.
+The height functions of F are f+(t) = t4 + 8t2 + 16 and f−(t) = −t4 + 8t2 −16. f+ has
+only one critical point t = 0, which has multiplicity 2 and is the point where f+ attains its
+minimum value: 16. f−has three distinct critical points: −2, 0, 2, and its multiplicity symbol
+is ((0, −16, 0), (2, 2, 2)).
+The height functions of G are g+(t) = t4 + 18t2 + 81 and g−(t) = −t4 + 18t2 −81. g+
+has only one critical point t = 0, which has multiplicity 2 and is the point where g+ attains its
+minimum value: 81. g−has three distinct critical points: −3, 0, 3, and its multiplicity symbol
+is ((0, −81, 0), (2, 2, 2)).
+By Propositions 2 and 3, there exist bi-Lipschitz functions φ1, φ2 : R →R such that
+g+ ◦φ1 = cf+
+and
+g−◦φ2 = cf−,
+where c = 81/16. Thus, (g+, g−) ◦(λ, φ) = (f+, f−), where φ = (φ1, φ2) and λ = (c−1/7, c−1/7).
+So condition (b) of Theorem 2 is satisﬁed, and therefore F and G are R-semialgebraically
+Lipschitz equivalent.
+Acknowledgements
+This preprint is part of my thesis, which is still a work in progress. I would like to thank my
+advisor, Prof. Alexandre Fernandes, and also Prof. Lev Birbrair, Prof. Vincent Grandjean, and
+Prof. Maria Michalska for the continuous support of my PhD studies and research. Besides,
+I would like to thank them all for their insightful comments and suggestions. Finally, I would
+like to gratefully acknowledge that throughout my PhD studies I have been supported by a
+Study Leave from Universidade Estadual de Santa Cruz and I would also like to acknowledge
+the ﬁnancial support provided by Funcap (Funda¸c˜ao Cearense de Amparo ao Desenvolvimento
+Cient´ıﬁco e Tecnol´ogico).
+32
+References
+[1] L. Birbrair, A. Fernandes, and D. Panazzolo, Lipschitz Classiﬁcation of Functions on a
+H¨older Triangle, St. Petersburg Math. J. 20 (2009), No. 5, 681—686.
+[2] L. Cˆamara and M. A. Ruas, On the moduli space of quasi-homogeneous functions,
+arXiv:2004.03778v1 [math.CV] (2020).
+[3] S. Dragomir, A Survey on Ostrowski Type Inequalities Related to Pompeiu’s Mean Value
+Theorem, Khayyam J. Math. 1 (2015), no. 1, 1—35.
+[4] J.-P. Henry and A. Parusi´nski, Existence of Moduli for Bi-Lipschitz Equivalence of Analytic
+Functions, Compositio Mathematica 136 (2003), 217—235.
+[5] J.-P. Henry and A. Parusi´nski, Invariants of Bi-Lipschitz Equivalence of Real Analytic
+Functions, Banach Center Publications 65 (2004), 67—75.
+[6] S. Koike and A. Parusi´nski, Equivalence relations for two variable real analytic function
+germs, J. Math. Soc. Japan 65 (2013), No. 1, 237—276.
+[7] T. Mostowski, Lipschitz equisingularity, Dissertationes Math. 243 (1985).
+S. Alvarez
+Departamento de Ciˆencias Exatas e Tecnol´ogicas
+Universidade Estadual de Santa Cruz
+Campus Soane Nazar´e de Andrade, Rodovia Jorge Amado, km 16, Bairro Salobrinho
+CEP 45662-900. Ilh´eus-Bahia
+Brasil
+sergio.qed@gmail.com
+33

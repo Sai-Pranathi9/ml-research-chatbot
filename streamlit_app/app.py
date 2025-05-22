@@ -13,9 +13,9 @@ from collections import defaultdict
 import numpy as np
 
 # Set paths
-RAW_DATA_DIR = r"C:\Users\saipr\Desktop\Untitled Folder 1\chatbot_theme_identifier\backend\data"
+RAW_DATA_DIR = os.path.join("backend", "data")
 EXTRACTED_DIR = os.path.join(RAW_DATA_DIR, "extracted")
-FAISS_INDEX_PATH = r"C:\Users\saipr\Desktop\Untitled Folder 1\chatbot_theme_identifier\backend\faiss_index"
+FAISS_INDEX_PATH = os.path.join("backend", "faiss_index")
 
 st.set_page_config(page_title="🧠 ML Research Navigator", layout="wide")
 st.markdown("# 🧠 ML Research Navigator")

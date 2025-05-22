@@ -23,5 +23,5 @@ A Generative AI-powered assistant built with **LangChain**, **Streamlit**, and *
 
 ---
 
-## 📦 Folder Structure
+
 

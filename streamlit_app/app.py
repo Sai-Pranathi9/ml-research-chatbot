@@ -12,13 +12,13 @@ from sklearn.cluster import KMeans
 from collections import defaultdict
 import numpy as np
 
-import os
 
-# Use relative paths instead of absolute ones
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-RAW_DATA_DIR = os.path.join(BASE_DIR, "..", "backend", "data")
+# Use relative paths
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))  # points to streamlit_app/
+RAW_DATA_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", "backend", "data"))
 EXTRACTED_DIR = os.path.join(RAW_DATA_DIR, "extracted")
-FAISS_INDEX_PATH = os.path.join(BASE_DIR, "..", "backend", "faiss_index")
+FAISS_INDEX_PATH = os.path.abspath(os.path.join(BASE_DIR, "..", "backend", "faiss_index"))
+
 
 st.set_page_config(page_title="🧠 ML Research Navigator", layout="wide")
 st.markdown("# 🧠 ML Research Navigator")

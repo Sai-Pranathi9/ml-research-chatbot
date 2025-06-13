@@ -4,4 +4,6 @@ langchain-community
 sentence-transformers
 transformers
 faiss-cpu
-torch
+torch 
+# trigger rebuild
+

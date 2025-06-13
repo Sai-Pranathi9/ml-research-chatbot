@@ -5,7 +5,7 @@ sentence-transformers
 transformers
 faiss-cpu
 torch 
-# trigger rebuild 
-# rebuild trigger 2
+# final rebuild trigger
+
 
 
